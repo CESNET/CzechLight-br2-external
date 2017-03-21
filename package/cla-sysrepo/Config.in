@@ -1,0 +1,7 @@
+config BR2_PACKAGE_CLA_SYSREPO
+	bool "cla-sysrepo"
+	select BR2_PACKAGE_SYSREPO
+	select BR2_PACKAGE_DOCOPT_CPP
+	select BR2_PACKAGE_SPDLOG
+	help
+	  Control CzechLight devices over YANG with sysrepo

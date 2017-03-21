@@ -1,0 +1,9 @@
+source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/cla-sysrepo/Config.in"
+
+config CZECHLIGHT_NETCONF
+	bool "Complete NETCONF server and HW drivers"
+	select BR2_PACKAGE_NETOPEER2_SERVER
+	select BR2_PACKAGE_CLA_SYSREPO
+	default true
+	help
+	  Install everything required for acting as a standalone NETCONF-capable device
