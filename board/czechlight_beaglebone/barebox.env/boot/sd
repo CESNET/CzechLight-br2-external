@@ -1,0 +1,11 @@
+#!/bin/sh
+
+global.bootm.image=/boot/zImage
+
+# Default to using the barebox built-in dtb
+# global.bootm.oftree=/boot/oftree
+
+# No initrd
+# global.bootm.initrd=<path to initrd>
+
+global.linux.bootargs.dyn.root="root=/dev/mmcblk0p2 rootfstype=ext4 rootwait"
