@@ -2,8 +2,7 @@
 
 global.bootm.image=/boot/zImage
 
-# Default to using the barebox built-in dtb
-# global.bootm.oftree=/boot/oftree
+global.bootm.oftree=/boot/czechlight-bbb.dtb
 
 # No initrd
 # global.bootm.initrd=<path to initrd>
