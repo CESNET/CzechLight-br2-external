@@ -2,6 +2,17 @@
 CONFIG_USB_CDC_COMPOSITE=m
 # CONFIG_USB_G_NOKIA is not set
 
+# CzechLight stuff:
+# userspace access to the I2C bus
+CONFIG_I2C_CHARDEV=y
+# FTDI USB-to-serial
+CONFIG_USB_SERIAL=m
+CONFIG_USB_SERIAL_FTDI_SIO=m
+# generic EEPROM
+CONFIG_EEPROM_AT24=y
+# ADT7463 hwmon
+CONFIG_SENSORS_LM85=y
+
 # systemd bits
 CONFIG_DEVTMPFS=y
 CONFIG_CGROUPS=y
