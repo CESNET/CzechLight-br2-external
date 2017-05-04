@@ -7,4 +7,4 @@ global.bootm.oftree=/boot/czechlight-bbb.dtb
 # No initrd
 # global.bootm.initrd=<path to initrd>
 
-global.linux.bootargs.dyn.root="root=/dev/mmcblk0p2 rootfstype=ext4 rootwait"
+global.linux.bootargs.dyn.root="root=/dev/mmcblk0p2 rootfstype=ext4 rootwait omap_wdt.early_enable=1"
