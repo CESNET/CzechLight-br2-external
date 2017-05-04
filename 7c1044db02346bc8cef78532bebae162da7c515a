@@ -1,0 +1,30 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "563d8501_1100ea84",
+        "filename": "board/czechlight/beaglebone/barebox.env/boot/sd",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-05-04T22:16:20Z",
+      "side": 1,
+      "message": "Da se to dat jinam?",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "7c1044db02346bc8cef78532bebae162da7c515a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
