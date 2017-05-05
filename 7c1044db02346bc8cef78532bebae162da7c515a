@@ -25,6 +25,33 @@
       "revId": "7c1044db02346bc8cef78532bebae162da7c515a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0caf6ac_5161389f",
+        "filename": "board/czechlight/beaglebone/barebox.env/boot/sd",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-05-05T11:15:56Z",
+      "side": 1,
+      "message": "Jde, http://www.barebox.org/doc/latest/user/booting-linux.html#passing-kernel-arguments",
+      "parentUuid": "563d8501_1100ea84",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "7c1044db02346bc8cef78532bebae162da7c515a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
