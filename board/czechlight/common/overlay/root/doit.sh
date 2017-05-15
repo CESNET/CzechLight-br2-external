@@ -11,6 +11,7 @@ for YANG in /usr/share/cla-sysrepo/yang/*.yang; do
 done
 
 screen -d -m -S s1
+sleep 1
 screen -S s1 -X screen 1 sysrepod -d -l3
 sleep 1
 screen -S s1 -X screen 2 sysrepo-plugind -d -l3
