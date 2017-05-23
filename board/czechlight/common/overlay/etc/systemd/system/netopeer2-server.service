@@ -1,0 +1,20 @@
+[Unit]
+Description=A NETCONF server on top of sysrepo
+After=syslog.target network.target sysrepod.service
+Requires=sysrepod.service
+PartOf=sysrepod.service
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/netopeer2-server
+PIDFile=/var/run/netopeer2-server.pid
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=yes
+ProtectHome=yes
+SystemCallArchitectures=native
+Restart=always
+StartLimitIntervalSec=0
+
+[Install]
+WantedBy=multi-user.target
