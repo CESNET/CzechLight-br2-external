@@ -3,5 +3,6 @@ config BR2_PACKAGE_CLA_SYSREPO
 	select BR2_PACKAGE_SYSREPO
 	select BR2_PACKAGE_DOCOPT_CPP
 	select BR2_PACKAGE_SPDLOG
+	select BR2_PACKAGE_NETSNMP
 	help
 	  Control CzechLight devices over YANG with sysrepo
