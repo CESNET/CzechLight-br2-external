@@ -1,7 +1,7 @@
 [Unit]
 Description=CzechLight CL-ROADMv2 driver
 After=syslog.target network.target sysrepod.service
-Reuires=sysrepod.service
+Requires=sysrepod.service
 PartOf=sysrepod.service
 
 [Service]
