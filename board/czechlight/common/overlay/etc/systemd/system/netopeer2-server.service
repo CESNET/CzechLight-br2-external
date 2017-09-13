@@ -3,6 +3,7 @@ Description=A NETCONF server on top of sysrepo
 After=syslog.target network.target sysrepod.service
 Requires=sysrepod.service
 PartOf=sysrepod.service
+StartLimitIntervalSec=0
 
 [Service]
 Type=forking
@@ -14,7 +15,6 @@ ProtectSystem=yes
 ProtectHome=yes
 SystemCallArchitectures=native
 Restart=always
-StartLimitIntervalSec=0
 
 [Install]
 WantedBy=multi-user.target

@@ -3,6 +3,7 @@ Description=CzechLight CL-ROADMv2 driver
 After=syslog.target network.target sysrepod.service
 Requires=sysrepod.service
 PartOf=sysrepod.service
+StartLimitIntervalSec=0
 
 [Service]
 Type=simple
@@ -13,7 +14,6 @@ ProtectSystem=yes
 ProtectHome=yes
 SystemCallArchitectures=native
 Restart=always
-StartLimitIntervalSec=0
 
 [Install]
 WantedBy=multi-user.target

@@ -2,6 +2,7 @@
 Description=Sysrepo YANG configuration storage and management
 After=syslog.target network.target
 PartOf=netopeer2-server.service
+StartLimitIntervalSec=0
 
 [Service]
 Type=forking
@@ -13,7 +14,6 @@ ProtectSystem=yes
 ProtectHome=yes
 SystemCallArchitectures=native
 Restart=always
-StartLimitIntervalSec=0
 
 [Install]
 WantedBy=multi-user.target
