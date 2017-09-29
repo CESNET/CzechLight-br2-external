@@ -1,0 +1,125 @@
+From 7242f6d20423a7705080d54828468b3a31071566 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>
+Date: Fri, 29 Sep 2017 18:11:04 +0200
+Subject: [PATCH] Unconditionally enable watchdog timer on Clearfog
+
+We will only be booting kernels that support the watchdog, so there's no
+risk in leaving our WD running while we hand over to the kernel.
+
+The code was copied from the Turris Omnia version and used as-is. The
+only exception is the built-in MCU reset which is not present on our
+boards.
+---
+ board/solidrun/clearfog/clearfog.c | 43 ++++++++++++++++++++++++++++++++++++++
+ configs/clearfog_defconfig         |  2 ++
+ include/configs/clearfog.h         |  5 +++++
+ 3 files changed, 50 insertions(+)
+
+diff --git a/board/solidrun/clearfog/clearfog.c b/board/solidrun/clearfog/clearfog.c
+index 8906636f76..f94bd5e465 100644
+--- a/board/solidrun/clearfog/clearfog.c
++++ b/board/solidrun/clearfog/clearfog.c
+@@ -11,10 +11,15 @@
+ #include <asm/io.h>
+ #include <asm/arch/cpu.h>
+ #include <asm/arch/soc.h>
++#include <dm/uclass.h>
+ 
+ #include "../drivers/ddr/marvell/a38x/ddr3_a38x_topology.h"
+ #include <../serdes/a38x/high_speed_env_spec.h>
+ 
++#ifdef CONFIG_WDT_ORION
++# include <wdt.h>
++#endif
++
+ DECLARE_GLOBAL_DATA_PTR;
+ 
+ #define ETH_PHY_CTRL_REG		0
+@@ -122,6 +127,10 @@ int board_early_init_f(void)
+ 	return 0;
+ }
+ 
++#if !defined(CONFIG_SPL_BUILD) && defined(CONFIG_WDT_ORION)
++static struct udevice *watchdog_dev = NULL;
++#endif
++
+ int board_init(void)
+ {
+ 	int i;
+@@ -129,6 +138,18 @@ int board_init(void)
+ 	/* Address of boot parameters */
+ 	gd->bd->bi_boot_params = mvebu_sdram_bar(0) + 0x100;
+ 
++#ifndef CONFIG_SPL_BUILD
++# ifdef CONFIG_WDT_ORION
++        if (uclass_get_device(UCLASS_WDT, 0, &watchdog_dev)) {
++                puts("Cannot find Armada 385 watchdog!\n");
++        } else {
++                puts("Enabling Armada 385 watchdog.\n");
++		/* one minute */
++                wdt_start(watchdog_dev, (u32) 25000000 * 60, 0);
++        }
++# endif
++#endif
++
+ 	/* Toggle GPIO41 to reset onboard switch and phy */
+ 	clrbits_le32(MVEBU_GPIO1_BASE + 0x0, BIT(9));
+ 	clrbits_le32(MVEBU_GPIO1_BASE + 0x4, BIT(9));
+@@ -147,6 +168,28 @@ int board_init(void)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_WATCHDOG
++/* Called by macro WATCHDOG_RESET */
++void watchdog_reset(void)
++{
++# if !defined(CONFIG_SPL_BUILD) && defined(CONFIG_WDT_ORION)
++        static ulong next_reset = 0;
++        ulong now;
++
++        if (!watchdog_dev)
++                return;
++
++        now = timer_get_us();
++
++        /* Do not reset the watchdog too often */
++        if (now > next_reset) {
++                wdt_reset(watchdog_dev);
++                next_reset = now + 1000;
++        }
++# endif
++}
++#endif
++
+ int checkboard(void)
+ {
+ 	puts("Board: SolidRun ClearFog\n");
+diff --git a/configs/clearfog_defconfig b/configs/clearfog_defconfig
+index 5eceacf491..fd48b0db02 100644
+--- a/configs/clearfog_defconfig
++++ b/configs/clearfog_defconfig
+@@ -46,3 +46,5 @@ CONFIG_USB=y
+ CONFIG_DM_USB=y
+ CONFIG_USB_EHCI_HCD=y
+ CONFIG_USB_STORAGE=y
++CONFIG_WDT=y
++CONFIG_WDT_ORION=y
+diff --git a/include/configs/clearfog.h b/include/configs/clearfog.h
+index 5061f6c6fd..eac1e8bbce 100644
+--- a/include/configs/clearfog.h
++++ b/include/configs/clearfog.h
+@@ -32,6 +32,11 @@
+ #define CONFIG_SYS_I2C_SLAVE		0x0
+ #define CONFIG_SYS_I2C_SPEED		100000
+ 
++/* Watchdog */
++#if !defined(CONFIG_SPL_BUILD) && defined(CONFIG_WDT_ORION)
++# define CONFIG_WATCHDOG
++#endif
++
+ /* SPI NOR flash default params, used by sf commands */
+ #define CONFIG_SF_DEFAULT_SPEED		1000000
+ #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_3
+-- 
+2.14.1
+
