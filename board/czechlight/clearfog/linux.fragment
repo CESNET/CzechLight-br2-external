@@ -1,1 +1,6 @@
+# this is a part of the Clearfog Base carrier
 CONFIG_SENSORS_MCP3021=y
+
+# PMBus for the PSUs
+CONFIG_PMBUS=y
+CONFIG_SENSORS_PMBUS=y
