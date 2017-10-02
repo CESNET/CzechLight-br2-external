@@ -1,0 +1,4 @@
+[Match]
+Name=eth2
+[Network]
+DHCP=yes
