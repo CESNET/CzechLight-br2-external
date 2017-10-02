@@ -1,7 +1,3 @@
-# CONFIG_USB_ZERO is not set
-CONFIG_USB_CDC_COMPOSITE=m
-# CONFIG_USB_G_NOKIA is not set
-
 # CzechLight stuff:
 # userspace access to the I2C bus
 CONFIG_I2C_CHARDEV=y
