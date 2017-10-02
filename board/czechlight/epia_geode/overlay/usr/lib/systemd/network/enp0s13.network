@@ -1,0 +1,4 @@
+[Match]
+Name=enp0s13
+[Network]
+DHCP=yes
