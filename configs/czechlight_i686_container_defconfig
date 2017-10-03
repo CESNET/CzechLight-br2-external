@@ -1,7 +1,4 @@
 BR2_x86_i686=y
-BR2_KERNEL_MIRROR="http://ftp.fi.muni.cz/pub/linux/kernel/"
-BR2_GNU_MIRROR="http://ftp.fi.muni.cz/pub/gnu/"
-BR2_CPAN_MIRROR="http://ftp.fi.muni.cz/pub/CPAN/"
 BR2_CCACHE=y
 BR2_OPTIMIZE_2=y
 BR2_SSP_STRONG=y
