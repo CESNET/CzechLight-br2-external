@@ -12,8 +12,10 @@ PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes
 ProtectHome=yes
+Restart=on-abnormal
 SystemCallArchitectures=native
 Restart=always
+WatchdogSec=15s
 
 [Install]
 WantedBy=multi-user.target
