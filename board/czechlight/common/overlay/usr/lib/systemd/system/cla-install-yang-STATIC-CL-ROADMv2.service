@@ -1,0 +1,14 @@
+[Unit]
+Description=Install YANG and initial data for the STATIC version of CL-ROADMv2
+Requires=sysrepod.service
+ConditionKernelCommandLine=czechlight=STATIC-CL-ROADMv2
+ConditionPathExistsGlob=!/etc/sysrepo/yang/czechlight-roadm-v2@*.yang
+Before=sysrepod.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sysrepoctl --install --search-dir /usr/share/cla-sysrepo/yang --yang /usr/share/cla-sysrepo/yang/czechlight-roadm-v2.yang
+ExecStart=/usr/bin/sysrepocfg --datastore=startup --import=/usr/share/cla-sysrepo/yang/czechlight-roadm-v2.startup.xml czechlight-roadm-v2
+
+[Install]
+WantedBy=multi-user.target

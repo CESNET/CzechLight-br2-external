@@ -1,0 +1,22 @@
+[Unit]
+Description=CzechLight dummy static data for the CL-ROADMv2
+After=syslog.target network.target sysrepod.service
+Requires=sysrepod.service
+PartOf=sysrepod.service
+StartLimitIntervalSec=0
+ConditionKernelCommandLine=czechlight=STATIC-CL-ROADMv2
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/cla-sysrepod --properties-log-level=5 --sr-bridge-log-level=5 --sysrepo-log-level=3 --module=czechlight-roadm-v2 --toplevel=roadm --static-properties=/usr/share/cla-sysrepo/static-data/czechlight-roadm-v2.static.data
+PrivateTmp=yes
+PrivateDevices=no
+ProtectSystem=yes
+ProtectHome=yes
+Restart=on-abnormal
+SystemCallArchitectures=native
+Restart=always
+WatchdogSec=15s
+
+[Install]
+WantedBy=multi-user.target
