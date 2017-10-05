@@ -4,6 +4,7 @@ After=syslog.target network.target sysrepod.service
 Requires=sysrepod.service
 PartOf=sysrepod.service
 StartLimitIntervalSec=0
+ConditionKernelCommandLine=czechlight=CL-ROADMv2
 
 [Service]
 Type=simple
