@@ -10,7 +10,7 @@ BR2_TARGET_GENERIC_PASSWD_SHA256=y
 BR2_INIT_SYSTEMD=y
 # BR2_TARGET_GENERIC_REMOUNT_ROOTFS_RW is not set
 BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/overlay/ $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/clearfog/overlay/"
-BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/clearfog/post-build.sh"
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/clearfog/post-build.sh $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/hack-systemd-rw-root.sh"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="support/scripts/genimage.sh"
 BR2_ROOTFS_POST_SCRIPT_ARGS="-c $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/clearfog/genimage.cfg"
 BR2_LINUX_KERNEL=y
