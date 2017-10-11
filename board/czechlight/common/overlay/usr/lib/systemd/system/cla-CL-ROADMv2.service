@@ -1,6 +1,7 @@
 [Unit]
 Description=CzechLight CL-ROADMv2 driver
 After=syslog.target network.target sysrepod.service
+Before=rauc-mark-good.service
 Requires=sysrepod.service
 PartOf=sysrepod.service
 StartLimitIntervalSec=0

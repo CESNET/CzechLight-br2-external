@@ -1,6 +1,7 @@
 [Unit]
 Description=CzechLight dummy static data for the CL-ROADMv2
 After=syslog.target network.target sysrepod.service
+Before=rauc-mark-good.service
 Requires=sysrepod.service
 PartOf=sysrepod.service
 StartLimitIntervalSec=0
