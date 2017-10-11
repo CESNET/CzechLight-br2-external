@@ -1,4 +1,4 @@
-From a0bfcfc02bbcb3bdaedbe1328ae056a31b7e3d34 Mon Sep 17 00:00:00 2001
+From 4223232d3fa9b71997ac5d5c890d5bd91c39ce8d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>
 Date: Wed, 11 Oct 2017 11:51:14 +0200
 Subject: [PATCH 3/3] clearfog: hard-code the RAUC redundant boot to uboot's
@@ -6,15 +6,19 @@ Subject: [PATCH 3/3] clearfog: hard-code the RAUC redundant boot to uboot's
 
 ...so that we can save one partition and an extra detour via a boot.scr
 in there.
+
+The "|| reset" are required because the watchdog timer is left running
+*and* being periodically reset from within the uboot's prompt, which
+completely defeats the point of our logic.
 ---
- include/configs/clearfog.h | 40 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 36 insertions(+), 4 deletions(-)
+ include/configs/clearfog.h | 39 +++++++++++++++++++++++++++++++++++----
+ 1 file changed, 35 insertions(+), 4 deletions(-)
 
 diff --git a/include/configs/clearfog.h b/include/configs/clearfog.h
-index 8f87eca771..aaf896eb59 100644
+index 8f87eca771..bd2cc3c26e 100644
 --- a/include/configs/clearfog.h
 +++ b/include/configs/clearfog.h
-@@ -174,14 +174,46 @@
+@@ -174,14 +174,45 @@
  	"scriptaddr=" SCRIPT_ADDR_R "\0" \
  	"pxefile_addr_r=" PXEFILE_ADDR_R "\0"
  
@@ -57,11 +61,10 @@ index 8f87eca771..aaf896eb59 100644
 +	"  saveenv;" \
 +	"  reset;" \
 +	"fi;" \
-+	"setenv BOOT_SLOT;" \
-+	"load mmc 0:${rauc_part} ${fdt_addr_r} /boot/armada-388-clearfog-base.dtb;" \
-+	"load mmc 0:${rauc_part} ${kernel_addr_r} /boot/zImage;" \
 +	"setenv bootargs root=/dev/mmcblk0p${rauc_part} rauc.slot=${rauc_slot} czechlight=${czechlight};" \
-+	"bootz ${kernel_addr_r} - ${fdt_addr_r}\0"
++	"load mmc 0:${rauc_part} ${fdt_addr_r} /boot/armada-388-clearfog-base.dtb || reset;" \
++	"load mmc 0:${rauc_part} ${kernel_addr_r} /boot/zImage || reset;" \
++	"bootz ${kernel_addr_r} - ${fdt_addr_r} || reset\0"
  
  #endif /* CONFIG_SPL_BUILD */
  
