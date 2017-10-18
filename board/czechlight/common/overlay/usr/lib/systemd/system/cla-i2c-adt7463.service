@@ -1,0 +1,14 @@
+[Unit]
+Description=Configure the I2C ADT7463 for two-wire fans
+ConditionKernelCommandLine=|czechlight=CL-ROADMv2
+Before=sysrepod.service
+
+[Service]
+Type=oneshot
+# Configuration for two-fire fans
+ExecStart=/sbin/i2cset -y 1 0x2e 0x73 0x0f b
+# ADT7463: Register as an I2C device
+ExecStart=/bin/sh -c 'echo adt7463 0x2e > /sys/bus/i2c/devices/i2c-1/new_device'
+
+[Install]
+WantedBy=multi-user.target
