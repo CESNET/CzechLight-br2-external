@@ -1,0 +1,18 @@
+[Unit]
+Description=Overlay filesystem over /etc
+DefaultDependencies=no
+Conflicts=umount.target
+Before=local-fs.target umount.target
+After=swap.target \x2eov.mount
+
+[Service]
+Type=oneshot
+ExecStart=/bin/mkdir /.ov/etc-u
+ExecStart=/bin/mkdir /.ov/etc-w
+# Moving /etc/machine-id. Cannot --move, we have to --bind.
+ExecStart=/bin/touch /.ov/etc-machine-id
+ExecStart=/bin/mount --bind /etc/machine-id /.ov/etc-machine-id
+ExecStart=/bin/umount /etc/machine-id
+ExecStart=/bin/mount overlay -t overlay /etc -olowerdir=/etc,upperdir=/.ov/etc-u,workdir=/.ov/etc-w
+ExecStart=/bin/mount --bind /.ov/etc-machine-id /etc/machine-id
+ExecStart=/bin/umount /.ov/etc-machine-id
