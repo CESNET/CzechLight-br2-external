@@ -1,20 +1,3 @@
-From e5d8ae27ae561e760a9a6d0074a4df147a1959cc Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>
-Date: Fri, 29 Sep 2017 18:11:04 +0200
-Subject: [PATCH 1/5] clearfog: Unconditionally enable watchdog timer
-
-We will only be booting kernels that support the watchdog, so there's no
-risk in leaving our WD running while we hand over to the kernel.
-
-The code was copied from the Turris Omnia version and used as-is. The
-only exception is the built-in MCU reset which is not present on our
-boards.
----
- board/solidrun/clearfog/clearfog.c | 43 ++++++++++++++++++++++++++++++++++++++
- configs/clearfog_defconfig         |  2 ++
- include/configs/clearfog.h         |  5 +++++
- 3 files changed, 50 insertions(+)
-
 diff --git a/board/solidrun/clearfog/clearfog.c b/board/solidrun/clearfog/clearfog.c
 index 8906636f76..f94bd5e465 100644
 --- a/board/solidrun/clearfog/clearfog.c
@@ -105,7 +88,7 @@ index 5eceacf491..fd48b0db02 100644
 +CONFIG_WDT=y
 +CONFIG_WDT_ORION=y
 diff --git a/include/configs/clearfog.h b/include/configs/clearfog.h
-index 5061f6c6fd..eac1e8bbce 100644
+index 5061f6c6fd..7408b5a440 100644
 --- a/include/configs/clearfog.h
 +++ b/include/configs/clearfog.h
 @@ -32,6 +32,11 @@
@@ -120,6 +103,64 @@ index 5061f6c6fd..eac1e8bbce 100644
  /* SPI NOR flash default params, used by sf commands */
  #define CONFIG_SF_DEFAULT_SPEED		1000000
  #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_3
--- 
-2.14.1
-
+@@ -65,6 +70,9 @@
+ #define CONFIG_ENV_OFFSET		0xf0000
+ #define CONFIG_ENV_ADDR			CONFIG_ENV_OFFSET
+ 
++#define CONFIG_ENV_OFFSET_REDUND	0xe0000
++#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
++
+ #define CONFIG_PHY_MARVELL		/* there is a marvell phy */
+ #define PHY_ANEG_TIMEOUT	8000	/* PHY needs a longer aneg time */
+ 
+@@ -166,14 +174,46 @@
+ 	"scriptaddr=" SCRIPT_ADDR_R "\0" \
+ 	"pxefile_addr_r=" PXEFILE_ADDR_R "\0"
+ 
+-#include <config_distro_bootcmd.h>
+-
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	RELOCATION_LIMITS_ENV_SETTINGS \
+ 	LOAD_ADDRESS_ENV_SETTINGS \
+-	"fdtfile=" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
+ 	"console=ttyS0,115200\0" \
+-	BOOTENV
++	"extra_bootargs=czechlight=${czechlight} panic=10 oops=panic\0" \
++	"bootcmd=test -n \"${BOOT_A_LEFT}\" || setenv BOOT_A_LEFT 3;" \
++	"test -n \"${BOOT_B_LEFT}\" || setenv BOOT_B_LEFT 3;" \
++	"setenv rauc_part;" \
++	"for BOOT_SLOT in \"A B\"; do" \
++	"  if test \"x${rauc_part}\" != \"x\"; then" \
++	"    ;" \
++	"  elif test \"x${BOOT_SLOT}\" = \"xA\"; then" \
++	"    if test ${BOOT_A_LEFT} -gt 0; then" \
++	"      setexpr BOOT_A_LEFT ${BOOT_A_LEFT} - 1;" \
++	"      echo \"Found valid slot A, ${BOOT_A_LEFT} attempts remaining\";" \
++	"      setenv rauc_part 1;" \
++	"      setenv rauc_slot A;" \
++	"    fi;" \
++	"  elif test \"x${BOOT_SLOT}\" = \"xB\"; then" \
++	"    if test ${BOOT_B_LEFT} -gt 0; then" \
++	"      setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1;" \
++	"      echo \"Found valid slot B, ${BOOT_B_LEFT} attempts remaining\";" \
++	"      setenv rauc_part 2;" \
++	"      setenv rauc_slot B;" \
++	"    fi;" \
++	"  fi;" \
++	"done;" \
++	"if test -n \"${rauc_part}\"; then" \
++	"  saveenv ;" \
++	"else" \
++	"  echo \"No valid slot found, resetting tries to 3\";" \
++	"  setenv BOOT_A_LEFT 3;" \
++	"  setenv BOOT_B_LEFT 3;" \
++	"  saveenv;" \
++	"  reset;" \
++	"fi;" \
++	"setenv bootargs root=/dev/mmcblk0p${rauc_part} rauc.slot=${rauc_slot} ${extra_bootargs};" \
++	"load mmc 0:${rauc_part} ${fdt_addr_r} /boot/armada-388-clearfog-base.dtb || reset;" \
++	"load mmc 0:${rauc_part} ${kernel_addr_r} /boot/zImage || reset;" \
++	"bootz ${kernel_addr_r} - ${fdt_addr_r} || reset\0"
+ 
+ #endif /* CONFIG_SPL_BUILD */
+ 
