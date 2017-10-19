@@ -1,0 +1,12 @@
+[Unit]
+Description=Restore /etc from the Persistent config
+DefaultDependencies=no
+Conflicts=umount.target
+Before=local-fs.target umount.target
+After=cfg-storage.service
+Requires=cfg-storage.service etc-overlay.service
+ConditionDirectoryNotEmpty=/cfg/etc
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'cp -a /cfg/etc/* /etc/'

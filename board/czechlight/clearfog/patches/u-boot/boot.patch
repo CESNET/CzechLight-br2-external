@@ -88,7 +88,7 @@ index 5eceacf491..fd48b0db02 100644
 +CONFIG_WDT=y
 +CONFIG_WDT_ORION=y
 diff --git a/include/configs/clearfog.h b/include/configs/clearfog.h
-index 5061f6c6fd..2465b3d933 100644
+index 5061f6c6fd..592c7cc499 100644
 --- a/include/configs/clearfog.h
 +++ b/include/configs/clearfog.h
 @@ -32,6 +32,11 @@
@@ -143,7 +143,7 @@ index 5061f6c6fd..2465b3d933 100644
 +	"    if test ${BOOT_B_LEFT} -gt 0; then" \
 +	"      setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1;" \
 +	"      echo \"Found valid slot B, ${BOOT_B_LEFT} attempts remaining\";" \
-+	"      setenv rauc_part 2;" \
++	"      setenv rauc_part 3;" \
 +	"      setenv rauc_slot B;" \
 +	"    fi;" \
 +	"  fi;" \
