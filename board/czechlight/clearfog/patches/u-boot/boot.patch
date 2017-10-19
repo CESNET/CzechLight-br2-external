@@ -88,7 +88,7 @@ index 5eceacf491..fd48b0db02 100644
 +CONFIG_WDT=y
 +CONFIG_WDT_ORION=y
 diff --git a/include/configs/clearfog.h b/include/configs/clearfog.h
-index 5061f6c6fd..04faf5c49f 100644
+index 5061f6c6fd..2465b3d933 100644
 --- a/include/configs/clearfog.h
 +++ b/include/configs/clearfog.h
 @@ -32,6 +32,11 @@
@@ -157,7 +157,7 @@ index 5061f6c6fd..04faf5c49f 100644
 +	"  saveenv;" \
 +	"  reset;" \
 +	"fi;" \
-+	"setenv bootargs root=/dev/mmcblk0p${rauc_part} rauc.slot=${rauc_slot} czechlight=${czechlight} ${extra_bootargs};" \
++	"setenv bootargs root=/dev/mmcblk0p${rauc_part} rauc.slot=${rauc_slot} czechlight=${czechlight} systemd.machine_id=${machineid} ${extra_bootargs};" \
 +	"load mmc 0:${rauc_part} ${fdt_addr_r} /boot/armada-388-clearfog-base.dtb || reset;" \
 +	"load mmc 0:${rauc_part} ${kernel_addr_r} /boot/zImage || reset;" \
 +	"bootz ${kernel_addr_r} - ${fdt_addr_r} || reset\0"

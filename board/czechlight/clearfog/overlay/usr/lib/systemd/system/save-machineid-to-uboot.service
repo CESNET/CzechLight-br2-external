@@ -1,0 +1,6 @@
+[Unit]
+Description=Save the machine-id into U-Boot environment if not set
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'fw_printenv machineid &>/dev/null || fw_setenv machineid $(cat /etc/machine-id)'
