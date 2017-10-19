@@ -1,7 +1,7 @@
-From 4573fe220f3ea05c0648a0e1776aa64979eff683 Mon Sep 17 00:00:00 2001
+From 7273b75a769bb39315b21159b6bc0d2da43cf01e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>
 Date: Wed, 11 Oct 2017 14:42:51 +0200
-Subject: [PATCH 4/4] clearfog: Auto-reboot on panic and oops
+Subject: [PATCH 4/5] clearfog: Auto-reboot on panic and oops
 
 ---
  include/configs/clearfog.h | 2 +-

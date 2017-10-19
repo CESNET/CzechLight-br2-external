@@ -1,7 +1,7 @@
-From 3631fab797c4991e04fb8bf984ca53d00aec520f Mon Sep 17 00:00:00 2001
+From 2efee00c747c83a7255c6fabc573da1210d5e45c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>
 Date: Tue, 10 Oct 2017 20:49:41 +0200
-Subject: [PATCH 2/2] Add another, redundant storage for the environment
+Subject: [PATCH 2/5] clearfog: Add another, redundant environment storage
 
 ---
  include/configs/clearfog.h | 3 +++

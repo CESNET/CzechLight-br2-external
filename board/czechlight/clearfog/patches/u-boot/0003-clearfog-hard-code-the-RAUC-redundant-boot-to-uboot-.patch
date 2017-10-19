@@ -1,7 +1,7 @@
-From 4223232d3fa9b71997ac5d5c890d5bd91c39ce8d Mon Sep 17 00:00:00 2001
+From 9b36966ce24325309993e74df86ec60fe9976964 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>
 Date: Wed, 11 Oct 2017 11:51:14 +0200
-Subject: [PATCH 3/3] clearfog: hard-code the RAUC redundant boot to uboot's
+Subject: [PATCH 3/5] clearfog: hard-code the RAUC redundant boot to uboot's
  config
 
 ...so that we can save one partition and an extra detour via a boot.scr
