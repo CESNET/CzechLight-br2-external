@@ -80,3 +80,25 @@ WARNING: Buildroot is fragile.
 It is *not* safe to perform incremental builds after changing an "important" setting.
 Please check their manual for details.
 Using `ccache` might help, but a significant time is wasted in `configure` steps which are not parallelized :( as of October 2017.
+
+## Installing updates to a device
+
+Apart from the traditional way of re-flashing the SD card or the eMMC all over, it's possible to use RAUC for update installation.
+This method preserves the U-Boot version and the U-Boot's environment.
+Apart from that, everything starting with the kernel and the DTB file and including the root FS is updated.
+
+FIXME: the system uses separate config partitions (`/cfg`), so these persistent bits are *not* preserved yet
+(see this [user story](https://tree.taiga.io/project/jktjkt-czechlight/us/127)).
+
+To install an update:
+
+```sh
+# build node
+make
+rsync -avP images/update.raucb somewhere.example.org:path/to/web/root
+
+# target, perhaps via an USB console
+wget http://somewhere.example.org/update.raucb -O /tmp/update.raucb
+rauc install /tmp/update.raucb
+reboot
+```
