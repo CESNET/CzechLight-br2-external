@@ -61,15 +61,15 @@ Their sources will be used as-is from these source directories.
 No patches will be applied!
 
 
-```
-$ mkdir build-for-clearfog
-$ cd build-for-clearfog
-$ vim local.mk
+```sh
+mkdir build-for-clearfog
+cd build-for-clearfog
+vim local.mk
 # ...edit as shown above...
-$ make O=$PWD -C /home/cesnet/gerrit/github/buildroot/buildroot \
+make O=$PWD -C /home/cesnet/gerrit/github/buildroot/buildroot \
   BR2_EXTERNAL=/home/cesnet/gerrit/CzechLight/br2-external \
   czechlight_clearfog_defconfig
-$ make
+make
 ```
 
 A full rebuild takes between 30 and 45 minutes on a T460s laptop for targets which use a pre-generated Linaro toolchain (`clearfog`, `beaglebone`).
