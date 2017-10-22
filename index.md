@@ -36,8 +36,8 @@ The commit hashes (SHA1s) of the required versions are [stored in git](https://g
 All of these projects have to be checked out and made available to Buildroot via a `local.mk` file in the build dir:
 
 ```sh
-#DOCOPT_CPP_OVERRIDE_SRCDIR = /home/cesnet/gerrit/github/docopt/docopt.cpp
-#SPDLOG_OVERRIDE_SRCDIR = /home/cesnet/gerrit/github/gabime/spdlog
+DOCOPT_CPP_OVERRIDE_SRCDIR = /home/cesnet/gerrit/github/docopt/docopt.cpp
+SPDLOG_OVERRIDE_SRCDIR = /home/cesnet/gerrit/github/gabime/spdlog
 LIBYANG_OVERRIDE_SRCDIR = /home/cesnet/gerrit/github/CESNET/libyang
 SYSREPO_OVERRIDE_SRCDIR = /home/cesnet/gerrit/github/sysrepo/sysrepo
 LIBNETCONF2_OVERRIDE_SRCDIR = /home/cesnet/gerrit/github/CESNET/libnetconf2
