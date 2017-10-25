@@ -3,8 +3,8 @@ Description=Restore /etc from the Persistent config
 DefaultDependencies=no
 Conflicts=umount.target
 Before=local-fs.target umount.target
-After=cfg-storage.service
-Requires=cfg-storage.service etc-overlay.service
+After=cfg.mount
+Requires=cfg.mount etc-overlay.service
 ConditionDirectoryNotEmpty=/cfg/etc
 
 [Service]
