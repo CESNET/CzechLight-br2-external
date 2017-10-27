@@ -33,6 +33,23 @@ WARNING: Buildroot is fragile.
 It is *not* safe to perform incremental builds after changing an "important" setting.
 Please check their manual for details.
 Using `ccache` might help, but a significant time is wasted in `configure` steps which are not parallelized :( as of October 2017.
+This can be hacked by patching Buildroot's top-level `Makefile`, but note that one cannot easily debug stuff afterwards:
+
+```diff
+diff --git a/Makefile b/Makefile
+index 79db7fe..905099a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -114,7 +114,7 @@ endif
+ # this top-level Makefile in parallel comment the ".NOTPARALLEL" line and
+ # use the -j<jobs> option when building, e.g:
+ #      make -j$((`getconf _NPROCESSORS_ONLN`+1))
+-.NOTPARALLEL:
+ 
+ # absolute path
+ TOPDIR := $(CURDIR)
+```
+
 
 ## Installing updates to a device
 
