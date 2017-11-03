@@ -1,0 +1,40 @@
+commit f530aca4d14f70838dcdb251d15a71d6c10526e8
+Author: Jan Kundrát <jan.kundrat@cesnet.cz>
+Date:   Fri Nov 3 03:06:35 2017 +0100
+
+    Do not attempt to use the systemwide libfdt
+    
+    U-Boot bundles a patched copy of libfdt, so it's wrong to attempt to
+    include it <like/this>. This breaks the build for me when I have dtc
+    fully installed in my host -- as happened earlier tonight with
+    Buildroot, for example.
+
+diff --git a/include/fdt.h b/include/fdt.h
+index 7ead62e777..f40b56c755 100644
+--- a/include/fdt.h
++++ b/include/fdt.h
+@@ -1 +1 @@
+-#include <../lib/libfdt/fdt.h>
++#include "../lib/libfdt/fdt.h"
+diff --git a/include/libfdt.h b/include/libfdt.h
+index 10296a21ad..7ba13e634b 100644
+--- a/include/libfdt.h
++++ b/include/libfdt.h
+@@ -1 +1 @@
+-#include <../lib/libfdt/libfdt.h>
++#include "../lib/libfdt/libfdt.h"
+diff --git a/tools/fdtgrep.c b/tools/fdtgrep.c
+index f51f5f15f5..5897b6d5f7 100644
+--- a/tools/fdtgrep.c
++++ b/tools/fdtgrep.c
+@@ -16,8 +16,8 @@
+ #include <string.h>
+ #include <unistd.h>
+ 
+-#include <../include/libfdt.h>
+-#include <libfdt_internal.h>
++#include "../include/libfdt.h"
++#include "libfdt_internal.h"
+ 
+ /* Define DEBUG to get some debugging output on stderr */
+ #ifdef DEBUG
