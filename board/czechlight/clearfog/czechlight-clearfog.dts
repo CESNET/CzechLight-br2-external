@@ -1,0 +1,25 @@
+#include "armada-388-clearfog-base.dts"
+
+/ {
+	clocks {
+		spi_uart_clk: oscillator {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <3686400>;
+		};
+	};
+};
+
+&spi1 {
+	max14830: max14830@2 {
+		compatible = "maxim,max14830";
+		reg = <2>;
+		clocks = <&spi_uart_clk>;
+		clock-names = "xtal";
+		interrupt-parent = <&gpio0>;
+		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		spi-max-frequency = <26000000>;
+	};
+};
