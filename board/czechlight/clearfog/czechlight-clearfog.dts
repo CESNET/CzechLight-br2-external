@@ -3,3 +3,37 @@
 &w25q32 {
 	status = "okay";
 };
+
+/ {
+	clocks {
+		spi_uart_clk: osc_max14830 {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <3686400>;
+		};
+	};
+};
+
+&gpio0 {
+	mikrobus_uart_tx {
+		gpio-hog;
+		/* Mark this as "active high", i.e. "1 is 1", so that the interrupts act on the falling edge */
+		gpios = <25 GPIO_ACTIVE_HIGH>;
+		input;
+		line-name = "SPI-int";
+	};
+};
+
+&spi1 {
+	max14830: max14830@2 {
+		compatible = "maxim,max14830";
+		reg = <2>;
+		clocks = <&spi_uart_clk>;
+		clock-names = "xtal";
+		interrupt-parent = <&gpio0>;
+		interrupts = <25 IRQ_TYPE_EDGE_FALLING>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		spi-max-frequency = <26000000>;
+	};
+};
