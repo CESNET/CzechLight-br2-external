@@ -1,1 +1,34 @@
 #include "armada-388-clearfog-base.dts"
+
+/ {
+	clocks {
+		spi_uart_clk: osc_max14830 {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <3686400>;
+		};
+	};
+};
+
+&gpio0 {
+	mikrobus_int {
+		gpio-hog;
+		gpios = <22 GPIO_ACTIVE_LOW>;
+		input;
+		line-name = "mikrobus-int";
+	};
+};
+
+&spi1 {
+	max14830: max14830@2 {
+		compatible = "maxim,max14830";
+		reg = <2>;
+		clocks = <&spi_uart_clk>;
+		clock-names = "xtal";
+		interrupt-parent = <&gpio0>;
+		interrupts = <22 IRQ_TYPE_EDGE_FALLING>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		spi-max-frequency = <26000000>;
+	};
+};
