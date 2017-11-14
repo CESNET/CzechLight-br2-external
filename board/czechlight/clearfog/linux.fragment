@@ -1,6 +1,10 @@
 # this is a part of the Clearfog Base carrier
 CONFIG_SENSORS_MCP3021=y
 
+# mvneta
+CONFIG_MVNETA_BM_ENABLE=y
+CONFIG_MVPP2=n
+
 # PMBus for the PSUs
 CONFIG_PMBUS=y
 CONFIG_SENSORS_PMBUS=y
