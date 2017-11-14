@@ -23,3 +23,7 @@
 		spi-max-frequency = <26000000>;
 	};
 };
+
+&w25q32 {
+	status = "okay";
+};
