@@ -62,3 +62,6 @@ CONFIG_WATCHDOG_SYSFS=y
 
 # protecting /etc
 CONFIG_OVERLAY_FS=y
+
+# better logging
+CONFIG_LOG_BUF_SHIFT=18
