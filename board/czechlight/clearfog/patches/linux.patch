@@ -1,0 +1,3332 @@
+diff --git a/Documentation/networking/kapi.rst b/Documentation/networking/kapi.rst
+index 580289f345da..f03ae64be8bc 100644
+--- a/Documentation/networking/kapi.rst
++++ b/Documentation/networking/kapi.rst
+@@ -145,3 +145,27 @@ PHY Support
+ 
+ .. kernel-doc:: drivers/net/phy/mdio_bus.c
+    :internal:
++
++PHYLINK
++-------
++
++  PHYLINK interfaces traditional network drivers with PHYLIB, fixed-links,
++  and SFF modules (eg, hot-pluggable SFP) that may contain PHYs.  PHYLINK
++  provides management of the link state and link modes.
++
++.. kernel-doc:: include/linux/phylink.h
++   :internal:
++
++.. kernel-doc:: drivers/net/phy/phylink.c
++
++SFP support
++-----------
++
++.. kernel-doc:: drivers/net/phy/sfp-bus.c
++   :internal:
++
++.. kernel-doc:: include/linux/sfp.h
++   :internal:
++
++.. kernel-doc:: drivers/net/phy/sfp-bus.c
++   :export:
+diff --git a/arch/arm/boot/dts/armada-388-clearfog-base.dts b/arch/arm/boot/dts/armada-388-clearfog-base.dts
+index 22ed07fc2979..5438bdb0ac1f 100644
+--- a/arch/arm/boot/dts/armada-388-clearfog-base.dts
++++ b/arch/arm/boot/dts/armada-388-clearfog-base.dts
+@@ -48,6 +48,7 @@
+ 
+ /dts-v1/;
+ #include "armada-388-clearfog.dtsi"
++#include "armada-38x-solidrun-microsom-emmc.dtsi"
+ 
+ / {
+ 	model = "SolidRun Clearfog Base A1";
+@@ -107,3 +108,54 @@
+ 		marvell,function = "gpio";
+ 	};
+ };
++
++/*
++MPP
++18: pu	gpio		pca9655 int
++19:	gpio		phy reset
++20: pu	gpio		sd0 detect
++21:	sd0:cmd
++22: pd	gpio		mikro int
++23:
++
++24:	ua1:rxd		mikro rx
++25:	ua1:txd		mikro tx
++26: pu	i2c1:sck
++27: pu	i2c1:sda
++28:	sd0:clk
++29: pd	gpio		mikro rst
++30:
++31:
++
++32:
++33:
++34:
++35:
++36:
++37:	sd0:d3
++38:	sd0:d0
++39:	sd0:d1
++
++40:	sd0:d2
++41:
++42:
++43:	spi1:cs2	mikro cs
++44:	gpio		rear button sw3
++45:	ref:clk_out0	phy#0 clock
++46:	ref:clk_out1	phy#1 clock
++47:
++
++48:	gpio		J18 spare gpio
++49:	gpio		U10 I2C_IRQ(GNSS)
++50:	gpio		board id?
++51:
++52:
++53:
++54:	gpio		mikro pwm
++55:
++
++56: pu	spi1:mosi	mikro mosi
++57: pd	spi1:sck	mikro sck
++58:	spi1:miso	mikro miso
++59:
++*/
+diff --git a/arch/arm/boot/dts/armada-388-clearfog.dts b/arch/arm/boot/dts/armada-388-clearfog.dts
+index ee7b0089eff0..d0932f3aa6ce 100644
+--- a/arch/arm/boot/dts/armada-388-clearfog.dts
++++ b/arch/arm/boot/dts/armada-388-clearfog.dts
+@@ -277,3 +277,53 @@
+ 	 */
+ 	pinctrl-0 = <&spi1_pins &clearfog_spi1_cs_pins &mikro_spi_pins>;
+ };
++/*
+++#define A38x_CUSTOMER_BOARD_1_MPP16_23         0x00400011
++MPP18: gpio		? (pca9655 int?)
++MPP19: gpio		? (clkreq?)
++MPP20: gpio		? (sd0 detect)
++MPP21: sd0:cmd		x sd0
++MPP22: gpio		x mikro int
++MPP23: gpio		x switch irq
+++#define A38x_CUSTOMER_BOARD_1_MPP24_31         0x22043333
++MPP24: ua1:rxd		x mikro rx
++MPP25: ua1:txd		x mikro tx
++MPP26: i2c1:sck		x mikro sck
++MPP27: i2c1:sda		x mikro sda
++MPP28: sd0:clk		x sd0
++MPP29: gpio		x mikro rst
++MPP30: ge1:txd2		? (config)
++MPP31: ge1:txd3		? (config)
+++#define A38x_CUSTOMER_BOARD_1_MPP32_39         0x44400002
++MPP32: ge1:txctl	? (unused)
++MPP33: gpio		? (pic_com0)
++MPP34: gpio		x rear button (pic_com1)
++MPP35: gpio		? (pic_com2)
++MPP36: gpio		? (unused)
++MPP37: sd0:d3		x sd0
++MPP38: sd0:d0		x sd0
++MPP39: sd0:d1		x sd0
+++#define A38x_CUSTOMER_BOARD_1_MPP40_47         0x41144004
++MPP40: sd0:d2		x sd0
++MPP41: gpio		x switch reset
++MPP42: gpio		? sw1-1
++MPP43: spi1:cs2		x mikro cs
++MPP44: sata3:prsnt	? (unused)
++MPP45: ref:clk_out0	?
++MPP46: ref:clk_out1	x switch clk
++MPP47: 4		? (unused)
+++#define A38x_CUSTOMER_BOARD_1_MPP48_55         0x40333333
++MPP48: tdm:pclk
++MPP49: tdm:fsync
++MPP50: tdm:drx
++MPP51: tdm:dtx
++MPP52: tdm:int
++MPP53: tdm:rst
++MPP54: gpio		? (pwm)
++MPP55: spi1:cs1		x slic
+++#define A38x_CUSTOMER_BOARD_1_MPP56_63         0x00004444
++MPP56: spi1:mosi	x mikro mosi
++MPP57: spi1:sck		x mikro sck
++MPP58: spi1:miso	x mikro miso
++MPP59: spi1:cs0		x w25q32
++*/
+diff --git a/arch/arm/boot/dts/armada-388-clearfog.dtsi b/arch/arm/boot/dts/armada-388-clearfog.dtsi
+index 68acfc968706..85aa345e9391 100644
+--- a/arch/arm/boot/dts/armada-388-clearfog.dtsi
++++ b/arch/arm/boot/dts/armada-388-clearfog.dtsi
+@@ -117,6 +117,15 @@
+ 			};
+ 		};
+ 	};
++
++	sfp: sfp {
++		compatible = "sff,sfp";
++		i2c-bus = <&i2c1>;
++		los-gpio = <&expander0 12 GPIO_ACTIVE_HIGH>;
++		moddef0-gpio = <&expander0 15 GPIO_ACTIVE_LOW>;
++		tx-disable-gpio = <&expander0 14 GPIO_ACTIVE_HIGH>;
++		tx-fault-gpio = <&expander0 13 GPIO_ACTIVE_HIGH>;
++	};
+ };
+ 
+ &eth1 {
+@@ -133,18 +142,23 @@
+ 	bm,pool-long = <3>;
+ 	bm,pool-short = <1>;
+ 	buffer-manager = <&bm>;
++	managed = "in-band-status";
+ 	phy-mode = "sgmii";
++	sfp = <&sfp>;
+ 	status = "okay";
++};
+ 
+-	fixed-link {
+-		speed = <1000>;
+-		full-duplex;
++&gpio0 {
++	expander0_int {
++		gpio-hog;
++		gpios = <18 GPIO_ACTIVE_LOW>;
++		input;
++		line-name = "expander0-int";
+ 	};
+ };
+ 
+ &i2c0 {
+-	/* Is there anything on this? */
+-	clock-frequency = <100000>;
++	clock-frequency = <400000>;
+ 	pinctrl-0 = <&i2c0_pins>;
+ 	pinctrl-names = "default";
+ 	status = "okay";
+@@ -178,6 +192,8 @@
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
+ 		reg = <0x20>;
++		interrupt-parent = <&gpio0>;
++		interrupts = <18 IRQ_TYPE_LEVEL_LOW>;
+ 
+ 		pcie1_0_clkreq {
+ 			gpio-hog;
+@@ -209,43 +225,13 @@
+ 			output-low;
+ 			line-name = "m.2 devslp";
+ 		};
+-		sfp_los {
+-			/* SFP loss of signal */
+-			gpio-hog;
+-			gpios = <12 GPIO_ACTIVE_HIGH>;
+-			input;
+-			line-name = "sfp-los";
+-		};
+-		sfp_tx_fault {
+-			/* SFP laser fault */
+-			gpio-hog;
+-			gpios = <13 GPIO_ACTIVE_HIGH>;
+-			input;
+-			line-name = "sfp-tx-fault";
+-		};
+-		sfp_tx_disable {
+-			/* SFP transmit disable */
+-			gpio-hog;
+-			gpios = <14 GPIO_ACTIVE_HIGH>;
+-			output-low;
+-			line-name = "sfp-tx-disable";
+-		};
+-		sfp_mod_def0 {
+-			/* SFP module present */
+-			gpio-hog;
+-			gpios = <15 GPIO_ACTIVE_LOW>;
+-			input;
+-			line-name = "sfp-mod-def0";
+-		};
+ 	};
+ 
+-	/* The MCP3021 is 100kHz clock only */
++	/* The MCP3021 supports standard and fast modes */
+ 	mikrobus_adc: mcp3021@4c {
+ 		compatible = "microchip,mcp3021";
+ 		reg = <0x4c>;
+ 	};
+-
+-	/* Also something at 0x64 */
+ };
+ 
+ &i2c1 {
+diff --git a/arch/arm/boot/dts/armada-38x-solidrun-microsom-emmc.dtsi b/arch/arm/boot/dts/armada-38x-solidrun-microsom-emmc.dtsi
+new file mode 100644
+index 000000000000..6b623b6aa602
+--- /dev/null
++++ b/arch/arm/boot/dts/armada-38x-solidrun-microsom-emmc.dtsi
+@@ -0,0 +1,62 @@
++/*
++ * Device Tree file for SolidRun Armada 38x Microsom add-on for eMMC
++ *
++ *  Copyright (C) 2015 Russell King
++ *
++ * This board is in development; the contents of this file work with
++ * the A1 rev 2.0 of the board, which does not represent final
++ * production board.  Things will change, don't expect this file to
++ * remain compatible info the future.
++ *
++ * This file is dual-licensed: you can use it either under the terms
++ * of the GPL or the X11 license, at your option. Note that this dual
++ * licensing only applies to this file, and not this project as a
++ * whole.
++ *
++ *  a) This file is free software; you can redistribute it and/or
++ *     modify it under the terms of the GNU General Public License
++ *     version 2 as published by the Free Software Foundation.
++ *
++ *     This file is distributed in the hope that it will be useful
++ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *     GNU General Public License for more details.
++ *
++ * Or, alternatively
++ *
++ *  b) Permission is hereby granted, free of charge, to any person
++ *     obtaining a copy of this software and associated documentation
++ *     files (the "Software"), to deal in the Software without
++ *     restriction, including without limitation the rights to use
++ *     copy, modify, merge, publish, distribute, sublicense, and/or
++ *     sell copies of the Software, and to permit persons to whom the
++ *     Software is furnished to do so, subject to the following
++ *     conditions:
++ *
++ *     The above copyright notice and this permission notice shall be
++ *     included in all copies or substantial portions of the Software.
++ *
++ *     THE SOFTWARE IS PROVIDED , WITHOUT WARRANTY OF ANY KIND
++ *     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
++ *     OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ *     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
++ *     HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY
++ *     WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++ *     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ *     OTHER DEALINGS IN THE SOFTWARE.
++ */
++/ {
++	soc {
++		internal-regs {
++			sdhci@d8000 {
++				bus-width = <4>;
++				no-1-8-v;
++				non-removable;
++				pinctrl-0 = <&microsom_sdhci_pins>;
++				pinctrl-names = "default";
++				status = "okay";
++				wp-inverted;
++			};
++		};
++	};
++};
+diff --git a/drivers/cpuidle/cpuidle-mvebu-v7.c b/drivers/cpuidle/cpuidle-mvebu-v7.c
+index 01a856971f05..18ded9e7cb34 100644
+--- a/drivers/cpuidle/cpuidle-mvebu-v7.c
++++ b/drivers/cpuidle/cpuidle-mvebu-v7.c
+@@ -39,8 +39,12 @@ static int mvebu_v7_enter_idle(struct cpuidle_device *dev,
+ 	ret = mvebu_v7_cpu_suspend(deepidle);
+ 	cpu_pm_exit();
+ 
++	/*
++	 * If we failed to enter the desired state, indicate that we
++	 * slept lightly.
++	 */
+ 	if (ret)
+-		return ret;
++		return 0;
+ 
+ 	return index;
+ }
+diff --git a/drivers/net/ethernet/marvell/Kconfig b/drivers/net/ethernet/marvell/Kconfig
+index da6fb825afea..ebe5c9148935 100644
+--- a/drivers/net/ethernet/marvell/Kconfig
++++ b/drivers/net/ethernet/marvell/Kconfig
+@@ -60,7 +60,7 @@ config MVNETA
+ 	depends on ARCH_MVEBU || COMPILE_TEST
+ 	depends on HAS_DMA
+ 	select MVMDIO
+-	select FIXED_PHY
++	select PHYLINK
+ 	---help---
+ 	  This driver supports the network interface units in the
+ 	  Marvell ARMADA XP, ARMADA 370, ARMADA 38x and
+diff --git a/drivers/net/ethernet/marvell/mvneta.c b/drivers/net/ethernet/marvell/mvneta.c
+index 64a04975bcf8..c6ec938f4b65 100644
+--- a/drivers/net/ethernet/marvell/mvneta.c
++++ b/drivers/net/ethernet/marvell/mvneta.c
+@@ -28,7 +28,7 @@
+ #include <linux/of_mdio.h>
+ #include <linux/of_net.h>
+ #include <linux/phy.h>
+-#include <linux/phy_fixed.h>
++#include <linux/phylink.h>
+ #include <linux/platform_device.h>
+ #include <linux/skbuff.h>
+ #include <net/hwbm.h>
+@@ -189,6 +189,7 @@
+ #define MVNETA_GMAC_CTRL_0                       0x2c00
+ #define      MVNETA_GMAC_MAX_RX_SIZE_SHIFT       2
+ #define      MVNETA_GMAC_MAX_RX_SIZE_MASK        0x7ffc
++#define      MVNETA_GMAC0_PORT_1000BASE_X        BIT(1)
+ #define      MVNETA_GMAC0_PORT_ENABLE            BIT(0)
+ #define MVNETA_GMAC_CTRL_2                       0x2c08
+ #define      MVNETA_GMAC2_INBAND_AN_ENABLE       BIT(0)
+@@ -204,13 +205,19 @@
+ #define      MVNETA_GMAC_TX_FLOW_CTRL_ENABLE     BIT(5)
+ #define      MVNETA_GMAC_RX_FLOW_CTRL_ACTIVE     BIT(6)
+ #define      MVNETA_GMAC_TX_FLOW_CTRL_ACTIVE     BIT(7)
++#define      MVNETA_GMAC_AN_COMPLETE             BIT(11)
++#define      MVNETA_GMAC_SYNC_OK                 BIT(14)
+ #define MVNETA_GMAC_AUTONEG_CONFIG               0x2c0c
+ #define      MVNETA_GMAC_FORCE_LINK_DOWN         BIT(0)
+ #define      MVNETA_GMAC_FORCE_LINK_PASS         BIT(1)
+ #define      MVNETA_GMAC_INBAND_AN_ENABLE        BIT(2)
++#define      MVNETA_GMAC_AN_BYPASS_ENABLE        BIT(3)
++#define      MVNETA_GMAC_INBAND_RESTART_AN       BIT(4)
+ #define      MVNETA_GMAC_CONFIG_MII_SPEED        BIT(5)
+ #define      MVNETA_GMAC_CONFIG_GMII_SPEED       BIT(6)
+ #define      MVNETA_GMAC_AN_SPEED_EN             BIT(7)
++#define      MVNETA_GMAC_CONFIG_FLOW_CTRL        BIT(8)
++#define      MVNETA_GMAC_ADVERT_SYM_FLOW_CTRL    BIT(9)
+ #define      MVNETA_GMAC_AN_FLOW_CTRL_EN         BIT(11)
+ #define      MVNETA_GMAC_CONFIG_FULL_DUPLEX      BIT(12)
+ #define      MVNETA_GMAC_AN_DUPLEX_EN            BIT(13)
+@@ -237,6 +244,12 @@
+ #define MVNETA_TXQ_TOKEN_SIZE_REG(q)             (0x3e40 + ((q) << 2))
+ #define      MVNETA_TXQ_TOKEN_SIZE_MAX           0x7fffffff
+ 
++#define MVNETA_LPI_CTRL_0                        0x2cc0
++#define MVNETA_LPI_CTRL_1                        0x2cc4
++#define      MVNETA_LPI_REQUEST_ENABLE           BIT(0)
++#define MVNETA_LPI_CTRL_2                        0x2cc8
++#define MVNETA_LPI_STATUS                        0x2ccc
++
+ #define MVNETA_CAUSE_TXQ_SENT_DESC_ALL_MASK	 0xff
+ 
+ /* Descriptor ring Macros */
+@@ -313,6 +326,11 @@
+ #define MVNETA_RX_GET_BM_POOL_ID(rxd) \
+ 	(((rxd)->status & MVNETA_RXD_BM_POOL_MASK) >> MVNETA_RXD_BM_POOL_SHIFT)
+ 
++enum {
++	ETHTOOL_STAT_EEE_WAKEUP,
++	ETHTOOL_MAX_STATS,
++};
++
+ struct mvneta_statistic {
+ 	unsigned short offset;
+ 	unsigned short type;
+@@ -321,6 +339,7 @@ struct mvneta_statistic {
+ 
+ #define T_REG_32	32
+ #define T_REG_64	64
++#define T_SW		1
+ 
+ static const struct mvneta_statistic mvneta_statistics[] = {
+ 	{ 0x3000, T_REG_64, "good_octets_received", },
+@@ -355,6 +374,7 @@ static const struct mvneta_statistic mvneta_statistics[] = {
+ 	{ 0x304c, T_REG_32, "broadcast_frames_sent", },
+ 	{ 0x3054, T_REG_32, "fc_sent", },
+ 	{ 0x300c, T_REG_32, "internal_mac_transmit_err", },
++	{ ETHTOOL_STAT_EEE_WAKEUP, T_SW, "eee_wakeup_errors", },
+ };
+ 
+ struct mvneta_pcpu_stats {
+@@ -407,20 +427,20 @@ struct mvneta_port {
+ 	u16 tx_ring_size;
+ 	u16 rx_ring_size;
+ 
+-	struct mii_bus *mii_bus;
+ 	phy_interface_t phy_interface;
+-	struct device_node *phy_node;
+-	unsigned int link;
+-	unsigned int duplex;
+-	unsigned int speed;
++	struct device_node *dn;
+ 	unsigned int tx_csum_limit;
+-	unsigned int use_inband_status:1;
++	struct phylink *phylink;
+ 
+ 	struct mvneta_bm *bm_priv;
+ 	struct mvneta_bm_pool *pool_long;
+ 	struct mvneta_bm_pool *pool_short;
+ 	int bm_win_id;
+ 
++	bool eee_enabled;
++	bool eee_active;
++	bool tx_lpi_enabled;
++
+ 	u64 ethtool_stats[ARRAY_SIZE(mvneta_statistics)];
+ 
+ 	u32 indir[MVNETA_RSS_LU_TABLE_SIZE];
+@@ -1270,44 +1290,6 @@ static void mvneta_set_other_mcast_table(struct mvneta_port *pp, int queue)
+ 		mvreg_write(pp, MVNETA_DA_FILT_OTH_MCAST + offset, val);
+ }
+ 
+-static void mvneta_set_autoneg(struct mvneta_port *pp, int enable)
+-{
+-	u32 val;
+-
+-	if (enable) {
+-		val = mvreg_read(pp, MVNETA_GMAC_AUTONEG_CONFIG);
+-		val &= ~(MVNETA_GMAC_FORCE_LINK_PASS |
+-			 MVNETA_GMAC_FORCE_LINK_DOWN |
+-			 MVNETA_GMAC_AN_FLOW_CTRL_EN);
+-		val |= MVNETA_GMAC_INBAND_AN_ENABLE |
+-		       MVNETA_GMAC_AN_SPEED_EN |
+-		       MVNETA_GMAC_AN_DUPLEX_EN;
+-		mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG, val);
+-
+-		val = mvreg_read(pp, MVNETA_GMAC_CLOCK_DIVIDER);
+-		val |= MVNETA_GMAC_1MS_CLOCK_ENABLE;
+-		mvreg_write(pp, MVNETA_GMAC_CLOCK_DIVIDER, val);
+-
+-		val = mvreg_read(pp, MVNETA_GMAC_CTRL_2);
+-		val |= MVNETA_GMAC2_INBAND_AN_ENABLE;
+-		mvreg_write(pp, MVNETA_GMAC_CTRL_2, val);
+-	} else {
+-		val = mvreg_read(pp, MVNETA_GMAC_AUTONEG_CONFIG);
+-		val &= ~(MVNETA_GMAC_INBAND_AN_ENABLE |
+-		       MVNETA_GMAC_AN_SPEED_EN |
+-		       MVNETA_GMAC_AN_DUPLEX_EN);
+-		mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG, val);
+-
+-		val = mvreg_read(pp, MVNETA_GMAC_CLOCK_DIVIDER);
+-		val &= ~MVNETA_GMAC_1MS_CLOCK_ENABLE;
+-		mvreg_write(pp, MVNETA_GMAC_CLOCK_DIVIDER, val);
+-
+-		val = mvreg_read(pp, MVNETA_GMAC_CTRL_2);
+-		val &= ~MVNETA_GMAC2_INBAND_AN_ENABLE;
+-		mvreg_write(pp, MVNETA_GMAC_CTRL_2, val);
+-	}
+-}
+-
+ static void mvneta_percpu_unmask_interrupt(void *arg)
+ {
+ 	struct mvneta_port *pp = arg;
+@@ -1460,7 +1442,6 @@ static void mvneta_defaults_set(struct mvneta_port *pp)
+ 	val &= ~MVNETA_PHY_POLLING_ENABLE;
+ 	mvreg_write(pp, MVNETA_UNIT_CONTROL, val);
+ 
+-	mvneta_set_autoneg(pp, pp->use_inband_status);
+ 	mvneta_set_ucast_table(pp, -1);
+ 	mvneta_set_special_mcast_table(pp, -1);
+ 	mvneta_set_other_mcast_table(pp, -1);
+@@ -2685,26 +2666,11 @@ static irqreturn_t mvneta_percpu_isr(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static int mvneta_fixed_link_update(struct mvneta_port *pp,
+-				    struct phy_device *phy)
++static void mvneta_link_change(struct mvneta_port *pp)
+ {
+-	struct fixed_phy_status status;
+-	struct fixed_phy_status changed = {};
+ 	u32 gmac_stat = mvreg_read(pp, MVNETA_GMAC_STATUS);
+ 
+-	status.link = !!(gmac_stat & MVNETA_GMAC_LINK_UP);
+-	if (gmac_stat & MVNETA_GMAC_SPEED_1000)
+-		status.speed = SPEED_1000;
+-	else if (gmac_stat & MVNETA_GMAC_SPEED_100)
+-		status.speed = SPEED_100;
+-	else
+-		status.speed = SPEED_10;
+-	status.duplex = !!(gmac_stat & MVNETA_GMAC_FULL_DUPLEX);
+-	changed.link = 1;
+-	changed.speed = 1;
+-	changed.duplex = 1;
+-	fixed_phy_update_state(phy, &status, &changed);
+-	return 0;
++	phylink_mac_change(pp->phylink, !!(gmac_stat & MVNETA_GMAC_LINK_UP));
+ }
+ 
+ /* NAPI handler
+@@ -2720,7 +2686,6 @@ static int mvneta_poll(struct napi_struct *napi, int budget)
+ 	u32 cause_rx_tx;
+ 	int rx_queue;
+ 	struct mvneta_port *pp = netdev_priv(napi->dev);
+-	struct net_device *ndev = pp->dev;
+ 	struct mvneta_pcpu_port *port = this_cpu_ptr(pp->ports);
+ 
+ 	if (!netif_running(pp->dev)) {
+@@ -2734,12 +2699,10 @@ static int mvneta_poll(struct napi_struct *napi, int budget)
+ 		u32 cause_misc = mvreg_read(pp, MVNETA_INTR_MISC_CAUSE);
+ 
+ 		mvreg_write(pp, MVNETA_INTR_MISC_CAUSE, 0);
+-		if (pp->use_inband_status && (cause_misc &
+-				(MVNETA_CAUSE_PHY_STATUS_CHANGE |
+-				 MVNETA_CAUSE_LINK_CHANGE |
+-				 MVNETA_CAUSE_PSC_SYNC_CHANGE))) {
+-			mvneta_fixed_link_update(pp, ndev->phydev);
+-		}
++
++		if (cause_misc & (MVNETA_CAUSE_PHY_STATUS_CHANGE |
++				  MVNETA_CAUSE_LINK_CHANGE))
++			mvneta_link_change(pp);
+ 	}
+ 
+ 	/* Release Tx descriptors */
+@@ -3053,7 +3016,6 @@ static int mvneta_setup_txqs(struct mvneta_port *pp)
+ static void mvneta_start_dev(struct mvneta_port *pp)
+ {
+ 	int cpu;
+-	struct net_device *ndev = pp->dev;
+ 
+ 	mvneta_max_rx_size_set(pp, pp->pkt_size);
+ 	mvneta_txq_max_tx_size_set(pp, pp->pkt_size);
+@@ -3078,19 +3040,17 @@ static void mvneta_start_dev(struct mvneta_port *pp)
+ 
+ 	mvreg_write(pp, MVNETA_INTR_MISC_MASK,
+ 		    MVNETA_CAUSE_PHY_STATUS_CHANGE |
+-		    MVNETA_CAUSE_LINK_CHANGE |
+-		    MVNETA_CAUSE_PSC_SYNC_CHANGE);
++		    MVNETA_CAUSE_LINK_CHANGE);
+ 
+-	phy_start(ndev->phydev);
++	phylink_start(pp->phylink);
+ 	netif_tx_start_all_queues(pp->dev);
+ }
+ 
+ static void mvneta_stop_dev(struct mvneta_port *pp)
+ {
+ 	unsigned int cpu;
+-	struct net_device *ndev = pp->dev;
+ 
+-	phy_stop(ndev->phydev);
++	phylink_stop(pp->phylink);
+ 
+ 	if (!pp->neta_armada3700) {
+ 		for_each_online_cpu(cpu) {
+@@ -3244,103 +3204,232 @@ static int mvneta_set_mac_addr(struct net_device *dev, void *addr)
+ 	return 0;
+ }
+ 
+-static void mvneta_adjust_link(struct net_device *ndev)
++static void mvneta_validate(struct net_device *ndev, unsigned long *supported,
++			    struct phylink_link_state *state)
++{
++	__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = { 0, };
++
++	/* Allow all the expected bits */
++	phylink_set(mask, Autoneg);
++	phylink_set_port_modes(mask);
++
++	/* Asymmetric pause is unsupported */
++	phylink_set(mask, Pause);
++	/* Half-duplex at speeds higher than 100Mbit is unsupported */
++	phylink_set(mask, 1000baseT_Full);
++	phylink_set(mask, 1000baseX_Full);
++
++	if (state->interface != PHY_INTERFACE_MODE_1000BASEX) {
++		/* 10M and 100M are only supported in non-802.3z mode */
++		phylink_set(mask, 10baseT_Half);
++		phylink_set(mask, 10baseT_Full);
++		phylink_set(mask, 100baseT_Half);
++		phylink_set(mask, 100baseT_Full);
++	}
++
++	bitmap_and(supported, supported, mask,
++		   __ETHTOOL_LINK_MODE_MASK_NBITS);
++	bitmap_and(state->advertising, state->advertising, mask,
++		   __ETHTOOL_LINK_MODE_MASK_NBITS);
++}
++
++static int mvneta_mac_link_state(struct net_device *ndev,
++				 struct phylink_link_state *state)
+ {
+ 	struct mvneta_port *pp = netdev_priv(ndev);
+-	struct phy_device *phydev = ndev->phydev;
+-	int status_change = 0;
++	u32 gmac_stat;
+ 
+-	if (phydev->link) {
+-		if ((pp->speed != phydev->speed) ||
+-		    (pp->duplex != phydev->duplex)) {
+-			u32 val;
++	gmac_stat = mvreg_read(pp, MVNETA_GMAC_STATUS);
+ 
+-			val = mvreg_read(pp, MVNETA_GMAC_AUTONEG_CONFIG);
+-			val &= ~(MVNETA_GMAC_CONFIG_MII_SPEED |
+-				 MVNETA_GMAC_CONFIG_GMII_SPEED |
+-				 MVNETA_GMAC_CONFIG_FULL_DUPLEX);
++	if (gmac_stat & MVNETA_GMAC_SPEED_1000)
++		state->speed = SPEED_1000;
++	else if (gmac_stat & MVNETA_GMAC_SPEED_100)
++		state->speed = SPEED_100;
++	else
++		state->speed = SPEED_10;
+ 
+-			if (phydev->duplex)
+-				val |= MVNETA_GMAC_CONFIG_FULL_DUPLEX;
++	state->an_complete = !!(gmac_stat & MVNETA_GMAC_AN_COMPLETE);
++	state->link = !!(gmac_stat & MVNETA_GMAC_LINK_UP);
++	state->duplex = !!(gmac_stat & MVNETA_GMAC_FULL_DUPLEX);
+ 
+-			if (phydev->speed == SPEED_1000)
+-				val |= MVNETA_GMAC_CONFIG_GMII_SPEED;
+-			else if (phydev->speed == SPEED_100)
+-				val |= MVNETA_GMAC_CONFIG_MII_SPEED;
++	state->pause = 0;
++	if (gmac_stat & MVNETA_GMAC_RX_FLOW_CTRL_ENABLE)
++		state->pause |= MLO_PAUSE_RX;
++	if (gmac_stat & MVNETA_GMAC_TX_FLOW_CTRL_ENABLE)
++		state->pause |= MLO_PAUSE_TX;
+ 
+-			mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG, val);
++	return 1;
++}
+ 
+-			pp->duplex = phydev->duplex;
+-			pp->speed  = phydev->speed;
+-		}
+-	}
++static void mvneta_mac_an_restart(struct net_device *ndev)
++{
++	struct mvneta_port *pp = netdev_priv(ndev);
++	u32 gmac_an = mvreg_read(pp, MVNETA_GMAC_AUTONEG_CONFIG);
+ 
+-	if (phydev->link != pp->link) {
+-		if (!phydev->link) {
+-			pp->duplex = -1;
+-			pp->speed = 0;
+-		}
++	mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG,
++		    gmac_an | MVNETA_GMAC_INBAND_RESTART_AN);
++	mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG,
++		    gmac_an & ~MVNETA_GMAC_INBAND_RESTART_AN);
++}
+ 
+-		pp->link = phydev->link;
+-		status_change = 1;
++static void mvneta_mac_config(struct net_device *ndev, unsigned int mode,
++	const struct phylink_link_state *state)
++{
++	struct mvneta_port *pp = netdev_priv(ndev);
++	u32 new_ctrl0, gmac_ctrl0 = mvreg_read(pp, MVNETA_GMAC_CTRL_0);
++	u32 new_ctrl2, gmac_ctrl2 = mvreg_read(pp, MVNETA_GMAC_CTRL_2);
++	u32 new_clk, gmac_clk = mvreg_read(pp, MVNETA_GMAC_CLOCK_DIVIDER);
++	u32 new_an, gmac_an = mvreg_read(pp, MVNETA_GMAC_AUTONEG_CONFIG);
++
++	new_ctrl0 = gmac_ctrl0 & ~MVNETA_GMAC0_PORT_1000BASE_X;
++	new_ctrl2 = gmac_ctrl2 & ~MVNETA_GMAC2_INBAND_AN_ENABLE;
++	new_clk = gmac_clk & ~MVNETA_GMAC_1MS_CLOCK_ENABLE;
++	new_an = gmac_an & ~(MVNETA_GMAC_INBAND_AN_ENABLE |
++			     MVNETA_GMAC_INBAND_RESTART_AN |
++			     MVNETA_GMAC_CONFIG_MII_SPEED |
++			     MVNETA_GMAC_CONFIG_GMII_SPEED |
++			     MVNETA_GMAC_AN_SPEED_EN |
++			     MVNETA_GMAC_ADVERT_SYM_FLOW_CTRL |
++			     MVNETA_GMAC_CONFIG_FLOW_CTRL |
++			     MVNETA_GMAC_AN_FLOW_CTRL_EN |
++			     MVNETA_GMAC_CONFIG_FULL_DUPLEX |
++			     MVNETA_GMAC_AN_DUPLEX_EN);
++
++	if (phylink_test(state->advertising, Pause))
++		new_an |= MVNETA_GMAC_ADVERT_SYM_FLOW_CTRL;
++	if (state->pause & MLO_PAUSE_TXRX_MASK)
++		new_an |= MVNETA_GMAC_CONFIG_FLOW_CTRL;
++
++	if (!phylink_autoneg_inband(mode)) {
++		/* Phy or fixed speed */
++		if (state->duplex)
++			new_an |= MVNETA_GMAC_CONFIG_FULL_DUPLEX;
++
++		if (state->speed == SPEED_1000)
++			new_an |= MVNETA_GMAC_CONFIG_GMII_SPEED;
++		else if (state->speed == SPEED_100)
++			new_an |= MVNETA_GMAC_CONFIG_MII_SPEED;
++	} else if (state->interface == PHY_INTERFACE_MODE_SGMII) {
++		/* SGMII mode receives the state from the PHY */
++		new_ctrl2 |= MVNETA_GMAC2_INBAND_AN_ENABLE;
++		new_clk |= MVNETA_GMAC_1MS_CLOCK_ENABLE;
++		new_an = (new_an & ~(MVNETA_GMAC_FORCE_LINK_DOWN |
++				     MVNETA_GMAC_FORCE_LINK_PASS)) |
++			 MVNETA_GMAC_INBAND_AN_ENABLE |
++			 MVNETA_GMAC_AN_SPEED_EN |
++			 MVNETA_GMAC_AN_DUPLEX_EN;
++	} else {
++		/* 802.3z negotiation - only 1000base-X */
++		new_ctrl0 |= MVNETA_GMAC0_PORT_1000BASE_X;
++		new_clk |= MVNETA_GMAC_1MS_CLOCK_ENABLE;
++		new_an = (new_an & ~(MVNETA_GMAC_FORCE_LINK_DOWN |
++				     MVNETA_GMAC_FORCE_LINK_PASS)) |
++			 MVNETA_GMAC_INBAND_AN_ENABLE |
++			 MVNETA_GMAC_CONFIG_GMII_SPEED |
++			 /* The MAC only supports FD mode */
++			 MVNETA_GMAC_CONFIG_FULL_DUPLEX;
++
++		if (state->pause & MLO_PAUSE_AN && state->an_enabled)
++			new_an |= MVNETA_GMAC_AN_FLOW_CTRL_EN;
+ 	}
+ 
+-	if (status_change) {
+-		if (phydev->link) {
+-			if (!pp->use_inband_status) {
+-				u32 val = mvreg_read(pp,
+-						  MVNETA_GMAC_AUTONEG_CONFIG);
+-				val &= ~MVNETA_GMAC_FORCE_LINK_DOWN;
+-				val |= MVNETA_GMAC_FORCE_LINK_PASS;
+-				mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG,
+-					    val);
+-			}
+-			mvneta_port_up(pp);
+-		} else {
+-			if (!pp->use_inband_status) {
+-				u32 val = mvreg_read(pp,
+-						  MVNETA_GMAC_AUTONEG_CONFIG);
+-				val &= ~MVNETA_GMAC_FORCE_LINK_PASS;
+-				val |= MVNETA_GMAC_FORCE_LINK_DOWN;
+-				mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG,
+-					    val);
+-			}
+-			mvneta_port_down(pp);
+-		}
+-		phy_print_status(phydev);
++	/* Armada 370 documentation says we can only change the port mode
++	 * and in-band enable when the link is down, so force it down
++	 * while making these changes. We also do this for GMAC_CTRL2 */
++	if ((new_ctrl0 ^ gmac_ctrl0) & MVNETA_GMAC0_PORT_1000BASE_X ||
++	    (new_ctrl2 ^ gmac_ctrl2) & MVNETA_GMAC2_INBAND_AN_ENABLE ||
++	    (new_an  ^ gmac_an) & MVNETA_GMAC_INBAND_AN_ENABLE) {
++		mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG,
++			    (gmac_an & ~MVNETA_GMAC_FORCE_LINK_PASS) |
++			    MVNETA_GMAC_FORCE_LINK_DOWN);
+ 	}
++
++	if (new_ctrl0 != gmac_ctrl0)
++		mvreg_write(pp, MVNETA_GMAC_CTRL_0, new_ctrl0);
++	if (new_ctrl2 != gmac_ctrl2)
++		mvreg_write(pp, MVNETA_GMAC_CTRL_2, new_ctrl2);
++	if (new_clk != gmac_clk)
++		mvreg_write(pp, MVNETA_GMAC_CLOCK_DIVIDER, new_clk);
++	if (new_an != gmac_an)
++		mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG, new_an);
+ }
+ 
+-static int mvneta_mdio_probe(struct mvneta_port *pp)
++static void mvneta_set_eee(struct mvneta_port *pp, bool enable)
+ {
+-	struct phy_device *phy_dev;
+-	struct ethtool_wolinfo wol = { .cmd = ETHTOOL_GWOL };
++	u32 lpi_ctl1;
++
++	lpi_ctl1 = mvreg_read(pp, MVNETA_LPI_CTRL_1);
++	if (enable)
++		lpi_ctl1 |= MVNETA_LPI_REQUEST_ENABLE;
++	else
++		lpi_ctl1 &= ~MVNETA_LPI_REQUEST_ENABLE;
++	mvreg_write(pp, MVNETA_LPI_CTRL_1, lpi_ctl1);
++}
++
++static void mvneta_mac_link_down(struct net_device *ndev, unsigned int mode)
++{
++	struct mvneta_port *pp = netdev_priv(ndev);
++	u32 val;
++
++	mvneta_port_down(pp);
+ 
+-	phy_dev = of_phy_connect(pp->dev, pp->phy_node, mvneta_adjust_link, 0,
+-				 pp->phy_interface);
+-	if (!phy_dev) {
+-		netdev_err(pp->dev, "could not find the PHY\n");
+-		return -ENODEV;
++	if (!phylink_autoneg_inband(mode)) {
++		val = mvreg_read(pp, MVNETA_GMAC_AUTONEG_CONFIG);
++		val &= ~MVNETA_GMAC_FORCE_LINK_PASS;
++		val |= MVNETA_GMAC_FORCE_LINK_DOWN;
++		mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG, val);
+ 	}
+ 
+-	phy_ethtool_get_wol(phy_dev, &wol);
+-	device_set_wakeup_capable(&pp->dev->dev, !!wol.supported);
++	pp->eee_active = false;
++	mvneta_set_eee(pp, false);
++}
+ 
+-	phy_dev->supported &= PHY_GBIT_FEATURES;
+-	phy_dev->advertising = phy_dev->supported;
++static void mvneta_mac_link_up(struct net_device *ndev, unsigned int mode,
++			       struct phy_device *phy)
++{
++	struct mvneta_port *pp = netdev_priv(ndev);
++	u32 val;
++
++	if (!phylink_autoneg_inband(mode)) {
++		val = mvreg_read(pp, MVNETA_GMAC_AUTONEG_CONFIG);
++		val &= ~MVNETA_GMAC_FORCE_LINK_DOWN;
++		val |= MVNETA_GMAC_FORCE_LINK_PASS;
++		mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG, val);
++	}
+ 
+-	pp->link    = 0;
+-	pp->duplex  = 0;
+-	pp->speed   = 0;
++	mvneta_port_up(pp);
+ 
+-	return 0;
++	if (phy && pp->eee_enabled) {
++		pp->eee_active = phy_init_eee(phy, 0) >= 0;
++		mvneta_set_eee(pp, pp->eee_active && pp->tx_lpi_enabled);
++	}
+ }
+ 
+-static void mvneta_mdio_remove(struct mvneta_port *pp)
++static const struct phylink_mac_ops mvneta_phylink_ops = {
++	.validate = mvneta_validate,
++	.mac_link_state = mvneta_mac_link_state,
++	.mac_an_restart = mvneta_mac_an_restart,
++	.mac_config = mvneta_mac_config,
++	.mac_link_down = mvneta_mac_link_down,
++	.mac_link_up = mvneta_mac_link_up,
++};
++
++static int mvneta_mdio_probe(struct mvneta_port *pp)
+ {
+-	struct net_device *ndev = pp->dev;
++	struct ethtool_wolinfo wol = { .cmd = ETHTOOL_GWOL };
++	int err = phylink_of_phy_connect(pp->phylink, pp->dn);
++	if (err)
++		netdev_err(pp->dev, "could not attach PHY\n");
+ 
+-	phy_disconnect(ndev->phydev);
++	phylink_ethtool_get_wol(pp->phylink, &wol);
++	device_set_wakeup_capable(&pp->dev->dev, !!wol.supported);
++
++	return err;
++}
++
++static void mvneta_mdio_remove(struct mvneta_port *pp)
++{
++	phylink_disconnect_phy(pp->phylink);
+ }
+ 
+ /* Electing a CPU must be done in an atomic way: it should be done
+@@ -3448,8 +3537,7 @@ static int mvneta_cpu_online(unsigned int cpu, struct hlist_node *node)
+ 	on_each_cpu(mvneta_percpu_unmask_interrupt, pp, true);
+ 	mvreg_write(pp, MVNETA_INTR_MISC_MASK,
+ 		    MVNETA_CAUSE_PHY_STATUS_CHANGE |
+-		    MVNETA_CAUSE_LINK_CHANGE |
+-		    MVNETA_CAUSE_PSC_SYNC_CHANGE);
++		    MVNETA_CAUSE_LINK_CHANGE);
+ 	netif_tx_start_all_queues(pp->dev);
+ 	spin_unlock(&pp->lock);
+ 	return 0;
+@@ -3490,8 +3578,7 @@ static int mvneta_cpu_dead(unsigned int cpu, struct hlist_node *node)
+ 	on_each_cpu(mvneta_percpu_unmask_interrupt, pp, true);
+ 	mvreg_write(pp, MVNETA_INTR_MISC_MASK,
+ 		    MVNETA_CAUSE_PHY_STATUS_CHANGE |
+-		    MVNETA_CAUSE_LINK_CHANGE |
+-		    MVNETA_CAUSE_PSC_SYNC_CHANGE);
++		    MVNETA_CAUSE_LINK_CHANGE);
+ 	netif_tx_start_all_queues(pp->dev);
+ 	return 0;
+ }
+@@ -3619,10 +3706,9 @@ static int mvneta_stop(struct net_device *dev)
+ 
+ static int mvneta_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
+ {
+-	if (!dev->phydev)
+-		return -ENOTSUPP;
++	struct mvneta_port *pp = netdev_priv(dev);
+ 
+-	return phy_mii_ioctl(dev->phydev, ifr, cmd);
++	return phylink_mii_ioctl(pp->phylink, ifr, cmd);
+ }
+ 
+ /* Ethtool methods */
+@@ -3633,44 +3719,25 @@ mvneta_ethtool_set_link_ksettings(struct net_device *ndev,
+ 				  const struct ethtool_link_ksettings *cmd)
+ {
+ 	struct mvneta_port *pp = netdev_priv(ndev);
+-	struct phy_device *phydev = ndev->phydev;
+-
+-	if (!phydev)
+-		return -ENODEV;
+-
+-	if ((cmd->base.autoneg == AUTONEG_ENABLE) != pp->use_inband_status) {
+-		u32 val;
+-
+-		mvneta_set_autoneg(pp, cmd->base.autoneg == AUTONEG_ENABLE);
+ 
+-		if (cmd->base.autoneg == AUTONEG_DISABLE) {
+-			val = mvreg_read(pp, MVNETA_GMAC_AUTONEG_CONFIG);
+-			val &= ~(MVNETA_GMAC_CONFIG_MII_SPEED |
+-				 MVNETA_GMAC_CONFIG_GMII_SPEED |
+-				 MVNETA_GMAC_CONFIG_FULL_DUPLEX);
+-
+-			if (phydev->duplex)
+-				val |= MVNETA_GMAC_CONFIG_FULL_DUPLEX;
+-
+-			if (phydev->speed == SPEED_1000)
+-				val |= MVNETA_GMAC_CONFIG_GMII_SPEED;
+-			else if (phydev->speed == SPEED_100)
+-				val |= MVNETA_GMAC_CONFIG_MII_SPEED;
++	return phylink_ethtool_ksettings_set(pp->phylink, cmd);
++}
+ 
+-			mvreg_write(pp, MVNETA_GMAC_AUTONEG_CONFIG, val);
+-		}
++/* Get link ksettings for ethtools */
++static int
++mvneta_ethtool_get_link_ksettings(struct net_device *ndev,
++				  struct ethtool_link_ksettings *cmd)
++{
++	struct mvneta_port *pp = netdev_priv(ndev);
+ 
+-		pp->use_inband_status = (cmd->base.autoneg == AUTONEG_ENABLE);
+-		netdev_info(pp->dev, "autoneg status set to %i\n",
+-			    pp->use_inband_status);
++	return phylink_ethtool_ksettings_get(pp->phylink, cmd);
++}
+ 
+-		if (netif_running(ndev)) {
+-			mvneta_port_down(pp);
+-			mvneta_port_up(pp);
+-		}
+-	}
++static int mvneta_ethtool_nway_reset(struct net_device *dev)
++{
++	struct mvneta_port *pp = netdev_priv(dev);
+ 
+-	return phy_ethtool_ksettings_set(ndev->phydev, cmd);
++	return phylink_ethtool_nway_reset(pp->phylink);
+ }
+ 
+ /* Set interrupt coalescing for ethtools */
+@@ -3762,6 +3829,22 @@ static int mvneta_ethtool_set_ringparam(struct net_device *dev,
+ 	return 0;
+ }
+ 
++static void mvneta_ethtool_get_pauseparam(struct net_device *dev,
++					  struct ethtool_pauseparam *pause)
++{
++	struct mvneta_port *pp = netdev_priv(dev);
++
++	phylink_ethtool_get_pauseparam(pp->phylink, pause);
++}
++
++static int mvneta_ethtool_set_pauseparam(struct net_device *dev,
++					 struct ethtool_pauseparam *pause)
++{
++	struct mvneta_port *pp = netdev_priv(dev);
++
++	return phylink_ethtool_set_pauseparam(pp->phylink, pause);
++}
++
+ static void mvneta_ethtool_get_strings(struct net_device *netdev, u32 sset,
+ 				       u8 *data)
+ {
+@@ -3778,26 +3861,35 @@ static void mvneta_ethtool_update_stats(struct mvneta_port *pp)
+ {
+ 	const struct mvneta_statistic *s;
+ 	void __iomem *base = pp->base;
+-	u32 high, low, val;
+-	u64 val64;
++	u32 high, low;
++	u64 val;
+ 	int i;
+ 
+ 	for (i = 0, s = mvneta_statistics;
+ 	     s < mvneta_statistics + ARRAY_SIZE(mvneta_statistics);
+ 	     s++, i++) {
++		val = 0;
++
+ 		switch (s->type) {
+ 		case T_REG_32:
+ 			val = readl_relaxed(base + s->offset);
+-			pp->ethtool_stats[i] += val;
+ 			break;
+ 		case T_REG_64:
+ 			/* Docs say to read low 32-bit then high */
+ 			low = readl_relaxed(base + s->offset);
+ 			high = readl_relaxed(base + s->offset + 4);
+-			val64 = (u64)high << 32 | low;
+-			pp->ethtool_stats[i] += val64;
++			val = (u64)high << 32 | low;
++			break;
++		case T_SW:
++			switch (s->offset) {
++			case ETHTOOL_STAT_EEE_WAKEUP:
++				val = phylink_get_eee_err(pp->phylink);
++				break;
++			}
+ 			break;
+ 		}
++
++		pp->ethtool_stats[i] += val;
+ 	}
+ }
+ 
+@@ -3932,28 +4024,65 @@ static int mvneta_ethtool_get_rxfh(struct net_device *dev, u32 *indir, u8 *key,
+ static void mvneta_ethtool_get_wol(struct net_device *dev,
+ 				   struct ethtool_wolinfo *wol)
+ {
+-	wol->supported = 0;
+-	wol->wolopts = 0;
++	struct mvneta_port *pp = netdev_priv(dev);
+ 
+-	if (dev->phydev)
+-		phy_ethtool_get_wol(dev->phydev, wol);
++	phylink_ethtool_get_wol(pp->phylink, wol);
+ }
+ 
+ static int mvneta_ethtool_set_wol(struct net_device *dev,
+ 				  struct ethtool_wolinfo *wol)
+ {
++	struct mvneta_port *pp = netdev_priv(dev);
+ 	int ret;
+ 
+-	if (!dev->phydev)
+-		return -EOPNOTSUPP;
+-
+-	ret = phy_ethtool_set_wol(dev->phydev, wol);
++	ret = phylink_ethtool_set_wol(pp->phylink, wol);
+ 	if (!ret)
+ 		device_set_wakeup_enable(&dev->dev, !!wol->wolopts);
+ 
+ 	return ret;
+ }
+ 
++static int mvneta_ethtool_get_eee(struct net_device *dev,
++				  struct ethtool_eee *eee)
++{
++	struct mvneta_port *pp = netdev_priv(dev);
++	u32 lpi_ctl0;
++
++	lpi_ctl0 = mvreg_read(pp, MVNETA_LPI_CTRL_0);
++
++	eee->eee_enabled = pp->eee_enabled;
++	eee->eee_active = pp->eee_active;
++	eee->tx_lpi_enabled = pp->tx_lpi_enabled;
++	eee->tx_lpi_timer = (lpi_ctl0) >> 8; // * scale;
++
++	return phylink_ethtool_get_eee(pp->phylink, eee);
++}
++
++static int mvneta_ethtool_set_eee(struct net_device *dev,
++				  struct ethtool_eee *eee)
++{
++	struct mvneta_port *pp = netdev_priv(dev);
++	u32 lpi_ctl0;
++
++	/* The Armada 37x documents do not give limits for this other than
++	 * it being an 8-bit register. */
++	if (eee->tx_lpi_enabled &&
++	    (eee->tx_lpi_timer < 0 || eee->tx_lpi_timer > 255))
++		return -EINVAL;
++
++	lpi_ctl0 = mvreg_read(pp, MVNETA_LPI_CTRL_0);
++	lpi_ctl0 &= ~(0xff << 8);
++	lpi_ctl0 |= eee->tx_lpi_timer << 8;
++	mvreg_write(pp, MVNETA_LPI_CTRL_0, lpi_ctl0);
++
++	pp->eee_enabled = eee->eee_enabled;
++	pp->tx_lpi_enabled = eee->tx_lpi_enabled;
++
++	mvneta_set_eee(pp, eee->tx_lpi_enabled && eee->eee_enabled);
++
++	return phylink_ethtool_set_eee(pp->phylink, eee);
++}
++
+ static const struct net_device_ops mvneta_netdev_ops = {
+ 	.ndo_open            = mvneta_open,
+ 	.ndo_stop            = mvneta_stop,
+@@ -3967,13 +4096,15 @@ static const struct net_device_ops mvneta_netdev_ops = {
+ };
+ 
+ static const struct ethtool_ops mvneta_eth_tool_ops = {
+-	.nway_reset	= phy_ethtool_nway_reset,
++	.nway_reset	= mvneta_ethtool_nway_reset,
+ 	.get_link       = ethtool_op_get_link,
+ 	.set_coalesce   = mvneta_ethtool_set_coalesce,
+ 	.get_coalesce   = mvneta_ethtool_get_coalesce,
+ 	.get_drvinfo    = mvneta_ethtool_get_drvinfo,
+ 	.get_ringparam  = mvneta_ethtool_get_ringparam,
+ 	.set_ringparam	= mvneta_ethtool_set_ringparam,
++	.get_pauseparam	= mvneta_ethtool_get_pauseparam,
++	.set_pauseparam	= mvneta_ethtool_set_pauseparam,
+ 	.get_strings	= mvneta_ethtool_get_strings,
+ 	.get_ethtool_stats = mvneta_ethtool_get_stats,
+ 	.get_sset_count	= mvneta_ethtool_get_sset_count,
+@@ -3981,10 +4112,12 @@ static const struct ethtool_ops mvneta_eth_tool_ops = {
+ 	.get_rxnfc	= mvneta_ethtool_get_rxnfc,
+ 	.get_rxfh	= mvneta_ethtool_get_rxfh,
+ 	.set_rxfh	= mvneta_ethtool_set_rxfh,
+-	.get_link_ksettings = phy_ethtool_get_link_ksettings,
++	.get_link_ksettings = mvneta_ethtool_get_link_ksettings,
+ 	.set_link_ksettings = mvneta_ethtool_set_link_ksettings,
+ 	.get_wol        = mvneta_ethtool_get_wol,
+ 	.set_wol        = mvneta_ethtool_set_wol,
++	.get_eee	= mvneta_ethtool_get_eee,
++	.set_eee	= mvneta_ethtool_set_eee,
+ };
+ 
+ /* Initialize hw */
+@@ -4129,14 +4262,13 @@ static int mvneta_probe(struct platform_device *pdev)
+ {
+ 	struct resource *res;
+ 	struct device_node *dn = pdev->dev.of_node;
+-	struct device_node *phy_node;
+ 	struct device_node *bm_node;
+ 	struct mvneta_port *pp;
+ 	struct net_device *dev;
++	struct phylink *phylink;
+ 	const char *dt_mac_addr;
+ 	char hw_mac_addr[ETH_ALEN];
+ 	const char *mac_from;
+-	const char *managed;
+ 	int tx_csum_limit;
+ 	int phy_mode;
+ 	int err;
+@@ -4152,31 +4284,11 @@ static int mvneta_probe(struct platform_device *pdev)
+ 		goto err_free_netdev;
+ 	}
+ 
+-	phy_node = of_parse_phandle(dn, "phy", 0);
+-	if (!phy_node) {
+-		if (!of_phy_is_fixed_link(dn)) {
+-			dev_err(&pdev->dev, "no PHY specified\n");
+-			err = -ENODEV;
+-			goto err_free_irq;
+-		}
+-
+-		err = of_phy_register_fixed_link(dn);
+-		if (err < 0) {
+-			dev_err(&pdev->dev, "cannot register fixed PHY\n");
+-			goto err_free_irq;
+-		}
+-
+-		/* In the case of a fixed PHY, the DT node associated
+-		 * to the PHY is the Ethernet MAC DT node.
+-		 */
+-		phy_node = of_node_get(dn);
+-	}
+-
+ 	phy_mode = of_get_phy_mode(dn);
+ 	if (phy_mode < 0) {
+ 		dev_err(&pdev->dev, "incorrect phy-mode\n");
+ 		err = -EINVAL;
+-		goto err_put_phy_node;
++		goto err_free_irq;
+ 	}
+ 
+ 	dev->tx_queue_len = MVNETA_MAX_TXD;
+@@ -4187,12 +4299,8 @@ static int mvneta_probe(struct platform_device *pdev)
+ 
+ 	pp = netdev_priv(dev);
+ 	spin_lock_init(&pp->lock);
+-	pp->phy_node = phy_node;
+ 	pp->phy_interface = phy_mode;
+-
+-	err = of_property_read_string(dn, "managed", &managed);
+-	pp->use_inband_status = (err == 0 &&
+-				 strcmp(managed, "in-band-status") == 0);
++	pp->dn = dn;
+ 
+ 	pp->rxq_def = rxq_def;
+ 
+@@ -4214,7 +4322,7 @@ static int mvneta_probe(struct platform_device *pdev)
+ 		pp->clk = devm_clk_get(&pdev->dev, NULL);
+ 	if (IS_ERR(pp->clk)) {
+ 		err = PTR_ERR(pp->clk);
+-		goto err_put_phy_node;
++		goto err_free_irq;
+ 	}
+ 
+ 	clk_prepare_enable(pp->clk);
+@@ -4340,6 +4448,14 @@ static int mvneta_probe(struct platform_device *pdev)
+ 	/* 9676 == 9700 - 20 and rounding to 8 */
+ 	dev->max_mtu = 9676;
+ 
++	phylink = phylink_create(dev, dn, phy_mode, &mvneta_phylink_ops);
++	if (IS_ERR(phylink)) {
++		err = PTR_ERR(phylink);
++		goto err_free_stats;
++	}
++
++	pp->phylink = phylink;
++
+ 	err = register_netdev(dev);
+ 	if (err < 0) {
+ 		dev_err(&pdev->dev, "failed to register\n");
+@@ -4351,14 +4467,6 @@ static int mvneta_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, pp->dev);
+ 
+-	if (pp->use_inband_status) {
+-		struct phy_device *phy = of_phy_find_device(dn);
+-
+-		mvneta_fixed_link_update(pp, phy);
+-
+-		put_device(&phy->mdio.dev);
+-	}
+-
+ 	return 0;
+ 
+ err_netdev:
+@@ -4369,16 +4477,14 @@ static int mvneta_probe(struct platform_device *pdev)
+ 				       1 << pp->id);
+ 	}
+ err_free_stats:
++	if (pp->phylink)
++		phylink_destroy(pp->phylink);
+ 	free_percpu(pp->stats);
+ err_free_ports:
+ 	free_percpu(pp->ports);
+ err_clk:
+ 	clk_disable_unprepare(pp->clk_bus);
+ 	clk_disable_unprepare(pp->clk);
+-err_put_phy_node:
+-	of_node_put(phy_node);
+-	if (of_phy_is_fixed_link(dn))
+-		of_phy_deregister_fixed_link(dn);
+ err_free_irq:
+ 	irq_dispose_mapping(dev->irq);
+ err_free_netdev:
+@@ -4390,7 +4496,6 @@ static int mvneta_probe(struct platform_device *pdev)
+ static int mvneta_remove(struct platform_device *pdev)
+ {
+ 	struct net_device  *dev = platform_get_drvdata(pdev);
+-	struct device_node *dn = pdev->dev.of_node;
+ 	struct mvneta_port *pp = netdev_priv(dev);
+ 
+ 	unregister_netdev(dev);
+@@ -4398,10 +4503,8 @@ static int mvneta_remove(struct platform_device *pdev)
+ 	clk_disable_unprepare(pp->clk);
+ 	free_percpu(pp->ports);
+ 	free_percpu(pp->stats);
+-	if (of_phy_is_fixed_link(dn))
+-		of_phy_deregister_fixed_link(dn);
+ 	irq_dispose_mapping(dev->irq);
+-	of_node_put(pp->phy_node);
++	phylink_destroy(pp->phylink);
+ 	free_netdev(dev);
+ 
+ 	if (pp->bm_priv) {
+@@ -4453,9 +4556,6 @@ static int mvneta_resume(struct device *device)
+ 		return err;
+ 	}
+ 
+-	if (pp->use_inband_status)
+-		mvneta_fixed_link_update(pp, dev->phydev);
+-
+ 	netif_device_attach(dev);
+ 	if (netif_running(dev)) {
+ 		mvneta_open(dev);
+diff --git a/drivers/net/phy/fixed_phy.c b/drivers/net/phy/fixed_phy.c
+index eb5167210681..001fe1df7557 100644
+--- a/drivers/net/phy/fixed_phy.c
++++ b/drivers/net/phy/fixed_phy.c
+@@ -115,37 +115,6 @@ int fixed_phy_set_link_update(struct phy_device *phydev,
+ }
+ EXPORT_SYMBOL_GPL(fixed_phy_set_link_update);
+ 
+-int fixed_phy_update_state(struct phy_device *phydev,
+-			   const struct fixed_phy_status *status,
+-			   const struct fixed_phy_status *changed)
+-{
+-	struct fixed_mdio_bus *fmb = &platform_fmb;
+-	struct fixed_phy *fp;
+-
+-	if (!phydev || phydev->mdio.bus != fmb->mii_bus)
+-		return -EINVAL;
+-
+-	list_for_each_entry(fp, &fmb->phys, node) {
+-		if (fp->addr == phydev->mdio.addr) {
+-			write_seqcount_begin(&fp->seqcount);
+-#define _UPD(x) if (changed->x) \
+-	fp->status.x = status->x
+-			_UPD(link);
+-			_UPD(speed);
+-			_UPD(duplex);
+-			_UPD(pause);
+-			_UPD(asym_pause);
+-#undef _UPD
+-			fixed_phy_update(fp);
+-			write_seqcount_end(&fp->seqcount);
+-			return 0;
+-		}
+-	}
+-
+-	return -ENOENT;
+-}
+-EXPORT_SYMBOL(fixed_phy_update_state);
+-
+ int fixed_phy_add(unsigned int irq, int phy_addr,
+ 		  struct fixed_phy_status *status,
+ 		  int link_gpio)
+diff --git a/drivers/net/phy/marvell10g.c b/drivers/net/phy/marvell10g.c
+index aebc08beceba..e3e743ab0bb4 100644
+--- a/drivers/net/phy/marvell10g.c
++++ b/drivers/net/phy/marvell10g.c
+@@ -15,7 +15,9 @@
+  * If both the fiber and copper ports are connected, the first to gain
+  * link takes priority and the other port is completely locked out.
+  */
++#include <linux/of.h>
+ #include <linux/phy.h>
++#include <linux/sfp.h>
+ 
+ enum {
+ 	MV_PCS_BASE_T		= 0x0000,
+@@ -37,6 +39,11 @@ enum {
+ 	MV_AN_RESULT_SPD_10000	= BIT(15),
+ };
+ 
++struct mv3310_priv {
++	struct device_node *sfp_node;
++	struct sfp_bus *sfp_bus;
++};
++
+ static int mv3310_modify(struct phy_device *phydev, int devad, u16 reg,
+ 			 u16 mask, u16 bits)
+ {
+@@ -55,17 +62,52 @@ static int mv3310_modify(struct phy_device *phydev, int devad, u16 reg,
+ 	return ret < 0 ? ret : 1;
+ }
+ 
++static int mv3310_sfp_insert(void *upstream, const struct sfp_eeprom_id *id)
++{
++	struct phy_device *phydev = upstream;
++	struct mv3310_priv *priv = dev_get_drvdata(&phydev->mdio.dev);
++
++	if (sfp_parse_interface(priv->sfp_bus, id) != PHY_INTERFACE_MODE_10GKR) {
++		dev_err(&phydev->mdio.dev, "incompatible SFP module inserted\n");
++		return -EINVAL;
++	}
++	return 0;
++}
++
++static const struct sfp_upstream_ops mv3310_sfp_ops = {
++	.module_insert = mv3310_sfp_insert,
++};
++
+ static int mv3310_probe(struct phy_device *phydev)
+ {
++	struct mv3310_priv *priv;
+ 	u32 mmd_mask = MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
+ 
+ 	if (!phydev->is_c45 ||
+ 	    (phydev->c45_ids.devices_in_package & mmd_mask) != mmd_mask)
+ 		return -ENODEV;
+ 
++	priv = devm_kzalloc(&phydev->mdio.dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	dev_set_drvdata(&phydev->mdio.dev, priv);
++
++	if (phydev->mdio.dev.of_node)
++		priv->sfp_node = of_parse_phandle(phydev->mdio.dev.of_node,
++						  "sfp", 0);
++
+ 	return 0;
+ }
+ 
++static void mv3310_remove(struct phy_device *phydev)
++{
++	struct mv3310_priv *priv = dev_get_drvdata(&phydev->mdio.dev);
++
++	if (priv->sfp_bus)
++		sfp_unregister_upstream(priv->sfp_bus);
++}
++
+ /*
+  * Resetting the MV88X3310 causes it to become non-responsive.  Avoid
+  * setting the reset bit(s).
+@@ -77,6 +119,7 @@ static int mv3310_soft_reset(struct phy_device *phydev)
+ 
+ static int mv3310_config_init(struct phy_device *phydev)
+ {
++	struct mv3310_priv *priv = dev_get_drvdata(&phydev->mdio.dev);
+ 	__ETHTOOL_DECLARE_LINK_MODE_MASK(supported) = { 0, };
+ 	u32 mask;
+ 	int val;
+@@ -165,6 +208,14 @@ static int mv3310_config_init(struct phy_device *phydev)
+ 	phydev->supported &= mask;
+ 	phydev->advertising &= phydev->supported;
+ 
++	/* Would be nice to do this in the probe function, but unfortunately,
++	 * phylib doesn't have phydev->attached_dev set there.
++	 */
++	if (priv->sfp_node && !priv->sfp_bus)
++		priv->sfp_bus = sfp_register_upstream(priv->sfp_node,
++						      phydev->attached_dev,
++						      phydev, &mv3310_sfp_ops);
++
+ 	return 0;
+ }
+ 
+@@ -348,12 +399,13 @@ static struct phy_driver mv3310_drivers[] = {
+ 				  SUPPORTED_FIBRE |
+ 				  SUPPORTED_10000baseT_Full |
+ 				  SUPPORTED_Backplane,
+-		.probe		= mv3310_probe,
+ 		.soft_reset	= mv3310_soft_reset,
+ 		.config_init	= mv3310_config_init,
++		.probe		= mv3310_probe,
+ 		.config_aneg	= mv3310_config_aneg,
+ 		.aneg_done	= mv3310_aneg_done,
+ 		.read_status	= mv3310_read_status,
++		.remove		= mv3310_remove,
+ 	},
+ };
+ 
+diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+index bcb4755bcd95..aa792a4fe7cc 100644
+--- a/drivers/net/phy/phylink.c
++++ b/drivers/net/phy/phylink.c
+@@ -36,7 +36,11 @@ enum {
+ 	PHYLINK_DISABLE_LINK,
+ };
+ 
++/**
++ * struct phylink - internal data type for phylink
++ */
+ struct phylink {
++	/* private: */
+ 	struct net_device *netdev;
+ 	const struct phylink_mac_ops *ops;
+ 
+@@ -87,6 +91,13 @@ static inline bool linkmode_empty(const unsigned long *src)
+ 	return bitmap_empty(src, __ETHTOOL_LINK_MODE_MASK_NBITS);
+ }
+ 
++/**
++ * phylink_set_port_modes() - set the port type modes in the ethtool mask
++ * @mask: ethtool link mode mask
++ *
++ * Sets all the port type modes in the ethtool mask.  MAC drivers should
++ * use this in their 'validate' callback.
++ */
+ void phylink_set_port_modes(unsigned long *mask)
+ {
+ 	phylink_set(mask, TP);
+@@ -117,8 +128,7 @@ static const char *phylink_an_mode_str(unsigned int mode)
+ 	static const char *modestr[] = {
+ 		[MLO_AN_PHY] = "phy",
+ 		[MLO_AN_FIXED] = "fixed",
+-		[MLO_AN_SGMII] = "SGMII",
+-		[MLO_AN_8023Z] = "802.3z",
++		[MLO_AN_INBAND] = "inband",
+ 	};
+ 
+ 	return mode < ARRAY_SIZE(modestr) ? modestr[mode] : "unknown";
+@@ -244,6 +254,7 @@ static int phylink_parse_mode(struct phylink *pl, struct device_node *np)
+ 		phylink_set(pl->supported, Asym_Pause);
+ 		phylink_set(pl->supported, Pause);
+ 		pl->link_config.an_enabled = true;
++		pl->link_an_mode = MLO_AN_INBAND;
+ 
+ 		switch (pl->link_config.interface) {
+ 		case PHY_INTERFACE_MODE_SGMII:
+@@ -253,17 +264,14 @@ static int phylink_parse_mode(struct phylink *pl, struct device_node *np)
+ 			phylink_set(pl->supported, 100baseT_Full);
+ 			phylink_set(pl->supported, 1000baseT_Half);
+ 			phylink_set(pl->supported, 1000baseT_Full);
+-			pl->link_an_mode = MLO_AN_SGMII;
+ 			break;
+ 
+ 		case PHY_INTERFACE_MODE_1000BASEX:
+ 			phylink_set(pl->supported, 1000baseX_Full);
+-			pl->link_an_mode = MLO_AN_8023Z;
+ 			break;
+ 
+ 		case PHY_INTERFACE_MODE_2500BASEX:
+ 			phylink_set(pl->supported, 2500baseX_Full);
+-			pl->link_an_mode = MLO_AN_8023Z;
+ 			break;
+ 
+ 		case PHY_INTERFACE_MODE_10GKR:
+@@ -280,7 +288,6 @@ static int phylink_parse_mode(struct phylink *pl, struct device_node *np)
+ 			phylink_set(pl->supported, 10000baseLR_Full);
+ 			phylink_set(pl->supported, 10000baseLRM_Full);
+ 			phylink_set(pl->supported, 10000baseER_Full);
+-			pl->link_an_mode = MLO_AN_SGMII;
+ 			break;
+ 
+ 		default:
+@@ -423,7 +430,7 @@ static void phylink_resolve(struct work_struct *w)
+ 			phylink_mac_config(pl, &link_state);
+ 			break;
+ 
+-		case MLO_AN_SGMII:
++		case MLO_AN_INBAND:
+ 			phylink_get_mac_state(pl, &link_state);
+ 			if (pl->phydev) {
+ 				bool changed = false;
+@@ -449,10 +456,6 @@ static void phylink_resolve(struct work_struct *w)
+ 				}
+ 			}
+ 			break;
+-
+-		case MLO_AN_8023Z:
+-			phylink_get_mac_state(pl, &link_state);
+-			break;
+ 		}
+ 	}
+ 
+@@ -505,6 +508,19 @@ static int phylink_register_sfp(struct phylink *pl, struct device_node *np)
+ 	return 0;
+ }
+ 
++/**
++ * phylink_create() - create a phylink instance
++ * @ndev: a pointer to the &struct net_device
++ * @np: a pointer to a &struct device_node describing the network interface
++ * @iface: the desired link mode defined by &typedef phy_interface_t
++ * @ops: a pointer to a &struct phylink_mac_ops for the MAC.
++ *
++ * Create a new phylink instance, and parse the link parameters found in @np.
++ * This will parse in-band modes, fixed-link or SFP configuration.
++ *
++ * Returns a pointer to a &struct phylink, or an error-pointer value. Users
++ * must use IS_ERR() to check for errors from this function.
++ */
+ struct phylink *phylink_create(struct net_device *ndev, struct device_node *np,
+ 	phy_interface_t iface, const struct phylink_mac_ops *ops)
+ {
+@@ -556,6 +572,13 @@ struct phylink *phylink_create(struct net_device *ndev, struct device_node *np,
+ }
+ EXPORT_SYMBOL_GPL(phylink_create);
+ 
++/**
++ * phylink_destroy() - cleanup and destroy the phylink instance
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ *
++ * Destroy a phylink instance. Any PHY that has been attached must have been
++ * cleaned up via phylink_disconnect_phy() prior to calling this function.
++ */
+ void phylink_destroy(struct phylink *pl)
+ {
+ 	if (pl->sfp_bus)
+@@ -651,10 +674,30 @@ static int phylink_bringup_phy(struct phylink *pl, struct phy_device *phy)
+ 	return 0;
+ }
+ 
++/**
++ * phylink_connect_phy() - connect a PHY to the phylink instance
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @phy: a pointer to a &struct phy_device.
++ *
++ * Connect @phy to the phylink instance specified by @pl by calling
++ * phy_attach_direct(). Configure the @phy according to the MAC driver's
++ * capabilities, start the PHYLIB state machine and enable any interrupts
++ * that the PHY supports.
++ *
++ * This updates the phylink's ethtool supported and advertising link mode
++ * masks.
++ *
++ * Returns 0 on success or a negative errno.
++ */
+ int phylink_connect_phy(struct phylink *pl, struct phy_device *phy)
+ {
+ 	int ret;
+ 
++	if (WARN_ON(pl->link_an_mode == MLO_AN_FIXED ||
++		    (pl->link_an_mode == MLO_AN_INBAND &&
++		     pl->link_interface == PHY_INTERFACE_MODE_1000BASEX)))
++		return -EINVAL;
++
+ 	ret = phy_attach_direct(pl->netdev, phy, 0, pl->link_interface);
+ 	if (ret)
+ 		return ret;
+@@ -667,14 +710,27 @@ int phylink_connect_phy(struct phylink *pl, struct phy_device *phy)
+ }
+ EXPORT_SYMBOL_GPL(phylink_connect_phy);
+ 
++/**
++ * phylink_of_phy_connect() - connect the PHY specified in the DT mode.
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @dn: a pointer to a &struct device_node.
++ *
++ * Connect the phy specified in the device node @dn to the phylink instance
++ * specified by @pl. Actions specified in phylink_connect_phy() will be
++ * performed.
++ *
++ * Returns 0 on success or a negative errno.
++ */
+ int phylink_of_phy_connect(struct phylink *pl, struct device_node *dn)
+ {
+ 	struct device_node *phy_node;
+ 	struct phy_device *phy_dev;
+ 	int ret;
+ 
+-	/* Fixed links are handled without needing a PHY */
+-	if (pl->link_an_mode == MLO_AN_FIXED)
++	/* Fixed links and 802.3z are handled without needing a PHY */
++	if (pl->link_an_mode == MLO_AN_FIXED ||
++	    (pl->link_an_mode == MLO_AN_INBAND &&
++	     pl->link_interface == PHY_INTERFACE_MODE_1000BASEX))
+ 		return 0;
+ 
+ 	phy_node = of_parse_phandle(dn, "phy-handle", 0);
+@@ -706,6 +762,13 @@ int phylink_of_phy_connect(struct phylink *pl, struct device_node *dn)
+ }
+ EXPORT_SYMBOL_GPL(phylink_of_phy_connect);
+ 
++/**
++ * phylink_disconnect_phy() - disconnect any PHY attached to the phylink
++ *   instance.
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ *
++ * Disconnect any current PHY from the phylink instance described by @pl.
++ */
+ void phylink_disconnect_phy(struct phylink *pl)
+ {
+ 	struct phy_device *phy;
+@@ -727,6 +790,14 @@ void phylink_disconnect_phy(struct phylink *pl)
+ }
+ EXPORT_SYMBOL_GPL(phylink_disconnect_phy);
+ 
++/**
++ * phylink_mac_change() - notify phylink of a change in MAC state
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @up: indicates whether the link is currently up.
++ *
++ * The MAC driver should call this driver when the state of its link
++ * changes (eg, link failure, new negotiation results, etc.)
++ */
+ void phylink_mac_change(struct phylink *pl, bool up)
+ {
+ 	if (!up)
+@@ -736,6 +807,14 @@ void phylink_mac_change(struct phylink *pl, bool up)
+ }
+ EXPORT_SYMBOL_GPL(phylink_mac_change);
+ 
++/**
++ * phylink_start() - start a phylink instance
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ *
++ * Start the phylink instance specified by @pl, configuring the MAC for the
++ * desired link mode(s) and negotiation style. This should be called from the
++ * network device driver's &struct net_device_ops ndo_open() method.
++ */
+ void phylink_start(struct phylink *pl)
+ {
+ 	WARN_ON(!lockdep_rtnl_is_held());
+@@ -754,27 +833,43 @@ void phylink_start(struct phylink *pl)
+ 	clear_bit(PHYLINK_DISABLE_STOPPED, &pl->phylink_disable_state);
+ 	phylink_run_resolve(pl);
+ 
+-	if (pl->sfp_bus)
+-		sfp_upstream_start(pl->sfp_bus);
++	if (pl->netdev->sfp_bus)
++		sfp_upstream_start(pl->netdev->sfp_bus);
+ 	if (pl->phydev)
+ 		phy_start(pl->phydev);
+ }
+ EXPORT_SYMBOL_GPL(phylink_start);
+ 
++/**
++ * phylink_stop() - stop a phylink instance
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ *
++ * Stop the phylink instance specified by @pl. This should be called from the
++ * network device driver's &struct net_device_ops ndo_stop() method.
++ */
+ void phylink_stop(struct phylink *pl)
+ {
+ 	WARN_ON(!lockdep_rtnl_is_held());
+ 
+ 	if (pl->phydev)
+ 		phy_stop(pl->phydev);
+-	if (pl->sfp_bus)
+-		sfp_upstream_stop(pl->sfp_bus);
++	if (pl->netdev->sfp_bus)
++		sfp_upstream_stop(pl->netdev->sfp_bus);
+ 
+ 	set_bit(PHYLINK_DISABLE_STOPPED, &pl->phylink_disable_state);
+ 	flush_work(&pl->resolve);
+ }
+ EXPORT_SYMBOL_GPL(phylink_stop);
+ 
++/**
++ * phylink_ethtool_get_wol() - get the wake on lan parameters for the PHY
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @wol: a pointer to &struct ethtool_wolinfo to hold the read parameters
++ *
++ * Read the wake on lan parameters from the PHY attached to the phylink
++ * instance specified by @pl. If no PHY is currently attached, report no
++ * support for wake on lan.
++ */
+ void phylink_ethtool_get_wol(struct phylink *pl, struct ethtool_wolinfo *wol)
+ {
+ 	WARN_ON(!lockdep_rtnl_is_held());
+@@ -787,6 +882,17 @@ void phylink_ethtool_get_wol(struct phylink *pl, struct ethtool_wolinfo *wol)
+ }
+ EXPORT_SYMBOL_GPL(phylink_ethtool_get_wol);
+ 
++/**
++ * phylink_ethtool_set_wol() - set wake on lan parameters
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @wol: a pointer to &struct ethtool_wolinfo for the desired parameters
++ *
++ * Set the wake on lan parameters for the PHY attached to the phylink
++ * instance specified by @pl. If no PHY is attached, returns %EOPNOTSUPP
++ * error.
++ *
++ * Returns zero on success or negative errno code.
++ */
+ int phylink_ethtool_set_wol(struct phylink *pl, struct ethtool_wolinfo *wol)
+ {
+ 	int ret = -EOPNOTSUPP;
+@@ -822,6 +928,15 @@ static void phylink_get_ksettings(const struct phylink_link_state *state,
+ 				AUTONEG_DISABLE;
+ }
+ 
++/**
++ * phylink_ethtool_ksettings_get() - get the current link settings
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @kset: a pointer to a &struct ethtool_link_ksettings to hold link settings
++ *
++ * Read the current link settings for the phylink instance specified by @pl.
++ * This will be the link settings read from the MAC, PHY or fixed link
++ * settings depending on the current negotiation mode.
++ */
+ int phylink_ethtool_ksettings_get(struct phylink *pl,
+ 	struct ethtool_link_ksettings *kset)
+ {
+@@ -847,14 +962,13 @@ int phylink_ethtool_ksettings_get(struct phylink *pl,
+ 		phylink_get_ksettings(&link_state, kset);
+ 		break;
+ 
+-	case MLO_AN_SGMII:
++	case MLO_AN_INBAND:
+ 		/* If there is a phy attached, then use the reported
+ 		 * settings from the phy with no modification.
+ 		 */
+ 		if (pl->phydev)
+ 			break;
+ 
+-	case MLO_AN_8023Z:
+ 		phylink_get_mac_state(pl, &link_state);
+ 
+ 		/* The MAC is reporting the link results from its own PCS
+@@ -869,6 +983,11 @@ int phylink_ethtool_ksettings_get(struct phylink *pl,
+ }
+ EXPORT_SYMBOL_GPL(phylink_ethtool_ksettings_get);
+ 
++/**
++ * phylink_ethtool_ksettings_set() - set the link settings
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @kset: a pointer to a &struct ethtool_link_ksettings for the desired modes
++ */
+ int phylink_ethtool_ksettings_set(struct phylink *pl,
+ 	const struct ethtool_link_ksettings *kset)
+ {
+@@ -962,6 +1081,17 @@ int phylink_ethtool_ksettings_set(struct phylink *pl,
+ }
+ EXPORT_SYMBOL_GPL(phylink_ethtool_ksettings_set);
+ 
++/**
++ * phylink_ethtool_nway_reset() - restart negotiation
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ *
++ * Restart negotiation for the phylink instance specified by @pl. This will
++ * cause any attached phy to restart negotiation with the link partner, and
++ * if the MAC is in a BaseX mode, the MAC will also be requested to restart
++ * negotiation.
++ *
++ * Returns zero on success, or negative error code.
++ */
+ int phylink_ethtool_nway_reset(struct phylink *pl)
+ {
+ 	int ret = 0;
+@@ -976,6 +1106,11 @@ int phylink_ethtool_nway_reset(struct phylink *pl)
+ }
+ EXPORT_SYMBOL_GPL(phylink_ethtool_nway_reset);
+ 
++/**
++ * phylink_ethtool_get_pauseparam() - get the current pause parameters
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @pause: a pointer to a &struct ethtool_pauseparam
++ */
+ void phylink_ethtool_get_pauseparam(struct phylink *pl,
+ 				    struct ethtool_pauseparam *pause)
+ {
+@@ -987,6 +1122,11 @@ void phylink_ethtool_get_pauseparam(struct phylink *pl,
+ }
+ EXPORT_SYMBOL_GPL(phylink_ethtool_get_pauseparam);
+ 
++/**
++ * phylink_ethtool_set_pauseparam() - set the current pause parameters
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @pause: a pointer to a &struct ethtool_pauseparam
++ */
+ int phylink_ethtool_set_pauseparam(struct phylink *pl,
+ 				   struct ethtool_pauseparam *pause)
+ {
+@@ -1025,8 +1165,7 @@ int phylink_ethtool_set_pauseparam(struct phylink *pl,
+ 			phylink_mac_config(pl, config);
+ 			break;
+ 
+-		case MLO_AN_SGMII:
+-		case MLO_AN_8023Z:
++		case MLO_AN_INBAND:
+ 			phylink_mac_config(pl, config);
+ 			phylink_mac_an_restart(pl);
+ 			break;
+@@ -1037,47 +1176,16 @@ int phylink_ethtool_set_pauseparam(struct phylink *pl,
+ }
+ EXPORT_SYMBOL_GPL(phylink_ethtool_set_pauseparam);
+ 
+-int phylink_ethtool_get_module_info(struct phylink *pl,
+-				    struct ethtool_modinfo *modinfo)
+-{
+-	int ret = -EOPNOTSUPP;
+-
+-	WARN_ON(!lockdep_rtnl_is_held());
+-
+-	if (pl->sfp_bus)
+-		ret = sfp_get_module_info(pl->sfp_bus, modinfo);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_GPL(phylink_ethtool_get_module_info);
+-
+-int phylink_ethtool_get_module_eeprom(struct phylink *pl,
+-				      struct ethtool_eeprom *ee, u8 *buf)
+-{
+-	int ret = -EOPNOTSUPP;
+-
+-	WARN_ON(!lockdep_rtnl_is_held());
+-
+-	if (pl->sfp_bus)
+-		ret = sfp_get_module_eeprom(pl->sfp_bus, ee, buf);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_GPL(phylink_ethtool_get_module_eeprom);
+-
+-int phylink_init_eee(struct phylink *pl, bool clk_stop_enable)
+-{
+-	int ret = -EPROTONOSUPPORT;
+-
+-	WARN_ON(!lockdep_rtnl_is_held());
+-
+-	if (pl->phydev)
+-		ret = phy_init_eee(pl->phydev, clk_stop_enable);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_GPL(phylink_init_eee);
+-
++/**
++ * phylink_ethtool_get_eee_err() - read the energy efficient ethernet error
++ *   counter
++ * @pl: a pointer to a &struct phylink returned from phylink_create().
++ *
++ * Read the Energy Efficient Ethernet error counter from the PHY associated
++ * with the phylink instance specified by @pl.
++ *
++ * Returns positive error counter value, or negative error code.
++ */
+ int phylink_get_eee_err(struct phylink *pl)
+ {
+ 	int ret = 0;
+@@ -1091,6 +1199,11 @@ int phylink_get_eee_err(struct phylink *pl)
+ }
+ EXPORT_SYMBOL_GPL(phylink_get_eee_err);
+ 
++/**
++ * phylink_ethtool_get_eee() - read the energy efficient ethernet parameters
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @eee: a pointer to a &struct ethtool_eee for the read parameters
++ */
+ int phylink_ethtool_get_eee(struct phylink *pl, struct ethtool_eee *eee)
+ {
+ 	int ret = -EOPNOTSUPP;
+@@ -1104,6 +1217,11 @@ int phylink_ethtool_get_eee(struct phylink *pl, struct ethtool_eee *eee)
+ }
+ EXPORT_SYMBOL_GPL(phylink_ethtool_get_eee);
+ 
++/**
++ * phylink_ethtool_set_eee() - set the energy efficient ethernet parameters
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @eee: a pointer to a &struct ethtool_eee for the desired parameters
++ */
+ int phylink_ethtool_set_eee(struct phylink *pl, struct ethtool_eee *eee)
+ {
+ 	int ret = -EOPNOTSUPP;
+@@ -1243,9 +1361,7 @@ static int phylink_mii_read(struct phylink *pl, unsigned int phy_id,
+ 	case MLO_AN_PHY:
+ 		return -EOPNOTSUPP;
+ 
+-	case MLO_AN_SGMII:
+-		/* No phy, fall through to 8023z method */
+-	case MLO_AN_8023Z:
++	case MLO_AN_INBAND:
+ 		if (phy_id == 0) {
+ 			val = phylink_get_mac_state(pl, &state);
+ 			if (val < 0)
+@@ -1270,15 +1386,31 @@ static int phylink_mii_write(struct phylink *pl, unsigned int phy_id,
+ 	case MLO_AN_PHY:
+ 		return -EOPNOTSUPP;
+ 
+-	case MLO_AN_SGMII:
+-		/* No phy, fall through to 8023z method */
+-	case MLO_AN_8023Z:
++	case MLO_AN_INBAND:
+ 		break;
+ 	}
+ 
+ 	return 0;
+ }
+ 
++/**
++ * phylink_mii_ioctl() - generic mii ioctl interface
++ * @pl: a pointer to a &struct phylink returned from phylink_create()
++ * @ifr: a pointer to a &struct ifreq for socket ioctls
++ * @cmd: ioctl cmd to execute
++ *
++ * Perform the specified MII ioctl on the PHY attached to the phylink instance
++ * specified by @pl. If no PHY is attached, emulate the presence of the PHY.
++ *
++ * Returns: zero on success or negative error code.
++ *
++ * %SIOCGMIIPHY:
++ *  read register from the current PHY.
++ * %SIOCGMIIREG:
++ *  read register from the specified PHY.
++ * %SIOCSMIIREG:
++ *  set a register on the specified PHY.
++ */
+ int phylink_mii_ioctl(struct phylink *pl, struct ifreq *ifr, int cmd)
+ {
+ 	struct mii_ioctl_data *mii = if_mii(ifr);
+@@ -1287,7 +1419,7 @@ int phylink_mii_ioctl(struct phylink *pl, struct ifreq *ifr, int cmd)
+ 	WARN_ON(!lockdep_rtnl_is_held());
+ 
+ 	if (pl->phydev) {
+-		/* PHYs only exist for MLO_AN_PHY and MLO_AN_SGMII */
++		/* PHYs only exist for MLO_AN_PHY and SGMII */
+ 		switch (cmd) {
+ 		case SIOCGMIIPHY:
+ 			mii->phy_id = pl->phydev->mdio.addr;
+@@ -1358,10 +1490,8 @@ static int phylink_sfp_module_insert(void *upstream,
+ 
+ 	switch (iface) {
+ 	case PHY_INTERFACE_MODE_SGMII:
+-		mode = MLO_AN_SGMII;
+-		break;
+ 	case PHY_INTERFACE_MODE_1000BASEX:
+-		mode = MLO_AN_8023Z;
++		mode = MLO_AN_INBAND;
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -1388,7 +1518,7 @@ static int phylink_sfp_module_insert(void *upstream,
+ 		   phylink_an_mode_str(mode), phy_modes(config.interface),
+ 		   __ETHTOOL_LINK_MODE_MASK_NBITS, support);
+ 
+-	if (mode == MLO_AN_8023Z && pl->phydev)
++	if (iface == PHY_INTERFACE_MODE_1000BASEX && pl->phydev)
+ 		return -EINVAL;
+ 
+ 	changed = !bitmap_equal(pl->supported, support,
+diff --git a/drivers/net/phy/sfp-bus.c b/drivers/net/phy/sfp-bus.c
+index 5cb5384697ea..bf96f7902d8b 100644
+--- a/drivers/net/phy/sfp-bus.c
++++ b/drivers/net/phy/sfp-bus.c
+@@ -8,7 +8,11 @@
+ 
+ #include "sfp.h"
+ 
++/**
++ * struct sfp_bus - internal representation of a sfp bus
++ */
+ struct sfp_bus {
++	/* private: */
+ 	struct kref kref;
+ 	struct list_head node;
+ 	struct device_node *device_node;
+@@ -26,7 +30,20 @@ struct sfp_bus {
+ 	bool started;
+ };
+ 
+-
++/**
++ * sfp_parse_port() - Parse the EEPROM base ID, setting the port type
++ * @bus: a pointer to the &struct sfp_bus structure for the sfp module
++ * @id: a pointer to the module's &struct sfp_eeprom_id
++ * @support: optional pointer to an array of unsigned long for the
++ *   ethtool support mask
++ *
++ * Parse the EEPROM identification given in @id, and return one of
++ * %PORT_TP, %PORT_FIBRE or %PORT_OTHER. If @support is non-%NULL,
++ * also set the ethtool %ETHTOOL_LINK_MODE_xxx_BIT corresponding with
++ * the connector type.
++ *
++ * If the port type is not known, returns %PORT_OTHER.
++ */
+ int sfp_parse_port(struct sfp_bus *bus, const struct sfp_eeprom_id *id,
+ 		   unsigned long *support)
+ {
+@@ -79,6 +96,24 @@ int sfp_parse_port(struct sfp_bus *bus, const struct sfp_eeprom_id *id,
+ }
+ EXPORT_SYMBOL_GPL(sfp_parse_port);
+ 
++/**
++ * sfp_parse_interface() - Parse the phy_interface_t
++ * @bus: a pointer to the &struct sfp_bus structure for the sfp module
++ * @id: a pointer to the module's &struct sfp_eeprom_id
++ *
++ * Derive the phy_interface_t mode for the information found in the
++ * module's identifying EEPROM. There is no standard or defined way
++ * to derive this information, so we use some heuristics.
++ *
++ * If the encoding is 64b66b, then the module must be >= 10G, so
++ * return %PHY_INTERFACE_MODE_10GKR.
++ *
++ * If it's 8b10b, then it's 1G or slower. If it's definitely a fibre
++ * module, return %PHY_INTERFACE_MODE_1000BASEX mode, otherwise return
++ * %PHY_INTERFACE_MODE_SGMII mode.
++ *
++ * If the encoding is not known, return %PHY_INTERFACE_MODE_NA.
++ */
+ phy_interface_t sfp_parse_interface(struct sfp_bus *bus,
+ 				    const struct sfp_eeprom_id *id)
+ {
+@@ -118,6 +153,15 @@ phy_interface_t sfp_parse_interface(struct sfp_bus *bus,
+ }
+ EXPORT_SYMBOL_GPL(sfp_parse_interface);
+ 
++/**
++ * sfp_parse_support() - Parse the eeprom id for supported link modes
++ * @bus: a pointer to the &struct sfp_bus structure for the sfp module
++ * @id: a pointer to the module's &struct sfp_eeprom_id
++ * @support: pointer to an array of unsigned long for the ethtool support mask
++ *
++ * Parse the EEPROM identification information and derive the supported
++ * ethtool link modes for the module.
++ */
+ void sfp_parse_support(struct sfp_bus *bus, const struct sfp_eeprom_id *id,
+ 		       unsigned long *support)
+ {
+@@ -278,6 +322,7 @@ static int sfp_register_bus(struct sfp_bus *bus)
+ 	}
+ 	if (bus->started)
+ 		bus->socket_ops->start(bus->sfp);
++	bus->netdev->sfp_bus = bus;
+ 	bus->registered = true;
+ 	return 0;
+ }
+@@ -292,27 +337,53 @@ static void sfp_unregister_bus(struct sfp_bus *bus)
+ 		if (bus->phydev && ops && ops->disconnect_phy)
+ 			ops->disconnect_phy(bus->upstream);
+ 	}
++	bus->netdev->sfp_bus = NULL;
+ 	bus->registered = false;
+ }
+ 
+-
++/**
++ * sfp_get_module_info() - Get the ethtool_modinfo for a SFP module
++ * @bus: a pointer to the &struct sfp_bus structure for the sfp module
++ * @modinfo: a &struct ethtool_modinfo
++ *
++ * Fill in the type and eeprom_len parameters in @modinfo for a module on
++ * the sfp bus specified by @bus.
++ *
++ * Returns 0 on success or a negative errno number.
++ */
+ int sfp_get_module_info(struct sfp_bus *bus, struct ethtool_modinfo *modinfo)
+ {
+-	if (!bus->registered)
+-		return -ENOIOCTLCMD;
+ 	return bus->socket_ops->module_info(bus->sfp, modinfo);
+ }
+ EXPORT_SYMBOL_GPL(sfp_get_module_info);
+ 
++/**
++ * sfp_get_module_eeprom() - Read the SFP module EEPROM
++ * @bus: a pointer to the &struct sfp_bus structure for the sfp module
++ * @ee: a &struct ethtool_eeprom
++ * @data: buffer to contain the EEPROM data (must be at least @ee->len bytes)
++ *
++ * Read the EEPROM as specified by the supplied @ee. See the documentation
++ * for &struct ethtool_eeprom for the region to be read.
++ *
++ * Returns 0 on success or a negative errno number.
++ */
+ int sfp_get_module_eeprom(struct sfp_bus *bus, struct ethtool_eeprom *ee,
+ 	u8 *data)
+ {
+-	if (!bus->registered)
+-		return -ENOIOCTLCMD;
+ 	return bus->socket_ops->module_eeprom(bus->sfp, ee, data);
+ }
+ EXPORT_SYMBOL_GPL(sfp_get_module_eeprom);
+ 
++/**
++ * sfp_upstream_start() - Inform the SFP that the network device is up
++ * @bus: a pointer to the &struct sfp_bus structure for the sfp module
++ *
++ * Inform the SFP socket that the network device is now up, so that the
++ * module can be enabled by allowing TX_DISABLE to be deasserted. This
++ * should be called from the network device driver's &struct net_device_ops
++ * ndo_open() method.
++ */
+ void sfp_upstream_start(struct sfp_bus *bus)
+ {
+ 	if (bus->registered)
+@@ -321,6 +392,15 @@ void sfp_upstream_start(struct sfp_bus *bus)
+ }
+ EXPORT_SYMBOL_GPL(sfp_upstream_start);
+ 
++/**
++ * sfp_upstream_stop() - Inform the SFP that the network device is down
++ * @bus: a pointer to the &struct sfp_bus structure for the sfp module
++ *
++ * Inform the SFP socket that the network device is now up, so that the
++ * module can be disabled by asserting TX_DISABLE, disabling the laser
++ * in optical modules. This should be called from the network device
++ * driver's &struct net_device_ops ndo_stop() method.
++ */
+ void sfp_upstream_stop(struct sfp_bus *bus)
+ {
+ 	if (bus->registered)
+@@ -329,6 +409,19 @@ void sfp_upstream_stop(struct sfp_bus *bus)
+ }
+ EXPORT_SYMBOL_GPL(sfp_upstream_stop);
+ 
++/**
++ * sfp_register_upstream() - Register the neighbouring device
++ * @np: device node for the SFP bus
++ * @ndev: network device associated with the interface
++ * @upstream: the upstream private data
++ * @ops: the upstream's &struct sfp_upstream_ops
++ *
++ * Register the upstream device (eg, PHY) with the SFP bus. MAC drivers
++ * should use phylink, which will call this function for them. Returns
++ * a pointer to the allocated &struct sfp_bus.
++ *
++ * On error, returns %NULL.
++ */
+ struct sfp_bus *sfp_register_upstream(struct device_node *np,
+ 	struct net_device *ndev, void *upstream,
+ 	const struct sfp_upstream_ops *ops)
+@@ -356,6 +449,13 @@ struct sfp_bus *sfp_register_upstream(struct device_node *np,
+ }
+ EXPORT_SYMBOL_GPL(sfp_register_upstream);
+ 
++/**
++ * sfp_unregister_upstream() - Unregister sfp bus
++ * @bus: a pointer to the &struct sfp_bus structure for the sfp module
++ *
++ * Unregister a previously registered upstream connection for the SFP
++ * module. @bus is returned from sfp_register_upstream().
++ */
+ void sfp_unregister_upstream(struct sfp_bus *bus)
+ {
+ 	rtnl_lock();
+diff --git a/drivers/net/phy/sfp.c b/drivers/net/phy/sfp.c
+index baee371bf767..a9cdb7df318b 100644
+--- a/drivers/net/phy/sfp.c
++++ b/drivers/net/phy/sfp.c
+@@ -126,6 +126,27 @@ struct sfp {
+ 	struct sfp_eeprom_id id;
+ };
+ 
++struct sff_data {
++	unsigned int gpios;
++};
++
++static const struct sff_data sff_data = {
++	.gpios = SFP_F_LOS | SFP_F_TX_FAULT | SFP_F_TX_DISABLE,
++};
++
++static const struct sff_data sfp_data = {
++	.gpios = SFP_F_PRESENT | SFP_F_LOS | SFP_F_TX_FAULT |
++		 SFP_F_TX_DISABLE | SFP_F_RATE_SELECT,
++};
++
++static const struct of_device_id sfp_of_match[] = {
++	{ .compatible = "sff,sff", .data = &sff_data, },
++	{ .compatible = "sff,sfp", .data = &sfp_data, },
++	{ .compatible = "sff,sfp+", .data = &sfp_data, },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, sfp_of_match);
++
+ static unsigned long poll_jiffies;
+ 
+ static unsigned int sfp_gpio_get_state(struct sfp *sfp)
+@@ -144,6 +165,11 @@ static unsigned int sfp_gpio_get_state(struct sfp *sfp)
+ 	return state;
+ }
+ 
++static unsigned int sff_gpio_get_state(struct sfp *sfp)
++{
++	return sfp_gpio_get_state(sfp) | SFP_F_PRESENT;
++}
++
+ static void sfp_gpio_set_state(struct sfp *sfp, unsigned int state)
+ {
+ 	if (state & SFP_F_PRESENT) {
+@@ -247,6 +273,184 @@ static unsigned int sfp_check(void *buf, size_t len)
+ 	return check;
+ }
+ 
++static const char *sfp_link_len(char *buf, size_t size, unsigned int length,
++	unsigned int multiplier)
++{
++	if (length == 0)
++		return "unsupported/unspecified";
++
++	if (length == 255) {
++		*buf++ = '>';
++		size -= 1;
++		length -= 1;
++	}
++
++	length *= multiplier;
++
++	if (length >= 1000)
++		snprintf(buf, size, "%u.%0*ukm",
++			length / 1000,
++			multiplier > 100 ? 1 :
++			multiplier > 10 ? 2 : 3,
++			length % 1000);
++	else
++		snprintf(buf, size, "%um", length);
++
++	return buf;
++}
++
++struct bitfield {
++	unsigned int mask;
++	unsigned int val;
++	const char *str;
++};
++
++static const struct bitfield sfp_options[] = {
++	{
++		.mask = SFP_OPTIONS_HIGH_POWER_LEVEL,
++		.val = SFP_OPTIONS_HIGH_POWER_LEVEL,
++		.str = "hpl",
++	}, {
++		.mask = SFP_OPTIONS_PAGING_A2,
++		.val = SFP_OPTIONS_PAGING_A2,
++		.str = "paginga2",
++	}, {
++		.mask = SFP_OPTIONS_RETIMER,
++		.val = SFP_OPTIONS_RETIMER,
++		.str = "retimer",
++	}, {
++		.mask = SFP_OPTIONS_COOLED_XCVR,
++		.val = SFP_OPTIONS_COOLED_XCVR,
++		.str = "cooled",
++	}, {
++		.mask = SFP_OPTIONS_POWER_DECL,
++		.val = SFP_OPTIONS_POWER_DECL,
++		.str = "powerdecl",
++	}, {
++		.mask = SFP_OPTIONS_RX_LINEAR_OUT,
++		.val = SFP_OPTIONS_RX_LINEAR_OUT,
++		.str = "rxlinear",
++	}, {
++		.mask = SFP_OPTIONS_RX_DECISION_THRESH,
++		.val = SFP_OPTIONS_RX_DECISION_THRESH,
++		.str = "rxthresh",
++	}, {
++		.mask = SFP_OPTIONS_TUNABLE_TX,
++		.val = SFP_OPTIONS_TUNABLE_TX,
++		.str = "tunabletx",
++	}, {
++		.mask = SFP_OPTIONS_RATE_SELECT,
++		.val = SFP_OPTIONS_RATE_SELECT,
++		.str = "ratesel",
++	}, {
++		.mask = SFP_OPTIONS_TX_DISABLE,
++		.val = SFP_OPTIONS_TX_DISABLE,
++		.str = "txdisable",
++	}, {
++		.mask = SFP_OPTIONS_TX_FAULT,
++		.val = SFP_OPTIONS_TX_FAULT,
++		.str = "txfault",
++	}, {
++		.mask = SFP_OPTIONS_LOS_INVERTED,
++		.val = SFP_OPTIONS_LOS_INVERTED,
++		.str = "los-",
++	}, {
++		.mask = SFP_OPTIONS_LOS_NORMAL,
++		.val = SFP_OPTIONS_LOS_NORMAL,
++		.str = "los+",
++	}, { }
++};
++
++static const struct bitfield diagmon[] = {
++	{
++		.mask = SFP_DIAGMON_DDM,
++		.val = SFP_DIAGMON_DDM,
++		.str = "ddm",
++	}, {
++		.mask = SFP_DIAGMON_INT_CAL,
++		.val = SFP_DIAGMON_INT_CAL,
++		.str = "intcal",
++	}, {
++		.mask = SFP_DIAGMON_EXT_CAL,
++		.val = SFP_DIAGMON_EXT_CAL,
++		.str = "extcal",
++	}, {
++		.mask = SFP_DIAGMON_RXPWR_AVG,
++		.val = SFP_DIAGMON_RXPWR_AVG,
++		.str = "rxpwravg",
++	}, { }
++};
++
++static const char *sfp_bitfield(char *out, size_t outsz, const struct bitfield *bits, unsigned int val)
++{
++	char *p = out;
++	int n;
++
++	*p = '\0';
++	while (bits->mask) {
++		if ((val & bits->mask) == bits->val) {
++			n = snprintf(p, outsz, "%s%s",
++				     out != p ? ", " : "",
++				     bits->str);
++			if (n == outsz)
++				break;
++			p += n;
++			outsz -= n;
++		}
++		bits++;
++	}
++
++	return out;
++}
++
++static const char *sfp_connector(unsigned int connector)
++{
++	switch (connector) {
++	case SFP_CONNECTOR_UNSPEC:
++		return "unknown/unspecified";
++	case SFP_CONNECTOR_SC:
++		return "SC";
++	case SFP_CONNECTOR_FIBERJACK:
++		return "Fiberjack";
++	case SFP_CONNECTOR_LC:
++		return "LC";
++	case SFP_CONNECTOR_MT_RJ:
++		return "MT-RJ";
++	case SFP_CONNECTOR_MU:
++		return "MU";
++	case SFP_CONNECTOR_SG:
++		return "SG";
++	case SFP_CONNECTOR_OPTICAL_PIGTAIL:
++		return "Optical pigtail";
++	case SFP_CONNECTOR_HSSDC_II:
++		return "HSSDC II";
++	case SFP_CONNECTOR_COPPER_PIGTAIL:
++		return "Copper pigtail";
++	default:
++		return "unknown";
++	}
++}
++
++static const char *sfp_encoding(unsigned int encoding)
++{
++	switch (encoding) {
++	case SFP_ENCODING_UNSPEC:
++		return "unspecified";
++	case SFP_ENCODING_8472_64B66B:
++		return "64b66b";
++	case SFP_ENCODING_8B10B:
++		return "8b10b";
++	case SFP_ENCODING_4B5B:
++		return "4b5b";
++	case SFP_ENCODING_NRZ:
++		return "NRZ";
++	case SFP_ENCODING_8472_MANCHESTER:
++		return "MANCHESTER";
++	default:
++		return "unknown";
++	}
++}
++
+ /* Helpers */
+ static void sfp_module_tx_disable(struct sfp *sfp)
+ {
+@@ -415,6 +619,7 @@ static int sfp_sm_mod_probe(struct sfp *sfp)
+ 	char sn[17];
+ 	char date[9];
+ 	char rev[5];
++	char options[80];
+ 	u8 check;
+ 	int err;
+ 
+@@ -458,10 +663,83 @@ static int sfp_sm_mod_probe(struct sfp *sfp)
+ 	rev[4] = '\0';
+ 	memcpy(sn, sfp->id.ext.vendor_sn, 16);
+ 	sn[16] = '\0';
+-	memcpy(date, sfp->id.ext.datecode, 8);
++	date[0] = sfp->id.ext.datecode[4];
++	date[1] = sfp->id.ext.datecode[5];
++	date[2] = '-';
++	date[3] = sfp->id.ext.datecode[2];
++	date[4] = sfp->id.ext.datecode[3];
++	date[5] = '-';
++	date[6] = sfp->id.ext.datecode[0];
++	date[7] = sfp->id.ext.datecode[1];
+ 	date[8] = '\0';
+ 
+ 	dev_info(sfp->dev, "module %s %s rev %s sn %s dc %s\n", vendor, part, rev, sn, date);
++	dev_info(sfp->dev, "  %s connector, encoding %s, nominal bitrate %u.%uGbps +%u%% -%u%%\n",
++		 sfp_connector(sfp->id.base.connector),
++		 sfp_encoding(sfp->id.base.encoding),
++		 sfp->id.base.br_nominal / 10,
++		 sfp->id.base.br_nominal % 10,
++		 sfp->id.ext.br_max, sfp->id.ext.br_min);
++	dev_info(sfp->dev, "  1000BaseSX%c 1000BaseLX%c 1000BaseCX%c 1000BaseT%c 100BaseTLX%c 1000BaseFX%c BaseBX10%c BasePX%c\n",
++		 sfp->id.base.e1000_base_sx ? '+' : '-',
++		 sfp->id.base.e1000_base_lx ? '+' : '-',
++		 sfp->id.base.e1000_base_cx ? '+' : '-',
++		 sfp->id.base.e1000_base_t ? '+' : '-',
++		 sfp->id.base.e100_base_lx ? '+' : '-',
++		 sfp->id.base.e100_base_fx ? '+' : '-',
++		 sfp->id.base.e_base_bx10 ? '+' : '-',
++		 sfp->id.base.e_base_px ? '+' : '-');
++	dev_info(sfp->dev, "  10GBaseSR%c 10GBaseLR%c 10GBaseLRM%c 10GBaseER%c\n",
++		 sfp->id.base.e10g_base_sr ? '+' : '-',
++		 sfp->id.base.e10g_base_lr ? '+' : '-',
++		 sfp->id.base.e10g_base_lrm ? '+' : '-',
++		 sfp->id.base.e10g_base_er ? '+' : '-');
++
++	if (!sfp->id.base.sfp_ct_passive && !sfp->id.base.sfp_ct_active &&
++	    !sfp->id.base.e1000_base_t) {
++		char len_9um[16], len_om[16];
++
++		dev_info(sfp->dev, "  Wavelength %unm, fiber lengths:\n",
++			 be16_to_cpup(&sfp->id.base.optical_wavelength));
++
++		if (sfp->id.base.link_len[0] == 255)
++			strcpy(len_9um, ">254km");
++		else if (sfp->id.base.link_len[1] && sfp->id.base.link_len[1] != 255)
++			sprintf(len_9um, "%um",
++				sfp->id.base.link_len[1] * 100);
++		else if (sfp->id.base.link_len[0])
++			sprintf(len_9um, "%ukm", sfp->id.base.link_len[0]);
++		else if (sfp->id.base.link_len[1] == 255)
++			strcpy(len_9um, ">25.4km");
++		else
++			strcpy(len_9um, "unsupported");
++
++		dev_info(sfp->dev, "    9µm SM    : %s\n", len_9um);
++		dev_info(sfp->dev, " 62.5µm MM OM1: %s\n",
++			 sfp_link_len(len_om, sizeof(len_om),
++				      sfp->id.base.link_len[3], 10));
++		dev_info(sfp->dev, "   50µm MM OM2: %s\n",
++			 sfp_link_len(len_om, sizeof(len_om),
++				      sfp->id.base.link_len[2], 10));
++		dev_info(sfp->dev, "   50µm MM OM3: %s\n",
++			 sfp_link_len(len_om, sizeof(len_om),
++				      sfp->id.base.link_len[5], 10));
++		dev_info(sfp->dev, "   50µm MM OM4: %s\n",
++			 sfp_link_len(len_om, sizeof(len_om),
++				      sfp->id.base.link_len[4], 10));
++	} else {
++		char len[16];
++		dev_info(sfp->dev, "  Copper length: %s\n",
++			 sfp_link_len(len, sizeof(len),
++				      sfp->id.base.link_len[4], 1));
++	}
++
++	dev_info(sfp->dev, "  Options: %s\n",
++		 sfp_bitfield(options, sizeof(options), sfp_options,
++			      be16_to_cpu(sfp->id.ext.options)));
++	dev_info(sfp->dev, "  Diagnostics: %s\n",
++		 sfp_bitfield(options, sizeof(options), diagmon,
++			      sfp->id.ext.diagmon));
+ 
+ 	/* We only support SFP modules, not the legacy GBIC modules. */
+ 	if (sfp->id.base.phys_id != SFP_PHYS_ID_SFP ||
+@@ -799,7 +1077,15 @@ static int sfp_probe(struct platform_device *pdev)
+ 
+ 	if (pdev->dev.of_node) {
+ 		struct device_node *node = pdev->dev.of_node;
++		const struct of_device_id *id;
+ 		struct device_node *np;
++		const struct sff_data *sff;
++
++		id = of_match_node(sfp_of_match, node);
++		if (WARN_ON(!id))
++			return -EINVAL;
++
++		sff = id->data;
+ 
+ 		np = of_parse_phandle(node, "i2c-bus", 0);
+ 		if (np) {
+@@ -818,6 +1104,9 @@ static int sfp_probe(struct platform_device *pdev)
+ 		}
+ 
+ 		for (i = 0; i < GPIO_MAX; i++) {
++			if (!(sff->gpios & BIT(i)))
++				continue;
++
+ 			sfp->gpio[i] = devm_gpiod_get_optional(sfp->dev,
+ 					   gpio_of_names[i], gpio_flags[i]);
+ 			if (IS_ERR(sfp->gpio[i]))
+@@ -826,6 +1115,10 @@ static int sfp_probe(struct platform_device *pdev)
+ 
+ 		sfp->get_state = sfp_gpio_get_state;
+ 		sfp->set_state = sfp_gpio_set_state;
++
++		/* Modules that have no detect signal are always present */
++		if (!(sfp->gpio[GPIO_MODDEF0]))
++			sfp->get_state = sff_gpio_get_state;
+ 	}
+ 
+ 	sfp->sfp_bus = sfp_register_socket(sfp->dev, sfp, &sfp_module_ops);
+@@ -881,12 +1174,6 @@ static int sfp_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static const struct of_device_id sfp_of_match[] = {
+-	{ .compatible = "sff,sfp", },
+-	{ },
+-};
+-MODULE_DEVICE_TABLE(of, sfp_of_match);
+-
+ static struct platform_driver sfp_driver = {
+ 	.probe = sfp_probe,
+ 	.remove = sfp_remove,
+diff --git a/drivers/pci/host/pci-mvebu.c b/drivers/pci/host/pci-mvebu.c
+index 8d88f19dc171..051ed1b2883c 100644
+--- a/drivers/pci/host/pci-mvebu.c
++++ b/drivers/pci/host/pci-mvebu.c
+@@ -53,13 +53,26 @@
+ 	 PCIE_CONF_ADDR_EN)
+ #define PCIE_CONF_DATA_OFF	0x18fc
+ #define PCIE_MASK_OFF		0x1910
++#define  PCIE_MASK_PM_PME		BIT(28)
+ #define  PCIE_MASK_ENABLE_INTS          0x0f000000
++#define  PCIE_MASK_ERR_COR		BIT(18)
++#define  PCIE_MASK_ERR_NONFATAL		BIT(17)
++#define  PCIE_MASK_ERR_FATAL		BIT(16)
++#define  PCIE_MASK_FERR_DET		BIT(10)
++#define  PCIE_MASK_NFERR_DET		BIT(9)
++#define  PCIE_MASK_CORERR_DET		BIT(8)
+ #define PCIE_CTRL_OFF		0x1a00
+ #define  PCIE_CTRL_X1_MODE		0x0001
+ #define PCIE_STAT_OFF		0x1a04
+ #define  PCIE_STAT_BUS                  0xff00
+ #define  PCIE_STAT_DEV                  0x1f0000
+ #define  PCIE_STAT_LINK_DOWN		BIT(0)
++#define PCIE_SSPL		0x1a0c
++#define  PCIE_SSPL_MSGEN		BIT(14)
++#define  PCIE_SSPL_SPLS(x)		(((x) & 3) << 8)
++#define  PCIE_SSPL_SPLS_VAL(x)		(((x) >> 8) & 3)
++#define  PCIE_SSPL_SPLV(x)		((x) & 0xff)
++#define  PCIE_SSPL_SPLV_VAL(x)		((x) & 0xff)
+ #define PCIE_RC_RTSTA		0x1a14
+ #define PCIE_DEBUG_CTRL         0x1a60
+ #define  PCIE_DEBUG_SOFT_RESET		BIT(20)
+@@ -114,7 +127,6 @@ struct mvebu_sw_pci_bridge {
+ 	u16 bridgectrl;
+ 
+ 	/* PCI express capability */
+-	u32 pcie_sltcap;
+ 	u16 pcie_devctl;
+ 	u16 pcie_rtctl;
+ };
+@@ -476,6 +488,54 @@ static void mvebu_pcie_handle_membase_change(struct mvebu_pcie_port *port)
+ 			      &port->memwin);
+ }
+ 
++static void mvebu_pcie_handle_irq_change(struct mvebu_pcie_port *port)
++{
++	u32 reg, old;
++	u16 devctl, rtctl;
++
++	/*
++	 * Errors from downstream devices:
++	 *  bridge control register SERR: enables reception of errors
++	 * Errors from this device, or received errors:
++	 *  command SERR: enables ERR_NONFATAL and ERR_FATAL messages
++	 *   => when enabled, these conditions also flag SERR in status register
++	 *  devctl CERE: enables ERR_CORR messages
++	 *  devctl NFERE: enables ERR_NONFATAL messages
++	 *  devctl FERE: enables ERR_FATAL messages
++	 * Enabled messages then have three paths:
++	 *  1. rtctl: enables system error indication
++	 *  2. root error status register updated
++	 *  3. root error command register: forwarding via MSI
++	 */
++	old = mvebu_readl(port, PCIE_MASK_OFF);
++	reg = old & ~(PCIE_MASK_PM_PME | PCIE_MASK_FERR_DET |
++		      PCIE_MASK_NFERR_DET | PCIE_MASK_CORERR_DET |
++		      PCIE_MASK_ERR_COR | PCIE_MASK_ERR_NONFATAL |
++		      PCIE_MASK_ERR_FATAL);
++
++	devctl = port->bridge.pcie_devctl;
++	if (devctl & PCI_EXP_DEVCTL_FERE)
++		reg |= PCIE_MASK_FERR_DET | PCIE_MASK_ERR_FATAL;
++	if (devctl & PCI_EXP_DEVCTL_NFERE)
++		reg |= PCIE_MASK_NFERR_DET | PCIE_MASK_ERR_NONFATAL;
++	if (devctl & PCI_EXP_DEVCTL_CERE)
++		reg |= PCIE_MASK_CORERR_DET | PCIE_MASK_ERR_COR;
++	if (port->bridge.command & PCI_COMMAND_SERR)
++		reg |= PCIE_MASK_FERR_DET | PCIE_MASK_NFERR_DET |
++		       PCIE_MASK_ERR_FATAL | PCIE_MASK_ERR_NONFATAL;
++
++	if (!(port->bridge.bridgectrl & PCI_BRIDGE_CTL_SERR))
++		reg &= ~(PCIE_MASK_ERR_COR | PCIE_MASK_ERR_NONFATAL |
++			 PCIE_MASK_ERR_FATAL);
++
++	rtctl = port->bridge.pcie_rtctl;
++	if (rtctl & PCI_EXP_RTCTL_PMEIE)
++		reg |= PCIE_MASK_PM_PME;
++
++	if (old != reg)
++		mvebu_writel(port, reg, PCIE_MASK_OFF);
++}
++
+ /*
+  * Initialize the configuration space of the PCI-to-PCI bridge
+  * associated with the given PCIe interface.
+@@ -499,6 +559,7 @@ static void mvebu_sw_pci_bridge_init(struct mvebu_pcie_port *port)
+ 
+ 	/* Add capabilities */
+ 	bridge->status = PCI_STATUS_CAP_LIST;
++	bridge->bridgectrl = PCI_BRIDGE_CTL_SERR;
+ }
+ 
+ /*
+@@ -571,7 +632,7 @@ static int mvebu_sw_pci_bridge_read(struct mvebu_pcie_port *port,
+ 
+ 	case PCI_INTERRUPT_LINE:
+ 		/* LINE PIN MIN_GNT MAX_LAT */
+-		*value = 0;
++		*value = bridge->bridgectrl << 16;
+ 		break;
+ 
+ 	case PCISWCAP_EXP_LIST_ID:
+@@ -605,8 +666,12 @@ static int mvebu_sw_pci_bridge_read(struct mvebu_pcie_port *port,
+ 		break;
+ 
+ 	case PCISWCAP_EXP_SLTCAP:
+-		*value = bridge->pcie_sltcap;
++	{
++		u32 tmp = mvebu_readl(port, PCIE_SSPL);
++		*value = PCIE_SSPL_SPLS_VAL(tmp) << 15 |
++			 PCIE_SSPL_SPLV_VAL(tmp) << 7;
+ 		break;
++	}
+ 
+ 	case PCISWCAP_EXP_SLTCTL:
+ 		*value = PCI_EXP_SLTSTA_PDS << 16;
+@@ -620,6 +685,16 @@ static int mvebu_sw_pci_bridge_read(struct mvebu_pcie_port *port,
+ 		*value = mvebu_readl(port, PCIE_RC_RTSTA);
+ 		break;
+ 
++	case 0x100 ... 0x128:
++		*value = mvebu_readl(port, where & ~3);
++		break;
++
++	case 0x100 + PCI_ERR_ROOT_COMMAND:
++	case 0x100 + PCI_ERR_ROOT_STATUS:
++	case 0x100 + PCI_ERR_ROOT_ERR_SRC:
++		*value = 0;
++		break;
++
+ 	/* PCIe requires the v2 fields to be hard-wired to zero */
+ 	case PCISWCAP_EXP_DEVCAP2:
+ 	case PCISWCAP_EXP_DEVCTL2:
+@@ -650,7 +725,7 @@ static int mvebu_sw_pci_bridge_write(struct mvebu_pcie_port *port,
+ 				     unsigned int where, int size, u32 value)
+ {
+ 	struct mvebu_sw_pci_bridge *bridge = &port->bridge;
+-	u32 mask, reg;
++	u32 mask, reg, old;
+ 	int err;
+ 
+ 	if (size == 4)
+@@ -670,8 +745,7 @@ static int mvebu_sw_pci_bridge_write(struct mvebu_pcie_port *port,
+ 
+ 	switch (where & ~3) {
+ 	case PCI_COMMAND:
+-	{
+-		u32 old = bridge->command;
++		old = bridge->command;
+ 
+ 		if (!mvebu_has_ioport(port))
+ 			value &= ~PCI_COMMAND_IO;
+@@ -681,8 +755,9 @@ static int mvebu_sw_pci_bridge_write(struct mvebu_pcie_port *port,
+ 			mvebu_pcie_handle_iobase_change(port);
+ 		if ((old ^ bridge->command) & PCI_COMMAND_MEMORY)
+ 			mvebu_pcie_handle_membase_change(port);
++		if ((old ^ bridge->command) & PCI_COMMAND_SERR)
++			mvebu_pcie_handle_irq_change(port);
+ 		break;
+-	}
+ 
+ 	case PCI_BASE_ADDRESS_0 ... PCI_BASE_ADDRESS_1:
+ 		bridge->bar[((where & ~3) - PCI_BASE_ADDRESS_0) / 4] = value;
+@@ -711,6 +786,17 @@ static int mvebu_sw_pci_bridge_write(struct mvebu_pcie_port *port,
+ 		mvebu_pcie_handle_iobase_change(port);
+ 		break;
+ 
++	case PCI_INTERRUPT_LINE:
++		value >>= 16;
++		old = bridge->bridgectrl;
++		/* PCIe only has three bits here */
++		bridge->bridgectrl = value & (PCI_BRIDGE_CTL_BUS_RESET |
++					      PCI_BRIDGE_CTL_SERR |
++					      PCI_BRIDGE_CTL_PARITY);
++		if ((old ^ bridge->bridgectrl) & PCI_BRIDGE_CTL_SERR)
++			mvebu_pcie_handle_irq_change(port);
++		break;
++
+ 	case PCI_PRIMARY_BUS:
+ 		bridge->primary_bus             = value & 0xff;
+ 		bridge->secondary_bus           = (value >> 8) & 0xff;
+@@ -720,6 +806,14 @@ static int mvebu_sw_pci_bridge_write(struct mvebu_pcie_port *port,
+ 		break;
+ 
+ 	case PCISWCAP_EXP_DEVCTL:
++		old = bridge->pcie_devctl;
++		bridge->pcie_devctl = value & (PCI_EXP_DEVCTL_FERE |
++					       PCI_EXP_DEVCTL_NFERE |
++					       PCI_EXP_DEVCTL_CERE |
++					       PCI_EXP_DEVCTL_URRE);
++		if (bridge->pcie_devctl ^ old)
++			mvebu_pcie_handle_irq_change(port);
++
+ 		/*
+ 		 * Armada370 data says these bits must always
+ 		 * be zero when in root complex mode.
+@@ -761,10 +855,33 @@ static int mvebu_sw_pci_bridge_write(struct mvebu_pcie_port *port,
+ 		mvebu_writel(port, value, PCIE_CAP_PCIEXP + PCI_EXP_LNKCTL);
+ 		break;
+ 
++	case PCISWCAP_EXP_SLTCAP:
++	{
++		u32 sspl = PCIE_SSPL_SPLV((value & PCI_EXP_SLTCAP_SPLV) >> 7) |
++			   PCIE_SSPL_SPLS((value & PCI_EXP_SLTCAP_SPLS) >> 15) |
++			   PCIE_SSPL_MSGEN;
++		mvebu_writel(port, sspl, PCIE_SSPL);
++		break;
++	}
++
++	case PCISWCAP_EXP_RTCTL:
++		old = bridge->pcie_rtctl;
++		bridge->pcie_rtctl = value & (PCI_EXP_RTCTL_SECEE |
++					      PCI_EXP_RTCTL_SENFEE |
++					      PCI_EXP_RTCTL_SEFEE |
++					      PCI_EXP_RTCTL_PMEIE);
++		if (bridge->pcie_rtctl ^ old)
++			mvebu_pcie_handle_irq_change(port);
++		break;
++
+ 	case PCISWCAP_EXP_RTSTA:
+ 		mvebu_writel(port, value, PCIE_RC_RTSTA);
+ 		break;
+ 
++	case 0x100 ... 0x128:
++		mvebu_writel(port, value, where & ~3);
++		break;
++
+ 	default:
+ 		break;
+ 	}
+@@ -1167,6 +1284,7 @@ static int mvebu_pcie_powerup(struct mvebu_pcie_port *port)
+ 
+ 	if (port->reset_gpio) {
+ 		u32 reset_udelay = PCI_PM_D3COLD_WAIT * 1000;
++		unsigned int i;
+ 
+ 		of_property_read_u32(port->dn, "reset-delay-us",
+ 				     &reset_udelay);
+@@ -1174,7 +1292,13 @@ static int mvebu_pcie_powerup(struct mvebu_pcie_port *port)
+ 		udelay(100);
+ 
+ 		gpiod_set_value_cansleep(port->reset_gpio, 0);
+-		msleep(reset_udelay / 1000);
++		for (i = 0; i < reset_udelay; i += 1000) {
++			if (mvebu_pcie_link_up(port))
++				break;
++			msleep(1);
++		}
++
++		printk("%s: reset completed in %dus\n", port->name, i);
+ 	}
+ 
+ 	return 0;
+@@ -1261,15 +1385,16 @@ static int mvebu_pcie_probe(struct platform_device *pdev)
+ 		if (!child)
+ 			continue;
+ 
+-		ret = mvebu_pcie_powerup(port);
+-		if (ret < 0)
+-			continue;
+-
+ 		port->base = mvebu_pcie_map_registers(pdev, child, port);
+ 		if (IS_ERR(port->base)) {
+ 			dev_err(dev, "%s: cannot map registers\n", port->name);
+ 			port->base = NULL;
+-			mvebu_pcie_powerdown(port);
++			continue;
++		}
++
++		ret = mvebu_pcie_powerup(port);
++		if (ret < 0) {
++			port->base = NULL;
+ 			continue;
+ 		}
+ 
+diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
+index 83e4a892b14b..d26e3d77e6f2 100644
+--- a/drivers/pci/pcie/aspm.c
++++ b/drivers/pci/pcie/aspm.c
+@@ -510,6 +510,8 @@ static void pcie_aspm_cap_init(struct pcie_link_state *link, int blacklist)
+ 	 */
+ 	pcie_get_aspm_reg(parent, &upreg);
+ 	pcie_get_aspm_reg(child, &dwreg);
++dev_info(&parent->dev, "up support %x enabled %x\n", upreg.support, upreg.enabled);
++dev_info(&parent->dev, "dn support %x enabled %x\n", dwreg.support, dwreg.enabled);
+ 
+ 	/*
+ 	 * Setup L0s state
+diff --git a/drivers/pci/pcie/portdrv_core.c b/drivers/pci/pcie/portdrv_core.c
+index ebc9d45bd731..f9c47c17d1c4 100644
+--- a/drivers/pci/pcie/portdrv_core.c
++++ b/drivers/pci/pcie/portdrv_core.c
+@@ -343,6 +343,7 @@ int pcie_port_device_register(struct pci_dev *dev)
+ 
+ 	/* Get and check PCI Express port services */
+ 	capabilities = get_port_device_capability(dev);
++dev_info(&dev->dev, "PCIe capabilities: 0x%x\n", capabilities);
+ 	if (!capabilities)
+ 		return 0;
+ 
+@@ -355,6 +356,7 @@ int pcie_port_device_register(struct pci_dev *dev)
+ 	 * if that is to be used.
+ 	 */
+ 	status = pcie_init_service_irqs(dev, irqs, capabilities);
++dev_info(&dev->dev, "init_service_irqs: %d\n", status);
+ 	if (status) {
+ 		capabilities &= PCIE_PORT_SERVICE_VC | PCIE_PORT_SERVICE_HP;
+ 		if (!capabilities)
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 2eaac7d75af4..f2fdf87108ad 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -57,6 +57,7 @@ struct device;
+ struct phy_device;
+ struct dsa_switch_tree;
+ 
++struct sfp_bus;
+ /* 802.11 specific */
+ struct wireless_dev;
+ /* 802.15.4 specific */
+@@ -1617,6 +1618,7 @@ enum netdev_priv_flags {
+  *	@priomap:	XXX: need comments on this one
+  *	@phydev:	Physical device may attach itself
+  *			for hardware timestamping
++ *	@sfp_bus:	attached &struct sfp_bus structure.
+  *
+  *	@qdisc_tx_busylock: lockdep class annotating Qdisc->busylock spinlock
+  *	@qdisc_running_key: lockdep class annotating Qdisc->running seqcount
+@@ -1895,6 +1897,7 @@ struct net_device {
+ 	struct netprio_map __rcu *priomap;
+ #endif
+ 	struct phy_device	*phydev;
++	struct sfp_bus		*sfp_bus;
+ 	struct lock_class_key	*qdisc_tx_busylock;
+ 	struct lock_class_key	*qdisc_running_key;
+ 	bool			proto_down;
+diff --git a/include/linux/phy_fixed.h b/include/linux/phy_fixed.h
+index cf6392de6eb0..ee54453a40a0 100644
+--- a/include/linux/phy_fixed.h
++++ b/include/linux/phy_fixed.h
+@@ -24,9 +24,6 @@ extern void fixed_phy_unregister(struct phy_device *phydev);
+ extern int fixed_phy_set_link_update(struct phy_device *phydev,
+ 			int (*link_update)(struct net_device *,
+ 					   struct fixed_phy_status *));
+-extern int fixed_phy_update_state(struct phy_device *phydev,
+-			   const struct fixed_phy_status *status,
+-			   const struct fixed_phy_status *changed);
+ #else
+ static inline int fixed_phy_add(unsigned int irq, int phy_id,
+ 				struct fixed_phy_status *status,
+@@ -50,12 +47,6 @@ static inline int fixed_phy_set_link_update(struct phy_device *phydev,
+ {
+ 	return -ENODEV;
+ }
+-static inline int fixed_phy_update_state(struct phy_device *phydev,
+-			   const struct fixed_phy_status *status,
+-			   const struct fixed_phy_status *changed)
+-{
+-	return -ENODEV;
+-}
+ #endif /* CONFIG_FIXED_PHY */
+ 
+ #endif /* __PHY_FIXED_H */
+diff --git a/include/linux/phylink.h b/include/linux/phylink.h
+index af67edd4ae38..353794c219ca 100644
+--- a/include/linux/phylink.h
++++ b/include/linux/phylink.h
+@@ -20,19 +20,31 @@ enum {
+ 
+ 	MLO_AN_PHY = 0,	/* Conventional PHY */
+ 	MLO_AN_FIXED,	/* Fixed-link mode */
+-	MLO_AN_SGMII,	/* Cisco SGMII protocol */
+-	MLO_AN_8023Z,	/* 1000base-X protocol */
++	MLO_AN_INBAND,	/* In-band protocol */
+ };
+ 
+ static inline bool phylink_autoneg_inband(unsigned int mode)
+ {
+-	return mode == MLO_AN_SGMII || mode == MLO_AN_8023Z;
++	return mode == MLO_AN_INBAND;
+ }
+ 
++/**
++ * struct phylink_link_state - link state structure
++ * @advertising: ethtool bitmask containing advertised link modes
++ * @lp_advertising: ethtool bitmask containing link partner advertised link
++ *   modes
++ * @interface: link &typedef phy_interface_t mode
++ * @speed: link speed, one of the SPEED_* constants.
++ * @duplex: link duplex mode, one of DUPLEX_* constants.
++ * @pause: link pause state, described by MLO_PAUSE_* constants.
++ * @link: true if the link is up.
++ * @an_enabled: true if autonegotiation is enabled/desired.
++ * @an_complete: true if autonegotiation has completed.
++ */
+ struct phylink_link_state {
+ 	__ETHTOOL_DECLARE_LINK_MODE_MASK(advertising);
+ 	__ETHTOOL_DECLARE_LINK_MODE_MASK(lp_advertising);
+-	phy_interface_t interface;	/* PHY_INTERFACE_xxx */
++	phy_interface_t interface;
+ 	int speed;
+ 	int duplex;
+ 	int pause;
+@@ -41,65 +53,135 @@ struct phylink_link_state {
+ 	unsigned int an_complete:1;
+ };
+ 
++/**
++ * struct phylink_mac_ops - MAC operations structure.
++ * @validate: Validate and update the link configuration.
++ * @mac_link_state: Read the current link state from the hardware.
++ * @mac_config: configure the MAC for the selected mode and state.
++ * @mac_an_restart: restart 802.3z BaseX autonegotiation.
++ * @mac_link_down: take the link down.
++ * @mac_link_up: allow the link to come up.
++ *
++ * The individual methods are described more fully below.
++ */
+ struct phylink_mac_ops {
+-	/**
+-	 * validate: validate and update the link configuration
+-	 * @ndev: net_device structure associated with MAC
+-	 * @config: configuration to validate
+-	 *
+-	 * Update the %config->supported and %config->advertised masks
+-	 * clearing bits that can not be supported.
+-	 *
+-	 * Note: the PHY may be able to transform from one connection
+-	 * technology to another, so, eg, don't clear 1000BaseX just
+-	 * because the MAC is unable to support it.  This is more about
+-	 * clearing unsupported speeds and duplex settings.
+-	 *
+-	 * If the %config->interface mode is %PHY_INTERFACE_MODE_1000BASEX
+-	 * or %PHY_INTERFACE_MODE_2500BASEX, select the appropriate mode
+-	 * based on %config->advertised and/or %config->speed.
+-	 */
+ 	void (*validate)(struct net_device *ndev, unsigned long *supported,
+ 			 struct phylink_link_state *state);
+-
+-	/* Read the current link state from the hardware */
+-	int (*mac_link_state)(struct net_device *, struct phylink_link_state *);
+-
+-	/* Configure the MAC */
+-	/**
+-	 * mac_config: configure the MAC for the selected mode and state
+-	 * @ndev: net_device structure for the MAC
+-	 * @mode: one of MLO_AN_FIXED, MLO_AN_PHY, MLO_AN_8023Z, MLO_AN_SGMII
+-	 * @state: state structure
+-	 *
+-	 * The action performed depends on the currently selected mode:
+-	 *
+-	 * %MLO_AN_FIXED, %MLO_AN_PHY:
+-	 *   set the specified speed, duplex, pause mode, and phy interface
+-	 *   mode in the provided @state.
+-	 * %MLO_AN_8023Z:
+-	 *   place the link in 1000base-X mode, advertising the parameters
+-	 *   given in advertising in @state.
+-	 * %MLO_AN_SGMII:
+-	 *   place the link in Cisco SGMII mode - there is no advertisment
+-	 *   to make as the PHY communicates the speed and duplex to the
+-	 *   MAC over the in-band control word.  Configuration of the pause
+-	 *   mode is as per MLO_AN_PHY since this is not included.
+-	 */
++	int (*mac_link_state)(struct net_device *ndev,
++			      struct phylink_link_state *state);
+ 	void (*mac_config)(struct net_device *ndev, unsigned int mode,
+ 			   const struct phylink_link_state *state);
+-
+-	/**
+-	 * mac_an_restart: restart 802.3z BaseX autonegotiation
+-	 * @ndev: net_device structure for the MAC
+-	 */
+ 	void (*mac_an_restart)(struct net_device *ndev);
+-
+-	void (*mac_link_down)(struct net_device *, unsigned int mode);
+-	void (*mac_link_up)(struct net_device *, unsigned int mode,
+-			    struct phy_device *);
++	void (*mac_link_down)(struct net_device *ndev, unsigned int mode);
++	void (*mac_link_up)(struct net_device *ndev, unsigned int mode,
++			    struct phy_device *phy);
+ };
+ 
++#if 0 /* For kernel-doc purposes only. */
++/**
++ * validate - Validate and update the link configuration
++ * @ndev: a pointer to a &struct net_device for the MAC.
++ * @supported: ethtool bitmask for supported link modes.
++ * @state: a pointer to a &struct phylink_link_state.
++ *
++ * Clear bits in the @supported and @state->advertising masks that
++ * are not supportable by the MAC.
++ *
++ * Note that the PHY may be able to transform from one connection
++ * technology to another, so, eg, don't clear 1000BaseX just
++ * because the MAC is unable to BaseX mode. This is more about
++ * clearing unsupported speeds and duplex settings.
++ *
++ * If the @state->interface mode is %PHY_INTERFACE_MODE_1000BASEX
++ * or %PHY_INTERFACE_MODE_2500BASEX, select the appropriate mode
++ * based on @state->advertising and/or @state->speed and update
++ * @state->interface accordingly.
++ */
++void validate(struct net_device *ndev, unsigned long *supported,
++	      struct phylink_link_state *state);
++
++/**
++ * mac_link_state() - Read the current link state from the hardware
++ * @ndev: a pointer to a &struct net_device for the MAC.
++ * @state: a pointer to a &struct phylink_link_state.
++ *
++ * Read the current link state from the MAC, reporting the current
++ * speed in @state->speed, duplex mode in @state->duplex, pause mode
++ * in @state->pause using the %MLO_PAUSE_RX and %MLO_PAUSE_TX bits,
++ * negotiation completion state in @state->an_complete, and link
++ * up state in @state->link.
++ */
++int mac_link_state(struct net_device *ndev,
++		   struct phylink_link_state *state);
++
++/**
++ * mac_config() - configure the MAC for the selected mode and state
++ * @ndev: a pointer to a &struct net_device for the MAC.
++ * @mode: one of %MLO_AN_FIXED, %MLO_AN_PHY, %MLO_AN_INBAND.
++ * @state: a pointer to a &struct phylink_link_state.
++ *
++ * The action performed depends on the currently selected mode:
++ *
++ * %MLO_AN_FIXED, %MLO_AN_PHY:
++ *   Configure the specified @state->speed, @state->duplex and
++ *   @state->pause (%MLO_PAUSE_TX / %MLO_PAUSE_RX) mode.
++ *
++ * %MLO_AN_INBAND:
++ *   place the link in an inband negotiation mode (such as 802.3z
++ *   1000base-X or Cisco SGMII mode depending on the @state->interface
++ *   mode). In both cases, link state management (whether the link
++ *   is up or not) is performed by the MAC, and reported via the
++ *   mac_link_state() callback. Changes in link state must be made
++ *   by calling phylink_mac_change().
++ *
++ *   If in 802.3z mode, the link speed is fixed, dependent on the
++ *   @state->interface. Duplex is negotiated, and pause is advertised
++ *   according to @state->an_enabled, @state->pause and
++ *   @state->advertising flags. Beware of MACs which only support full
++ *   duplex at gigabit and higher speeds.
++ *
++ *   If in Cisco SGMII mode, the link speed and duplex mode are passed
++ *   in the serial bitstream 16-bit configuration word, and the MAC
++ *   should be configured to read these bits and acknowledge the
++ *   configuration word. Nothing is advertised by the MAC. The MAC is
++ *   responsible for reading the configuration word and configuring
++ *   itself accordingly.
++ */
++void mac_config(struct net_device *ndev, unsigned int mode,
++		const struct phylink_link_state *state);
++
++/**
++ * mac_an_restart() - restart 802.3z BaseX autonegotiation
++ * @ndev: a pointer to a &struct net_device for the MAC.
++ */
++void mac_an_restart(struct net_device *ndev);
++
++/**
++ * mac_link_down() - take the link down
++ * @ndev: a pointer to a &struct net_device for the MAC.
++ * @mode: link autonegotiation mode
++ *
++ * If @mode is not an in-band negotiation mode (as defined by
++ * phylink_autoneg_inband()), force the link down and disable any
++ * Energy Efficient Ethernet MAC configuration.
++ */
++void mac_link_down(struct net_device *ndev, unsigned int mode);
++
++/**
++ * mac_link_up() - allow the link to come up
++ * @ndev: a pointer to a &struct net_device for the MAC.
++ * @mode: link autonegotiation mode
++ * @phy: any attached phy
++ *
++ * If @mode is not an in-band negotiation mode (as defined by
++ * phylink_autoneg_inband()), allow the link to come up. If @phy
++ * is non-%NULL, configure Energy Efficient Ethernet by calling
++ * phy_init_eee() and perform appropriate MAC configuration for EEE.
++ */
++void mac_link_up(struct net_device *ndev, unsigned int mode,
++		 struct phy_device *phy);
++#endif
++
+ struct phylink *phylink_create(struct net_device *, struct device_node *,
+ 	phy_interface_t iface, const struct phylink_mac_ops *ops);
+ void phylink_destroy(struct phylink *);
+@@ -125,10 +207,6 @@ void phylink_ethtool_get_pauseparam(struct phylink *,
+ 				    struct ethtool_pauseparam *);
+ int phylink_ethtool_set_pauseparam(struct phylink *,
+ 				   struct ethtool_pauseparam *);
+-int phylink_ethtool_get_module_info(struct phylink *, struct ethtool_modinfo *);
+-int phylink_ethtool_get_module_eeprom(struct phylink *,
+-				      struct ethtool_eeprom *, u8 *);
+-int phylink_init_eee(struct phylink *, bool);
+ int phylink_get_eee_err(struct phylink *);
+ int phylink_ethtool_get_eee(struct phylink *, struct ethtool_eee *);
+ int phylink_ethtool_set_eee(struct phylink *, struct ethtool_eee *);
+diff --git a/include/linux/sfp.h b/include/linux/sfp.h
+index 4a906f560817..b6089fe72378 100644
+--- a/include/linux/sfp.h
++++ b/include/linux/sfp.h
+@@ -3,7 +3,7 @@
+ 
+ #include <linux/phy.h>
+ 
+-struct __packed sfp_eeprom_base {
++struct sfp_eeprom_base {
+ 	u8 phys_id;
+ 	u8 phys_ext_id;
+ 	u8 connector;
+@@ -166,12 +166,12 @@ struct __packed sfp_eeprom_base {
+ 	union {
+ 		__be16 optical_wavelength;
+ 		u8 cable_spec;
+-	};
++	} __packed;
+ 	u8 reserved62;
+ 	u8 cc_base;
+-};
++} __packed;
+ 
+-struct __packed sfp_eeprom_ext {
++struct sfp_eeprom_ext {
+ 	__be16 options;
+ 	u8 br_max;
+ 	u8 br_min;
+@@ -181,12 +181,21 @@ struct __packed sfp_eeprom_ext {
+ 	u8 enhopts;
+ 	u8 sff8472_compliance;
+ 	u8 cc_ext;
+-};
+-
+-struct __packed sfp_eeprom_id {
++} __packed;
++
++/**
++ * struct sfp_eeprom_id - raw SFP module identification information
++ * @base: base SFP module identification structure
++ * @ext: extended SFP module identification structure
++ *
++ * See the SFF-8472 specification and related documents for the definition
++ * of these structure members. This can be obtained from
++ * ftp://ftp.seagate.com/sff
++ */
++struct sfp_eeprom_id {
+ 	struct sfp_eeprom_base base;
+ 	struct sfp_eeprom_ext ext;
+-};
++} __packed;
+ 
+ /* SFP EEPROM registers */
+ enum {
+@@ -353,13 +362,26 @@ struct ethtool_modinfo;
+ struct net_device;
+ struct sfp_bus;
+ 
++/**
++ * struct sfp_upstream_ops - upstream operations structure
++ * @module_insert: called after a module has been detected to determine
++ *   whether the module is supported for the upstream device.
++ * @module_remove: called after the module has been removed.
++ * @link_down: called when the link is non-operational for whatever
++ *   reason.
++ * @link_up: called when the link is operational.
++ * @connect_phy: called when an I2C accessible PHY has been detected
++ *   on the module.
++ * @disconnect_phy: called when a module with an I2C accessible PHY has
++ *   been removed.
++ */
+ struct sfp_upstream_ops {
+-	int (*module_insert)(void *, const struct sfp_eeprom_id *id);
+-	void (*module_remove)(void *);
+-	void (*link_down)(void *);
+-	void (*link_up)(void *);
+-	int (*connect_phy)(void *, struct phy_device *);
+-	void (*disconnect_phy)(void *);
++	int (*module_insert)(void *priv, const struct sfp_eeprom_id *id);
++	void (*module_remove)(void *priv);
++	void (*link_down)(void *priv);
++	void (*link_up)(void *priv);
++	int (*connect_phy)(void *priv, struct phy_device *);
++	void (*disconnect_phy)(void *priv);
+ };
+ 
+ #if IS_ENABLED(CONFIG_SFP)
+diff --git a/net/core/ethtool.c b/net/core/ethtool.c
+index 9a9a3d77e327..fd710f6349ff 100644
+--- a/net/core/ethtool.c
++++ b/net/core/ethtool.c
+@@ -22,6 +22,7 @@
+ #include <linux/bitops.h>
+ #include <linux/uaccess.h>
+ #include <linux/vmalloc.h>
++#include <linux/sfp.h>
+ #include <linux/slab.h>
+ #include <linux/rtnetlink.h>
+ #include <linux/sched/signal.h>
+@@ -2201,6 +2202,9 @@ static int __ethtool_get_module_info(struct net_device *dev,
+ 	const struct ethtool_ops *ops = dev->ethtool_ops;
+ 	struct phy_device *phydev = dev->phydev;
+ 
++	if (dev->sfp_bus)
++		return sfp_get_module_info(dev->sfp_bus, modinfo);
++
+ 	if (phydev && phydev->drv && phydev->drv->module_info)
+ 		return phydev->drv->module_info(phydev, modinfo);
+ 
+@@ -2235,6 +2239,9 @@ static int __ethtool_get_module_eeprom(struct net_device *dev,
+ 	const struct ethtool_ops *ops = dev->ethtool_ops;
+ 	struct phy_device *phydev = dev->phydev;
+ 
++	if (dev->sfp_bus)
++		return sfp_get_module_eeprom(dev->sfp_bus, ee, data);
++
+ 	if (phydev && phydev->drv && phydev->drv->module_eeprom)
+ 		return phydev->drv->module_eeprom(phydev, ee, data);
+ 
