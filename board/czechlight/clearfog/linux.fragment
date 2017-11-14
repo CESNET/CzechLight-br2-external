@@ -5,6 +5,9 @@ CONFIG_SENSORS_MCP3021=y
 CONFIG_MVNETA_BM_ENABLE=y
 CONFIG_MVPP2=n
 
+# Clearfog: enable interrupt signalling for the expander0
+CONFIG_GPIO_PCA953X_IRQ=y
+
 # PMBus for the PSUs
 CONFIG_PMBUS=y
 CONFIG_SENSORS_PMBUS=y
