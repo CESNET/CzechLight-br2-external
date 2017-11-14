@@ -11,3 +11,7 @@ CONFIG_SERIAL_MAX310X=y
 # mvneta
 CONFIG_MVNETA_BM_ENABLE=y
 CONFIG_MVPP2=n
+
+# Russel King's SFP patches and some Clearfog-specific bits as well
+CONFIG_LOCALVERSION="-cfb-sfp"
+CONFIG_SFP=y
