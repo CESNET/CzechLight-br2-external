@@ -156,7 +156,7 @@ index ee7b0089eff0..d0932f3aa6ce 100644
 +MPP59: spi1:cs0		x w25q32
 +*/
 diff --git a/arch/arm/boot/dts/armada-388-clearfog.dtsi b/arch/arm/boot/dts/armada-388-clearfog.dtsi
-index 68acfc968706..85aa345e9391 100644
+index 68acfc968706..af854371e0ca 100644
 --- a/arch/arm/boot/dts/armada-388-clearfog.dtsi
 +++ b/arch/arm/boot/dts/armada-388-clearfog.dtsi
 @@ -117,6 +117,15 @@
@@ -168,7 +168,7 @@ index 68acfc968706..85aa345e9391 100644
 +		compatible = "sff,sfp";
 +		i2c-bus = <&i2c1>;
 +		los-gpio = <&expander0 12 GPIO_ACTIVE_HIGH>;
-+		moddef0-gpio = <&expander0 15 GPIO_ACTIVE_LOW>;
++		mod-def0-gpio = <&expander0 15 GPIO_ACTIVE_LOW>;
 +		tx-disable-gpio = <&expander0 14 GPIO_ACTIVE_HIGH>;
 +		tx-fault-gpio = <&expander0 13 GPIO_ACTIVE_HIGH>;
 +	};
@@ -2229,7 +2229,7 @@ index 5cb5384697ea..bf96f7902d8b 100644
  {
  	rtnl_lock();
 diff --git a/drivers/net/phy/sfp.c b/drivers/net/phy/sfp.c
-index baee371bf767..a9cdb7df318b 100644
+index baee371bf767..675d0335699e 100644
 --- a/drivers/net/phy/sfp.c
 +++ b/drivers/net/phy/sfp.c
 @@ -126,6 +126,27 @@ struct sfp {
@@ -2465,7 +2465,7 @@ index baee371bf767..a9cdb7df318b 100644
  	u8 check;
  	int err;
  
-@@ -458,10 +663,83 @@ static int sfp_sm_mod_probe(struct sfp *sfp)
+@@ -458,14 +663,91 @@ static int sfp_sm_mod_probe(struct sfp *sfp)
  	rev[4] = '\0';
  	memcpy(sn, sfp->id.ext.vendor_sn, 16);
  	sn[16] = '\0';
@@ -2549,8 +2549,18 @@ index baee371bf767..a9cdb7df318b 100644
 +			      sfp->id.ext.diagmon));
  
  	/* We only support SFP modules, not the legacy GBIC modules. */
- 	if (sfp->id.base.phys_id != SFP_PHYS_ID_SFP ||
-@@ -799,7 +1077,15 @@ static int sfp_probe(struct platform_device *pdev)
+-	if (sfp->id.base.phys_id != SFP_PHYS_ID_SFP ||
+-	    sfp->id.base.phys_ext_id != SFP_PHYS_EXT_ID_SFP) {
++	if (sfp->id.base.phys_id == SFP_PHYS_ID_SFP &&
++	    sfp->id.base.phys_ext_id == SFP_PHYS_EXT_ID_SFP) {
++		/* a regular SFP module */
++	} else if (sfp->id.base.phys_id == SFP_PHYS_ID_DWDM_SFP) {
++		/* DWDM SFP or a DWDM SFP+ -- let's treat it as a regular SFP */
++	} else {
+ 		dev_err(sfp->dev, "module is not SFP - phys id 0x%02x 0x%02x\n",
+ 			sfp->id.base.phys_id, sfp->id.base.phys_ext_id);
+ 		return -EINVAL;
+@@ -799,7 +1081,15 @@ static int sfp_probe(struct platform_device *pdev)
  
  	if (pdev->dev.of_node) {
  		struct device_node *node = pdev->dev.of_node;
@@ -2566,7 +2576,7 @@ index baee371bf767..a9cdb7df318b 100644
  
  		np = of_parse_phandle(node, "i2c-bus", 0);
  		if (np) {
-@@ -818,6 +1104,9 @@ static int sfp_probe(struct platform_device *pdev)
+@@ -818,6 +1108,9 @@ static int sfp_probe(struct platform_device *pdev)
  		}
  
  		for (i = 0; i < GPIO_MAX; i++) {
@@ -2576,7 +2586,7 @@ index baee371bf767..a9cdb7df318b 100644
  			sfp->gpio[i] = devm_gpiod_get_optional(sfp->dev,
  					   gpio_of_names[i], gpio_flags[i]);
  			if (IS_ERR(sfp->gpio[i]))
-@@ -826,6 +1115,10 @@ static int sfp_probe(struct platform_device *pdev)
+@@ -826,6 +1119,10 @@ static int sfp_probe(struct platform_device *pdev)
  
  		sfp->get_state = sfp_gpio_get_state;
  		sfp->set_state = sfp_gpio_set_state;
@@ -2587,7 +2597,7 @@ index baee371bf767..a9cdb7df318b 100644
  	}
  
  	sfp->sfp_bus = sfp_register_socket(sfp->dev, sfp, &sfp_module_ops);
-@@ -881,12 +1174,6 @@ static int sfp_remove(struct platform_device *pdev)
+@@ -881,12 +1178,6 @@ static int sfp_remove(struct platform_device *pdev)
  	return 0;
  }
  
@@ -3211,7 +3221,7 @@ index af67edd4ae38..353794c219ca 100644
  int phylink_ethtool_get_eee(struct phylink *, struct ethtool_eee *);
  int phylink_ethtool_set_eee(struct phylink *, struct ethtool_eee *);
 diff --git a/include/linux/sfp.h b/include/linux/sfp.h
-index 4a906f560817..b6089fe72378 100644
+index 4a906f560817..7953bb860d56 100644
 --- a/include/linux/sfp.h
 +++ b/include/linux/sfp.h
 @@ -3,7 +3,7 @@
@@ -3265,7 +3275,15 @@ index 4a906f560817..b6089fe72378 100644
  
  /* SFP EEPROM registers */
  enum {
-@@ -353,13 +362,26 @@ struct ethtool_modinfo;
+@@ -223,6 +232,7 @@ enum {
+ 	SFP_CC_EXT			= 0x5f,
+ 
+ 	SFP_PHYS_ID_SFP			= 0x03,
++	SFP_PHYS_ID_DWDM_SFP		= 0x0b,
+ 	SFP_PHYS_EXT_ID_SFP		= 0x04,
+ 	SFP_CONNECTOR_UNSPEC		= 0x00,
+ 	/* codes 01-05 not supportable on SFP, but some modules have single SC */
+@@ -353,13 +363,26 @@ struct ethtool_modinfo;
  struct net_device;
  struct sfp_bus;
  
