@@ -15,3 +15,6 @@ CONFIG_MVPP2=n
 # Russel King's SFP patches and some Clearfog-specific bits as well
 CONFIG_LOCALVERSION="-cfb-sfp"
 CONFIG_SFP=y
+
+# Clearfog: enable interrupt signalling for the expander0
+CONFIG_GPIO_PCA953X_IRQ=y
