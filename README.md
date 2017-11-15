@@ -32,8 +32,11 @@ When the build finishes, the generated image to be `dd`-ed to an SD card is at `
 WARNING: Buildroot is fragile.
 It is *not* safe to perform incremental builds after changing an "important" setting.
 Please check their manual for details.
-Using `ccache` might help, but a significant time is wasted in `configure` steps which are not parallelized :( as of October 2017.
-This can be hacked by patching Buildroot's top-level `Makefile`, but note that one cannot easily debug stuff afterwards:
+
+### Hack: parallel build
+
+A significant amount of time is wasted in `configure` steps which are not parallelized :( as of November 2017.
+This can be hacked by patching Buildroot's top-level `Makefile`, but note that one cannot easily debug stuff afterwards.
 
 ```diff
 diff --git a/Makefile b/Makefile
@@ -50,6 +53,12 @@ index 79db7fe..905099a 100644
  TOPDIR := $(CURDIR)
 ```
 
+Also, we are building two different root filesystem instances (an EXT4 image and a tarball for RAUC).
+This is [also currently broken](http://lists.busybox.net/pipermail/buildroot/2017-November/206255.html), but we can work around that reasonably easily:
+
+```sh
+make -j32 target-finalize && make
+```
 
 ## Installing updates to a device
 
