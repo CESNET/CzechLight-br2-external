@@ -65,10 +65,7 @@ make -j32 target-finalize && make
 Apart from the traditional way of re-flashing the SD card or the eMMC from scratch, it's also possible to use RAUC to update.
 This method preserves the U-Boot version and the U-Boot's environment.
 Apart from that, everything starting with the kernel and the DTB file and including the root FS is updated.
-
-FIXME: the system uses separate config partitions (`/cfg`), so these persistent bits are *not* preserved yet (see these
-[user](https://tree.taiga.io/project/jktjkt-czechlight/us/124?no-milestone=1)
-[stories](https://tree.taiga.io/project/jktjkt-czechlight/us/127)).
+Configuration stored in `/cfg` is brought along and preserved as well.
 
 To install an update:
 
