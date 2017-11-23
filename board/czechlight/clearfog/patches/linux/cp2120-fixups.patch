@@ -1,0 +1,592 @@
+diff --git a/drivers/i2c/busses/i2c-sc18is600.c b/drivers/i2c/busses/i2c-sc18is600.c
+index 5da34f7aaf9b..df82bfbacb8e 100644
+--- a/drivers/i2c/busses/i2c-sc18is600.c
++++ b/drivers/i2c/busses/i2c-sc18is600.c
+@@ -17,7 +17,8 @@
+  *  - http://www.nxp.com/documents/data_sheet/SC18IS600.pdf
+  *  - https://www.silabs.com/documents/public/data-sheets/CP2120.pdf
+  */
+-
++#define DEBUG
++#define VERBOSE_DEBUG
+ #include <linux/clk.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/i2c.h>
+@@ -56,6 +57,9 @@
+ #define SC18IS600_REG_EDGEINT		0x08 /* only cp2120 */
+ #define SC18IS600_REG_I2C_TIMEOUT2	0x09 /* only cp2120 */
+ 
++#define CP2120_BIT_BUS_FREE_DETECT 0x02
++#define CP2120_BIT_SCL_LOW_TIMEOUT 0x01
++
+ #define SC18IS600_STAT_OK		0xF0
+ #define SC18IS600_STAT_NAK_ADDR		0xF1
+ #define SC18IS600_STAT_NAK_DATA		0xF2
+@@ -65,8 +69,6 @@
+ #define SC18IS600_STAT_TIMEOUT2		0xFA /* only cp2120 */
+ #define SC18IS600_STAT_BLOCKED		0xFB /* only cp2120 */
+ 
+-#define CMD_BUFFER_SIZE 5
+-
+ enum chiptype {
+ 	SPI2I2C_SC18IS600,
+ 	SPI2I2C_SC18IS601,
+@@ -80,6 +82,7 @@ struct chipdesc {
+ 	u32 clock_base;
+ 	u32 timeout_base;
+ 	const struct regmap_config *regmap_cfg;
++	const struct regmap_bus *regmap_bus;
+ };
+ 
+ static bool sc18is600_writeable_reg(struct device *dev, unsigned int reg)
+@@ -109,6 +112,65 @@ static const struct regmap_config cp2120_regmap_config = {
+ 	.writeable_reg = sc18is600_writeable_reg,
+ };
+ 
++static int sc18is600_reg_read(void *context, unsigned int reg, unsigned int *val)
++{
++	struct device *dev = context;
++	struct spi_device *spi = to_spi_device(dev);
++	u8 txbuffer[] = { SC18IS600_CMD_REG_RD, reg & 0xff };
++	u8 rxbuffer[1];
++	int err;
++
++	err = spi_write_then_read(spi, txbuffer, sizeof(txbuffer),
++				       rxbuffer, sizeof(rxbuffer));
++	if (err)
++		return err;
++	
++	*val = rxbuffer[0];
++
++	return 0;
++}
++
++static int cp2120_reg_read(void *context, unsigned int reg, unsigned int *val)
++{
++	struct device *dev = context;
++	struct spi_device *spi = to_spi_device(dev);
++	u8 txbuffer[] = { SC18IS600_CMD_REG_RD, reg & 0xff, 0x00 };
++	u8 rxbuffer[1];
++	int err;
++
++	err = spi_write_then_read(spi, txbuffer, sizeof(txbuffer),
++				       rxbuffer, sizeof(rxbuffer));
++	if (err)
++		return err;
++
++	*val = rxbuffer[0];
++
++	return 0;
++}
++
++static int reg_write(void *context, unsigned int reg, unsigned int val)
++{
++	struct device *dev = context;
++	struct spi_device *spi = to_spi_device(dev);
++	u8 txbuffer[] = { SC18IS600_CMD_REG_WR, reg & 0xff, val & 0xff };
++
++	return spi_write(spi, txbuffer, sizeof(txbuffer));
++}
++
++static struct regmap_bus sc18is600_regmap_bus = {
++	.reg_write = reg_write,
++	.reg_read = sc18is600_reg_read,
++	.reg_format_endian_default = REGMAP_ENDIAN_BIG,
++	.val_format_endian_default = REGMAP_ENDIAN_BIG,
++};
++
++static struct regmap_bus cp2120_regmap_bus = {
++	.reg_write = reg_write,
++	.reg_read = cp2120_reg_read,
++	.reg_format_endian_default = REGMAP_ENDIAN_BIG,
++	.val_format_endian_default = REGMAP_ENDIAN_BIG,
++};
++
+ /*
+  * Note: The sc18is600's datasheet promises 1.2MHz SPI support, but my chip did
+  * not behave correctly at that speed. It received the bytes correctly, but
+@@ -122,6 +184,7 @@ static const struct chipdesc chip_sc18is600 = {
+ 	.clock_base = 7372800 / SC18IS600_CLK_DIVIDER,
+ 	.timeout_base = 1125, /* 112.5 Hz */
+ 	.regmap_cfg = &sc18is600_regmap_config,
++	.regmap_bus = &sc18is600_regmap_bus,
+ };
+ 
+ static const struct chipdesc chip_sc18is601 = {
+@@ -131,6 +194,7 @@ static const struct chipdesc chip_sc18is601 = {
+ 	.clock_base = 0,
+ 	.timeout_base = 1125, /* 112.5 Hz */
+ 	.regmap_cfg = &sc18is600_regmap_config,
++	.regmap_bus = &sc18is600_regmap_bus,
+ };
+ 
+ static const struct chipdesc chip_cp2120 = {
+@@ -140,6 +204,7 @@ static const struct chipdesc chip_cp2120 = {
+ 	.clock_base = 2000000,
+ 	.timeout_base = 1280, /* 128 Hz */
+ 	.regmap_cfg = &cp2120_regmap_config,
++	.regmap_bus = &cp2120_regmap_bus,
+ };
+ 
+ struct sc18is600dev {
+@@ -160,13 +225,13 @@ static irqreturn_t sc18is600_irq_handler(int this_irq, void *data)
+ {
+ 	struct sc18is600dev *s600dev = data;
+ 	int err;
+-
++	
+ 	err = regmap_read(s600dev->regmap, SC18IS600_REG_I2C_STAT,
+ 			  &s600dev->state);
+ 	if (err)
+ 		return IRQ_NONE;
+ 
+-	dev_vdbg(&s600dev->spi->dev, "irq received, stat=%08x", s600dev->state);
++	//dev_info(&s600dev->spi->dev, "irq received, stat=%08x", s600dev->state);
+ 
+ 	/* no irq is generated for busy state, so ignore this irq */
+ 	if (s600dev->state == SC18IS600_STAT_BUSY)
+@@ -176,40 +241,6 @@ static irqreturn_t sc18is600_irq_handler(int this_irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static int reg_read(void *context, unsigned int reg, unsigned int *val)
+-{
+-	struct device *dev = context;
+-	struct spi_device *spi = to_spi_device(dev);
+-	u8 txbuffer[2] = { SC18IS600_CMD_REG_RD, reg & 0xff };
+-	u8 rxbuffer[1];
+-	int err;
+-
+-	err = spi_write_then_read(spi, txbuffer, sizeof(txbuffer),
+-				       rxbuffer, sizeof(rxbuffer));
+-	if (err)
+-		return err;
+-
+-	*val = rxbuffer[0];
+-
+-	return 0;
+-}
+-
+-static int reg_write(void *context, unsigned int reg, unsigned int val)
+-{
+-	struct device *dev = context;
+-	struct spi_device *spi = to_spi_device(dev);
+-	u8 txbuffer[3] = { SC18IS600_CMD_REG_WR, reg & 0xff, val & 0xff };
+-
+-	return spi_write(spi, txbuffer, sizeof(txbuffer));
+-}
+-
+-static struct regmap_bus regmap_sc18is600_bus = {
+-	.reg_write = reg_write,
+-	.reg_read = reg_read,
+-	.reg_format_endian_default = REGMAP_ENDIAN_BIG,
+-	.val_format_endian_default = REGMAP_ENDIAN_BIG,
+-};
+-
+ static void sc18is600_setup_clock_frequency(struct sc18is600dev *s600dev)
+ {
+ 	int reg = DIV_ROUND_UP(s600dev->clock_base,
+@@ -217,10 +248,22 @@ static void sc18is600_setup_clock_frequency(struct sc18is600dev *s600dev)
+ 
+ 	clamp_val(reg, 5, 255);
+ 
+-	dev_dbg(&s600dev->spi->dev, "i2c clock frequency: %08x", reg);
++	dev_info(&s600dev->spi->dev, "i2c clock frequency: %d Hz", s600dev->i2c_clock_frequency);
+ 	regmap_write(s600dev->regmap, SC18IS600_REG_I2C_CLOCK, reg);
+ }
+ 
++static void cp2120_dump_id(struct sc18is600dev *s600dev)
++{
++	u8 txbuffer[] = { CP2120_CMD_REVISION, 0x00 };
++	u8 rxbuffer[2];
++	int err = spi_write_then_read(s600dev->spi, txbuffer, sizeof(txbuffer), rxbuffer, sizeof(rxbuffer));
++	if (err) {
++		dev_err(&s600dev->spi->dev, "Failed to read CP2120 revision: %d\n", err);
++	}
++	/* yes, this is a "hex BCD" where 0x01 0x44 should print as "1.44" */
++	dev_info(&s600dev->spi->dev, "CP2120 SPI-to-I2C rev %02x.%02x", rxbuffer[0], rxbuffer[1]);
++}
++
+ static void sc18is600_setup_timeout(struct sc18is600dev *s600dev,
+ 				    bool enable, int timeout_ms)
+ {
+@@ -228,12 +271,19 @@ static void sc18is600_setup_timeout(struct sc18is600dev *s600dev,
+ 				   10000);
+ 	u8 reg;
+ 
+-	clamp_val(timeout, 1, 255);
++	clamp_val(timeout, 1, 0x7f);
+ 
+-	reg = ((timeout & 0x7F) << 1) | !!enable;
++	reg = (timeout << 1) | !!enable;
+ 
+-	dev_dbg(&s600dev->spi->dev, "i2c timeout: %08x", reg);
++	dev_info(&s600dev->spi->dev, "i2c timeout: %s, %d ms (reg: 0x%02x)", enable ? "enabled" : "disabled", timeout_ms, reg);
+ 	regmap_write(s600dev->regmap, SC18IS600_REG_I2C_TIMEOUT, reg);
++
++	if (s600dev->chip->type == SPI2I2C_CP2120) {
++		reg = CP2120_BIT_BUS_FREE_DETECT | CP2120_BIT_SCL_LOW_TIMEOUT;
++		dev_info(&s600dev->spi->dev, "extra timeouts: 0x%02x", reg);
++		regmap_write(s600dev->regmap, SC18IS600_REG_I2C_TIMEOUT2, reg);
++	}
++
+ }
+ 
+ static void sc18is600_reset(struct sc18is600dev *s600dev)
+@@ -244,6 +294,9 @@ static void sc18is600_reset(struct sc18is600dev *s600dev)
+ 		gpiod_set_value_cansleep(s600dev->reset, 0);
+ 		usleep_range(50, 100);
+ 	}
++	if (s600dev->chip->type == SPI2I2C_CP2120) {
++		cp2120_dump_id(s600dev);
++	}
+ 
+ 	sc18is600_setup_clock_frequency(s600dev);
+ 	sc18is600_setup_timeout(s600dev, true, 500);
+@@ -251,48 +304,54 @@ static void sc18is600_reset(struct sc18is600dev *s600dev)
+ 
+ static int sc18is600_read(struct sc18is600dev *s600dev, struct i2c_msg *msg)
+ {
+-	u8 header[] = { SC18IS600_CMD_RD, msg->len, msg->addr << 1 };
+-	struct spi_transfer xfer[1] = { 0 };
+-
+-	xfer[0].tx_buf = header;
+-	xfer[0].len = sizeof(header);
+-
+-	return spi_sync_transfer(s600dev->spi, xfer, 1);
++	u8 header[] = { SC18IS600_CMD_RD, msg->len, (msg->addr << 1) | 0x01 };
++	struct spi_transfer xfer[] = {
++		{
++			.tx_buf = header,
++			.len = sizeof(header),
++		}
++	};
++	//dev_info(&s600dev->spi->dev, "read from I2C: 0x%02x bytes, addr %02x", msg->len, msg->addr);
++	return spi_sync_transfer(s600dev->spi, xfer, ARRAY_SIZE(xfer));
+ }
+ 
+ static int sc18is600_write(struct sc18is600dev *s600dev, struct i2c_msg *msg)
+ {
+ 	u8 header[] = { SC18IS600_CMD_WR, msg->len, msg->addr << 1 };
+-	struct spi_transfer xfer[2] = { 0 };
+-
+-	xfer[0].tx_buf = header;
+-	xfer[0].len = sizeof(header);
+-
+-	xfer[1].tx_buf = msg->buf;
+-	xfer[1].len = msg->len;
+-
+-	return spi_sync_transfer(s600dev->spi, xfer, 2);
++	struct spi_transfer xfer[] = {
++		{
++			.tx_buf = header,
++			.len = sizeof(header),
++		}, {
++			.tx_buf = msg->buf,
++			.len = msg->len,
++		}
++	};
++	//dev_info(&s600dev->spi->dev, "write to I2C: 0x%02x bytes, addr %02x", msg->len, msg->addr);
++	return spi_sync_transfer(s600dev->spi, xfer, ARRAY_SIZE(xfer));
+ }
+ 
+-static int sc18is600_read_write(struct sc18is600dev *s600dev,
+-				struct i2c_msg *msg1,
+-				struct i2c_msg *msg2)
++static int sc18is600_write_read(struct sc18is600dev *s600dev,
++				struct i2c_msg *msg_w,
++				struct i2c_msg *msg_r)
+ {
+ 	u8 header1[] =
+-		{ SC18IS600_CMD_WR_RD, msg1->len, msg2->len, msg1->addr << 1 };
+-	u8 header2[] = { msg2->addr << 1 };
+-	struct spi_transfer xfer[3] = { 0 };
+-
+-	xfer[0].tx_buf = header1;
+-	xfer[0].len = sizeof(header1);
+-
+-	xfer[1].tx_buf = msg1->buf;
+-	xfer[1].len = msg1->len;
+-
+-	xfer[2].tx_buf = header2;
+-	xfer[2].len = sizeof(header2);
+-
+-	return spi_sync_transfer(s600dev->spi, xfer, 3);
++		{ SC18IS600_CMD_WR_RD, msg_w->len, msg_r->len, msg_w->addr << 1 };
++	u8 header2[] = { (msg_r->addr << 1) | 0x01 };
++	struct spi_transfer xfer[] = {
++		{
++			.tx_buf = header1,
++			.len = sizeof(header1),
++		}, {
++			.tx_buf = msg_w->buf,
++			.len = msg_w->len,
++		}, {
++			.tx_buf = header2,
++			.len = sizeof(header2),
++		}
++	};
++	//dev_info(&s600dev->spi->dev, "write then read to I2C: W 0x%02x bytes, addr %02x, R 0x%02x bytes, addr %02x", msg_w->len, msg_w->addr, msg_r->len, msg_r->addr);
++	return spi_sync_transfer(s600dev->spi, xfer, ARRAY_SIZE(xfer));
+ }
+ 
+ static int sc18is600_write_write(struct sc18is600dev *s600dev,
+@@ -302,30 +361,47 @@ static int sc18is600_write_write(struct sc18is600dev *s600dev,
+ 	u8 header1[] =
+ 		{ SC18IS600_CMD_WR_WR, msg1->len, msg2->len, msg1->addr << 1 };
+ 	u8 header2[] = { msg2->addr << 1 };
+-	struct spi_transfer xfer[4] = { 0 };
+-
+-	xfer[0].tx_buf = header1;
+-	xfer[0].len = sizeof(header1);
+-
+-	xfer[1].tx_buf = msg1->buf;
+-	xfer[1].len = msg1->len;
+-
+-	xfer[2].tx_buf = header2;
+-	xfer[2].len = sizeof(header2);
+-
+-	xfer[3].tx_buf = msg2->buf;
+-	xfer[3].len = msg2->len;
+-
+-	return spi_sync_transfer(s600dev->spi, xfer, 4);
++	struct spi_transfer xfer[] = {
++		{
++			.tx_buf = header1,
++			.len = sizeof(header1),
++		}, {
++			.tx_buf = msg1->buf,
++			.len = msg1->len,
++		}, {
++			.tx_buf = header2,
++			.len = sizeof(header2),
++		}, {
++			.tx_buf = msg2->buf,
++			.len = msg2->len,
++		}
++	};
++	//dev_info(&s600dev->spi->dev, "write then write to I2C: W1 0x%02x bytes, addr %02x, W2 0x%02x bytes, addr %02x", msg1->len, msg1->addr, msg2->len, msg2->addr);
++	return spi_sync_transfer(s600dev->spi, xfer, ARRAY_SIZE(xfer));
+ }
+ 
+ static int sc18is600_read_buffer(struct sc18is600dev *s600dev,
+ 				 struct i2c_msg *msg)
+ {
+-	static const u8 read_buffer_cmd = SC18IS600_REG_I2C_BUFFER;
++	const u8 cp2120_rd_buf[] = { SC18IS600_CMD_RDBUF, 0x00 };
++	const u8 sc18is600_rd_buf[] = { SC18IS600_CMD_RDBUF };
++	
++	int reg;
++	regmap_read(s600dev->regmap, SC18IS600_REG_I2C_BUFFER, &reg);
++	if (msg->len != reg) {
++		dev_warn(&s600dev->spi->dev, "reading buffer discrepancy: 0x%02x bytes, device says it has 0x%02x available", msg->len, reg);
++	}
+ 
+-	return spi_write_then_read(s600dev->spi, &read_buffer_cmd, 1,
+-				   msg->buf, msg->len);
++	switch (s600dev->chip->type) {
++	case SPI2I2C_CP2120:
++		return spi_write_then_read(s600dev->spi,
++					   cp2120_rd_buf, sizeof(cp2120_rd_buf),
++					   msg->buf, msg->len);
++	default:
++		return spi_write_then_read(s600dev->spi,
++					   sc18is600_rd_buf, sizeof(sc18is600_rd_buf),
++					   msg->buf, msg->len);
++	}
+ }
+ 
+ static int sc18is600_xfer(struct i2c_adapter *adapter,
+@@ -333,13 +409,37 @@ static int sc18is600_xfer(struct i2c_adapter *adapter,
+ {
+ 	struct sc18is600dev *s600dev = adapter->algo_data;
+ 	int read_operations = 0;
++	int total_size = 0;
+ 	bool ignore_nak = false;
+ 	int i, err;
++	
++	/*dev_info(&s600dev->spi->dev, "xfer: %d operations", num);
++	for (i = 0; i < num; i++) {
++		int j;
++		dev_info(&s600dev->spi->dev, " op #%d: addr 0x%02x %c, length %d, flags 0x%x",
++			i,
++			msgs[i].addr,
++			(msgs[i].flags & I2C_M_RD) ? 'R' : 'W',
++			msgs[i].len,
++			msgs[i].flags
++			);
++		for (j = 0; j < msgs[i].len; ++j) {
++			dev_info(&s600dev->spi->dev, "  %d: 0x%02hhx", j, msgs[i].buf[j]);
++		}
++	}*/
++
++	if (num > 2 || num < 1) {
++		return -EOPNOTSUPP;
++	}
+ 
+ 	for (i = 0; i < num; i++) {
+-		if (msgs[i].len > s600dev->chip->buffer_size)
+-			return -EOPNOTSUPP;
++		total_size += msgs[i].len;
++	}
++	if (total_size > s600dev->chip->buffer_size) {
++		return -EOPNOTSUPP;
++	}
+ 
++	for (i = 0; i < num; i++) {
+ 		/* chip only support standard read & write */
+ 		if (msgs[i].flags & ~I2C_M_RD)
+ 			return -EOPNOTSUPP;
+@@ -348,6 +448,16 @@ static int sc18is600_xfer(struct i2c_adapter *adapter,
+ 			read_operations++;
+ 	}
+ 
++	if (num == 2) {
++		if (read_operations == 2) {
++			return -EOPNOTSUPP;
++		}
++		if (read_operations == 1 && msgs[0].flags & I2C_M_RD) {
++			/* read-then-write is not supported */
++			return -EOPNOTSUPP;
++		}
++	}
++
+ 	reinit_completion(&s600dev->completion);
+ 
+ 	if (num == 1) {
+@@ -360,7 +470,7 @@ static int sc18is600_xfer(struct i2c_adapter *adapter,
+ 			err = sc18is600_write(s600dev, &msgs[0]);
+ 	} else if (num == 2) {
+ 		if (read_operations == 1)
+-			err = sc18is600_read_write(s600dev, &msgs[0], &msgs[1]);
++			err = sc18is600_write_read(s600dev, &msgs[0], &msgs[1]);
+ 		else
+ 			err = sc18is600_write_write(s600dev, &msgs[0], &msgs[1]);
+ 	} else {
+@@ -384,24 +494,36 @@ static int sc18is600_xfer(struct i2c_adapter *adapter,
+ 
+ 	switch (s600dev->state) {
+ 	case SC18IS600_STAT_OK:
++		//dev_info(&s600dev->spi->dev, "status: OK");
+ 		break;
+ 	case SC18IS600_STAT_NAK_ADDR:
++		dev_info(&s600dev->spi->dev, "status: NAK for address");
+ 		return -ENXIO;
+ 	case SC18IS600_STAT_NAK_DATA:
++		dev_info(&s600dev->spi->dev, "status: NAK for data");
+ 		if (ignore_nak)
+ 			break;
+ 		return -EREMOTEIO;
+ 	case SC18IS600_STAT_SIZE:
++		dev_info(&s600dev->spi->dev, "status: size mismatch");
+ 		return -EINVAL;
+ 	case SC18IS600_STAT_TIMEOUT:
++		dev_info(&s600dev->spi->dev, "status: I2C timeout");
++		return -ETIMEDOUT;
+ 	case SC18IS600_STAT_TIMEOUT2:
++		dev_info(&s600dev->spi->dev, "status: I2C SCL timeout");
++		return -ETIMEDOUT;
+ 	case SC18IS600_STAT_BLOCKED:
++		dev_info(&s600dev->spi->dev, "status: bus not free");
+ 		return -ETIMEDOUT;
+-	default:
+ 	case SC18IS600_STAT_BUSY:
+ 		dev_err(&s600dev->spi->dev, "device hangup detected, reset!");
+ 		sc18is600_reset(s600dev);
+ 		return -EAGAIN;
++	default:
++		dev_err(&s600dev->spi->dev, "status: WTF 0x%02x, reset!", s600dev->state);
++		sc18is600_reset(s600dev);
++		return -EAGAIN;
+ 	}
+ 
+ 	if (!read_operations)
+@@ -410,13 +532,17 @@ static int sc18is600_xfer(struct i2c_adapter *adapter,
+ 	err = sc18is600_read_buffer(s600dev, &msgs[num-1]);
+ 	if (err)
+ 		return err;
++	/*dev_info(&s600dev->spi->dev, " read %d bytes:", msgs[num-1].len);
++	for (i = 0; i < msgs[num-1].len; ++i) {
++		dev_info(&s600dev->spi->dev, "  %d: 0x%02hhx", i, msgs[num-1].buf[i]);
++	}*/
+ 
+ 	return num;
+ }
+ 
+ static u32 sc18is600_func(struct i2c_adapter *adap)
+ {
+-	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL;
++	return I2C_FUNC_I2C | (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
+ }
+ 
+ static const struct i2c_algorithm sc18is600_algorithm = {
+@@ -451,33 +577,17 @@ static int sc18is600_probe(struct spi_device *spi)
+ 		 "SC18IS600 at SPI %02d device %02d",
+ 		 spi->master->bus_num, spi->chip_select);
+ 
+-	spi->bits_per_word = 8;
+-	spi->mode = SPI_MODE_3;
+-	spi->max_speed_hz = s600dev->chip->max_spi_speed;
++	if (spi->max_speed_hz > s600dev->chip->max_spi_speed) {
++		spi->max_speed_hz = s600dev->chip->max_spi_speed;
++		dev_warn(&spi->dev, "clamped SPI freq to %d Hz", spi->max_speed_hz);
++	}
+ 
+ 	err = spi_setup(spi);
+ 	if (err)
+ 		return err;
+ 
+-	s600dev->reset = devm_gpiod_get_optional(&spi->dev, "reset",
+-						 GPIOD_OUT_LOW);
+-	if (IS_ERR(s600dev->reset)) {
+-		err = PTR_ERR(s600dev->reset);
+-		dev_err(&spi->dev, "Failed to reset gpio, err: %d\n", err);
+-		return err;
+-	}
+-
+-	err = devm_request_threaded_irq(&spi->dev, spi->irq, NULL,
+-					sc18is600_irq_handler,
+-					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+-					"sc18is600", s600dev);
+-	if (err) {
+-		dev_err(&spi->dev, "Failed to request irq, err: %d\n", err);
+-		return err;
+-	}
+-
+ 	s600dev->regmap = devm_regmap_init(&spi->dev,
+-			       &regmap_sc18is600_bus, &spi->dev,
++			       s600dev->chip->regmap_bus, &spi->dev,
+ 			       s600dev->chip->regmap_cfg);
+ 	if (IS_ERR(s600dev->regmap)) {
+ 		err = PTR_ERR(s600dev->regmap);
+@@ -485,6 +595,14 @@ static int sc18is600_probe(struct spi_device *spi)
+ 		return err;
+ 	}
+ 
++	s600dev->reset = devm_gpiod_get_optional(&spi->dev, "reset",
++						 GPIOD_OUT_LOW);
++	if (IS_ERR(s600dev->reset)) {
++		err = PTR_ERR(s600dev->reset);
++		dev_err(&spi->dev, "Failed to init reset gpio, err: %d\n", err);
++		return err;
++	}
++
+ 	err = device_property_read_u32(&spi->dev, "clock-frequency",
+ 				       &s600dev->i2c_clock_frequency);
+ 	if (err) {
+@@ -528,6 +646,15 @@ static int sc18is600_probe(struct spi_device *spi)
+ 
+ 	sc18is600_reset(s600dev);
+ 
++	err = devm_request_threaded_irq(&spi->dev, spi->irq, NULL,
++					sc18is600_irq_handler,
++					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
++					"sc18is600", s600dev);
++	if (err) {
++		dev_err(&spi->dev, "Failed to request irq, err: %d\n", err);
++		return err;
++	}
++
+ 	err = i2c_add_adapter(&s600dev->adapter);
+ 	if (err)
+ 		goto out_disable_regulator;
