@@ -2,6 +2,7 @@
 
 &w25q32 {
 	status = "okay";
+	spi-max-frequency = <1000000>;
 };
 
 / {
@@ -44,6 +45,6 @@
 		interrupts = <22 IRQ_TYPE_EDGE_FALLING>;
 		gpio-controller;
 		#gpio-cells = <2>;
-		spi-max-frequency = <26000000>;
+		spi-max-frequency = <1000000>;
 	};
 };
