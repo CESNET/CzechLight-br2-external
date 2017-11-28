@@ -42,28 +42,13 @@
 	};
 };
 
-&uart1_pins {
-        status = "disabled";
-};
-
-&uart1 {
-        status = "disabled";
-};
-
-&pinctrl {
-        hack_pins: hack_pins {
-                marvell,pins = "mpp25";
-                marvell,function = "gpio";
-        };
-};
-
-&gpio0 {
-	mikrobus_uart_tx {
+&gpio1 {
+	mikrobus_pwm {
+		/* MPP54: this needs an external pull-up */
 		gpio-hog;
-		/* Mark this as "active high", i.e. "1 is 1", so that the interrupts act on the falling edge */
-		gpios = <25 GPIO_ACTIVE_HIGH>;
+		gpios = <22 GPIO_ACTIVE_HIGH>;
 		input;
-		line-name = "SPI-int";
+		line-name = "MAX14830-int";
 	};
 };
 
@@ -80,10 +65,8 @@
 		reg = <2>;
 		clocks = <&spi_uart_clk>;
 		clock-names = "xtal";
-		interrupt-parent = <&gpio0>;
-		interrupts = <25 IRQ_TYPE_LEVEL_LOW>;
-		pinctrl-0 = <&hack_pins>;
-		pinctrl-names = "default";
+		interrupt-parent = <&gpio1>;
+		interrupts = <22 IRQ_TYPE_LEVEL_LOW>;
 		gpio-controller;
 		#gpio-cells = <2>;
 		spi-max-frequency = <26000000>;
