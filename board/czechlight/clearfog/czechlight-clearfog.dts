@@ -15,16 +15,28 @@
 };
 
 &gpio0 {
-	mikrobus_uart_tx {
+	mikrobus_int {
 		gpio-hog;
-		/* Mark this as "active high", i.e. "1 is 1", so that the interrupts act on the falling edge */
-		gpios = <25 GPIO_ACTIVE_HIGH>;
-		input;
-		line-name = "SPI-int";
+		gpios = <22 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "CP2120-CS";
+	};
+	mikrobus_rst {
+		/* Cannot hog, otherwise we get: i2c-sc18is600 spi1.1: Failed to init reset gpio, err: -16 */
+		gpios = <29 GPIO_ACTIVE_LOW>;
+		line-name = "CP2120-RST";
 	};
 };
 
 &gpio1 {
+	J18_gpio {
+		/* MPP48 */
+		gpio-hog;
+		gpios = <16 GPIO_ACTIVE_HIGH>;
+		input;
+		line-name = "CP2120-INT";
+	};
+
 	mikrobus_pwm {
 		/* MPP54: this needs an external pull-up */
 		gpio-hog;
@@ -35,7 +47,9 @@
 };
 
 &spi1 {
-	max14830: max14830@2 {
+	cs-gpios = <0>, <&gpio0 22 GPIO_ACTIVE_HIGH>, <0>;
+
+	max14830@2 {
 		compatible = "maxim,max14830";
 		reg = <2>;
 		clocks = <&spi_uart_clk>;
@@ -45,5 +59,34 @@
 		gpio-controller;
 		#gpio-cells = <2>;
 		spi-max-frequency = <26000000>;
+	};
+
+	cp2120@1 {
+		compatible = "silabs,cp2120";
+		spi-cpol;
+		reg = <1>;
+
+		/*
+		The datasheet says:
+		- 1MHz max
+		- "Some SPI clock speeds in the 100 kHz to 300 kHz range may result in communication issues"
+		This actually refers to spacing between the individual bytes within a single SPI transaction.
+		That's something which is difficult to control on Linux with Orion SPI master; it appears
+		to depend on kernel's latencies :(.
+		*/
+		//spi-max-frequency = <1000000>;
+		spi-max-frequency = <500000>;
+
+		/* J18_gpio */
+		interrupt-parent = <&gpio1>;
+		interrupts = <16 IRQ_TYPE_EDGE_FALLING>;
+		/* Mikrobus RST */
+		reset-gpios = <&gpio0 29 GPIO_ACTIVE_LOW>;
+
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		/* This is a PMBus, and the datasheet of our PSU says 100kHz */
+		clock-frequency = <100000>;
 	};
 };

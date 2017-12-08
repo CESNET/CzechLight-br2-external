@@ -18,6 +18,7 @@ BR2_ROOTFS_POST_SCRIPT_ARGS="-c $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_VERSION=y
 BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="4.14.4"
+BR2_LINUX_KERNEL_PATCH="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/clearfog/patches/linux/spi-gpio-cs.patch $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/clearfog/patches/linux/cp2120.patch $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/clearfog/patches/linux/cp2120-fixups.patch"
 BR2_LINUX_KERNEL_DEFCONFIG="mvebu_v7"
 BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/clearfog/linux.fragment $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/kconfig"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
