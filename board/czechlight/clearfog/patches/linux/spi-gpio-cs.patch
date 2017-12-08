@@ -1,0 +1,13 @@
+diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
+index 4b6dd73b80da..ce9ae2bb0772 100644
+--- a/drivers/spi/spi-orion.c
++++ b/drivers/spi/spi-orion.c
+@@ -324,7 +324,7 @@ static void orion_spi_set_cs(struct spi_device *spi, bool enable)
+ 	int cs;
+ 
+ 	if (gpio_is_valid(spi->cs_gpio))
+-		cs = 0;
++		cs = 3;
+ 	else
+ 		cs = spi->chip_select;
+ 
