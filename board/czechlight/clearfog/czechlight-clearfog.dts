@@ -12,6 +12,23 @@
 			clock-frequency = <3686400>;
 		};
 	};
+
+	soc {
+		ranges = <MBUS_ID(0xf0, 0x01) 0 0xf1000000 0x100000
+			MBUS_ID(0x01, 0x1d) 0 0xfff00000 0x100000
+			MBUS_ID(0x09, 0x19) 0 0xf1100000 0x10000
+			MBUS_ID(0x09, 0x15) 0 0xf1110000 0x10000
+			MBUS_ID(0x0c, 0x04) 0 0xf1200000 0x100000
+			/* all above is from the upstream DTS */
+
+			/* maybe-default mappings for SPI1 CS0 from the datasheet */
+			MBUS_ID(0x01, 0x1a) 0 0xd4000000 0x4000000
+			/* SPI1 CS1 */
+			MBUS_ID(0x01, 0x5a) 0 0xd8000000 0x4000000
+			/* SPI1 CS2 */
+			MBUS_ID(0x01, 0x9a) 0 0xd0000000 0x4000000
+			>;
+	};
 };
 
 &uart1_pins {
@@ -40,6 +57,13 @@
 };
 
 &spi1 {
+	reg = <MBUS_ID(0xf0, 0x01) 0x10680 0x50> /* control */
+		, <MBUS_ID(0x01, 0x1a) 0 0xffffffff> /* CS0 */
+		, <MBUS_ID(0x01, 0x5a) 0 0xffffffff> /* CS1 */
+		, <MBUS_ID(0x01, 0x9a) 0 0xffffffff> /* CS2 */
+		, <MBUS_ID(0x01, 0xda) 0 0xffffffff> /* CS3 */
+		;
+
 	max14830: max14830@2 {
 		compatible = "maxim,max14830";
 		reg = <2>;
