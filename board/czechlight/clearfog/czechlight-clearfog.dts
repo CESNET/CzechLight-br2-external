@@ -46,7 +46,7 @@
 		clocks = <&spi_uart_clk>;
 		clock-names = "xtal";
 		interrupt-parent = <&gpio0>;
-		interrupts = <25 IRQ_TYPE_EDGE_FALLING>;
+		interrupts = <25 IRQ_TYPE_LEVEL_LOW>;
 		pinctrl-0 = <&hack_pins>;
 		pinctrl-names = "default";
 		gpio-controller;
