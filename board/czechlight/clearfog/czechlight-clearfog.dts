@@ -2,6 +2,10 @@
 
 &w25q32 {
 	status = "okay";
+	/* The chip itself is rated up to 50MHz for regular reads, 60MHz for
+	 * all other transactions, but somehow the mere presence of the
+	 * MAX14830 EV board breaks these transfers. Changing the speed all the
+	 * way down to 100kHz doesn't help. */
 };
 
 / {
