@@ -1,5 +1,5 @@
 diff --git a/board/solidrun/clearfog/clearfog.c b/board/solidrun/clearfog/clearfog.c
-index 8906636f76..f94bd5e465 100644
+index 1472e9793e..2b365793fb 100644
 --- a/board/solidrun/clearfog/clearfog.c
 +++ b/board/solidrun/clearfog/clearfog.c
 @@ -11,10 +11,15 @@
@@ -78,17 +78,17 @@ index 8906636f76..f94bd5e465 100644
  {
  	puts("Board: SolidRun ClearFog\n");
 diff --git a/configs/clearfog_defconfig b/configs/clearfog_defconfig
-index 5eceacf491..fd48b0db02 100644
+index 7161518715..4d4f96241c 100644
 --- a/configs/clearfog_defconfig
 +++ b/configs/clearfog_defconfig
-@@ -46,3 +46,5 @@ CONFIG_USB=y
+@@ -48,3 +48,5 @@ CONFIG_USB=y
  CONFIG_DM_USB=y
- CONFIG_USB_EHCI_HCD=y
+ CONFIG_USB_XHCI_HCD=y
  CONFIG_USB_STORAGE=y
 +CONFIG_WDT=y
 +CONFIG_WDT_ORION=y
 diff --git a/include/configs/clearfog.h b/include/configs/clearfog.h
-index 5061f6c6fd..fe9f515867 100644
+index bf87bac300..4c5ac5b075 100644
 --- a/include/configs/clearfog.h
 +++ b/include/configs/clearfog.h
 @@ -32,6 +32,11 @@
@@ -101,9 +101,9 @@ index 5061f6c6fd..fe9f515867 100644
 +#endif
 +
  /* SPI NOR flash default params, used by sf commands */
- #define CONFIG_SF_DEFAULT_SPEED		1000000
- #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_3
-@@ -65,6 +70,9 @@
+ #define CONFIG_SF_DEFAULT_BUS		1
+ 
+@@ -63,6 +68,9 @@
  #define CONFIG_ENV_OFFSET		0xf0000
  #define CONFIG_ENV_ADDR			CONFIG_ENV_OFFSET
  
@@ -113,8 +113,12 @@ index 5061f6c6fd..fe9f515867 100644
  #define CONFIG_PHY_MARVELL		/* there is a marvell phy */
  #define PHY_ANEG_TIMEOUT	8000	/* PHY needs a longer aneg time */
  
-@@ -166,14 +174,47 @@
- 	"scriptaddr=" SCRIPT_ADDR_R "\0" \
+@@ -161,17 +169,47 @@
+ 	"kernel_addr_r=" KERNEL_ADDR_R "\0" \
+ 	"fdt_addr_r=" FDT_ADDR_R "\0" \
+ 	"ramdisk_addr_r=" RAMDISK_ADDR_R "\0" \
+-	"scriptaddr=" SCRIPT_ADDR_R "\0" \
++	"script_addr_r=" SCRIPT_ADDR_R "\0" \
  	"pxefile_addr_r=" PXEFILE_ADDR_R "\0"
  
 -#include <config_distro_bootcmd.h>
@@ -125,7 +129,6 @@ index 5061f6c6fd..fe9f515867 100644
 -	"fdtfile=" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
  	"console=ttyS0,115200\0" \
 -	BOOTENV
-+	"extra_bootargs=panic=10 oops=panic\0" \
 +	"bootcmd=test -n \"${BOOT_A_LEFT}\" || setenv BOOT_A_LEFT 3;" \
 +	"test -n \"${BOOT_B_LEFT}\" || setenv BOOT_B_LEFT 3;" \
 +	"test -n \"${BOOT_ORDER}\" || setenv BOOT_ORDER \"A B\";" \
@@ -158,10 +161,8 @@ index 5061f6c6fd..fe9f515867 100644
 +	"  saveenv;" \
 +	"  reset;" \
 +	"fi;" \
-+	"setenv bootargs root=/dev/mmcblk0p${rauc_part} rauc.slot=${rauc_slot} czechlight=${czechlight} systemd.machine_id=${machineid} ${extra_bootargs};" \
-+	"load mmc 0:${rauc_part} ${fdt_addr_r} /boot/czechlight-clearfog.dtb || reset;" \
-+	"load mmc 0:${rauc_part} ${kernel_addr_r} /boot/zImage || reset;" \
-+	"bootz ${kernel_addr_r} - ${fdt_addr_r} || reset\0"
++	"load mmc 0:${rauc_part} ${script_addr_r} /boot/boot.scr || reset;" \
++	"source ${script_addr_r} || reset\0"
  
  #endif /* CONFIG_SPL_BUILD */
  
