@@ -33,6 +33,15 @@
 			MBUS_ID(0x01, 0x9a) 0 0xd0000000 0x4000000
 			>;
 	};
+
+	gpio_i2c {
+		compatible = "i2c-gpio";
+		sda-gpios = <&max14830 0 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+		scl-gpios = <&max14830 4 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+		i2c-gpio.delay-us = <1>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
 };
 
 &uart1_pins {
