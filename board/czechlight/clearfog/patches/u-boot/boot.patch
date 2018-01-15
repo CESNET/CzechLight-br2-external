@@ -88,7 +88,7 @@ index 7161518715..4d4f96241c 100644
 +CONFIG_WDT=y
 +CONFIG_WDT_ORION=y
 diff --git a/include/configs/clearfog.h b/include/configs/clearfog.h
-index bf87bac300..75926b00ed 100644
+index bf87bac300..c78dcce1a1 100644
 --- a/include/configs/clearfog.h
 +++ b/include/configs/clearfog.h
 @@ -32,6 +32,11 @@
@@ -129,7 +129,7 @@ index bf87bac300..75926b00ed 100644
 -	"fdtfile=" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
  	"console=ttyS0,115200\0" \
 -	BOOTENV
-+	"usbboot=usb start; fatload usb 0:1 ${script_addr_r} usb-boot.scr; source ${script_addr_r}\0" \
++	"usbboot=usb start; fatload usb 0:1 ${script_addr_r} boot.scr; source ${script_addr_r}\0" \
 +	"bootcmd=test -n \"${BOOT_A_LEFT}\" || setenv BOOT_A_LEFT 3;" \
 +	"test -n \"${BOOT_B_LEFT}\" || setenv BOOT_B_LEFT 3;" \
 +	"test -n \"${BOOT_ORDER}\" || setenv BOOT_ORDER \"A B\";" \
