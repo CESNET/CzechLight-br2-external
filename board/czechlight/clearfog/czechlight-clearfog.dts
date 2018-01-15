@@ -32,6 +32,13 @@
 			/* SPI1 CS2 */
 			MBUS_ID(0x01, 0x9a) 0 0xd0000000 0x4000000
 			>;
+
+		internal-regs {
+			sdhci@d8000 {
+				/delete-property/ cd-gpios;
+				broken-cd;
+			};
+		};
 	};
 };
 
