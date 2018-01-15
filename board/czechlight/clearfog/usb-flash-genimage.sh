@@ -2,6 +2,8 @@
 
 set -ex
 
+install -m 0644 -D ${BR2_EXTERNAL_CZECHLIGHT_PATH}/board/czechlight/clearfog/usb-reflash-factory.sh ${BINARIES_DIR}/usb-reflash-factory.sh
+
 mksquashfs ${BINARIES_DIR}/sdcard.img ${BINARIES_DIR}/sdcard.img.squashfs -root-owned -comp gzip -progress
 
 GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
