@@ -18,21 +18,6 @@
 	};
 
 	soc {
-		ranges = <MBUS_ID(0xf0, 0x01) 0 0xf1000000 0x100000
-			MBUS_ID(0x01, 0x1d) 0 0xfff00000 0x100000
-			MBUS_ID(0x09, 0x19) 0 0xf1100000 0x10000
-			MBUS_ID(0x09, 0x15) 0 0xf1110000 0x10000
-			MBUS_ID(0x0c, 0x04) 0 0xf1200000 0x100000
-			/* all above is from the upstream DTS */
-
-			/* maybe-default mappings for SPI1 CS0 from the datasheet */
-			MBUS_ID(0x01, 0x1a) 0 0xd4000000 0x4000000
-			/* SPI1 CS1 */
-			MBUS_ID(0x01, 0x5a) 0 0xd8000000 0x4000000
-			/* SPI1 CS2 */
-			MBUS_ID(0x01, 0x9a) 0 0xd0000000 0x4000000
-			>;
-
 		internal-regs {
 			sdhci@d8000 {
 				/delete-property/ cd-gpios;
@@ -79,15 +64,6 @@
 };
 
 &spi1 {
-	reg = <MBUS_ID(0xf0, 0x01) 0x10680 0x50> /* control */
-		, <MBUS_ID(0x01, 0x1a) 0 0xffffffff> /* CS0 */
-		, <0>
-		/* <MBUS_ID(0x01, 0x5a) 0 0xffffffff>
-		We're using CS GPIO which doesn't play well with the direct mode at all */
-		, <MBUS_ID(0x01, 0x9a) 0 0xffffffff> /* CS2 */
-		, <MBUS_ID(0x01, 0xda) 0 0xffffffff> /* CS3 */
-		;
-
 	cs-gpios = <0>, <&gpio0 22 GPIO_ACTIVE_HIGH>, <0>;
 
 	max14830: max14830@2 {
