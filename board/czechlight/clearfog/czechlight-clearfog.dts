@@ -65,17 +65,30 @@
 		gpio-hog;
 		gpios = <22 GPIO_ACTIVE_HIGH>;
 		input;
-		line-name = "MAX14830-int";
+		line-name = "MAX14830-MCP23S17-int";
+	};
+};
+
+&gpio0 {
+	gpio_cs {
+		gpio-hog;
+		gpios = <22 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "MCP23S17-CS";
 	};
 };
 
 &spi1 {
 	reg = <MBUS_ID(0xf0, 0x01) 0x10680 0x50> /* control */
 		, <MBUS_ID(0x01, 0x1a) 0 0xffffffff> /* CS0 */
-		, <MBUS_ID(0x01, 0x5a) 0 0xffffffff> /* CS1 */
+		, <0>
+		/* <MBUS_ID(0x01, 0x5a) 0 0xffffffff>
+		We're using CS GPIO which doesn't play well with the direct mode at all */
 		, <MBUS_ID(0x01, 0x9a) 0 0xffffffff> /* CS2 */
 		, <MBUS_ID(0x01, 0xda) 0 0xffffffff> /* CS3 */
 		;
+
+	cs-gpios = <0>, <&gpio0 22 GPIO_ACTIVE_HIGH>, <0>;
 
 	max14830: max14830@2 {
 		compatible = "maxim,max14830";
@@ -87,5 +100,20 @@
 		gpio-controller;
 		#gpio-cells = <2>;
 		spi-max-frequency = <26000000>;
+	};
+
+	gpio_spi_chips: gpio@1 {
+		compatible = "microchip,mcp23s17";
+		reg = <1>;
+		interrupt-parent = <&gpio1>;
+		interrupts = <22 IRQ_TYPE_LEVEL_LOW>;
+		interrupt-controller;
+		#interrupt-cells = <2>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		microchip,spi-present-mask = <0x06>; /* extra addresses 1 and 2 */
+		microchip,irq-mirror;
+		microchip,irq-open-drain;
+		spi-max-frequency = <10000000>;
 	};
 };
