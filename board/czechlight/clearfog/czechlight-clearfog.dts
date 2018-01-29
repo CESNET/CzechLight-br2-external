@@ -45,12 +45,12 @@
 };
 
 &gpio1 {
-	mikrobus_pwm {
+	spi_int {
 		/* MPP54: this needs an external pull-up */
 		gpio-hog;
 		gpios = <22 GPIO_ACTIVE_HIGH>;
 		input;
-		line-name = "MAX14830-MCP23S17-int";
+		line-name = "SPI-INT";
 	};
 };
 
