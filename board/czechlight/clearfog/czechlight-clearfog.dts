@@ -44,6 +44,16 @@
 	status = "disabled";
 };
 
+&gpio0 {
+	spi_reset {
+		/* MPP29: defaults to 0 at boot time */
+		gpio-hog;
+		gpios = <29 GPIO_ACTIVE_LOW>;
+		output-low;
+		line-name = "SPI-reset";
+	};
+};
+
 &gpio1 {
 	spi_int {
 		/* MPP54: this needs an external pull-up */
