@@ -77,6 +77,25 @@
 		gpio-controller;
 		#gpio-cells = <2>;
 		spi-max-frequency = <26000000>;
+
+		gpio-line-names =
+			"EVM-GPIO0",
+			"",
+			"",
+			"EVM-LED1",
+			"EVM-GPIO4",
+			"",
+			"",
+			"EVM-LED2",
+			"EVM-GPIO8",
+			"",
+			"",
+			"EVM-LED3",
+			"EVM-GPIO12",
+			"",
+			"",
+			"EVM-LED4"
+			;
 	};
 
 	gpio_spi_chips: gpio@1 {
