@@ -65,7 +65,7 @@
 };
 
 &spi1 {
-	cs-gpios = <0>, <&gpio0 22 GPIO_ACTIVE_HIGH>, <0>;
+	cs-gpios = <0>, <&gpio0 22 GPIO_ACTIVE_HIGH>, <0>, <&gpio1 16 GPIO_ACTIVE_HIGH>;
 
 	max14830: max14830@2 {
 		compatible = "maxim,max14830";
@@ -77,6 +77,25 @@
 		gpio-controller;
 		#gpio-cells = <2>;
 		spi-max-frequency = <26000000>;
+
+		gpio-line-names =
+			"OCM-HS_IN",
+			"",
+			"",
+			"EVM-LED1",
+			"OCM-HS_OUT",
+			"",
+			"",
+			"EVM-LED2",
+			"EVM-GPIO8",
+			"",
+			"",
+			"EVM-LED3",
+			"EVM-GPIO12",
+			"",
+			"",
+			"EVM-LED4"
+			;
 	};
 
 	gpio_spi_chips: gpio@1 {
@@ -92,5 +111,12 @@
 		microchip,irq-mirror;
 		microchip,irq-open-drain;
 		spi-max-frequency = <10000000>;
+	};
+
+	spidev@3 {
+		compatible = "spidev";
+		reg = <3>;
+		spi-max-frequency = <12000000>;
+		spi-cpol;
 	};
 };
