@@ -65,7 +65,7 @@
 };
 
 &spi1 {
-	cs-gpios = <0>, <&gpio0 22 GPIO_ACTIVE_HIGH>, <0>;
+	cs-gpios = <0>, <&gpio0 22 GPIO_ACTIVE_HIGH>, <0>, <&gpio1 16 GPIO_ACTIVE_HIGH>;
 
 	max14830: max14830@2 {
 		compatible = "maxim,max14830";
@@ -113,8 +113,8 @@
 		spi-max-frequency = <10000000>;
 
 		gpio-line-names =
-			"1-A0",
-			"1-A1",
+			"OCM-HS_out",
+			"OCM-HS_in",
 			"1-A2",
 			"1-A3",
 			"1-A4",
@@ -149,5 +149,13 @@
 			"2-B6",
 			"2-B7"
 			;
+	};
+
+	spidev@3 {
+		compatible = "spidev";
+		reg = <3>;
+		spi-max-frequency = <12000000>;
+		spi-cpol;
+		linux,spi-wdelay = /bits/ 16 <3>;
 	};
 };
