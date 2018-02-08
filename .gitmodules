@@ -1,7 +1,7 @@
 [submodule "submodules/buildroot"]
 	path = submodules/buildroot
 	url = ../../github/buildroot/buildroot
-	branch = cesnet/cla-7
+	branch = cesnet/cla-10
 [submodule "submodules/cla-sysrepo"]
 	path = submodules/cla-sysrepo
 	url = ../../CzechLight/cla-sysrepo
