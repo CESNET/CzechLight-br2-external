@@ -136,6 +136,44 @@
 			"2-B6",
 			"2-B7"
 			;
+
+		/* activate all pull-ups to prevent floating inputs */
+		mcp23s17_pullups: pinmux {
+			pins =
+				"gpio0",
+				"gpio1",
+				"gpio2",
+				"gpio3",
+				"gpio4",
+				"gpio5",
+				"gpio6",
+				"gpio7",
+				"gpio8",
+				"gpio9",
+				"gpio10",
+				"gpio11",
+				"gpio12",
+				"gpio13",
+				"gpio14",
+				"gpio15",
+				"gpio16",
+				"gpio17",
+				"gpio18",
+				"gpio19",
+				"gpio20",
+				"gpio21",
+				"gpio22",
+				"gpio23",
+				"gpio24",
+				"gpio25",
+				"gpio26",
+				"gpio27",
+				"gpio28",
+				"gpio29",
+				"gpio30",
+				"gpio31";
+			bias-pull-up;
+		};
 	};
 
 	spidev@3 {
