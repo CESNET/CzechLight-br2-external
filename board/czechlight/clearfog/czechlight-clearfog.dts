@@ -152,7 +152,7 @@
 		compatible = "spidev";
 		reg = <3>;
 		spi-max-frequency = <12000000>;
-		spi-cpol;
+		// NOTE: the HW appears to have troubles with CPOL=1 toggling -> let's use a physical invertor
 		linux,spi-wdelay = /bits/ 16 <3>;
 	};
 };
