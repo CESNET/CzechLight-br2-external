@@ -41,16 +41,6 @@
 	status = "disabled";
 };
 
-&gpio0 {
-	spi_reset {
-		/* MPP29: defaults to 0 at boot time */
-		gpio-hog;
-		gpios = <29 GPIO_ACTIVE_LOW>;
-		output-low;
-		line-name = "SPI-reset";
-	};
-};
-
 &gpio1 {
 	spi_int {
 		/* MPP54: this needs an external pull-up */
@@ -62,7 +52,7 @@
 };
 
 &spi1 {
-	cs-gpios = <0>, <&gpio0 22 GPIO_ACTIVE_HIGH>, <0>, <&gpio1 16 GPIO_ACTIVE_HIGH>;
+	cs-gpios = <0>, <&gpio0 22 GPIO_ACTIVE_HIGH>, <0>, <&gpio0 29 GPIO_ACTIVE_HIGH>;
 
 	max14830: max14830@2 {
 		compatible = "maxim,max14830";
