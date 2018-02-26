@@ -96,7 +96,7 @@
 		#gpio-cells = <2>;
 		microchip,spi-present-mask = <0x06>; /* extra addresses 1 and 2 */
 		microchip,irq-mirror;
-		microchip,irq-open-drain;
+		drive-open-drain;
 		spi-max-frequency = <10000000>;
 
 		gpio-line-names =
