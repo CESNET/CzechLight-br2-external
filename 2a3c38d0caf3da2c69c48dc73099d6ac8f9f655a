@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b82c1291_29184a21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-12T18:47:54Z",
+      "side": 1,
+      "message": "commit message ma popisovat, proc ten commit vzniknul, ne primarne to, co se meni",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3583fe5_06215342",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-12T18:47:54Z",
+      "side": 1,
+      "message": "Tohle by bylo pekne nahradit nejakym placeholderem, a nebo pouzit feature buildrootu pro stahnuti tarballu (viz `make menuconfig`)",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8387a4a9_a8764b24",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-12T18:47:54Z",
+      "side": 1,
+      "message": "tohle patri pryc",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f32ce27_92d9fed2",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-12T18:47:54Z",
+      "side": 1,
+      "message": "nemenit",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe261307_6acfa292",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-12T18:47:54Z",
+      "side": 1,
+      "message": "ponechat puvodni",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffcba488_a7ca876b",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-12T18:47:54Z",
+      "side": 1,
+      "message": "tohle prosim vyhodit",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35fa1a81_c16fa11a",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-12T18:47:54Z",
+      "side": 1,
+      "message": "UBOOT_TOOLS prosim vyhodit",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e610655_f09697e3",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-12T18:47:54Z",
+      "side": 1,
+      "message": "prosim vyhodit",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}

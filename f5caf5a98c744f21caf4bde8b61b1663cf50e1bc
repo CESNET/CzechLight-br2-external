@@ -1,0 +1,24 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9f75b2d_ab288d57",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-12T18:47:54Z",
+      "side": 0,
+      "message": "Tohle vypada lip",
+      "revId": "f5caf5a98c744f21caf4bde8b61b1663cf50e1bc",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
