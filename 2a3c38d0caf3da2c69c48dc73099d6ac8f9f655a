@@ -22,6 +22,27 @@
     },
     {
       "key": {
+        "uuid": "db823af0_d0dc7ee7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T11:17:50Z",
+      "side": 1,
+      "message": "nic mě nenapadá, leda snad\n\n Tweaking czechlight_epia_geode_defconfig for i686 architecture\n\n?",
+      "parentUuid": "b82c1291_29184a21",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3583fe5_06215342",
         "filename": "configs/czechlight_epia_geode_defconfig",
         "patchSetId": 1
@@ -36,6 +57,27 @@
       "writtenOn": "2018-03-12T18:47:54Z",
       "side": 1,
       "message": "Tohle by bylo pekne nahradit nejakym placeholderem, a nebo pouzit feature buildrootu pro stahnuti tarballu (viz `make menuconfig`)",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e45c1fef_556eba85",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T11:17:50Z",
+      "side": 1,
+      "message": "jo, v pristim patchsetu to bude",
+      "parentUuid": "f3583fe5_06215342",
       "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
@@ -68,6 +110,33 @@
     },
     {
       "key": {
+        "uuid": "95a20d56_7168970a",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T11:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8387a4a9_a8764b24",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f32ce27_92d9fed2",
         "filename": "configs/czechlight_epia_geode_defconfig",
         "patchSetId": 1
@@ -85,6 +154,53 @@
       "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3290433b_c3a11618",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T11:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f32ce27_92d9fed2",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18c57a0f_9c6891b4",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T11:17:50Z",
+      "side": 1,
+      "message": "Zde musí být i386, neboť i686 způsobí ke konci buildu hlášku:\n\n Can\u0027t find default configuration \"arch/x86/configs/i686_defconfig\"!\n\nnicméně na radu v komentáři jsem celou volbu odstranil a místo ní dal:\n\n BR2_LINUX_KERNEL_USE_ARCH_DEFAULT_CONFIG\u003dy",
+      "range": {
+        "startLine": 23,
+        "startChar": 27,
+        "endLine": 23,
+        "endChar": 33
+      },
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     },
     {
       "key": {
@@ -108,6 +224,27 @@
     },
     {
       "key": {
+        "uuid": "10a120e6_9c2fd27a",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T11:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe261307_6acfa292",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffcba488_a7ca876b",
         "filename": "configs/czechlight_epia_geode_defconfig",
         "patchSetId": 1
@@ -122,6 +259,27 @@
       "writtenOn": "2018-03-12T18:47:54Z",
       "side": 1,
       "message": "tohle prosim vyhodit",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13f70d40_e2a25a5d",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T11:17:50Z",
+      "side": 1,
+      "message": "co přesně? předpokládám, že E2FSPROGS a MMC_UTILS",
+      "parentUuid": "ffcba488_a7ca876b",
       "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
@@ -148,6 +306,27 @@
     },
     {
       "key": {
+        "uuid": "df156b19_630142d6",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T11:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35fa1a81_c16fa11a",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e610655_f09697e3",
         "filename": "configs/czechlight_epia_geode_defconfig",
         "patchSetId": 1
@@ -165,6 +344,27 @@
       "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e73fa5ac_cad5db10",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T11:17:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e610655_f09697e3",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }

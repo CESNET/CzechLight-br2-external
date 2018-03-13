@@ -19,6 +19,27 @@
       "revId": "f5caf5a98c744f21caf4bde8b61b1663cf50e1bc",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba0da9b4_6943eed9",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T11:17:50Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "f9f75b2d_ab288d57",
+      "revId": "f5caf5a98c744f21caf4bde8b61b1663cf50e1bc",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
