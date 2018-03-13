@@ -43,6 +43,27 @@
     },
     {
       "key": {
+        "uuid": "0ce87a1a_e0008e81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-13T12:24:49Z",
+      "side": 1,
+      "message": "treba \"synchronize epia/geode config with the recent clearfog changes\", coz je ten duvod, proc jsem to po Tobe chtel, abys to udelal",
+      "parentUuid": "db823af0_d0dc7ee7",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3583fe5_06215342",
         "filename": "configs/czechlight_epia_geode_defconfig",
         "patchSetId": 1
@@ -280,6 +301,27 @@
       "side": 1,
       "message": "co přesně? předpokládám, že E2FSPROGS a MMC_UTILS",
       "parentUuid": "ffcba488_a7ca876b",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e38460ac_24651ca3",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-13T12:24:49Z",
+      "side": 1,
+      "message": "Pouze MMC_UTILS; E2FSPROGS jsou potreba",
+      "parentUuid": "13f70d40_e2a25a5d",
       "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
