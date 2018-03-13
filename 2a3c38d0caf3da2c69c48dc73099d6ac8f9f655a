@@ -126,6 +126,27 @@
     },
     {
       "key": {
+        "uuid": "c0612e85_9c7c02a8",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T14:30:15Z",
+      "side": 1,
+      "message": "\"bleeding edge\" verze toolchainu je nyní automaticky stažena z internetu",
+      "parentUuid": "e45c1fef_556eba85",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8387a4a9_a8764b24",
         "filename": "configs/czechlight_epia_geode_defconfig",
         "patchSetId": 1
