@@ -64,6 +64,27 @@
     },
     {
       "key": {
+        "uuid": "af8a9b3e_059bc1e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T13:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ce87a1a_e0008e81",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3583fe5_06215342",
         "filename": "configs/czechlight_epia_geode_defconfig",
         "patchSetId": 1
@@ -325,6 +346,27 @@
       "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b95920f1_194df2f2",
+        "filename": "configs/czechlight_epia_geode_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-13T13:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e38460ac_24651ca3",
+      "revId": "2a3c38d0caf3da2c69c48dc73099d6ac8f9f655a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     },
     {
       "key": {
