@@ -53,13 +53,6 @@ index 79db7fe..905099a 100644
  TOPDIR := $(CURDIR)
 ```
 
-Also, we are building two different root filesystem instances (an EXT4 image and a tarball for RAUC).
-This is [also currently broken](http://lists.busybox.net/pipermail/buildroot/2017-November/206255.html), but we can work around that reasonably easily:
-
-```sh
-make -j32 target-finalize && make
-```
-
 ## Installing updates to a device
 
 Apart from the traditional way of re-flashing the SD card or the eMMC from scratch, it's also possible to use RAUC to update.
