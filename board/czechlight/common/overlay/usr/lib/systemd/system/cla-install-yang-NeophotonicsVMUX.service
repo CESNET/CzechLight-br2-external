@@ -1,0 +1,15 @@
+[Unit]
+Description=Install YANG module and startup datastore data for the Neophotonics VMUX device
+Requires=sysrepod.service
+ConditionKernelCommandLine=czechlight=NeophotonicsVMUX
+Before=sysrepod.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/sysrepoctl --install --yang=/usr/share/cla-sysrepo/yang/czechlight-neophotonics-vmux.yang
+ExecStart=/usr/bin/sysrepocfg --datastore=startup --import=/usr/share/cla-sysrepo/yang/czechlight-neophotonics-vmux.startup.xml czechlight-neophotonics-vmux
+ExecStop=/usr/bin/sysrepoctl --uninstall --module=czechlight-neophotonics-vmux
+
+[Install]
+WantedBy=multi-user.target
