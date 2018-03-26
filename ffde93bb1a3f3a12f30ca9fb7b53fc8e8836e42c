@@ -1,0 +1,122 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cde8f035_01776166",
+        "filename": "board/czechlight/common/overlay/usr/lib/systemd/system/cla-install-yang-NeophotonicsVMUX.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-26T11:22:21Z",
+      "side": 1,
+      "message": "Pojmenuj to, prosim, \"cla-CL-VMUX2.service\", aby to odpovidalo tomu, jak HW rikame v prezentacich.",
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccc08f4c_a87c1f55",
+        "filename": "board/czechlight/common/overlay/usr/lib/systemd/system/cla-install-yang-NeophotonicsVMUX.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-26T11:22:21Z",
+      "side": 1,
+      "message": "CL-VMUX2",
+      "range": {
+        "startLine": 4,
+        "startChar": 38,
+        "endLine": 4,
+        "endChar": 54
+      },
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d5aeabc_94457e83",
+        "filename": "board/czechlight/common/overlay/usr/lib/systemd/system/cla-install-yang-NeophotonicsVMUX.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-26T11:22:21Z",
+      "side": 1,
+      "message": "Proc?",
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb23ce8a_c4428839",
+        "filename": "board/czechlight/epia_geode/overlay/boot/grub/grub.cfg",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-26T11:22:21Z",
+      "side": 1,
+      "message": "byl bych radsi, pokud by ten parametr czechlight\u003d... byl nastaveny nekde na samostatne radce kvuli tomu, aby se dal nejak rozumne editovat, treba behem instalace.\n\nJako docasne reseni staci zadratovat natvrdo do menu polozky \"CzechLight\".",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "408077be_575d2079",
+        "filename": "board/czechlight/epia_geode/overlay/boot/grub/grub.cfg",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-26T11:22:21Z",
+      "side": 1,
+      "message": "Tohle sem nepatri.",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
