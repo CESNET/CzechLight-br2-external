@@ -22,6 +22,27 @@
     },
     {
       "key": {
+        "uuid": "be0ef8ed_36efbcbc",
+        "filename": "board/czechlight/common/overlay/usr/lib/systemd/system/cla-install-yang-NeophotonicsVMUX.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-28T19:34:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cde8f035_01776166",
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ccc08f4c_a87c1f55",
         "filename": "board/czechlight/common/overlay/usr/lib/systemd/system/cla-install-yang-NeophotonicsVMUX.service",
         "patchSetId": 2
@@ -48,6 +69,33 @@
     },
     {
       "key": {
+        "uuid": "89b98a07_cc44073f",
+        "filename": "board/czechlight/common/overlay/usr/lib/systemd/system/cla-install-yang-NeophotonicsVMUX.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-28T19:34:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccc08f4c_a87c1f55",
+      "range": {
+        "startLine": 4,
+        "startChar": 38,
+        "endLine": 4,
+        "endChar": 54
+      },
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d5aeabc_94457e83",
         "filename": "board/czechlight/common/overlay/usr/lib/systemd/system/cla-install-yang-NeophotonicsVMUX.service",
         "patchSetId": 2
@@ -68,6 +116,27 @@
     },
     {
       "key": {
+        "uuid": "35742ef1_25dd10ce",
+        "filename": "board/czechlight/common/overlay/usr/lib/systemd/system/cla-install-yang-NeophotonicsVMUX.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-28T19:34:46Z",
+      "side": 1,
+      "message": "Takhle to dává smysl:\nService je spuštěná \u003d\u003d příslušné YANG moduly jsou nainstalovány, k dispozici\nService je vypnutá \u003d\u003d příslušné YANG moduly nejsou nainstalovány",
+      "parentUuid": "1d5aeabc_94457e83",
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb23ce8a_c4428839",
         "filename": "board/czechlight/epia_geode/overlay/boot/grub/grub.cfg",
         "patchSetId": 2
@@ -82,6 +151,33 @@
       "writtenOn": "2018-03-26T11:22:21Z",
       "side": 1,
       "message": "byl bych radsi, pokud by ten parametr czechlight\u003d... byl nastaveny nekde na samostatne radce kvuli tomu, aby se dal nejak rozumne editovat, treba behem instalace.\n\nJako docasne reseni staci zadratovat natvrdo do menu polozky \"CzechLight\".",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f336e1_30b9bf2d",
+        "filename": "board/czechlight/epia_geode/overlay/boot/grub/grub.cfg",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-28T19:34:46Z",
+      "side": 1,
+      "message": "nechápu to dočasné řešení (kam mám co zadrátovat?)",
+      "parentUuid": "eb23ce8a_c4428839",
       "range": {
         "startLine": 8,
         "startChar": 0,
@@ -117,6 +213,33 @@
       "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6089b52f_23622b10",
+        "filename": "board/czechlight/epia_geode/overlay/boot/grub/grub.cfg",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-28T19:34:46Z",
+      "side": 1,
+      "message": "smazáno",
+      "parentUuid": "408077be_575d2079",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 1
+      },
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
