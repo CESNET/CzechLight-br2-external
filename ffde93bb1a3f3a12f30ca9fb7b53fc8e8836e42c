@@ -137,6 +137,27 @@
     },
     {
       "key": {
+        "uuid": "1844fc92_0fe1a3f5",
+        "filename": "board/czechlight/common/overlay/usr/lib/systemd/system/cla-install-yang-NeophotonicsVMUX.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-28T23:09:48Z",
+      "side": 1,
+      "message": "Zeptam se jinak -- kdy chceme, aby se ty moduly odinstalovaly a ztratila se data a ten HW prestal reagovat na pozadavky na zmeny?",
+      "parentUuid": "35742ef1_25dd10ce",
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb23ce8a_c4428839",
         "filename": "board/czechlight/epia_geode/overlay/boot/grub/grub.cfg",
         "patchSetId": 2
@@ -178,6 +199,33 @@
       "side": 1,
       "message": "nechápu to dočasné řešení (kam mám co zadrátovat?)",
       "parentUuid": "eb23ce8a_c4428839",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a4bcd26_64d47297",
+        "filename": "board/czechlight/epia_geode/overlay/boot/grub/grub.cfg",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-28T23:09:48Z",
+      "side": 1,
+      "message": "Tohle je jedna konfigurace buildrootu, ktera produkuje image pouzitelny pro vic modelu czechlightu -- pro vsechny zesilovace, VMUXy a jine kusy, ktere pouzivaji motherboard Via Epia a nebo Axiomtek AMD Geode. Nechci, aby zde bylo nekolik bootovacich polozek, jedna pro VMUX, jina pro zesilovac typu ABC.\n\nSamozrejme musime \"nejak\" zpusobit, ze OS bude vedet, jaky typ CzechLightu ma obsluhovat. Takova vec ma probehnout prave jednou pri flashnuti OS do zarizeni. Idealni by bylo, aby se napr. nastavila jedna promenna v jednom souboru. Na platformach s U-Bootem je na to idelani u-boot env, tady se na to da pouzit ekvivalentni funkce v grubu. Ale zaroven to neni *ted* nutne vyresit uplne nejlip, cili prozatim bude stacit, kdyz odstranis vsecky polozky krome te puvodni, co se jmenuje jenom \"CzechLight\", a do ni navtrdo narves parametr:\n\n czechlight\u003dCL-VMUX",
+      "parentUuid": "27f336e1_30b9bf2d",
       "range": {
         "startLine": 8,
         "startChar": 0,
