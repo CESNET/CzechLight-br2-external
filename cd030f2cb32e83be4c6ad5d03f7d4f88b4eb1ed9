@@ -1,0 +1,64 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c862b42_13f74177",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-28T22:59:40Z",
+      "side": 1,
+      "message": "Z commitu nevim, proc je dulezite to pridat.",
+      "revId": "cd030f2cb32e83be4c6ad5d03f7d4f88b4eb1ed9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8733aa5_f4712b73",
+        "filename": "board/czechlight/epia_geode/overlay/etc/ssh/sshd_config",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-28T22:59:40Z",
+      "side": 1,
+      "message": "jake zmeny proti defaultu tam jsou?",
+      "revId": "cd030f2cb32e83be4c6ad5d03f7d4f88b4eb1ed9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81b3057a_1898fd96",
+        "filename": "board/czechlight/epia_geode/overlay/root/.ssh/authorized_keys",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-03-28T22:59:40Z",
+      "side": 1,
+      "message": "Nemuzeme pridavat nahodne klice do nahodnych kusu konfigurace. Pokud ten system ladis, pridej si SSH klic do overlaye, ale necommituj to.",
+      "revId": "cd030f2cb32e83be4c6ad5d03f7d4f88b4eb1ed9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
