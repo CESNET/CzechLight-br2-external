@@ -313,6 +313,33 @@
     },
     {
       "key": {
+        "uuid": "7b97d104_12f6183d",
+        "filename": "board/czechlight/epia_geode/overlay/boot/grub/grub.cfg",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-29T11:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3759650_8897a3c4",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "ffde93bb1a3f3a12f30ca9fb7b53fc8e8836e42c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "408077be_575d2079",
         "filename": "board/czechlight/epia_geode/overlay/boot/grub/grub.cfg",
         "patchSetId": 2
