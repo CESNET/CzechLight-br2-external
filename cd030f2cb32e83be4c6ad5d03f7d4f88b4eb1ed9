@@ -22,6 +22,27 @@
     },
     {
       "key": {
+        "uuid": "8129afbe_622f050d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-29T08:15:31Z",
+      "side": 1,
+      "message": "viz můj komentář \"změny proti defaultu\"",
+      "parentUuid": "0c862b42_13f74177",
+      "revId": "cd030f2cb32e83be4c6ad5d03f7d4f88b4eb1ed9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8733aa5_f4712b73",
         "filename": "board/czechlight/epia_geode/overlay/etc/ssh/sshd_config",
         "patchSetId": 1
@@ -36,6 +57,27 @@
       "writtenOn": "2018-03-28T22:59:40Z",
       "side": 1,
       "message": "jake zmeny proti defaultu tam jsou?",
+      "revId": "cd030f2cb32e83be4c6ad5d03f7d4f88b4eb1ed9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a135414_99f18d64",
+        "filename": "board/czechlight/epia_geode/overlay/etc/ssh/sshd_config",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-29T08:15:31Z",
+      "side": 1,
+      "message": "asi nejdůležitější změna je \"AllowUsers root\", která povoluje ssh login jen na roota.\nAle ono by to myslím stejně fungovalo i s defaultním konfigem, protože bez klíče\nv .ssh/authorized_keys se nikam nikdo stejně nenaloguje",
+      "parentUuid": "c8733aa5_f4712b73",
       "revId": "cd030f2cb32e83be4c6ad5d03f7d4f88b4eb1ed9",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
@@ -59,6 +101,27 @@
       "revId": "cd030f2cb32e83be4c6ad5d03f7d4f88b4eb1ed9",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fccbdf3_846e39f2",
+        "filename": "board/czechlight/epia_geode/overlay/root/.ssh/authorized_keys",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-03-29T08:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81b3057a_1898fd96",
+      "revId": "cd030f2cb32e83be4c6ad5d03f7d4f88b4eb1ed9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
