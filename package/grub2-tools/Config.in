@@ -1,0 +1,4 @@
+config BR2_PACKAGE_GRUB2_TOOLS
+    bool "grub2-tools"
+    help
+        GRUB2 bootloader tools (such as grub-editenv)
