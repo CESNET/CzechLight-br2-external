@@ -1,0 +1,25 @@
+[Unit]
+Description=CzechLight CL-VMUX2 (Neophotonics VMUX) driver
+After=syslog.target network.target sysrepod.service
+Before=rauc-mark-good.service
+Requires=sysrepod.service
+PartOf=sysrepod.service
+ConditionKernelCommandLine=czechlight=CL-VMUXv2
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/cla-sysrepod --properties-log-level=5 --sr-bridge-log-level=3 --sysrepo-log-level=3 --io-log-level=5 --driver=NeophotonicsVMUX --port=/dev/ttyS1
+PrivateTmp=yes
+PrivateDevices=no
+ProtectSystem=yes
+ProtectHome=yes
+MemoryDenyWriteExecute=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+Restart=on-abnormal
+SystemCallArchitectures=native
+WatchdogSec=15s
+
+[Install]
+WantedBy=multi-user.target
