@@ -1,0 +1,64 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95df7bfe_f017a5af",
+        "filename": "Config.in",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-03T11:52:59Z",
+      "side": 1,
+      "message": "Az tohle doladime, rad bych to videl poslane do buildroot mailing listu.",
+      "revId": "6cbe00f48353e20e65e3755bc119c22d9e7f9e57",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80aa1c4b_d140f195",
+        "filename": "board/czechlight/epia_geode/overlay/usr/lib/systemd/system-generators/czechlight-cfg-mount-generator",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-03T11:52:59Z",
+      "side": 1,
+      "message": "Tohle je kopie obdobneho generatoru pro clearfog. Bude nutne to sloucit do jednoho skriptu.",
+      "revId": "6cbe00f48353e20e65e3755bc119c22d9e7f9e57",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf56394b_2043736a",
+        "filename": "package/grub2-tools/grub2-tools.mk",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-03T11:52:59Z",
+      "side": 1,
+      "message": "Odkud tohle pochazi? V cem je to jine/lepsi nez https://patchwork.ozlabs.org/patch/755651/ ?",
+      "revId": "6cbe00f48353e20e65e3755bc119c22d9e7f9e57",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    }
+  ]
+}
