@@ -1,0 +1,24 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c053506_c8e7f1c8",
+        "filename": "package/czechlight-cfg-fs/Config.in",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-04T21:14:54Z",
+      "side": 1,
+      "message": "Tohle je nahodne zvolene cislo; cilem je, aby byla velikost explicitne uvedena v konfiguraci pro clearfog.",
+      "revId": "e8b1811386513e618319e7df1dde2aeaa1f839b9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    }
+  ]
+}
