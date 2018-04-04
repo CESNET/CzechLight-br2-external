@@ -40,6 +40,27 @@
       "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88da4f33_48ed0497",
+        "filename": "board/czechlight/epia_geode/genimage.cfg",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-04T14:55:25Z",
+      "side": 1,
+      "message": "BR2_TARGET_GRUB2_BOOT_PARTITION musi vest nekam, kde gruyb2 najde to, co je standardne v /boot.",
+      "parentUuid": "edc4776b_e18ee134",
+      "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
