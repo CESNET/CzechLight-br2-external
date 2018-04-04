@@ -1,0 +1,24 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a728662_8158a648",
+        "filename": "board/czechlight/epia_geode/genimage.cfg",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-04T14:10:18Z",
+      "side": 1,
+      "message": "Grub2 potrebuje ukladat svuj env do souboru, co zabira predalokovanbych 1024B v \"nejakem filesystemu\". V nasem pripade to nesmi byt / ani /cfg, protoze ty vesele prepisujeme pri updatu, cili potrebujeme jeste dalsi partition (a do ni filesystem).",
+      "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
