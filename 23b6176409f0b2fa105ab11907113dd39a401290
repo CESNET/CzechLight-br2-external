@@ -19,6 +19,27 @@
       "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edc4776b_e18ee134",
+        "filename": "board/czechlight/epia_geode/genimage.cfg",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-04T14:52:40Z",
+      "side": 1,
+      "message": "Předpokládám, že tu partition mám udělat hned za grub partition, tj.\n\n        partition grub {\n\t\tin-partition-table \u003d \"no\"\n\t\timage \u003d \"grub.img\"\n\t\toffset \u003d 512\n\t}\n\tpartition grubenv {\n\t\tpartition-type \u003d 0x83\n\t\timage \u003d \"cfg.ext4\"\n\t\tsize \u003d 32M\n\t}\n\nzatím mi to moc nejde, zkouším různá nastavení, změnit patřičné názvy partitions z jakých má grub zavádět systém (/dev/sda1 \u003d\u003e /dev/sda2 atd.) a vždycky se místo boot menu zobrazí jen ta bash-like konzole, tak se ujišťuju",
+      "parentUuid": "5a728662_8158a648",
+      "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
