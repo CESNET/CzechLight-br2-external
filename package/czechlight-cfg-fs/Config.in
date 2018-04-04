@@ -1,0 +1,16 @@
+config BR2_PACKAGE_CZECHLIGHT_CFG_FS
+	bool "Prepare the /cfg partition"
+	help
+	  This is required for RAUC to work properly.
+
+if BR2_PACKAGE_CZECHLIGHT_CFG_FS
+
+config CZECHLIGHT_CFG_FS_SIZE
+	string "exact size"
+	default "128M"
+	help
+	  Size of the /cfg filesystem image.  This must be big enough to
+	  accommodate all configuration, but small enough to fit within the
+	  corresponding partition.
+
+endif # BR2_PACKAGE_CZECHLIGHT_CFG_FS
