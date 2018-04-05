@@ -43,6 +43,27 @@
     },
     {
       "key": {
+        "uuid": "642987fe_c5adaa84",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T19:20:35Z",
+      "side": 1,
+      "message": "Myslim to tak, jak jsem to udelal v https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/718/2/package/czechlight-cfg-fs/Config.in , cili balicky prefixovat pres BR2_PACKAGE_CZECHLIGHT_BLABLA, a jine promenne jenom CZECHLIGHT_BLABLA_.",
+      "parentUuid": "78f77f98_0b1d4c92",
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac34da42_b70f742c",
         "filename": "package/rauc-system-conf/Config.in",
         "patchSetId": 4
