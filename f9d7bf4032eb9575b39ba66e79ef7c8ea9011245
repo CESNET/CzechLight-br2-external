@@ -22,6 +22,27 @@
     },
     {
       "key": {
+        "uuid": "8fd82bb7_c5ce2ffa",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T18:39:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73b02a92_d6ef0f92",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4757ab9_5db6f1be",
         "filename": "package/rauc-system-conf/Config.in",
         "patchSetId": 3
@@ -39,6 +60,27 @@
       "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f97586be_d43e2aa2",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T18:39:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4757ab9_5db6f1be",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,27 @@
     },
     {
       "key": {
+        "uuid": "9653fac5_dfe4a29b",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T18:39:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f640c9d_90721a9a",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21eaa63c_d5d2f46b",
         "filename": "package/rauc-system-conf/Config.in",
         "patchSetId": 3
@@ -79,6 +142,27 @@
       "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce0cce35_a4b76d57",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T18:39:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21eaa63c_d5d2f46b",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     },
     {
       "key": {
@@ -102,6 +186,27 @@
     },
     {
       "key": {
+        "uuid": "6aa00550_d252a3a6",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T18:39:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5370b26b_f7dbf89b",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bf1c97d_5fd3bf77",
         "filename": "package/rauc-system-conf/rauc-system-conf.mk",
         "patchSetId": 3
@@ -122,6 +227,27 @@
     },
     {
       "key": {
+        "uuid": "73641d29_010c1d95",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T18:39:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bf1c97d_5fd3bf77",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e6bad34_c5f20ad3",
         "filename": "package/rauc-system-conf/rauc-system-conf.mk",
         "patchSetId": 3
@@ -136,6 +262,27 @@
       "writtenOn": "2018-04-05T18:15:32Z",
       "side": 1,
       "message": "Kam se to generuje, cili co je $(@D)? Proc je to vubec potreba nejprve generovat a pote kopirovat? Nestacilo by to proste vytvorit rovnou na spravnem miste v _INSTALL_TARGET_CMDS?",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9330777f_47492bf3",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T18:39:39Z",
+      "side": 1,
+      "message": "vygeneruje se to do\n\n  /home/mmares/build-epia/build/rauc-system-conf/system.conf\n\na nakonec se to nainstaluje tím install příkazem do:\n\n  /home/mmares/build-epia/target/etc/rauc/system.conf\n\ndalo by se to rovnou udělat na cílové místo, ale přijde mi korektní nejprve soubor vygenerovat a pak ho nainstalovat. Stejně jako software se buildí např. v ~/build-epia/build/grub2-tools a i po instalaci binárek, knihoven atd. ten výsledek buildu tu zůstává, stejně tak by se měl soubor vygenerovat v ~/build-epia/build/rauc-system-conf a být tam k nalezení i po jeho instalaci do targetu.",
+      "parentUuid": "7e6bad34_c5f20ad3",
       "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
