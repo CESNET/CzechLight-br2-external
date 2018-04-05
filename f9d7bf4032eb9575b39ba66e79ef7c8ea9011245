@@ -286,6 +286,27 @@
       "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd4a4644_9c85ffcb",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:46:55Z",
+      "side": 1,
+      "message": "Prijde mi to jako zbytecna prace a nafouknuti tohohle .mk o 20%. Odstran to, prosim. Neni to opravdovy \"balicek\" SW, ktery potrebuje kompilaci.",
+      "parentUuid": "9330777f_47492bf3",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
