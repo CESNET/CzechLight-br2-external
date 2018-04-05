@@ -1,0 +1,24 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bcd83ab3_5bc86e50",
+        "filename": "package/grub2-tools/grub2-tools.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T12:01:49Z",
+      "side": 1,
+      "message": "Zkus za $(TARGET_CFLAGS) pridat neco jako:\n\n  -Wp,-U_FORTIFY_SOURCE -fno-stack-protector\n\na mozna obdobne i do LDFLAGS. Jde o to, ze je potreba ten stack protector selektivne vypnout pouze pro tento balicek. Fedora to dela obdobne -- https://github.com/martinezjavier/grub2-fedora-pkg/commit/31fa3b5d3543246568f562a3a399fb6aed02ff8a\n\nHmmm, ozna by mohlo stacit jenom vzit ekvivalent z boot/grub2/grub2.mk:\n\n  TARGET_CFLAGS\u003d\"$(TARGET_CFLAGS) -fno-stack-protector\" \\",
+      "revId": "47a3c9073ed71d5c96e1d80f40d7d5d1299687d1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
