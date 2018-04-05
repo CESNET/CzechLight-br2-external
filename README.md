@@ -25,9 +25,7 @@ make czechlight_clearfog_defconfig
 make
 ```
 
-A full rebuild takes between 30 and 45 minutes on a T460s laptop for targets which use a pre-generated Linaro toolchain (`clearfog`, `beaglebone`).
-Other targets take longer because one has to build a toolchain first.
-When the build finishes, the generated image to be `dd`-ed to an SD card is at `images/sdcard.img`.
+A full rebuild takes between 30 and 45 minutes on a T460s laptop.
 
 WARNING: Buildroot is fragile.
 It is *not* safe to perform incremental builds after changing an "important" setting.
@@ -53,7 +51,9 @@ index 79db7fe..905099a 100644
  TOPDIR := $(CURDIR)
 ```
 
-## Installing updates to a device
+## Installing
+
+### Updates via RAUC
 
 Apart from the traditional way of re-flashing the SD card or the eMMC from scratch, it's also possible to use RAUC to update.
 This method preserves the U-Boot version and the U-Boot's environment.
@@ -71,4 +71,29 @@ rsync -avP images/update.raucb somewhere.example.org:path/to/web/root
 wget http://somewhere.example.org/update.raucb -O /tmp/update.raucb
 rauc install /tmp/update.raucb
 reboot
+```
+
+### Initial installation
+
+#### Clearfog
+
+On development boards with a µSD card slot, simply `dd` the `images/sdcard.img` to the SD card and boot from there.
+
+On a regular Clearfog Base with an eMMC, one has to bootstrap the device first.
+If recovering a totally bricked board, one can use the `kwboot` command to upload the initial U-Boot via the console:
+
+```sh
+./tools/kwboot -b ./u-boot-spl.kwb -t -p /dev/ttyUSB0
+```
+Once in U-Boot (a stock factory image is OK as well), plug a USB flash disk which contains `images/usb-flash.img` and execute:
+
+```sh
+usb start; fatload usb 0:1 00800000 boot.scr; source 00800000
+```
+
+A Linux session will start.
+Run the following from the shell prompt:
+
+```sh
+mount /dev/sda1 /mnt; sh /mnt/usb-reflash-factory.sh
 ```
