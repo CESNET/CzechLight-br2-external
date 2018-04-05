@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb89be02_addcb79a",
+        "filename": "board/czechlight/common/rauc-manifest.raucm.in",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T20:56:35Z",
+      "side": 1,
+      "message": "TOhle rozbijelo generic-package :(",
+      "revId": "1b5a4281675988bdd02d9dc0696d08702dedffae",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99ba10d6_dad4510d",
+        "filename": "package/czechlight-rauc/czechlight-rauc.mk",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T20:56:35Z",
+      "side": 1,
+      "message": "...a tohle staci, protoze make neni shell :)",
+      "revId": "1b5a4281675988bdd02d9dc0696d08702dedffae",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    }
+  ]
+}
