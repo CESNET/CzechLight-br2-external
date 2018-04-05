@@ -22,6 +22,27 @@
     },
     {
       "key": {
+        "uuid": "7e345e51_5b8480d5",
+        "filename": "Config.in",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T10:12:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "95df7bfe_f017a5af",
+      "revId": "6cbe00f48353e20e65e3755bc119c22d9e7f9e57",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80aa1c4b_d140f195",
         "filename": "board/czechlight/epia_geode/overlay/usr/lib/systemd/system-generators/czechlight-cfg-mount-generator",
         "patchSetId": 7
@@ -56,6 +77,27 @@
       "writtenOn": "2018-04-03T11:52:59Z",
       "side": 1,
       "message": "Odkud tohle pochazi? V cem je to jine/lepsi nez https://patchwork.ozlabs.org/patch/755651/ ?",
+      "revId": "6cbe00f48353e20e65e3755bc119c22d9e7f9e57",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72f45090_267c65fd",
+        "filename": "package/grub2-tools/grub2-tools.mk",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T10:12:56Z",
+      "side": 1,
+      "message": "v podstatě v ničem. Až tedy budu přidávat grub2-tools package, vezmu ten commit přesně jak odkazuješ",
+      "parentUuid": "bf56394b_2043736a",
       "revId": "6cbe00f48353e20e65e3755bc119c22d9e7f9e57",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": false
