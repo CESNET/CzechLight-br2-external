@@ -1,0 +1,144 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73b02a92_d6ef0f92",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:15:32Z",
+      "side": 1,
+      "message": "nit: vsechno se odsazuje jednim tabulatorem...",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4757ab9_5db6f1be",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:15:32Z",
+      "side": 1,
+      "message": "...krome helpu, ktery k tomu jednomu tabu z odsazeni, ktere \"zdedi\" od bloku \"config\", prida jeste dve mezery :). Proste to tak je.",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f640c9d_90721a9a",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:15:32Z",
+      "side": 1,
+      "message": "nit: tecka na konci",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21eaa63c_d5d2f46b",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:15:32Z",
+      "side": 1,
+      "message": "zadne defaulty, prosim -- nedavaji smysl",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5370b26b_f7dbf89b",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:15:32Z",
+      "side": 1,
+      "message": "Jeste takhle:\n\n  else\n  $(error Unsupported bootloader for RAUC)\n  endif",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bf1c97d_5fd3bf77",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:15:32Z",
+      "side": 1,
+      "message": "Tohle je globalni vec, ktera zpusobi, ze se to vyexportuje pro vsechny prikazy, ktere Make bude kdykoli vykonavat (pokud to tedy chapu dobre). Snazsi by IMHO bylo, pokud by instalace vypadala nejak jako:\n\n  sed \u0027s|CZECHLIGHT_RAUC_SLOT_A_ROOTFS_DEV|$(CZECHLIGHT_RAUC_SLOT_A_ROOTFS_DEV)|,s|dalsi|promenne|\u0027 nejaky-template \u003e $(TARGET_DIR)/etc/rauc/system.conf",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e6bad34_c5f20ad3",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:15:32Z",
+      "side": 1,
+      "message": "Kam se to generuje, cili co je $(@D)? Proc je to vubec potreba nejprve generovat a pote kopirovat? Nestacilo by to proste vytvorit rovnou na spravnem miste v _INSTALL_TARGET_CMDS?",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
