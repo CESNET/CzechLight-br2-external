@@ -60,6 +60,7 @@ endif
 endif # BR2_PACKAGE_CZECHLIGHT_RAUC
 
 define CZECHLIGHT_RAUC_INSTALL_TARGET_CMDS
+	$(INSTALL) -D -m 0644 $(BR2_EXTERNAL_CZECHLIGHT_PATH)/crypto/rauc-cert.pem $(TARGET_DIR)/etc/rauc/keyring.pem
 	$(INSTALL) -D -m 0644 $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/system.conf.in $(TARGET_DIR)/etc/rauc/system.conf
 	sed -i -E -e "s|CZECHLIGHT_RAUC_BOOTLOADER|$(CZECHLIGHT_RAUC_BOOTLOADER)|" \
 		-e 's|CZECHLIGHT_RAUC_COMPATIBLE|$(call qstrip,$(CZECHLIGHT_RAUC_COMPATIBLE))|' \
