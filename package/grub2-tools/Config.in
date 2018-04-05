@@ -1,0 +1,10 @@
+config BR2_PACKAGE_GRUB2_TOOLS
+	bool "grub2-tools"
+	depends on BR2_USE_WCHAR
+	help
+	  Support tools to interact with GNU GRUB Multiboot boot loader.
+
+	  http://www.gnu.org/software/grub/
+
+comment "grub2-tools needs a toolchain w/ wchar"
+	depends on !BR2_USE_WCHAR
