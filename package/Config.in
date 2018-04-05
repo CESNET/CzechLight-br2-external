@@ -1,3 +1,4 @@
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/cla-sysrepo/Config.in"
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/czechlight-cfg-fs/Config.in"
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/grub2-tools/Config.in"
+source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/rauc-system-conf/Config.in"
