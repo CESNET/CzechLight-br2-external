@@ -61,6 +61,106 @@
       "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d530c5c_b7e39208",
+        "filename": "board/czechlight/epia_geode/mk-rauc-bundle.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T10:03:28Z",
+      "side": 1,
+      "message": "Cely ten soubor je velmi podobny mk-rauc-bundle, kterou jsem napsal pro clearfog. Libilo by se mi, abys ji v extra commitu presunul do board/czechlight/common a patricne upravil. Jediny rozdil vidim v casti update.compatible, ta by se mohla prebirat z buildroot kconfigu.",
+      "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7454643_d46a7f16",
+        "filename": "board/czechlight/epia_geode/mk-rauc-bundle.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T10:03:28Z",
+      "side": 1,
+      "message": "viz moje poznamka pro /etc/rauc/system.conf",
+      "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "577a95a2_2dc39e8f",
+        "filename": "board/czechlight/epia_geode/overlay/etc/rauc/system.conf",
+        "patchSetId": 9
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T10:03:28Z",
+      "side": 1,
+      "message": "Tady ma byt:\n  czechlight-epia-geode\n\nprotoze to urcuje, na ktery system se dany SW image da vubec nainstalovat. Cilovy stav, ktery chci dosahnout, je jeden image pro x86 desky, a jeden image pro clearfog. Na kazdem boxu pak bude nekde v grub env (nebo u-boot env) napsano, ze je to ve skutecnost CL-ROADMv2 a nebo CL-VMUXv2, ale nebudeme pro ne delat separatni image OS.",
+      "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87775103_74b6a3ee",
+        "filename": "board/czechlight/epia_geode/overlay/etc/rauc/system.conf",
+        "patchSetId": 9
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T10:03:28Z",
+      "side": 1,
+      "message": "Tohle nesmi byt v /etc, ale ve spolecne /boot partition.",
+      "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3824b369_bf6f153c",
+        "filename": "board/czechlight/epia_geode/overlay/usr/lib/systemd/system-generators/czechlight-cfg-mount-generator",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T10:03:28Z",
+      "side": 1,
+      "message": "Tohle vypada dost stejne jako skript pro Clearfog -- spravny device to precte z /proc/cmdline, resp. /etc/rauc/system.conf. Presun, prosim, tohle do common overlaye (v extra commitu), ja to vyzkousim na clearfogu.",
+      "revId": "23b6176409f0b2fa105ab11907113dd39a401290",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
