@@ -101,6 +101,27 @@
       "revId": "6cbe00f48353e20e65e3755bc119c22d9e7f9e57",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "224c3777_03bc1c24",
+        "filename": "package/grub2-tools/grub2-tools.mk",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T10:17:49Z",
+      "side": 1,
+      "message": "Je mi to skoro jedno -- spis mi slo o to, ze pokud prejimas cizi kod, je dobre to v commit message popsat, okdud to je a zejmena kdo to napsal. Je to dulezite treba kvuli autorskym pravum, a navic se pak da dohledat vic informaci, kdyz prijdem na to, ze neco nefunguje uplne spravne.\n\nA jinak ano, jsem radeji, kdyz znovu nevynalezame kolo.",
+      "parentUuid": "72f45090_267c65fd",
+      "revId": "6cbe00f48353e20e65e3755bc119c22d9e7f9e57",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
