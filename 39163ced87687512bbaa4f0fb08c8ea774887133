@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a917476_c91f723c",
+        "filename": "package/rauc-system-conf/generate-system-conf.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T19:20:35Z",
+      "side": 1,
+      "message": "Nemyslim si, ze by to musel byt shell script, viz https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/728/1/board/czechlight/common/rauc-manifest.raucm.in",
+      "revId": "39163ced87687512bbaa4f0fb08c8ea774887133",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62069e46_4f9fa578",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T19:20:35Z",
+      "side": 1,
+      "message": "zda se mi, ze buildroot vsude pouziva verzi bez mezer, a ze na tom make zalezi (?). Prosim, pouzij to vsude (vcetne qstrip a podobnych) bez mezer, aby to vypadalo jako zbytek buildrootu.",
+      "range": {
+        "startLine": 5,
+        "startChar": 26,
+        "endLine": 5,
+        "endChar": 27
+      },
+      "revId": "39163ced87687512bbaa4f0fb08c8ea774887133",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
