@@ -307,6 +307,27 @@
       "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5781834_f70d840e",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T19:10:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd4a4644_9c85ffcb",
+      "revId": "f9d7bf4032eb9575b39ba66e79ef7c8ea9011245",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
