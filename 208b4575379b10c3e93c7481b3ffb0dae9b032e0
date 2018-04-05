@@ -1,0 +1,110 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a6ac22_5b21176a",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:51:09Z",
+      "side": 1,
+      "message": "Byl bych rad, pokud by nase balicky a hacky pouzivaly prefix CZECHLIGHT, aby v budoucnu nedoslo ke konfliktu s buildrootem. Ale asi to prejmenuj az pozdeji, mam tu rozdelne podobne veci, ktere nakonec prijdou do jednoho balicku.",
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac34da42_b70f742c",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:51:09Z",
+      "side": 1,
+      "message": "tabulator mezera mezera, ne tabulator tabulator",
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c947927_2bb140d5",
+        "filename": "package/rauc-system-conf/generate-system-conf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:51:09Z",
+      "side": 1,
+      "message": "tady neco chybi, klidne prozatim zadratovane",
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "babeeb56_2029d8ef",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:51:09Z",
+      "side": 1,
+      "message": "neni to nutne exportovat, ale je nutne pouzit nazev promenne, ktery je vic \"unikatni\", cili prefixovat to nejakym CZECHLIGHT_BLABLABLA_ prefixem",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 7
+      },
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31084336_57391466",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T18:51:09Z",
+      "side": 1,
+      "message": "sed umi vic -e parametru.",
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
