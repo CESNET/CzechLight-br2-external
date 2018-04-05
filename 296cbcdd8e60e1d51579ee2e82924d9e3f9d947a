@@ -22,6 +22,27 @@
     },
     {
       "key": {
+        "uuid": "02a2464c_5d9fe116",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T11:47:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "188b8889_fe0f01b5",
+      "revId": "296cbcdd8e60e1d51579ee2e82924d9e3f9d947a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f3dea37_060e79a1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +69,33 @@
     },
     {
       "key": {
+        "uuid": "05c590c0_64d23a8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T11:47:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f3dea37_060e79a1",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 3
+      },
+      "revId": "296cbcdd8e60e1d51579ee2e82924d9e3f9d947a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa01c8a4_0268351a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -62,6 +110,27 @@
       "writtenOn": "2018-04-05T11:19:20Z",
       "side": 1,
       "message": "Tady by se spis asi hodilo \u0027Reviewed-by\u0027, ten patch jsi nepsal Ty, ale je to vcelku jedno",
+      "revId": "296cbcdd8e60e1d51579ee2e82924d9e3f9d947a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d45d81d3_fd047966",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T11:47:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa01c8a4_0268351a",
       "revId": "296cbcdd8e60e1d51579ee2e82924d9e3f9d947a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": false
