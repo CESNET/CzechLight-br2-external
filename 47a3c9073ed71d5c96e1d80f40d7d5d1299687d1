@@ -19,6 +19,27 @@
       "revId": "47a3c9073ed71d5c96e1d80f40d7d5d1299687d1",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec7bd7c6_3b893011",
+        "filename": "package/grub2-tools/grub2-tools.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T14:20:23Z",
+      "side": 1,
+      "message": "Nakonec pomohlo udělat tohle:\n\n  GRUB2_TOOLS_CONF_ENV \u003d \\\n\tCPP\u003d\"$(TARGET_CC) -E\" \\\n\tTARGET_CC\u003d\"$(TARGET_CC)\" \\\n\tTARGET_CFLAGS\u003d\"$(TARGET_CFLAGS) -Wp,-U_FORTIFY_SOURCE -fno-stack-protector\" \\\n\tTARGET_CPPFLAGS\u003d\"$(TARGET_CPPFLAGS) -Wp,-U_FORTIFY_SOURCE -fno-stack-protector\" \\\n\tTARGET_LDFLAGS\u003d\"$(TARGET_LDFLAGS) -fno-stack-protector\" \\\n\tTARGET_NM\u003d\"$(TARGET_NM)\" \\\n\tTARGET_OBJCOPY\u003d\"$(TARGET_OBJCOPY)\" \\\n\tTARGET_STRIP\u003d\"$(TARGET_CROSS)strip\" \\\n\tCXXFLAGS\u003d\"$(CXXFLAGS) -fno-stack-protector\" \\\n\tCFLAGS\u003d\"$(CFLAGS) -fno-stack-protector\" \\\n\tLDFLAGS\u003d\"$(LDFLAGS) -fno-stack-protector\"\n\nNež mě napadlo přidat poslední tři řádky, tak po detailnějším průzkumu výpisu kompilace jsem\nsi všiml, že některé objektové soubory jsou zkompilované s -fno-stack-protector a některé s -fstrong-stack-protector...",
+      "parentUuid": "bcd83ab3_5bc86e50",
+      "revId": "47a3c9073ed71d5c96e1d80f40d7d5d1299687d1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
