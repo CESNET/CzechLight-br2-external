@@ -35,3 +35,39 @@ ifeq ($(call qstrip,$(CZECHLIGHT_RAUC_COMPATIBLE)),)
 $(error CZECHLIGHT_RAUC_COMPATIBLE cannot be empty)
 endif
 endif
+
+CZECHLIGHT_RAUC_INSTALL_TARGET = YES
+
+ifeq ($(BR2_PACKAGE_CZECHLIGHT_RAUC),y)
+
+ifeq ($(call qstrip,$(CZECHLIGHT_RAUC_BOOTLOADER)),)
+$(error Unsupported bootloader for RAUC)
+endif
+
+ifeq ($(call qstrip,$(CZECHLIGHT_RAUC_SLOT_A_ROOTFS_DEV)),)
+$(error CZECHLIGHT_RAUC_SLOT_A_ROOTFS_DEV cannot be empty)
+endif
+ifeq ($(call qstrip,$(CZECHLIGHT_RAUC_SLOT_A_CFG_DEV)),)
+$(error CZECHLIGHT_RAUC_SLOT_A_CFG_DEV cannot be empty)
+endif
+ifeq ($(call qstrip,$(CZECHLIGHT_RAUC_SLOT_B_ROOTFS_DEV)),)
+$(error CZECHLIGHT_RAUC_SLOT_B_ROOTFS_DEV cannot be empty)
+endif
+ifeq ($(call qstrip,$(CZECHLIGHT_RAUC_SLOT_B_CFG_DEV)),)
+$(error CZECHLIGHT_RAUC_SLOT_B_CFG_DEV cannot be empty)
+endif
+
+endif # BR2_PACKAGE_CZECHLIGHT_RAUC
+
+define CZECHLIGHT_RAUC_INSTALL_TARGET_CMDS
+	$(INSTALL) -D -m 0644 $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/system.conf.in $(TARGET_DIR)/etc/rauc/system.conf
+	sed -i -E -e "s|CZECHLIGHT_RAUC_BOOTLOADER|$(CZECHLIGHT_RAUC_BOOTLOADER)|" \
+		-e 's|CZECHLIGHT_RAUC_COMPATIBLE|$(call qstrip,$(CZECHLIGHT_RAUC_COMPATIBLE))|' \
+		-e "s|CZECHLIGHT_RAUC_SLOT_A_ROOTFS_DEV|$(call qstrip,$(CZECHLIGHT_RAUC_SLOT_A_ROOTFS_DEV))|" \
+		-e "s|CZECHLIGHT_RAUC_SLOT_A_CFG_DEV|$(call qstrip,$(CZECHLIGHT_RAUC_SLOT_A_CFG_DEV))|" \
+		-e "s|CZECHLIGHT_RAUC_SLOT_B_ROOTFS_DEV|$(call qstrip,$(CZECHLIGHT_RAUC_SLOT_B_ROOTFS_DEV))|" \
+		-e "s|CZECHLIGHT_RAUC_SLOT_B_CFG_DEV|$(call qstrip,$(CZECHLIGHT_RAUC_SLOT_B_CFG_DEV))|" \
+		$(TARGET_DIR)/etc/rauc/system.conf
+endef
+
+$(eval $(generic-package))
