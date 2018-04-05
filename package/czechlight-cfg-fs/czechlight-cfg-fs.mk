@@ -9,4 +9,8 @@ define CZECHLIGHT_CFG_FS_INSTALL_IMAGES_CMDS
 	$(HOST_DIR)/sbin/mkfs.ext4 -L cfg $(CZECHLIGHT_CFG_FS_LOCATION) $(call qstrip,$(CZECHLIGHT_CFG_FS_SIZE))
 endef
 
+ifeq ($(BR2_PACKAGE_CZECHLIGHT_CFG_FS)-$(call qstrip,$(CZECHLIGHT_CFG_FS_SIZE)),y-)
+$(error CZECHLIGHT_CFG_FS_SIZE cannot be empty)
+endif
+
 $(eval $(generic-package))
