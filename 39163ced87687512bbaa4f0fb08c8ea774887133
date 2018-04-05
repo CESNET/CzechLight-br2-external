@@ -22,6 +22,27 @@
     },
     {
       "key": {
+        "uuid": "1c70586b_c4c72050",
+        "filename": "package/rauc-system-conf/generate-system-conf.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-05T21:09:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a917476_c91f723c",
+      "revId": "39163ced87687512bbaa4f0fb08c8ea774887133",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62069e46_4f9fa578",
         "filename": "package/rauc-system-conf/rauc-system-conf.mk",
         "patchSetId": 5
