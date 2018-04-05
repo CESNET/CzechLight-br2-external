@@ -22,6 +22,27 @@
     },
     {
       "key": {
+        "uuid": "78f77f98_0b1d4c92",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T19:10:00Z",
+      "side": 1,
+      "message": "myslíš prefix\n\n  BR2_PACKAGE_CZECHLIGHT_*\n\npravda?",
+      "parentUuid": "34a6ac22_5b21176a",
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac34da42_b70f742c",
         "filename": "package/rauc-system-conf/Config.in",
         "patchSetId": 4
@@ -42,6 +63,27 @@
     },
     {
       "key": {
+        "uuid": "876e6559_da59fcd7",
+        "filename": "package/rauc-system-conf/Config.in",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T19:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac34da42_b70f742c",
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c947927_2bb140d5",
         "filename": "package/rauc-system-conf/generate-system-conf.sh",
         "patchSetId": 4
@@ -59,6 +101,27 @@
       "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96b515a7_39690b01",
+        "filename": "package/rauc-system-conf/generate-system-conf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T19:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c947927_2bb140d5",
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +151,33 @@
     },
     {
       "key": {
+        "uuid": "25fb3bc3_539d43a1",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T19:10:00Z",
+      "side": 1,
+      "message": "ten export byl přehlédnutý, měl být smazán",
+      "parentUuid": "babeeb56_2029d8ef",
+      "range": {
+        "startLine": 6,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 7
+      },
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31084336_57391466",
         "filename": "package/rauc-system-conf/rauc-system-conf.mk",
         "patchSetId": 4
@@ -105,6 +195,27 @@
       "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae9ffc78_b28befb2",
+        "filename": "package/rauc-system-conf/rauc-system-conf.mk",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000004
+      },
+      "realAuthor": {
+        "id": 1000004
+      },
+      "writtenOn": "2018-04-05T19:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31084336_57391466",
+      "revId": "208b4575379b10c3e93c7481b3ffb0dae9b032e0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
