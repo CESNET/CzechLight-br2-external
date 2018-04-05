@@ -1,0 +1,36 @@
+config BR2_PACKAGE_RAUC_SYSTEM_CONF
+		bool "rauc-system-conf"
+		depends on BR2_PACKAGE_RAUC
+		help
+				Install a standardized system.conf RAUC config into /etc/rauc/system.conf
+
+				This standardized config supports two symmetric slots (A and B) for rootfs.
+				For both of these slots, there is another slot cfg for persistent data.
+
+				This package requires you to fill the names of devices for all four slots.
+				Based on them, the correct system.conf will be generated and installed
+
+if BR2_PACKAGE_RAUC_SYSTEM_CONF
+
+config CZECHLIGHT_RAUC_SLOT_A_ROOTFS_DEV
+		string "device name (rootfs slot A)"
+		default "/dev/sda1"
+		help
+				Name of the device/partition where rootfs for slot A will be
+config CZECHLIGHT_RAUC_SLOT_A_CFG_DEV
+		string "device name (cfg slot A)"
+		default "/dev/sda2"
+		help
+				Name of the device/partition where cfg for slot A will be
+config CZECHLIGHT_RAUC_SLOT_B_ROOTFS_DEV
+		string "device name (rootfs slot B)"
+		default "/dev/sda3"
+		help
+				Name of the device/partition where rootfs for slot B will be
+config CZECHLIGHT_RAUC_SLOT_B_CFG_DEV
+		string "device name (cfg slot B)"
+		default "/dev/sda4"
+		help
+				Name of the device/partition where cfg for slot B will be
+
+endif # BR2BR2_PACKAGE_RAUC_SYSTEM_CONF
