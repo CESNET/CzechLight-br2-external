@@ -16,7 +16,7 @@ BR2_INIT_SYSTEMD=y
 # BR2_TARGET_GENERIC_REMOUNT_ROOTFS_RW is not set
 BR2_ENABLE_LOCALE_WHITELIST="C en_US en_US.utf8"
 BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/overlay/ $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/epia_geode/overlay/"
-BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/install-rauc-cert.sh $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/epia_geode/prepare-grub.sh"
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/epia_geode/prepare-grub.sh"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="support/scripts/genimage.sh"
 BR2_ROOTFS_POST_SCRIPT_ARGS="-c $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/epia_geode/genimage.cfg"
 BR2_LINUX_KERNEL=y
