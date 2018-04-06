@@ -1,6 +1,6 @@
 [system]
 compatible=czechlight-epia-geode
-bootloader=CZECHLIGHT_RAUC_BOOTLOADER_NAME
+bootloader=CZECHLIGHT_RAUC_BOOTLOADER
 
 [keyring]
 path=/etc/rauc/keyring.pem
