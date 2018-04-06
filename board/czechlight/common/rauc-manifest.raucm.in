@@ -1,0 +1,13 @@
+[update]
+compatible=CZECHLIGHT_RAUC_COMPATIBLE
+version=CZECHLIGHT_RAUC_IMAGE_VERSION
+
+[hooks]
+filename=hook.sh
+
+[image.rootfs]
+filename=rootfs.tar.xz
+
+[image.cfg]
+filename=cfg.tar.xz
+hooks=post-install

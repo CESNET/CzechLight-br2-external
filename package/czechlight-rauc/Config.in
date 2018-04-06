@@ -1,0 +1,42 @@
+config CZECHLIGHT_RAUC_ROOTFS
+	bool "Create RAUC update bundle"
+	select BR2_PACKAGE_CZECHLIGHT_CFG_FS
+	select BR2_PACKAGE_HOST_RAUC
+	select BR2_PACKAGE_CZECHLIGHT_RAUC
+
+if CZECHLIGHT_RAUC_ROOTFS
+
+config CZECHLIGHT_RAUC_COMPATIBLE
+	string "HW compatibility string"
+	help
+	  Unique identifier which specifies what boards accept a given SW image.
+
+config BR2_PACKAGE_CZECHLIGHT_RAUC
+	bool
+
+config CZECHLIGHT_RAUC_BOOTLOADER
+	string
+	default uboot if BR2_TARGET_UBOOT
+	default grub if BR2_TARGET_GRUB2
+
+config CZECHLIGHT_RAUC_SLOT_A_ROOTFS_DEV
+	string "device name (rootfs slot A)"
+	help
+	  Name of the device/partition where rootfs for slot A will be
+
+config CZECHLIGHT_RAUC_SLOT_A_CFG_DEV
+	string "device name (cfg slot A)"
+	help
+	  Name of the device/partition where cfg for slot A will be
+
+config CZECHLIGHT_RAUC_SLOT_B_ROOTFS_DEV
+	string "device name (rootfs slot B)"
+	help
+	  Name of the device/partition where rootfs for slot B will be
+
+config CZECHLIGHT_RAUC_SLOT_B_CFG_DEV
+	string "device name (cfg slot B)"
+	help
+	  Name of the device/partition where cfg for slot B will be
+
+endif # CZECHLIGHT_RAUC_ROOTFS
