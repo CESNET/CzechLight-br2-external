@@ -17,4 +17,14 @@ config CZECHLIGHT_CFG_FS_SIZE
 	  accommodate all configuration, but small enough to fit within the
 	  corresponding partition.
 
+if BR2_PACKAGE_SYSREPO
+
+config CZECHLIGHT_CFG_FS_PERSIST_SYSREPO
+	bool "Persist sysrepo configuration into /cfg"
+	default Y
+	help
+	  Save sysrepo's YANG files into /cfg upon changes
+
+endif # BR2_PACKAGE_SYSREPO
+
 endif # BR2_PACKAGE_CZECHLIGHT_CFG_FS
