@@ -17,4 +17,11 @@ ifeq ($(BR2_TARGET_ROOTFS_CZECHLIGHT_SEPARATE_BOOT)-$(call qstrip,$(CZECHLIGHT_S
 $(error CZECHLIGHT_SEPARATE_BOOT_SIZE cannot be empty)
 endif
 
+define CZECHLIGHT_SEPARATE_BOOT_INSTALL_TARGET_CMDS
+	$(INSTALL) -D -m 0644 $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-separate-boot/boot.mount \
+		$(TARGET_DIR)/usr/lib/systemd/system/boot.mount
+	ln -sf ../boot.mount $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
+endef
+
 $(eval $(rootfs))
+$(eval $(generic-package))
