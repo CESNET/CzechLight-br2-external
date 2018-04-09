@@ -69,6 +69,9 @@ define CZECHLIGHT_RAUC_INSTALL_TARGET_CMDS
 		-e "s|CZECHLIGHT_RAUC_SLOT_B_ROOTFS_DEV|$(call qstrip,$(CZECHLIGHT_RAUC_SLOT_B_ROOTFS_DEV))|" \
 		-e "s|CZECHLIGHT_RAUC_SLOT_B_CFG_DEV|$(call qstrip,$(CZECHLIGHT_RAUC_SLOT_B_CFG_DEV))|" \
 		$(TARGET_DIR)/etc/rauc/system.conf
+	$(INSTALL) -D -m 0644 $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/rauc-mark-good.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/
+	ln -sf ../rauc-mark-good.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 endef
 
 $(eval $(generic-package))
