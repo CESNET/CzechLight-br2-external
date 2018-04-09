@@ -9,13 +9,13 @@ $(BINARIES_DIR)/update.raucb: host-rauc rootfs-tar
 	sed \
 		-e 's|CZECHLIGHT_RAUC_IMAGE_VERSION|$(call qstrip,$(CZECHLIGHT_RAUC_IMAGE_VERSION))|' \
 		-e 's|CZECHLIGHT_RAUC_COMPATIBLE|$(call qstrip,$(CZECHLIGHT_RAUC_COMPATIBLE))|' \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/rauc-manifest.raucm.in \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/rauc-manifest.raucm.in \
 		> $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)/manifest.raucm
 
 	$(RM) -f $(BINARIES_DIR)/update.raucb
 	ln $(BINARIES_DIR)/rootfs.tar.xz $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)
 	tar -cJf $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)/cfg.tar.xz -T /dev/null
-	cp $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/rauc-hook.sh $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)/hook.sh
+	cp $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/rauc-hook.sh $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)/hook.sh
 
 	$(HOST_DIR)/usr/bin/rauc \
 		--cert $(BR2_EXTERNAL_CZECHLIGHT_PATH)/crypto/rauc-cert.pem \
