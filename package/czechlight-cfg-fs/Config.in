@@ -1,7 +1,11 @@
 config BR2_PACKAGE_CZECHLIGHT_CFG_FS
-	bool "Prepare the /cfg partition"
+	bool "Prepare persistent /cfg partition and /etc overlay"
+	depends on BR2_INIT_SYSTEMD
 	help
-	  This is required for RAUC to work properly.
+	  This is required for RAUC to work properly.  It creates a blank FS
+	  image, configures systemd to mount it, and ensures that its contents
+	  get restored to /etc at boot.  The /etc is set up as a RW overlay on
+	  top of a read-only rootfs.
 
 if BR2_PACKAGE_CZECHLIGHT_CFG_FS
 

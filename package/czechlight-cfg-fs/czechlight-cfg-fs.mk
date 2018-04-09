@@ -1,4 +1,3 @@
-CZECHLIGHT_CFG_FS_INSTALL_TARGET = NO
 CZECHLIGHT_CFG_FS_INSTALL_IMAGES = YES
 CZECHLIGHT_CFG_FS_DEPENDENCIES = host-e2fsprogs
 
@@ -12,5 +11,19 @@ endef
 ifeq ($(BR2_PACKAGE_CZECHLIGHT_CFG_FS)-$(call qstrip,$(CZECHLIGHT_CFG_FS_SIZE)),y-)
 $(error CZECHLIGHT_CFG_FS_SIZE cannot be empty)
 endif
+
+define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
+	$(INSTALL) -D -m 0644 \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/etc-overlay.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/etc-overlay.service
+	ln -sf ../etc-overlay.service $(TARGET_DIR)/usr/lib/systemd/system/local-fs.target.wants/
+	$(INSTALL) -D -m 0755 \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-cfg-mount-generator \
+		$(TARGET_DIR)/usr/lib/systemd/system-generators/czechlight-cfg-mount-generator
+	$(INSTALL) -D -m 0644 \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-restore-etc.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/cfg-restore-etc.service
+	ln -sf ../cfg-restore-etc.service $(TARGET_DIR)/usr/lib/systemd/system/local-fs.target.wants/
+endef
 
 $(eval $(generic-package))
