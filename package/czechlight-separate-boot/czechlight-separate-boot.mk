@@ -13,8 +13,15 @@ define ROOTFS_CZECHLIGHT_SEPARATE_BOOT_CMD
 		$(call qstrip,$(CZECHLIGHT_SEPARATE_BOOT_SIZE))
 endef
 
+define CZECHLIGHT_SEPARATE_BOOT_INSTALL_TARGET_CMDS
+	$(INSTALL) -D -m 0755 $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-separate-boot/boot.mount \
+		$(TARGET_DIR)/usr/lib/systemd/system/boot.mount
+	ln -s -f -T $(TARGET_DIR)/usr/lib/systemd/system/boot.mount $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/boot.mount
+endef
+
 ifeq ($(BR2_TARGET_ROOTFS_CZECHLIGHT_SEPARATE_BOOT)-$(call qstrip,$(CZECHLIGHT_SEPARATE_BOOT_SIZE)),y-)
 $(error CZECHLIGHT_SEPARATE_BOOT_SIZE cannot be empty)
 endif
 
 $(eval $(rootfs))
+$(eval $(generic-package))
