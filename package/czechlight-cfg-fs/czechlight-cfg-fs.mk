@@ -24,6 +24,12 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-restore-etc.service \
 		$(TARGET_DIR)/usr/lib/systemd/system/cfg-restore-etc.service
 	ln -sf ../cfg-restore-etc.service $(TARGET_DIR)/usr/lib/systemd/system/local-fs.target.wants/
+	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
+		$(INSTALL) -D -m 0644 \
+			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/sysrepo-persistent-cfg.service \
+			$(TARGET_DIR)/usr/lib/systemd/system/
+		ln -sf ../sysrepo-persistent-cfg.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
+	$(endif)
 endef
 
 $(eval $(generic-package))
