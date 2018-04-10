@@ -1,9 +1,13 @@
 config BR2_TARGET_ROOTFS_CZECHLIGHT_SEPARATE_BOOT
 	bool "Separate /boot partition"
+	select BR2_PACKAGE_CZECHLIGHT_SEPARATE_BOOT
 	help
 	  Builds a standalone ext2 image with the /boot directory from the real rootfs.
 
 if BR2_TARGET_ROOTFS_CZECHLIGHT_SEPARATE_BOOT
+
+config BR2_PACKAGE_CZECHLIGHT_SEPARATE_BOOT
+	bool
 
 config CZECHLIGHT_SEPARATE_BOOT_SIZE
 	string "exact size"
