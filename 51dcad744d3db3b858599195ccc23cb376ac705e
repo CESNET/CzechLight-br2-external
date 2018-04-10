@@ -25,6 +25,33 @@
       "revId": "51dcad744d3db3b858599195ccc23cb376ac705e",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d49a71c3_ef7be604",
+        "filename": "package/czechlight-separate-boot/czechlight-separate-boot.mk",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-10T19:35:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87a7e728_425172c6",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 12
+      },
+      "revId": "51dcad744d3db3b858599195ccc23cb376ac705e",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
