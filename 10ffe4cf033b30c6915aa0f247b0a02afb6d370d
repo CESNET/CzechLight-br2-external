@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ff5988d_e71153eb",
+        "filename": "board/czechlight/epia_geode/overlay/boot/grub/grub.cfg",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-10T19:35:57Z",
+      "side": 1,
+      "message": "Tady chybi to pocitani tri pokusu.\n\n(vim, ze to vis, ale at je to videt i v Gerritu jako unresolved)",
+      "revId": "10ffe4cf033b30c6915aa0f247b0a02afb6d370d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e02cf4a_d24ca5c5",
+        "filename": "package/czechlight-separate-boot/czechlight-separate-boot.mk",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000000
+      },
+      "realAuthor": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-04-10T19:35:57Z",
+      "side": 1,
+      "message": "nit: buildroot vsude™ pouziva spis:\n\n FOO \u003d YES\n\n buildroot/buildroot[cesnet/cla-12*] $ git grep -i -E \u0027 \u003d y$\u0027 | wc -l\n 20\n buildroot/buildroot[cesnet/cla-12*] $ git grep -i -E \u0027 \u003d YES$\u0027 | wc -l\n 1272",
+      "revId": "10ffe4cf033b30c6915aa0f247b0a02afb6d370d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
