@@ -1,14 +1,108 @@
+diff --git a/arch/arm/dts/armada-388-clearfog.dts b/arch/arm/dts/armada-388-clearfog.dts
+index bc52bc0167..177cb4cd25 100644
+--- a/arch/arm/dts/armada-388-clearfog.dts
++++ b/arch/arm/dts/armada-388-clearfog.dts
+@@ -90,13 +90,10 @@
+ 		internal-regs {
+ 			ethernet@30000 {
+ 				mac-address = [00 50 43 02 02 02];
++				managed = "in-band-status";
++				phy = <&phy1>;
+ 				phy-mode = "sgmii";
+ 				status = "okay";
+-
+-				fixed-link {
+-					speed = <1000>;
+-					full-duplex;
+-				};
+ 			};
+ 
+ 			ethernet@34000 {
+@@ -228,6 +225,10 @@
+ 				pinctrl-0 = <&mdio_pins>;
+ 				pinctrl-names = "default";
+ 
++				phy1: ethernet-phy@1 { /* Marvell 88E1512 */
++					reg = <1>;
++				};
++
+ 				phy_dedicated: ethernet-phy@0 {
+ 					/*
+ 					 * Annoyingly, the marvell phy driver
+@@ -384,62 +385,6 @@
+ 		tx-fault-gpio = <&expander0 13 GPIO_ACTIVE_HIGH>;
+ 	};
+ 
+-	dsa@0 {
+-		compatible = "marvell,dsa";
+-		dsa,ethernet = <&eth1>;
+-		dsa,mii-bus = <&mdio>;
+-		pinctrl-0 = <&clearfog_dsa0_clk_pins &clearfog_dsa0_pins>;
+-		pinctrl-names = "default";
+-		#address-cells = <2>;
+-		#size-cells = <0>;
+-
+-		switch@0 {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-			reg = <4 0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				label = "lan1";
+-			};
+-
+-			port@1 {
+-				reg = <1>;
+-				label = "lan2";
+-			};
+-
+-			port@2 {
+-				reg = <2>;
+-				label = "lan3";
+-			};
+-
+-			port@3 {
+-				reg = <3>;
+-				label = "lan4";
+-			};
+-
+-			port@4 {
+-				reg = <4>;
+-				label = "lan5";
+-			};
+-
+-			port@5 {
+-				reg = <5>;
+-				label = "cpu";
+-			};
+-
+-			port@6 {
+-				/* 88E1512 external phy */
+-				reg = <6>;
+-				label = "lan6";
+-				fixed-link {
+-					speed = <1000>;
+-					full-duplex;
+-				};
+-			};
+-		};
+-	};
+-
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 		pinctrl-0 = <&rear_button_pins>;
 diff --git a/board/solidrun/clearfog/clearfog.c b/board/solidrun/clearfog/clearfog.c
-index 1472e9793e..2b365793fb 100644
+index ede303d4eb..e5abda6f76 100644
 --- a/board/solidrun/clearfog/clearfog.c
 +++ b/board/solidrun/clearfog/clearfog.c
-@@ -11,10 +11,15 @@
+@@ -10,10 +10,15 @@
  #include <asm/io.h>
  #include <asm/arch/cpu.h>
  #include <asm/arch/soc.h>
 +#include <dm/uclass.h>
  
- #include "../drivers/ddr/marvell/a38x/ddr3_a38x_topology.h"
+ #include "../drivers/ddr/marvell/a38x/ddr3_init.h"
  #include <../serdes/a38x/high_speed_env_spec.h>
  
 +#ifdef CONFIG_WDT_ORION
@@ -18,7 +112,7 @@ index 1472e9793e..2b365793fb 100644
  DECLARE_GLOBAL_DATA_PTR;
  
  #define ETH_PHY_CTRL_REG		0
-@@ -122,6 +127,10 @@ int board_early_init_f(void)
+@@ -124,6 +129,10 @@ int board_early_init_f(void)
  	return 0;
  }
  
@@ -29,7 +123,7 @@ index 1472e9793e..2b365793fb 100644
  int board_init(void)
  {
  	int i;
-@@ -129,6 +138,18 @@ int board_init(void)
+@@ -131,6 +140,18 @@ int board_init(void)
  	/* Address of boot parameters */
  	gd->bd->bi_boot_params = mvebu_sdram_bar(0) + 0x100;
  
@@ -48,7 +142,7 @@ index 1472e9793e..2b365793fb 100644
  	/* Toggle GPIO41 to reset onboard switch and phy */
  	clrbits_le32(MVEBU_GPIO1_BASE + 0x0, BIT(9));
  	clrbits_le32(MVEBU_GPIO1_BASE + 0x4, BIT(9));
-@@ -147,6 +168,28 @@ int board_init(void)
+@@ -149,6 +170,28 @@ int board_init(void)
  	return 0;
  }
  
@@ -78,20 +172,20 @@ index 1472e9793e..2b365793fb 100644
  {
  	puts("Board: SolidRun ClearFog\n");
 diff --git a/configs/clearfog_defconfig b/configs/clearfog_defconfig
-index 7161518715..4d4f96241c 100644
+index 5e1733e11b..4af2d1e902 100644
 --- a/configs/clearfog_defconfig
 +++ b/configs/clearfog_defconfig
-@@ -48,3 +48,5 @@ CONFIG_USB=y
+@@ -53,3 +53,5 @@ CONFIG_USB=y
  CONFIG_DM_USB=y
  CONFIG_USB_XHCI_HCD=y
  CONFIG_USB_STORAGE=y
 +CONFIG_WDT=y
 +CONFIG_WDT_ORION=y
 diff --git a/include/configs/clearfog.h b/include/configs/clearfog.h
-index bf87bac300..c78dcce1a1 100644
+index f57f9b21ab..9d14c320a9 100644
 --- a/include/configs/clearfog.h
 +++ b/include/configs/clearfog.h
-@@ -32,6 +32,11 @@
+@@ -28,6 +28,11 @@
  #define CONFIG_SYS_I2C_SLAVE		0x0
  #define CONFIG_SYS_I2C_SPEED		100000
  
@@ -103,22 +197,18 @@ index bf87bac300..c78dcce1a1 100644
  /* SPI NOR flash default params, used by sf commands */
  #define CONFIG_SF_DEFAULT_BUS		1
  
-@@ -63,6 +68,9 @@
+@@ -54,6 +59,9 @@
  #define CONFIG_ENV_OFFSET		0xf0000
  #define CONFIG_ENV_ADDR			CONFIG_ENV_OFFSET
  
 +#define CONFIG_ENV_OFFSET_REDUND	0xe0000
 +#define CONFIG_SYS_REDUNDAND_ENVIRONMENT
 +
- #define CONFIG_PHY_MARVELL		/* there is a marvell phy */
  #define PHY_ANEG_TIMEOUT	8000	/* PHY needs a longer aneg time */
  
-@@ -161,17 +169,48 @@
- 	"kernel_addr_r=" KERNEL_ADDR_R "\0" \
- 	"fdt_addr_r=" FDT_ADDR_R "\0" \
- 	"ramdisk_addr_r=" RAMDISK_ADDR_R "\0" \
--	"scriptaddr=" SCRIPT_ADDR_R "\0" \
-+	"script_addr_r=" SCRIPT_ADDR_R "\0" \
+ /* PCIe support */
+@@ -149,14 +157,45 @@
+ 	"scriptaddr=" SCRIPT_ADDR_R "\0" \
  	"pxefile_addr_r=" PXEFILE_ADDR_R "\0"
  
 -#include <config_distro_bootcmd.h>
@@ -129,7 +219,7 @@ index bf87bac300..c78dcce1a1 100644
 -	"fdtfile=" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
  	"console=ttyS0,115200\0" \
 -	BOOTENV
-+	"usbboot=usb start; fatload usb 0:1 ${script_addr_r} boot.scr; source ${script_addr_r}\0" \
++	"usbboot=usb start; fatload usb 0:1 ${scriptaddr} boot.scr; source ${scriptaddr}\0" \
 +	"bootcmd=test -n \"${BOOT_A_LEFT}\" || setenv BOOT_A_LEFT 3;" \
 +	"test -n \"${BOOT_B_LEFT}\" || setenv BOOT_B_LEFT 3;" \
 +	"test -n \"${BOOT_ORDER}\" || setenv BOOT_ORDER \"A B\";" \
@@ -162,8 +252,8 @@ index bf87bac300..c78dcce1a1 100644
 +	"  saveenv;" \
 +	"  reset;" \
 +	"fi;" \
-+	"load mmc 0:${rauc_part} ${script_addr_r} /boot/boot.scr || reset;" \
-+	"source ${script_addr_r} || reset\0"
++	"load mmc 0:${rauc_part} ${scriptaddr} /boot/boot.scr || reset;" \
++	"source ${scriptaddr} || reset\0"
  
  #endif /* CONFIG_SPL_BUILD */
  
