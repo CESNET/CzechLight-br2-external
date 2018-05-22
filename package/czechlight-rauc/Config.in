@@ -1,5 +1,7 @@
 config CZECHLIGHT_RAUC_ROOTFS
 	bool "Create RAUC update bundle"
+	depends on BR2_INIT_SYSTEMD
+	depends on BR2_PACKAGE_RAUC
 	select BR2_PACKAGE_CZECHLIGHT_CFG_FS
 	select BR2_PACKAGE_HOST_RAUC
 	select BR2_PACKAGE_CZECHLIGHT_RAUC
