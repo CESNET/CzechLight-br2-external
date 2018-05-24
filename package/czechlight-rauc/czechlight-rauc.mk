@@ -37,7 +37,7 @@ endif
 endif
 
 CZECHLIGHT_RAUC_INSTALL_TARGET = YES
-CZECHLIGHT_RAUC_DEPENDENCIES = rauc systemd
+CZECHLIGHT_RAUC_DEPENDENCIES = rauc
 
 ifeq ($(BR2_PACKAGE_CZECHLIGHT_RAUC),y)
 
@@ -72,6 +72,7 @@ define CZECHLIGHT_RAUC_INSTALL_TARGET_CMDS
 		$(TARGET_DIR)/etc/rauc/system.conf
 	$(INSTALL) -D -m 0644 $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/rauc-mark-good.service \
 		$(TARGET_DIR)/usr/lib/systemd/system/
+	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 	ln -sf ../rauc-mark-good.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 endef
 
