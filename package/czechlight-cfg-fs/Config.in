@@ -27,4 +27,14 @@ config CZECHLIGHT_CFG_FS_PERSIST_SYSREPO
 
 endif # BR2_PACKAGE_SYSREPO
 
+if BR2_PACKAGE_NETOPEER2_KEYSTORED
+
+config CZECHLIGHT_CFG_FS_PERSIST_KEYS
+	bool "Persist host keys for OpenSSH and Netopeer2"
+	default Y
+	help
+	  Save OpenSSH's key material and netopeer2-keystored's SSH keys into /cfg
+
+endif # BR2_PACKAGE_NETOPEER2_KEYSTORED
+
 endif # BR2_PACKAGE_CZECHLIGHT_CFG_FS
