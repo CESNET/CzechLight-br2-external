@@ -1,0 +1,189 @@
+#include "armada-388-clearfog-base.dts"
+
+&w25q32 {
+	status = "okay";
+};
+
+/ {
+	clocks {
+		spi_uart_clk: osc_max14830 {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <3686400>;
+		};
+	};
+
+	soc {
+		internal-regs {
+			sdhci@d8000 {
+				/delete-property/ cd-gpios;
+				broken-cd;
+			};
+		};
+	};
+
+	gpio_i2c {
+		compatible = "i2c-gpio";
+		sda-gpios = <&gpio0 25 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+		scl-gpios = <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+		i2c-gpio.delay-us = <1>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+
+		ok_led {
+			label = "status-ok";
+			linux,default-trigger = "default-on";
+			gpios = <&max14830 9 GPIO_ACTIVE_HIGH>;
+		};
+
+		fail_led {
+			label = "status-error";
+			panic-indicator;
+			gpios = <&max14830 8 GPIO_ACTIVE_HIGH>;
+		};
+
+		uid_led {
+			label = "UID";
+			linux,default-trigger = "heartbeat";
+			gpios = <&max14830 10 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+&uart1_pins {
+	status = "disabled";
+};
+
+&uart1 {
+	status = "disabled";
+};
+
+&gpio1 {
+	spi_int {
+		/* MPP54: this needs an external pull-up */
+		gpio-hog;
+		gpios = <22 GPIO_ACTIVE_HIGH>;
+		input;
+		line-name = "SPI-INT";
+	};
+};
+
+&spi1 {
+	cs-gpios = <0>, <&gpio0 22 GPIO_ACTIVE_HIGH>, <0>, <&gpio0 29 GPIO_ACTIVE_HIGH>;
+
+	max14830: max14830@2 {
+		compatible = "maxim,max14830";
+		reg = <2>;
+		clocks = <&spi_uart_clk>;
+		clock-names = "xtal";
+		interrupt-parent = <&gpio1>;
+		interrupts = <22 IRQ_TYPE_LEVEL_LOW>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		spi-max-frequency = <26000000>;
+
+		gpio-line-names =
+			"WSS_HWRST",
+			"WSS_SSD",
+			"OCM_HS_IN",
+			"OCM_RESET",
+			"WSS_MRST",
+			"I2C_XOR_ENABLE",
+			"I2C_XORH",
+			"I2C_BB_ENABLE",
+			"LED_RED",
+			"LED_GREEN",
+			"LED_BLUE",
+			"EDFA1_AMPLIFIER_DISABLE",
+			"EDFA2_AMPLIFIER_DISABLE",
+			"EDFA1_OUTPUT_POWER_MUTE",
+			"EDFA2_OUTPUT_POWER_MUTE",
+			"" /* not used, not routed anywhere */
+			;
+	};
+
+	gpio_spi_chips: gpio@1 {
+		compatible = "microchip,mcp23s17";
+		reg = <1>;
+		interrupt-parent = <&gpio1>;
+		interrupts = <22 IRQ_TYPE_LEVEL_LOW>;
+		interrupt-controller;
+		#interrupt-cells = <2>;
+		gpio-controller;
+		#gpio-cells = <2>;
+		microchip,spi-present-mask = <0x06>; /* extra addresses 1 and 2 */
+		microchip,irq-mirror;
+		drive-open-drain;
+		spi-max-frequency = <10000000>;
+
+		// FIXME: this naming is incompatible with that hack which makes these devices visible as 2*16pin standalone chips
+		gpio-bank@1 {
+			address = <1>;
+			gpio-line-names =
+				"EDFA1_RESET",
+				"EDFA2_RESET",
+				"PMB_ALERT",
+				"ATX_TTL", /* FIXME: will this be used? */
+				"WSS_SC",
+				"WSS_RST",
+				"I2C_XOR_RDY",
+				"OCM_HS_OUT",
+
+				"EDFA1_OUT_REFLECTION_ALARM",
+				"EDFA1_PUMP_CURRENT_ALARM",
+				"EDFA1_ST1_IN_LOS_ALARM",
+				"EDFA1_ST2_IN_LOS_ALARM",
+				"EDFA1_ST2_OUT_GAIN_ALARM",
+				"EDFA1_CASE_TEMP_ALARM",
+				"EDFA1_ST1_OUT_GAIN_ALARM",
+				"EDFA1_PUMP_TEMP_ALARM";
+		};
+
+		gpio-bank@2 {
+			address = <2>;
+			gpio-line-names =
+				/* these are all grounded */
+				"GND",
+				"GND",
+				"GND",
+				"GND",
+				"GND",
+				"GND",
+				"GND",
+				"GND",
+
+				"EDFA2_OUT_REFLECTION_ALARM",
+				"EDFA2_PUMP_CURRENT_ALARM",
+				"EDFA2_ST1_IN_LOS_ALARM",
+				"EDFA2_ST2_IN_LOS_ALARM",
+				"EDFA2_ST2_OUT_GAIN_ALARM",
+				"EDFA2_CASE_TEMP_ALARM",
+				"EDFA2_ST1_OUT_GAIN_ALARM",
+				"EDFA2_PUMP_TEMP_ALARM";
+		};
+	};
+
+	spidev@3 {
+		compatible = "spidev";
+		reg = <3>;
+		spi-max-frequency = <12000000>;
+		// The SPI slave is CPOL=1, but the rest of the devices is CPOL=0 and our SPI master
+		// appears to have troubles with CPOL=1 toggling -> let's use a physical inverter
+		linux,spi-wdelay = /bits/ 16 <3>;
+	};
+};
+
+&i2c1 {
+	eeprom@57 {
+		compatible = "atmel,24c128";
+		reg = <0x57>;
+		pagesize = <64>;
+	};
+
+	/* ADT7463: it doesn't use the DT */
+
+};
