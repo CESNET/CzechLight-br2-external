@@ -182,10 +182,14 @@ index 5e1733e11b..4af2d1e902 100644
 +CONFIG_WDT=y
 +CONFIG_WDT_ORION=y
 diff --git a/include/configs/clearfog.h b/include/configs/clearfog.h
-index f57f9b21ab..9d14c320a9 100644
+index f57f9b21ab..870bac78f4 100644
 --- a/include/configs/clearfog.h
 +++ b/include/configs/clearfog.h
-@@ -28,6 +28,11 @@
+@@ -25,9 +25,15 @@
+ #define CONFIG_SYS_I2C
+ #define CONFIG_SYS_I2C_MVTWSI
+ #define CONFIG_I2C_MVTWSI_BASE0		MVEBU_TWSI_BASE
++#define CONFIG_I2C_MVTWSI_BASE1		MVEBU_TWSI1_BASE
  #define CONFIG_SYS_I2C_SLAVE		0x0
  #define CONFIG_SYS_I2C_SPEED		100000
  
@@ -197,7 +201,7 @@ index f57f9b21ab..9d14c320a9 100644
  /* SPI NOR flash default params, used by sf commands */
  #define CONFIG_SF_DEFAULT_BUS		1
  
-@@ -54,6 +59,9 @@
+@@ -54,6 +60,9 @@
  #define CONFIG_ENV_OFFSET		0xf0000
  #define CONFIG_ENV_ADDR			CONFIG_ENV_OFFSET
  
@@ -207,7 +211,7 @@ index f57f9b21ab..9d14c320a9 100644
  #define PHY_ANEG_TIMEOUT	8000	/* PHY needs a longer aneg time */
  
  /* PCIe support */
-@@ -149,14 +157,45 @@
+@@ -149,14 +158,45 @@
  	"scriptaddr=" SCRIPT_ADDR_R "\0" \
  	"pxefile_addr_r=" PXEFILE_ADDR_R "\0"
  
