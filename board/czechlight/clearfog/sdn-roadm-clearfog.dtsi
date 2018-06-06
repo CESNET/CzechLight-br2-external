@@ -182,6 +182,11 @@
 		compatible = "atmel,24c128";
 		reg = <0x57>;
 		pagesize = <64>;
+		// There's no read-only parameter because we want to enable flashing the EEPROM by
+		// installing a physical jumper. It doesn't matter that Linux still considers this
+		// device as writable during normal operation because any write fill fail anyway
+		// on the HW level. At least we can install that jumper and make the writes pass
+		// magically without fiddling with the DT and rebooting.
 	};
 
 	/* ADT7463: it doesn't use the DT */
