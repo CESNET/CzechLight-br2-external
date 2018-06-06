@@ -42,4 +42,10 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 	$(endif)
 endef
 
+# Configure OpenSSH to look for *user* keys in the /cfg
+define CZECHLIGHT_CFG_FS_OPENSSH_AUTH_PATH_PATCH
+	$(SED) 's|^AuthorizedKeysFile.*|AuthorizedKeysFile /cfg/ssh-user-auth/%u|' $(TARGET_DIR)/etc/ssh/sshd_config
+endef
+OPENSSH_POST_INSTALL_TARGET_HOOKS += CZECHLIGHT_CFG_FS_OPENSSH_AUTH_PATH_PATCH
+
 $(eval $(generic-package))
