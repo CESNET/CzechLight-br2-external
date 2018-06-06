@@ -4,9 +4,11 @@ case "$1" in
   slot-post-install)
     case "$RAUC_SLOT_CLASS" in
       cfg)
-        if [[ -d /cfg/etc ]]; then
-          cp -a /cfg/etc ${RAUC_SLOT_MOUNT_POINT}/
-        fi
+        for DIR in etc ssh-user-auth; do
+          if [[ -d /cfg/$DIR ]]; then
+            cp -a /cfg/$DIR ${RAUC_SLOT_MOUNT_POINT}/
+          fi
+        done
         ;;
       *)
         echo "Internal error: hook mismatched"
