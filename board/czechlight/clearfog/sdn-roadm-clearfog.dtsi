@@ -47,6 +47,7 @@
 		fail_led {
 			label = "status-error";
 			panic-indicator;
+			linux,default-trigger = "panic";
 			gpios = <&max14830 8 GPIO_ACTIVE_HIGH>;
 		};
 
