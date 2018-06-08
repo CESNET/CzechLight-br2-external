@@ -4,6 +4,8 @@
 	status = "okay";
 };
 
+#undef CLEARFOG_PMBUS_BITBANG
+
 / {
 	clocks {
 		spi_uart_clk: osc_max14830 {
@@ -22,6 +24,7 @@
 		};
 	};
 
+#ifdef CLEARFOG_PMBUS_BITBANG
 	gpio_i2c {
 		compatible = "i2c-gpio";
 		sda-gpios = <&gpio0 25 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
@@ -30,6 +33,7 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 	};
+#endif
 
 	gpio-leds {
 		compatible = "gpio-leds";
@@ -54,6 +58,7 @@
 	};
 };
 
+#ifdef CLEARFOG_PMBUS_BITBANG
 &uart1_pins {
 	status = "disabled";
 };
@@ -61,6 +66,7 @@
 &uart1 {
 	status = "disabled";
 };
+#endif
 
 &gpio1 {
 	spi_int {
@@ -104,6 +110,36 @@
 			"EDFA2_OUTPUT_POWER_MUTE",
 			"" /* not used, not routed anywhere */
 			;
+
+		i2c_bitbang_enable {
+			gpio-hog;
+			gpios = <7 GPIO_ACTIVE_HIGH>;
+#ifdef CLEARFOG_PMBUS_BITBANG
+			output-high;
+#else
+			output-low;
+#endif
+			line-name = "I2C bitbang bus";
+		};
+
+		i2c_xor_high {
+			gpio-hog;
+			gpios = <6 GPIO_ACTIVE_HIGH>;
+			//output-low;  // XOR byte 0b0001111
+			output-high; // XOR byte 0b1101111
+			line-name = "I2C XOR high";
+		};
+
+		i2c_xor_enable {
+			gpio-hog;
+			gpios = <5 GPIO_ACTIVE_HIGH>;
+#ifdef CLEARFOG_PMBUS_BITBANG
+			output-low;
+#else
+			output-high;
+#endif
+			line-name = "I2C addr xlate";
+		};
 	};
 
 	gpio_spi_chips: gpio@1 {
@@ -191,4 +227,7 @@
 
 	/* ADT7463: it doesn't use the DT */
 
+#ifndef CLEARFOG_PMBUS_BITBANG
+	/* TODO: pmbus, but that needs a disabled PEC... */
+#endif
 };
