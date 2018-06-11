@@ -214,9 +214,9 @@
 };
 
 &i2c1 {
-	eeprom@57 {
+	eeprom@53 {
 		compatible = "atmel,24c128";
-		reg = <0x57>;
+		reg = <0x53>;
 		pagesize = <64>;
 		// There's no read-only parameter because we want to enable flashing the EEPROM by
 		// installing a physical jumper. It doesn't matter that Linux still considers this
