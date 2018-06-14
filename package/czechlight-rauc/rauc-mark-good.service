@@ -1,11 +1,8 @@
 [Unit]
 Description=RAUC Good-marking Service
 ConditionKernelCommandLine=|rauc.slot
-After=sysrepod.service netopeer2-server.service
-Requires=sysrepod.service netopeer2-server.service
+After=multi-user.target
+Requires=multi-user.target
 
 [Service]
 ExecStart=/usr/bin/rauc status mark-good
-
-[Install]
-WantedBy=multi-user.target

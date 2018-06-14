@@ -1,4 +1,4 @@
-setenv bootargs root=/dev/mmcblk0p${rauc_part} rauc.slot=${rauc_slot} czechlight=${czechlight} systemd.machine_id=${machineid} panic=10 oops=panic
+setenv bootargs root=/dev/mmcblk0p${rauc_part} systemd.unit=czechlight.target rauc.slot=${rauc_slot} czechlight=${czechlight} systemd.machine_id=${machineid} panic=10 oops=panic
 setenv bootargs ${bootargs} spidev.bufsiz=65535
 if test -n ${czechlight} && load mmc 0:${rauc_part} ${fdt_addr_r} /boot/${czechlight}-clearfog.dtb; then
   echo "DTS: ${czechlight}-clearfog"

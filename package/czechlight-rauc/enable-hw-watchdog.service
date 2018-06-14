@@ -1,0 +1,7 @@
+[Unit]
+Description=Pinging the HW watchdog
+Requires=multi-user.target
+After=multi-user.target
+
+[Service]
+ExecStart=/bin/busctl set-property org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager RuntimeWatchdogUSec t 30000000
