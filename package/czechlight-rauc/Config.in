@@ -1,5 +1,10 @@
 config CZECHLIGHT_RAUC_ROOTFS
-	bool "Create RAUC update bundle"
+	bool "Configure system for RAUC and HW watchdog"
+	help
+	  Apart from creating the RAUC bundle, this enables a read-only filesystem
+	  along with a proper writable /etc overlay with a persistent backing store
+	  and a hardware watchdog. The watchdog pinging only starts once all
+	  services are up and running. Yes, this is a big button.
 	depends on BR2_INIT_SYSTEMD
 	depends on BR2_PACKAGE_RAUC
 	select BR2_PACKAGE_CZECHLIGHT_CFG_FS
