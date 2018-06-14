@@ -2,7 +2,7 @@
 Description=Overlay filesystem over /etc
 DefaultDependencies=no
 Conflicts=umount.target
-Before=local-fs.target umount.target
+Before=local-fs.target umount.target systemd-networkd.service
 After=swap.target \x2eov.mount
 
 [Service]
