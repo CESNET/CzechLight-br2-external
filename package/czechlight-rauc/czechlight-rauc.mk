@@ -74,6 +74,9 @@ define CZECHLIGHT_RAUC_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0644 $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/rauc-mark-good.service \
 		$(TARGET_DIR)/usr/lib/systemd/system/
 	ln -sf ../rauc-mark-good.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
+	$(INSTALL) -D -m 0644 $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/enable-hw-watchdog.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/
+	ln -sf ../enable-hw-watchdog.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 endef
 
 $(eval $(generic-package))
