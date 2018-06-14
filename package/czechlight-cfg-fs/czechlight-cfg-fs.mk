@@ -13,6 +13,9 @@ $(error CZECHLIGHT_CFG_FS_SIZE cannot be empty)
 endif
 
 define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
+	$(INSTALL) -D -m 0644 \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/etc-fstab \
+		$(TARGET_DIR)/etc/fstab
 	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/local-fs.target.wants/
 	$(INSTALL) -D -m 0644 \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/etc-overlay.service \
