@@ -5,6 +5,8 @@
 };
 
 #undef CLEARFOG_PMBUS_BITBANG
+#define IFACE_V_1_0 // v1.0, a first prototype
+//#undef IFACE_V_1_0 // v1.0.1, the second iteration
 
 / {
 	clocks {
@@ -41,19 +43,31 @@
 		ok_led {
 			label = "status-ok";
 			linux,default-trigger = "default-on";
+#ifdef IFACE_V_1_0
 			gpios = <&max14830 9 GPIO_ACTIVE_HIGH>;
+#else
+			gpios = <&max14830 8 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>;
+#endif
 		};
 
 		fail_led {
 			label = "status-error";
 			panic-indicator;
+#ifdef IFACE_V_1_0
 			gpios = <&max14830 8 GPIO_ACTIVE_HIGH>;
+#else
+			gpios = <&max14830 9 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>;
+#endif
 		};
 
 		uid_led {
 			label = "UID";
 			linux,default-trigger = "heartbeat";
+#ifdef IFACE_V_1_0
 			gpios = <&max14830 10 GPIO_ACTIVE_HIGH>;
+#else
+			gpios = <&max14830 10 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>;
+#endif
 		};
 	};
 };
@@ -108,7 +122,11 @@
 			"EDFA2_AMPLIFIER_DISABLE",
 			"EDFA1_OUTPUT_POWER_MUTE",
 			"EDFA2_OUTPUT_POWER_MUTE",
+#ifdef IFACE_V_1_0
 			"" /* not used, not routed anywhere */
+#else
+			"EXP_GPIO1"
+#endif
 			;
 
 		i2c_bitbang_enable {
@@ -163,7 +181,11 @@
 				"EDFA1_RESET",
 				"EDFA2_RESET",
 				"PMB_ALERT",
-				"ATX_TTL", /* FIXME: will this be used? */
+#ifdef IFACE_V_1_0
+				"ATX_TTL",
+#else
+				"EXP_GPIO2",
+#endif
 				"WSS_SC",
 				"WSS_RST",
 				"I2C_XOR_RDY",
