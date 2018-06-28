@@ -9,7 +9,7 @@ ConditionKernelCommandLine=czechlight=CL-ROADMv2
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/cla-sysrepod --properties-log-level=5 --sr-bridge-log-level=5 --sysrepo-log-level=3 --driver=CL-ROADMv2 --port=/dev/ttyUSB0
+ExecStart=/usr/bin/cla-sysrepod --properties-log-level=5 --sr-bridge-log-level=5 --sysrepo-log-level=3 --appliance=CL-ROADMv2
 PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes
