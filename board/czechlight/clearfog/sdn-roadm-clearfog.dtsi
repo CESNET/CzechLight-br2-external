@@ -8,6 +8,8 @@
 #define IFACE_V_1_0 // v1.0, a first prototype
 //#undef IFACE_V_1_0 // v1.0.1, the second iteration
 
+#define BYPASS_SFP_PHYLINK
+
 / {
 	clocks {
 		spi_uart_clk: osc_max14830 {
@@ -253,3 +255,52 @@
 	/* TODO: pmbus, but that needs a disabled PEC... */
 #endif
 };
+
+#ifdef BYPASS_SFP_PHYLINK
+
+&sfp {
+	state = "disabled";
+};
+
+&eth1 {
+	/delete-property/ managed;
+	/delete-property/ sfp;
+
+	fixed-link {
+		speed = <100>;
+		full-duplex;
+	};
+};
+
+&expander0 {
+	sfp_los {
+		/* SFP loss of signal */
+		gpio-hog;
+		gpios = <12 GPIO_ACTIVE_HIGH>;
+		input;
+		line-name = "sfp-los";
+	};
+	sfp_tx_fault {
+		/* SFP laser fault */
+		gpio-hog;
+		gpios = <13 GPIO_ACTIVE_HIGH>;
+		input;
+		line-name = "sfp-tx-fault";
+	};
+	sfp_tx_disable {
+		/* SFP transmit disable */
+		gpio-hog;
+		gpios = <14 GPIO_ACTIVE_HIGH>;
+		output-low;
+		line-name = "sfp-tx-disable";
+	};
+	sfp_mod_def0 {
+		/* SFP module present */
+		gpio-hog;
+		gpios = <15 GPIO_ACTIVE_LOW>;
+		input;
+		line-name = "sfp-mod-def0";
+	};
+};
+
+#endif
