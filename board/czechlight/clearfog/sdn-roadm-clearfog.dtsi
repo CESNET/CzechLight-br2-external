@@ -42,7 +42,7 @@
 
 		ok_led {
 			label = "status-ok";
-			linux,default-trigger = "default-on";
+			linux,default-trigger = "timer";
 #ifdef IFACE_V_1_0
 			gpios = <&max14830 9 GPIO_ACTIVE_HIGH>;
 #else
