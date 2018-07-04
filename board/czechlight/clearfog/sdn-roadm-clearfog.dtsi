@@ -144,7 +144,11 @@
 			gpio-hog;
 			gpios = <6 GPIO_ACTIVE_HIGH>;
 			//output-low;  // XOR byte 0b0001111
+#ifdef IFACE_V_1_0
 			output-high; // XOR byte 0b1101111
+#else
+			output-high; // XOR byte 0b1001111
+#endif
 			line-name = "I2C XOR high";
 		};
 
@@ -222,6 +226,13 @@
 				"EDFA2_CASE_TEMP_A",
 				"EDFA2_ST1_OUT_GAIN_A",
 				"EDFA2_PUMP_TEMP_A";
+		};
+
+		i2c_xor_ready {
+			gpio-hog;
+			gpios = <6 GPIO_ACTIVE_HIGH>;
+			input;
+			line-name = "I2C XOR ready";
 		};
 	};
 
