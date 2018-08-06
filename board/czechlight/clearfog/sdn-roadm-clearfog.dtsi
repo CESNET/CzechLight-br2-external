@@ -52,7 +52,6 @@
 
 		fail_led {
 			label = "status-error";
-			panic-indicator;
 #ifdef IFACE_V_1_0
 			gpios = <&max14830 8 GPIO_ACTIVE_HIGH>;
 #else
@@ -62,7 +61,6 @@
 
 		uid_led {
 			label = "UID";
-			linux,default-trigger = "heartbeat";
 #ifdef IFACE_V_1_0
 			gpios = <&max14830 10 GPIO_ACTIVE_HIGH>;
 #else
