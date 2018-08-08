@@ -6,4 +6,4 @@ After=multi-user.target
 [Service]
 Type=oneshot
 ExecStartPre=/bin/sh -c '[ "$(/bin/systemctl list-units --failed --all --no-legend --no-pager)" == "" ]'
-ExecStart=/bin/sh -c 'echo default-on > /sys/class/leds/status-ok/trigger'
+ExecStart=/bin/sh -c 'echo default-on > /sys/class/leds/status:green/trigger'

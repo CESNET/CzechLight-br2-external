@@ -36,38 +36,6 @@
 		#size-cells = <0>;
 	};
 #endif
-
-	gpio-leds {
-		compatible = "gpio-leds";
-
-		ok_led {
-			label = "status-ok";
-			linux,default-trigger = "timer";
-#ifdef IFACE_V_1_0
-			gpios = <&max14830 9 GPIO_ACTIVE_HIGH>;
-#else
-			gpios = <&max14830 8 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>;
-#endif
-		};
-
-		fail_led {
-			label = "status-error";
-#ifdef IFACE_V_1_0
-			gpios = <&max14830 8 GPIO_ACTIVE_HIGH>;
-#else
-			gpios = <&max14830 9 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>;
-#endif
-		};
-
-		uid_led {
-			label = "UID";
-#ifdef IFACE_V_1_0
-			gpios = <&max14830 10 GPIO_ACTIVE_HIGH>;
-#else
-			gpios = <&max14830 10 (GPIO_ACTIVE_LOW | GPIO_OPEN_DRAIN)>;
-#endif
-		};
-	};
 };
 
 #ifdef CLEARFOG_PMBUS_BITBANG
@@ -113,18 +81,14 @@
 			"I2C_XOR_ENABLE",
 			"I2C_XORH",
 			"I2C_BB_ENABLE",
-			"LED_RED",
-			"LED_GREEN",
-			"LED_BLUE",
+			"GPIO_K6",
+			"",
+			"",
 			"EDFA1_AMP_DISABLE",
 			"EDFA2_AMP_DISABLE",
 			"EDFA1_OUT_POWER_MUTE",
 			"EDFA2_OUT_POWER_MUTE",
-#ifdef IFACE_V_1_0
-			"" /* not used, not routed anywhere */
-#else
 			"EXP_GPIO1"
-#endif
 			;
 
 		i2c_bitbang_enable {
@@ -142,11 +106,7 @@
 			gpio-hog;
 			gpios = <6 GPIO_ACTIVE_HIGH>;
 			//output-low;  // XOR byte 0b0001111
-#ifdef IFACE_V_1_0
-			output-high; // XOR byte 0b1101111
-#else
 			output-high; // XOR byte 0b1001111
-#endif
 			line-name = "I2C XOR high";
 		};
 
@@ -183,11 +143,7 @@
 				"EDFA1_RESET",
 				"EDFA2_RESET",
 				"PMB_ALERT",
-#ifdef IFACE_V_1_0
-				"ATX_TTL",
-#else
 				"EXP_GPIO2",
-#endif
 				"WSS_SC",
 				"WSS_RST",
 				"I2C_XOR_RDY",
@@ -254,6 +210,75 @@
 		// device as writable during normal operation because any write fill fail anyway
 		// on the HW level. At least we can install that jumper and make the writes pass
 		// magically without fiddling with the DT and rebooting.
+	};
+
+	tlc59116@60 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		#gpio-cells = <2>;
+		compatible = "ti,tlc59116";
+		reg = <0x60>;
+
+		sfp_red@0 {
+			label = "sfp:red";
+			reg = <0>;
+		};
+
+		sfp_green@1 {
+			label = "sfp:green";
+			reg = <1>;
+		};
+
+		sfp_blue@2 {
+			label = "sfp:blue";
+			reg = <2>;
+		};
+
+		line_red@4 {
+			label = "line:red";
+			reg = <4>;
+		};
+
+		line_green@5 {
+			label = "line:green";
+			reg = <5>;
+		};
+
+		line_blue@6 {
+			label = "line:blue";
+			reg = <6>;
+		};
+
+		status_red@8 {
+			label = "status:red";
+			reg = <8>;
+		};
+
+		status_green@9 {
+			label = "status:green";
+			reg = <9>;
+			linux,default-trigger = "timer";
+		};
+
+		status_blue@10 {
+			label = "status:blue";
+			reg = <10>;
+		};
+
+		uid_red@12 {
+			label = "uid:red";
+			reg = <12>;
+		};
+
+		uid_green@13 {
+			label = "uid:green";
+			reg = <13>;
+		};
+
+		uid_blue@14 {
+			label = "uid:blue";
+			reg = <14>;
+		};
 	};
 
 	/* ADT7463: it doesn't use the DT */
