@@ -16,6 +16,24 @@
       "revId": "1b0a146732ba949b04f53430f39a5edd5616b37a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a70e3c2f_5606d324",
+        "filename": "package/czechlight-clearfog-leds/czechlight-clearfog-leds.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-08-09T22:51:11Z",
+      "side": 1,
+      "message": "Something like this could work:\n\n  read CHIPNAME OFFSET \u003c \u003c(gpiofind EDFA1_ST1_IN_LOS_A) \u0026\u0026 BASE\u003d$(dirname $(dirname /sys/class/gpio/gpiochip*/device/$CHIPNAME))/base \u0026\u0026 expr $(cat $BASE) + $OFFSET\n\n...but it\u0027s actually broken because there\u0027s /sys/class/gpio/gpiochip464/device/gpiochip3 *and* /sys/class/gpio/gpiochip480/device/gpiochip3, and therefore this is ambiguous. That might explain why my in-DT GPIO hogs consume two GPIOs...\n\nThis is f*cked up because one also apparently cannot place GPIO hogs into the DT -- of_gpiochip_scan_gpios calls for_each_available_child_of_node, and because the MCP23S17\u0027s gpio DT stanzas are at the \"SPI client\" level, not at the level of an individual physical chip, the gpio phandle points to *two* pins at once. Meh.",
+      "parentUuid": "84f58cb8_3bbaafe9",
+      "revId": "1b0a146732ba949b04f53430f39a5edd5616b37a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
