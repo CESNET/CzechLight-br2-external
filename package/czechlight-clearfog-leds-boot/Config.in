@@ -1,4 +1,0 @@
-config BR2_PACKAGE_CZECHLIGHT_CLEARFOG_LEDS_BOOT
-	bool "Indicate a successful boot via LEDs"
-	depends on CZECHLIGHT_RAUC_ROOTFS
-	depends on BR2_INIT_SYSTEMD
