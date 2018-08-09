@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84f58cb8_3bbaafe9",
+        "filename": "package/czechlight-clearfog-leds/czechlight-clearfog-leds.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-08-09T21:53:09Z",
+      "side": 1,
+      "message": "This sucks, but I\u0027m stuck on it. I could do something like this:\n\n  read CHIPNAME OFFSET \u003c \u003c(gpiofind EDFA1_ST1_IN_LOS_A) \u0026\u0026 echo /sys/class/gpio/gpiochip*/device/$CHIPNAME\n\n...but that needs bash, not the busybox sh (due to gpiofind invocation), and it also doesn\u0027t work because it selects both SPI GPIO expanders due to the special way they are using:\n\n  # read CHIPNAME OFFSET \u003c \u003c(gpiofind EDFA1_ST1_IN_LOS_A) \u0026\u0026 echo /sys/class/gpio/gpiochip*/device/$CHIPNAME\n  /sys/class/gpio/gpiochip464/device/gpiochip3 /sys/class/gpio/gpiochip480/device/gpiochip3",
+      "revId": "1b0a146732ba949b04f53430f39a5edd5616b37a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
