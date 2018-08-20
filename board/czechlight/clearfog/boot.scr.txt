@@ -1,3 +1,12 @@
+# status LED blinking: white, 50% duty cycle, rather fast, but not the fastet blinking
+i2c dev 1
+i2c mw 0x60 0x16 0x00
+i2c mw 0x60 0x12 0x80
+i2c mw 0x60 0x13 0x06
+i2c mw 0x60 0x16 0x3f
+i2c mw 0x60 0x0a 0x80
+i2c mw 0x60 0x0b 0x80
+i2c mw 0x60 0x0c 0x80
 setenv bootargs root=/dev/mmcblk0p${rauc_part} rauc.slot=${rauc_slot} czechlight=${czechlight} systemd.machine_id=${machineid} panic=10 oops=panic
 setenv bootargs ${bootargs} spidev.bufsiz=65535
 if test -n ${czechlight} && load mmc 0:${rauc_part} ${fdt_addr_r} /boot/${czechlight}-clearfog.dtb; then
