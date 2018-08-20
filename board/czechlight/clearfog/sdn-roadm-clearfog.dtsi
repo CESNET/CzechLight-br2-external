@@ -182,6 +182,7 @@
 				"EDFA2_PUMP_TEMP_A";
 		};
 
+		// FIXME: this hogs both .1 and .2 chips' #6 pin...
 		i2c_xor_ready {
 			gpio-hog;
 			gpios = <6 GPIO_ACTIVE_HIGH>;
