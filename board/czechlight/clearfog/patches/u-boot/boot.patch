@@ -1,99 +1,5 @@
-diff --git a/arch/arm/dts/armada-388-clearfog.dts b/arch/arm/dts/armada-388-clearfog.dts
-index bc52bc0167..177cb4cd25 100644
---- a/arch/arm/dts/armada-388-clearfog.dts
-+++ b/arch/arm/dts/armada-388-clearfog.dts
-@@ -90,13 +90,10 @@
- 		internal-regs {
- 			ethernet@30000 {
- 				mac-address = [00 50 43 02 02 02];
-+				managed = "in-band-status";
-+				phy = <&phy1>;
- 				phy-mode = "sgmii";
- 				status = "okay";
--
--				fixed-link {
--					speed = <1000>;
--					full-duplex;
--				};
- 			};
- 
- 			ethernet@34000 {
-@@ -228,6 +225,10 @@
- 				pinctrl-0 = <&mdio_pins>;
- 				pinctrl-names = "default";
- 
-+				phy1: ethernet-phy@1 { /* Marvell 88E1512 */
-+					reg = <1>;
-+				};
-+
- 				phy_dedicated: ethernet-phy@0 {
- 					/*
- 					 * Annoyingly, the marvell phy driver
-@@ -384,62 +385,6 @@
- 		tx-fault-gpio = <&expander0 13 GPIO_ACTIVE_HIGH>;
- 	};
- 
--	dsa@0 {
--		compatible = "marvell,dsa";
--		dsa,ethernet = <&eth1>;
--		dsa,mii-bus = <&mdio>;
--		pinctrl-0 = <&clearfog_dsa0_clk_pins &clearfog_dsa0_pins>;
--		pinctrl-names = "default";
--		#address-cells = <2>;
--		#size-cells = <0>;
--
--		switch@0 {
--			#address-cells = <1>;
--			#size-cells = <0>;
--			reg = <4 0>;
--
--			port@0 {
--				reg = <0>;
--				label = "lan1";
--			};
--
--			port@1 {
--				reg = <1>;
--				label = "lan2";
--			};
--
--			port@2 {
--				reg = <2>;
--				label = "lan3";
--			};
--
--			port@3 {
--				reg = <3>;
--				label = "lan4";
--			};
--
--			port@4 {
--				reg = <4>;
--				label = "lan5";
--			};
--
--			port@5 {
--				reg = <5>;
--				label = "cpu";
--			};
--
--			port@6 {
--				/* 88E1512 external phy */
--				reg = <6>;
--				label = "lan6";
--				fixed-link {
--					speed = <1000>;
--					full-duplex;
--				};
--			};
--		};
--	};
--
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 		pinctrl-0 = <&rear_button_pins>;
 diff --git a/board/solidrun/clearfog/clearfog.c b/board/solidrun/clearfog/clearfog.c
-index ede303d4eb..17bf27f875 100644
+index 4e1386c8a2..be54ae0b78 100644
 --- a/board/solidrun/clearfog/clearfog.c
 +++ b/board/solidrun/clearfog/clearfog.c
 @@ -10,10 +10,15 @@
@@ -112,7 +18,7 @@ index ede303d4eb..17bf27f875 100644
  DECLARE_GLOBAL_DATA_PTR;
  
  #define ETH_PHY_CTRL_REG		0
-@@ -124,6 +129,54 @@ int board_early_init_f(void)
+@@ -108,11 +113,95 @@ int board_early_init_f(void)
  	return 0;
  }
  
@@ -137,27 +43,51 @@ index ede303d4eb..17bf27f875 100644
 +#define CLA_LED_STATUS_GREEN 9
 +#define CLA_LED_STATUS_BLUE 10
 +
-+static struct marvell_io_exp led_config[] = {
-+	{ TLC59XXX_CHIP_RESET_ADDR, TLC59XXX_RESET_BYTE_0, TLC59XXX_RESET_BYTE_1 },
-+	{ CLA_LED_CHIP_ADDR, TLC59XXX_REG_MODE1, 0x01 }, /* enable oscillator */
-+	{ CLA_LED_CHIP_ADDR, TLC59XXX_REG_MODE2, 0x20 }, /* DMBLINK */
-+	{ CLA_LED_CHIP_ADDR, TLC59XXX_REG_GRPPWM, 0x40 }, /* 25% duty cycle */
-+	{ CLA_LED_CHIP_ADDR, TLC59XXX_REG_GRPFREQ, 0x03 }, /* very fast blinking */
-+	{ CLA_LED_CHIP_ADDR, TLC59XXX_REG_PWM(CLA_LED_STATUS_RED), 0x80 }, /* 50% brightness */
-+	{ CLA_LED_CHIP_ADDR, TLC59XXX_REG_PWM(CLA_LED_STATUS_GREEN), 0x80 }, /* 50% brightness */
-+	{ CLA_LED_CHIP_ADDR, TLC59XXX_REG_PWM(CLA_LED_STATUS_BLUE), 0x80 }, /* 50% brightness */
-+	{ CLA_LED_CHIP_ADDR, TLC59XXX_REG_LEDOUT2, 0x3f }, /* LEDs #8, 9, 10: mode 0b11 -> group blinking */
++struct cla_led_config {
++	u8 reg;
++	u8 val;
++};
++
++static struct cla_led_config led_reset_config[] = {
++	{ TLC59XXX_RESET_BYTE_0, TLC59XXX_RESET_BYTE_1 },
++};
++
++static struct cla_led_config led_config[] = {
++	{ TLC59XXX_REG_MODE1, 0x01 }, /* enable oscillator */
++	{ TLC59XXX_REG_MODE2, 0x20 }, /* DMBLINK */
++	{ TLC59XXX_REG_GRPPWM, 0x40 }, /* 25% duty cycle */
++	{ TLC59XXX_REG_GRPFREQ, 0x03 }, /* very fast blinking */
++	{ TLC59XXX_REG_PWM(CLA_LED_STATUS_RED), 0x80 }, /* 50% brightness */
++	{ TLC59XXX_REG_PWM(CLA_LED_STATUS_GREEN), 0x80 }, /* 50% brightness */
++	{ TLC59XXX_REG_PWM(CLA_LED_STATUS_BLUE), 0x80 }, /* 50% brightness */
++	{ TLC59XXX_REG_LEDOUT2, 0x3f }, /* LEDs #8, 9, 10: mode 0b11 -> group blinking */
 +};
 +
 +int cla_setup_leds(void)
 +{
-+	if (i2c_set_bus_num(1)) {
-+		puts("Cannot select I2C bus 1");
++	struct udevice *bus, *dev;
++
++	if (uclass_get_device_by_seq(UCLASS_I2C, 1, &bus)) {
++		puts("Cannot find I2C bus for LEDs\n");
++		return 1;
++	}
++
++	if (i2c_get_chip(bus, TLC59XXX_CHIP_RESET_ADDR, 1, &dev)) {
++		puts("Cannot request I2C chip for SWRST\n");
++		return 1;
++	}
++	if (dm_i2c_write(dev, led_reset_config[0].reg, &led_reset_config[0].val, 1)) {
++		puts("LED reset failed\n");
++		return 1;
++	}
++
++	if (i2c_get_chip(bus, CLA_LED_CHIP_ADDR, 1, &dev)) {
++		puts("Cannot request I2C chip for LEDs\n");
 +		return 1;
 +	}
 +	for (int i = 0; i < ARRAY_SIZE(led_config); i++) {
-+		if (i2c_write(led_config[i].chip, led_config[i].addr, 1, &led_config[i].val, 1)) {
-+			printf("LED config operation %d failed\n", i);
++		if (dm_i2c_write(dev, led_config[i].reg, &led_config[i].val, 1)) {
++			printf("LED config operation #%d failed\n", i);
 +			return 1;
 +		}
 +	}
@@ -166,8 +96,6 @@ index ede303d4eb..17bf27f875 100644
 +
  int board_init(void)
  {
- 	int i;
-@@ -131,6 +184,18 @@ int board_init(void)
  	/* Address of boot parameters */
  	gd->bd->bi_boot_params = mvebu_sdram_bar(0) + 0x100;
  
@@ -186,9 +114,9 @@ index ede303d4eb..17bf27f875 100644
  	/* Toggle GPIO41 to reset onboard switch and phy */
  	clrbits_le32(MVEBU_GPIO1_BASE + 0x0, BIT(9));
  	clrbits_le32(MVEBU_GPIO1_BASE + 0x4, BIT(9));
-@@ -146,9 +211,33 @@ int board_init(void)
- 	for (i = 0; i < ARRAY_SIZE(io_exp); i++)
- 		i2c_write(io_exp[i].chip, io_exp[i].addr, 1, &io_exp[i].val, 1);
+@@ -124,9 +213,33 @@ int board_init(void)
+ 	setbits_le32(MVEBU_GPIO0_BASE + 0x0, BIT(19));
+ 	mdelay(10);
  
 +	cla_setup_leds();
 +
@@ -221,36 +149,35 @@ index ede303d4eb..17bf27f875 100644
  {
  	puts("Board: SolidRun ClearFog\n");
 diff --git a/configs/clearfog_defconfig b/configs/clearfog_defconfig
-index 5e1733e11b..4af2d1e902 100644
+index 53dbd9fb81..784f56c76e 100644
 --- a/configs/clearfog_defconfig
 +++ b/configs/clearfog_defconfig
-@@ -53,3 +53,5 @@ CONFIG_USB=y
+@@ -63,3 +63,5 @@ CONFIG_USB=y
  CONFIG_DM_USB=y
  CONFIG_USB_XHCI_HCD=y
  CONFIG_USB_STORAGE=y
 +CONFIG_WDT=y
 +CONFIG_WDT_ORION=y
 diff --git a/include/configs/clearfog.h b/include/configs/clearfog.h
-index f57f9b21ab..b2ed0d5594 100644
+index 7d56dfd86e..e92b07871d 100644
 --- a/include/configs/clearfog.h
 +++ b/include/configs/clearfog.h
-@@ -25,8 +25,15 @@
- #define CONFIG_SYS_I2C
- #define CONFIG_SYS_I2C_MVTWSI
- #define CONFIG_I2C_MVTWSI_BASE0		MVEBU_TWSI_BASE
-+#define CONFIG_I2C_MVTWSI_BASE1		MVEBU_TWSI1_BASE
- #define CONFIG_SYS_I2C_SLAVE		0x0
- #define CONFIG_SYS_I2C_SPEED		100000
-+#define CONFIG_SYS_EEPROM_SIZE		(128 * 1024)
-+
+@@ -21,6 +21,14 @@
+  * Commands configuration
+  */
+ 
 +/* Watchdog */
 +#if !defined(CONFIG_SPL_BUILD) && defined(CONFIG_WDT_ORION)
 +# define CONFIG_WATCHDOG
 +#endif
- 
++
++/* CzechLight: we have a 128kB EEPROM */
++#define CONFIG_SYS_EEPROM_SIZE		(128 * 1024)
++
  /* SPI NOR flash default params, used by sf commands */
  #define CONFIG_SF_DEFAULT_BUS		1
-@@ -54,6 +61,9 @@
+ 
+@@ -47,6 +55,9 @@
  #define CONFIG_ENV_OFFSET		0xf0000
  #define CONFIG_ENV_ADDR			CONFIG_ENV_OFFSET
  
@@ -260,7 +187,7 @@ index f57f9b21ab..b2ed0d5594 100644
  #define PHY_ANEG_TIMEOUT	8000	/* PHY needs a longer aneg time */
  
  /* PCIe support */
-@@ -149,14 +159,45 @@
+@@ -139,14 +150,45 @@
  	"scriptaddr=" SCRIPT_ADDR_R "\0" \
  	"pxefile_addr_r=" PXEFILE_ADDR_R "\0"
  
