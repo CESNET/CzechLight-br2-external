@@ -77,6 +77,15 @@ define CZECHLIGHT_RAUC_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0644 $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/enable-hw-watchdog.service \
 		$(TARGET_DIR)/usr/lib/systemd/system/
 	ln -sf ../enable-hw-watchdog.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
+
+	# Just for USB flashing
+	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system-generators/
+	$(INSTALL) -D -m 0755 \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/czechlight-usb-flash-mount-generator \
+		$(TARGET_DIR)/usr/lib/systemd/system-generators/
+	$(INSTALL) -D -m 0644 \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/usb-flash.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/
 endef
 
 $(eval $(generic-package))

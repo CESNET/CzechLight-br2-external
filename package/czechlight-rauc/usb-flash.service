@@ -1,0 +1,12 @@
+[Unit]
+Description=Reflash from USB
+DefaultDependencies=no
+Requires=mnt.mount
+After=mnt.mount
+
+[Service]
+Type=oneshot
+StandardInput=tty
+StandardOutput=tty
+StandardError=inherit
+ExecStart=/mnt/usb-reflash-factory.sh

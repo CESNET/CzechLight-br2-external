@@ -90,10 +90,7 @@ Once in U-Boot (a stock factory image is OK as well), plug a USB flash disk whic
 ```sh
 usb start; fatload usb 0:1 00800000 boot.scr; source 00800000
 ```
-
-A Linux session will start.
-Run the following from the shell prompt:
-
-```sh
-mount /dev/sda1 /mnt; sh /mnt/usb-reflash-factory.sh
-```
+The system will boot and flash the eMMC from the USB drive.
+Once the status LED starts blinking in yellow, data are being transferred to the eMMC.
+The light changes to solid yellow in later phases of the flashing process.
+Once everything is done, the status LED shows a solid white light and the system reboots automatically.
