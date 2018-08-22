@@ -15,6 +15,8 @@ i2cset -y 1 0x60 0x0c 0xff || true
 # yellow blinking
 i2cset -y 1 0x60 0x16 0x0f || true
 
+watchdog /dev/watchdog
+
 mkdir /tmp/sdcard.image
 mount /mnt/sdcard.img.squashfs /tmp/sdcard.image/
 blkdiscard /dev/mmcblk0
