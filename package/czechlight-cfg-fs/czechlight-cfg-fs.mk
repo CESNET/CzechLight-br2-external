@@ -25,7 +25,7 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system-generators/
 	$(INSTALL) -D -m 0755 \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-cfg-mount-generator \
-		$(TARGET_DIR)/usr/lib/systemd/system-generators/czechlight-cfg-mount-generator
+		$(TARGET_DIR)/usr/lib/systemd/system-generators/
 	$(INSTALL) -D -m 0644 \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-restore-etc.service \
 		$(TARGET_DIR)/usr/lib/systemd/system/cfg-restore-etc.service
