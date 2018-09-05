@@ -4,7 +4,7 @@
 	status = "okay";
 };
 
-#undef CLEARFOG_PMBUS_BITBANG
+#define CLEARFOG_PMBUS_BITBANG
 
 / {
 	clocks {
@@ -281,8 +281,4 @@
 	};
 
 	/* ADT7463: it doesn't use the DT */
-
-#ifndef CLEARFOG_PMBUS_BITBANG
-	/* TODO: pmbus, but that needs a disabled PEC... */
-#endif
 };
