@@ -149,7 +149,7 @@ index 4e1386c8a2..be54ae0b78 100644
  {
  	puts("Board: SolidRun ClearFog\n");
 diff --git a/configs/clearfog_defconfig b/configs/clearfog_defconfig
-index 53dbd9fb81..784f56c76e 100644
+index 9167a9450d..faf06cb216 100644
 --- a/configs/clearfog_defconfig
 +++ b/configs/clearfog_defconfig
 @@ -63,3 +63,5 @@ CONFIG_USB=y
