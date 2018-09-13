@@ -1,0 +1,15 @@
+[Unit]
+Description=Install YANG and initial data for __MODEL__
+Requires=sysrepod.service
+ConditionKernelCommandLine=czechlight=__MODEL__
+ConditionPathExistsGlob=!/etc/sysrepo/yang/__YANG__@*.yang
+Before=sysrepod.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sysrepoctl --install --yang /usr/share/cla-sysrepo/yang/__YANG__.yang
+ExecStart=/usr/bin/sysrepoctl --module __YANG__ --feature-enable __FEATURE__
+ExecStart=/usr/bin/sysrepocfg --datastore=startup --import=/usr/share/cla-sysrepo/yang/__MODEL__.json __YANG__
+
+[Install]
+WantedBy=multi-user.target
