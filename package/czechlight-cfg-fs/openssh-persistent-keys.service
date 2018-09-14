@@ -1,0 +1,13 @@
+[Unit]
+Description=Store OpenSSH host keys into /cfg
+After=cfg.mount sshd.service
+Requires=cfg.mount sshd.service
+ConditionPathExists=!/cfg/etc/ssh/ssh_host_rsa_key
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/mkdir -p /cfg/etc/ssh
+ExecStart=/bin/sh -c 'cp -a /etc/ssh/ssh_host_*_key* /cfg/etc/ssh/'
+
+[Install]
+WantedBy=multi-user.target

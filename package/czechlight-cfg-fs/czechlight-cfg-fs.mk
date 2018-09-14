@@ -40,6 +40,10 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_KEYS),y))
 		mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 		$(INSTALL) -D -m 0644 \
+			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/openssh-persistent-keys.service \
+			$(TARGET_DIR)/usr/lib/systemd/system/
+		ln -sf ../openssh-persistent-keys.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
+		$(INSTALL) -D -m 0644 \
 			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/netopeer2-keystored-persistent-keys.service \
 			$(TARGET_DIR)/usr/lib/systemd/system/
 		ln -sf ../netopeer2-keystored-persistent-keys.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
