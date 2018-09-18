@@ -80,7 +80,8 @@ reboot
 On development boards with a µSD card slot, simply `dd` the `images/sdcard.img` to the SD card and boot from there.
 
 On a regular Clearfog Base with an eMMC, one has to bootstrap the device first.
-If recovering a totally bricked board, one can use the `kwboot` command to upload the initial U-Boot via the console:
+If recovering a totally bricked board, one can use the `kwboot` command to upload the initial U-Boot via the console.
+Ensure that the jumpers are set to 1 1 1 1 0` (default for eMMC boot is `0 0 1 1 1`), and then use U-Boot's `kwboot` tool:
 
 ```sh
 ./tools/kwboot -b ./u-boot-spl.kwb -t -p /dev/ttyUSB0
