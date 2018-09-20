@@ -189,8 +189,8 @@
 		};
 	};
 
-	spidev@3 {
-		compatible = "spidev";
+	lumentum-ocm@3 {
+		compatible = "lumentum-ocm";
 		reg = <3>;
 		spi-max-frequency = <12000000>;
 		// The SPI slave is CPOL=1, but the rest of the devices is CPOL=0 and our SPI master

@@ -1,0 +1,1 @@
+ACTION=="add|change", SUBSYSTEM=="spi", ENV{MODALIAS}=="spi:lumentum-ocm", ATTR{driver_override}+="spidev"
