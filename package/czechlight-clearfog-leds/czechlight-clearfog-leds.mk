@@ -14,6 +14,8 @@ define CZECHLIGHT_CLEARFOG_LEDS_INSTALL_TARGET_CMDS
                 $(TARGET_DIR)/usr/lib/systemd/system/
         ln -sf ../czechlight-clearfog-leds.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 	$(CZECHLIGHT_CLEARFOG_LEDS_BOOT_INSTALL_TARGET_CMDS)
+	cp $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-clearfog-leds/clearfog-test-leds.sh \
+		$(TARGET_DIR)/usr/bin/
 endef
 
 $(eval $(generic-package))
