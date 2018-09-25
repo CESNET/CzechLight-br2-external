@@ -1,0 +1,4 @@
+config BR2_PACKAGE_SFP_I2C
+	bool "sfp-i2c"
+	help
+	  Read the data of an SFP(+)-module and print it pretty

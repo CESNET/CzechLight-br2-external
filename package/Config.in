@@ -4,3 +4,4 @@ source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/czechlight-clearfog-leds/Config.in
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/czechlight-rauc/Config.in"
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/czechlight-separate-boot/Config.in"
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/grub2-tools/Config.in"
+source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/sfp-i2c/Config.in"
