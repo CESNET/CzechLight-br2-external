@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+# got to override the lock dir as /var is not available yet
+ETH0_MAC=$(/sbin/fw_printenv -n eth1addr -l $1)
+
+mkdir -p /run/systemd/network
+
+cat > /run/systemd/network/00-br0-cloned-mac.netdev <<EOF
+[NetDev]
+Name=br0
+Kind=bridge
+MACAddress=${ETH0_MAC}
+HelloTimeSec=1
+ForwardDelaySec=4
+[Bridge]
+STP=1
+EOF
+
+/bin/rm -f /run/systemd/generator/fw_printenv.lock
