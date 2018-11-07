@@ -1,4 +1,7 @@
 [Match]
 Name=eth2
+
 [Network]
-DHCP=yes
+Bridge=br0
+LLDP=true
+EmitLLDP=nearest-bridge
