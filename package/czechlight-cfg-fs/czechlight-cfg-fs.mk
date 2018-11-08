@@ -13,23 +13,10 @@ $(error CZECHLIGHT_CFG_FS_SIZE cannot be empty)
 endif
 
 define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
-	$(INSTALL) -D -m 0644 \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/etc-fstab \
-		$(TARGET_DIR)/etc/fstab
-	mkdir -p $(TARGET_DIR)/cfg
-	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/local-fs.target.wants/
-	$(INSTALL) -D -m 0644 \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/etc-overlay.service \
-		$(TARGET_DIR)/usr/lib/systemd/system/etc-overlay.service
-	ln -sf ../etc-overlay.service $(TARGET_DIR)/usr/lib/systemd/system/local-fs.target.wants/
-	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system-generators/
 	$(INSTALL) -D -m 0755 \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-cfg-mount-generator \
-		$(TARGET_DIR)/usr/lib/systemd/system-generators/
-	$(INSTALL) -D -m 0644 \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-restore-etc.service \
-		$(TARGET_DIR)/usr/lib/systemd/system/cfg-restore-etc.service
-	ln -sf ../cfg-restore-etc.service $(TARGET_DIR)/usr/lib/systemd/system/local-fs.target.wants/
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/init-czechlight.sh \
+		$(TARGET_DIR)/sbin/init-czechlight.sh
+	mkdir -p $(TARGET_DIR)/cfg
 	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
 		mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 		$(INSTALL) -D -m 0644 \

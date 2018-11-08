@@ -1,3 +1,0 @@
-/dev/root / auto ro,errors=panic 0 1
-tmpfs /var tmpfs mode=1777 0 0
-tmpfs /.ov tmpfs mode=0700 0 0
