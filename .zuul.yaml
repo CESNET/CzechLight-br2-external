@@ -1,0 +1,26 @@
+- job:
+    name: czechlight-clearfog
+    parent: run-ci-build-sh
+    timeout: 5400
+    vars:
+      prepare_git_submodules: true
+    required-projects: &projects
+      - github/buildroot/buildroot
+      - CzechLight/dependencies
+      - CzechLight/cla-sysrepo
+      - CzechLight/netconf-cli
+      - github/CESNET/libyang
+      - github/sysrepo/libredblack
+      - github/sysrepo/sysrepo
+      - github/CESNET/libnetconf2
+      - github/CESNET/Netopeer2
+      - github/philsquared/Catch
+      - github/docopt/docopt.cpp
+      - github/gabime/spdlog
+      - github/rollbear/trompeloeil
+      - github/AmokHuginnsson/replxx
+
+- project:
+    check:
+      jobs:
+        - czechlight-clearfog
