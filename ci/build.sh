@@ -12,6 +12,7 @@ mkdir ${BUILD_DIR}
 cd ${BUILD_DIR}
 
 ${ZUUL_PROJECT_SRC_DIR}/dev-setup-git.sh
+echo "LINUX_OVERRIDE_SRCDIR=/home/ci/src/cesnet-gerrit-czechlight/github/torvalds/linux" >> local.mk
 
 if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
     make czechlight_clearfog_defconfig

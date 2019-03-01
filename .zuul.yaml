@@ -19,6 +19,8 @@
       - github/gabime/spdlog
       - github/rollbear/trompeloeil
       - github/AmokHuginnsson/replxx
+      - name: github/torvalds/linux
+        override-checkout: cesnet/2018-10-25
 
 - project:
     check:
