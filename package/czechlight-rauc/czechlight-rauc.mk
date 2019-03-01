@@ -17,7 +17,7 @@ $(BINARIES_DIR)/update.raucb: host-rauc rootfs-tar
 	tar -cJf $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)/cfg.tar.xz -T /dev/null
 	cp $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/rauc-hook.sh $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)/hook.sh
 
-	$(HOST_DIR)/usr/bin/rauc \
+	PATH=$(HOST_DIR)/bin:$(PATH) $(HOST_DIR)/bin/rauc \
 		--cert $(BR2_EXTERNAL_CZECHLIGHT_PATH)/crypto/rauc-cert.pem \
 		--key $(BR2_EXTERNAL_CZECHLIGHT_PATH)/crypto/rauc-key.pem \
 		bundle $(CZECHLIGHT_RAUC_TMP_TARGET_DIR) $(BINARIES_DIR)/update.raucb
