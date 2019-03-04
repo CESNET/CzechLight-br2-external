@@ -1,0 +1,530 @@
+diff --git a/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt b/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt
+index 625a22e2f211..7872d61d23e4 100644
+--- a/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt
++++ b/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt
+@@ -144,3 +144,38 @@ gpio21: gpio@21 {
+ 		bias-pull-up;
+ 	};
+ };
++
++Line naming
++===========
++
++Because several gpio_chip instances are hidden below a single device tree
++node, it is necessary to split the names into several child nodes. Ensure
++that the configured addresses match those in the microchip,spi-present-mask:
++
++gpio@0 {
++        compatible = "microchip,mcp23s17";
++        gpio-controller;
++        #gpio-cells = <2>;
++	/* this bitmask has bits #0 (0x01) and #2 (0x04) set */
++        spi-present-mask = <0x05>;
++        reg = <0>;
++        spi-max-frequency = <1000000>;
++
++	gpio-bank@1 {
++		address = <0>;
++		gpio-line-names =
++			"GPA0",
++			"GPA1",
++			...
++			"GPA7",
++			"GPB0",
++			"GPB1",
++			...
++			"GPB7";
++	};
++
++	gpio-bank@2 {
++		address = <2>;
++		gpio-line-names = ...
++	};
++};
+diff --git a/Documentation/devicetree/bindings/spi/spi-orion.txt b/Documentation/devicetree/bindings/spi/spi-orion.txt
+index 8434a65fc12a..ed35cba1bc33 100644
+--- a/Documentation/devicetree/bindings/spi/spi-orion.txt
++++ b/Documentation/devicetree/bindings/spi/spi-orion.txt
+@@ -29,6 +29,10 @@ Optional properties:
+ 		used, the name must be "core", and "axi" (the latter
+ 		is only for Armada 7K/8K).
+ 
++Optional properties of child nodes (SPI slave devices):
++- linux,spi-wdelay : If present and non-zero, specifies a delay in
++		     microseconds between words transferred over the SPI bus.
++
+ 
+ Example:
+        spi@10600 {
+@@ -77,3 +81,19 @@ are used in the default indirect (PIO) mode):
+ For further information on the MBus bindings, please see the MBus
+ DT documentation:
+ Documentation/devicetree/bindings/bus/mvebu-mbus.txt
++
++Example of a per-child inter-word delay:
++
++	spi0: spi@10600 {
++		/* ... */
++
++		some_slave_device@2 {
++			reg = <2>;
++			compatible = "something";
++			/* ... */
++
++			/* Wait 3 microseconds between all words within all
++			SPI transactions */
++			linux,spi-wdelay = /bits/ 16 <3>;
++		};
++	};
+diff --git a/drivers/i2c/busses/i2c-mv64xxx.c b/drivers/i2c/busses/i2c-mv64xxx.c
+index a5a95ea5b81a..469374ded7ae 100644
+--- a/drivers/i2c/busses/i2c-mv64xxx.c
++++ b/drivers/i2c/busses/i2c-mv64xxx.c
+@@ -317,6 +317,14 @@ mv64xxx_i2c_fsm(struct mv64xxx_i2c_data *drv_data, u32 status)
+ 		drv_data->rc = -ENXIO;
+ 		break;
+ 
++	case MV64XXX_I2C_STATUS_BUS_ERR: /* 0x00 */
++		dev_warn(&drv_data->adapter.dev,
++			 "bus error: slave has driven SDA/SCL unexpectedly\n");
++		drv_data->action = MV64XXX_I2C_ACTION_SEND_STOP;
++		mv64xxx_i2c_hw_init(drv_data);
++		drv_data->rc = -EIO;
++		break;
++
+ 	default:
+ 		dev_err(&drv_data->adapter.dev,
+ 			"mv64xxx_i2c_fsm: Ctlr Error -- state: 0x%x, "
+diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
+index f5357f6d9e58..efbe9c83c514 100644
+--- a/drivers/leds/leds-tlc591xx.c
++++ b/drivers/leds/leds-tlc591xx.c
+@@ -42,6 +42,9 @@
+ 
+ #define ldev_to_led(c)		container_of(c, struct tlc591xx_led, ldev)
+ 
++#define TLC591XX_RESET_BYTE_0	0xa5
++#define TLC591XX_RESET_BYTE_1	0x5a
++
+ struct tlc591xx_led {
+ 	bool active;
+ 	unsigned int led_no;
+@@ -53,21 +56,25 @@ struct tlc591xx_priv {
+ 	struct tlc591xx_led leds[TLC591XX_MAX_LEDS];
+ 	struct regmap *regmap;
+ 	unsigned int reg_ledout_offset;
++	struct i2c_client *swrst_client;
+ };
+ 
+ struct tlc591xx {
+ 	unsigned int max_leds;
+ 	unsigned int reg_ledout_offset;
++	u8 swrst_addr;
+ };
+ 
+ static const struct tlc591xx tlc59116 = {
+ 	.max_leds = 16,
+ 	.reg_ledout_offset = 0x14,
++	.swrst_addr = 0x6b,
+ };
+ 
+ static const struct tlc591xx tlc59108 = {
+ 	.max_leds = 8,
+ 	.reg_ledout_offset = 0x0c,
++	.swrst_addr = 0x4b,
+ };
+ 
+ static int
+@@ -140,6 +147,8 @@ tlc591xx_destroy_devices(struct tlc591xx_priv *priv, unsigned int j)
+ 		if (priv->leds[i].active)
+ 			led_classdev_unregister(&priv->leds[i].ldev);
+ 	}
++
++	i2c_unregister_device(priv->swrst_client);
+ }
+ 
+ static int
+@@ -245,6 +254,19 @@ tlc591xx_probe(struct i2c_client *client,
+ 		priv->leds[reg].ldev.default_trigger =
+ 			of_get_property(child, "linux,default-trigger", NULL);
+ 	}
++
++	priv->swrst_client = i2c_new_dummy(client->adapter, tlc591xx->swrst_addr);
++	if (priv->swrst_client) {
++		err = i2c_smbus_write_byte_data(priv->swrst_client,
++				TLC591XX_RESET_BYTE_0, TLC591XX_RESET_BYTE_1);
++		if (err) {
++			dev_warn(dev, "SW reset failed\n");
++		}
++	} else {
++		dev_info(dev, "Skipping reset: address %02x already used\n",
++				tlc591xx->swrst_addr);
++	}
++
+ 	return tlc591xx_configure(dev, priv, tlc591xx);
+ }
+ 
+diff --git a/drivers/pinctrl/pinctrl-mcp23s08.c b/drivers/pinctrl/pinctrl-mcp23s08.c
+index cf73a403d22d..250e5e536a9c 100644
+--- a/drivers/pinctrl/pinctrl-mcp23s08.c
++++ b/drivers/pinctrl/pinctrl-mcp23s08.c
+@@ -16,6 +16,7 @@
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinconf-generic.h>
++#include "../gpio/gpiolib.h"
+ 
+ /*
+  * MCP types supported by driver
+@@ -265,7 +266,6 @@ static int mcp_pinconf_get(struct pinctrl_dev *pctldev, unsigned int pin,
+ 		status = (data & BIT(pin)) ? 1 : 0;
+ 		break;
+ 	default:
+-		dev_err(mcp->dev, "Invalid config param %04x\n", param);
+ 		return -ENOTSUPP;
+ 	}
+ 
+@@ -292,7 +292,7 @@ static int mcp_pinconf_set(struct pinctrl_dev *pctldev, unsigned int pin,
+ 			ret = mcp_set_bit(mcp, MCP_GPPU, pin, arg);
+ 			break;
+ 		default:
+-			dev_err(mcp->dev, "Invalid config param %04x\n", param);
++			dev_dbg(mcp->dev, "Invalid config param %04x\n", param);
+ 			return -ENOTSUPP;
+ 		}
+ 	}
+@@ -664,115 +664,6 @@ static int mcp23s08_irqchip_setup(struct mcp23s08 *mcp)
+ 
+ /*----------------------------------------------------------------------*/
+ 
+-#ifdef CONFIG_DEBUG_FS
+-
+-#include <linux/seq_file.h>
+-
+-/*
+- * This compares the chip's registers with the register
+- * cache and corrects any incorrectly set register. This
+- * can be used to fix state for MCP23xxx, that temporary
+- * lost its power supply.
+- */
+-#define MCP23S08_CONFIG_REGS 7
+-static int __check_mcp23s08_reg_cache(struct mcp23s08 *mcp)
+-{
+-	int cached[MCP23S08_CONFIG_REGS];
+-	int err = 0, i;
+-
+-	/* read cached config registers */
+-	for (i = 0; i < MCP23S08_CONFIG_REGS; i++) {
+-		err = mcp_read(mcp, i, &cached[i]);
+-		if (err)
+-			goto out;
+-	}
+-
+-	regcache_cache_bypass(mcp->regmap, true);
+-
+-	for (i = 0; i < MCP23S08_CONFIG_REGS; i++) {
+-		int uncached;
+-		err = mcp_read(mcp, i, &uncached);
+-		if (err)
+-			goto out;
+-
+-		if (uncached != cached[i]) {
+-			dev_err(mcp->dev, "restoring reg 0x%02x from 0x%04x to 0x%04x (power-loss?)\n",
+-				i, uncached, cached[i]);
+-			mcp_write(mcp, i, cached[i]);
+-		}
+-	}
+-
+-out:
+-	if (err)
+-		dev_err(mcp->dev, "read error: reg=%02x, err=%d", i, err);
+-	regcache_cache_bypass(mcp->regmap, false);
+-	return err;
+-}
+-
+-/*
+- * This shows more info than the generic gpio dump code:
+- * pullups, deglitching, open drain drive.
+- */
+-static void mcp23s08_dbg_show(struct seq_file *s, struct gpio_chip *chip)
+-{
+-	struct mcp23s08	*mcp;
+-	char		bank;
+-	int		t;
+-	unsigned	mask;
+-	int iodir, gpio, gppu;
+-
+-	mcp = gpiochip_get_data(chip);
+-
+-	/* NOTE: we only handle one bank for now ... */
+-	bank = '0' + ((mcp->addr >> 1) & 0x7);
+-
+-	mutex_lock(&mcp->lock);
+-
+-	t = __check_mcp23s08_reg_cache(mcp);
+-	if (t) {
+-		seq_printf(s, " I/O Error\n");
+-		goto done;
+-	}
+-	t = mcp_read(mcp, MCP_IODIR, &iodir);
+-	if (t) {
+-		seq_printf(s, " I/O Error\n");
+-		goto done;
+-	}
+-	t = mcp_read(mcp, MCP_GPIO, &gpio);
+-	if (t) {
+-		seq_printf(s, " I/O Error\n");
+-		goto done;
+-	}
+-	t = mcp_read(mcp, MCP_GPPU, &gppu);
+-	if (t) {
+-		seq_printf(s, " I/O Error\n");
+-		goto done;
+-	}
+-
+-	for (t = 0, mask = BIT(0); t < chip->ngpio; t++, mask <<= 1) {
+-		const char *label;
+-
+-		label = gpiochip_is_requested(chip, t);
+-		if (!label)
+-			continue;
+-
+-		seq_printf(s, " gpio-%-3d P%c.%d (%-12s) %s %s %s\n",
+-			   chip->base + t, bank, t, label,
+-			   (iodir & mask) ? "in " : "out",
+-			   (gpio & mask) ? "hi" : "lo",
+-			   (gppu & mask) ? "up" : "  ");
+-		/* NOTE:  ignoring the irq-related registers */
+-	}
+-done:
+-	mutex_unlock(&mcp->lock);
+-}
+-
+-#else
+-#define mcp23s08_dbg_show	NULL
+-#endif
+-
+-/*----------------------------------------------------------------------*/
+-
+ static int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
+ 			      void *data, unsigned addr, unsigned type,
+ 			      unsigned int base, int cs)
+@@ -793,7 +684,6 @@ static int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
+ 	mcp->chip.get = mcp23s08_get;
+ 	mcp->chip.direction_output = mcp23s08_direction_output;
+ 	mcp->chip.set = mcp23s08_set;
+-	mcp->chip.dbg_show = mcp23s08_dbg_show;
+ #ifdef CONFIG_OF_GPIO
+ 	mcp->chip.of_gpio_n_cells = 2;
+ 	mcp->chip.of_node = dev->of_node;
+@@ -1099,6 +989,7 @@ static int mcp23s08_probe(struct spi_device *spi)
+ 	int				status, type;
+ 	unsigned			ngpio = 0;
+ 	const struct			of_device_id *match;
++	struct device_node		*np;
+ 
+ 	match = of_match_device(of_match_ptr(mcp23s08_spi_of_match), &spi->dev);
+ 	if (match)
+@@ -1161,6 +1052,16 @@ static int mcp23s08_probe(struct spi_device *spi)
+ 		if (pdata->base != -1)
+ 			pdata->base += data->mcp[addr]->chip.ngpio;
+ 		ngpio += data->mcp[addr]->chip.ngpio;
++
++		for_each_available_child_of_node(spi->dev.of_node, np) {
++			u32 chip_addr;
++			status = of_property_read_u32(np, "address", &chip_addr);
++			if (status)
++				continue;
++			if (chip_addr != addr)
++				continue;
++			devprop_gpiochip_set_names(&data->mcp[addr]->chip, of_fwnode_handle(np));
++		}
+ 	}
+ 	data->ngpio = ngpio;
+ 
+diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
+index 47ef6b1a2e76..d28ecdf3bafc 100644
+--- a/drivers/spi/spi-orion.c
++++ b/drivers/spi/spi-orion.c
+@@ -93,6 +93,7 @@ struct orion_direct_acc {
+ 
+ struct orion_child_options {
+ 	struct orion_direct_acc direct_access;
++	u16			word_delay;
+ };
+ 
+ struct orion_spi {
+@@ -432,7 +433,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
+ 	struct orion_spi *orion_spi;
+ 	int cs = spi->chip_select;
+ 
+-	word_len = spi->bits_per_word;
++	word_len = xfer->bits_per_word;
+ 	count = xfer->len;
+ 
+ 	orion_spi = spi_master_get_devdata(spi->master);
+@@ -470,6 +471,8 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
+ 			if (orion_spi_write_read_8bit(spi, &tx, &rx) < 0)
+ 				goto out;
+ 			count--;
++			if (orion_spi->child[cs].word_delay)
++				udelay(orion_spi->child[cs].word_delay);
+ 		} while (count);
+ 	} else if (word_len == 16) {
+ 		const u16 *tx = xfer->tx_buf;
+@@ -478,6 +481,8 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
+ 		do {
+ 			if (orion_spi_write_read_16bit(spi, &tx, &rx) < 0)
+ 				goto out;
++			if (orion_spi->child[cs].word_delay)
++				udelay(orion_spi->child[cs].word_delay);
+ 			count -= 2;
+ 		} while (count);
+ 	}
+@@ -733,6 +738,12 @@ static int orion_spi_probe(struct platform_device *pdev)
+ 			}
+ 		}
+ 
++		spi->child[cs].word_delay = 0;
++		if (!of_property_read_u16(np, "linux,spi-wdelay",
++					&spi->child[cs].word_delay))
++			dev_info(&pdev->dev, "%pOF: %dus delay between words\n",
++					np, spi->child[cs].word_delay);
++
+ 		/*
+ 		 * Check if an address is configured for this SPI device. If
+ 		 * not, the MBus mapping via the 'ranges' property in the 'soc'
+@@ -744,6 +755,12 @@ static int orion_spi_probe(struct platform_device *pdev)
+ 		if (status)
+ 			continue;
+ 
++		if (spi->child[cs].word_delay) {
++			dev_warn(&pdev->dev,
++				"%pOF linux,spi-wdelay takes preference over a direct-mode", np);
++			continue;
++		}
++
+ 		/*
+ 		 * Only map one page for direct access. This is enough for the
+ 		 * simple TX transfer which only writes to the first word.
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index 9da0bc5a036c..097883f1fabd 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -60,6 +60,7 @@ static void spidev_release(struct device *dev)
+ 		spi->controller->cleanup(spi);
+ 
+ 	spi_controller_put(spi->controller);
++	kfree(spi->driver_override);
+ 	kfree(spi);
+ }
+ 
+@@ -77,6 +78,58 @@ modalias_show(struct device *dev, struct device_attribute *a, char *buf)
+ }
+ static DEVICE_ATTR_RO(modalias);
+ 
++static ssize_t driver_override_store(struct device *dev,
++				     struct device_attribute *a,
++				     const char *buf, size_t count)
++{
++	struct spi_device *spi = to_spi_device(dev);
++	const char *end = memchr(buf, '\n', count);
++	const size_t len = end ? end - buf : count;
++	const char *driver_override, *old;
++	int ret;
++
++	/* We need to keep extra room for a newline when displaying value */
++	if (len >= (PAGE_SIZE - 1))
++		return -EINVAL;
++
++	driver_override = kstrndup(buf, len, GFP_KERNEL);
++	if (!driver_override)
++		return -ENOMEM;
++
++	device_lock(dev);
++	old = spi->driver_override;
++	if (len) {
++		spi->driver_override = driver_override;
++	} else {
++		/* Emptry string, disable driver override */
++		spi->driver_override = NULL;
++		kfree(driver_override);
++	}
++	device_unlock(dev);
++	kfree(old);
++
++	/* Attach device to new driver if it's not already attached */
++	ret = device_attach(dev);
++	if (ret < 0 && ret != -EPROBE_DEFER)
++		dev_warn(dev, "device attach to '%s' failed (%d)\n",
++			 spi->driver_override, ret);
++
++	return count;
++}
++
++static ssize_t driver_override_show(struct device *dev,
++				    struct device_attribute *a, char *buf)
++{
++	const struct spi_device *spi = to_spi_device(dev);
++	ssize_t len;
++
++	device_lock(dev);
++	len = snprintf(buf, PAGE_SIZE, "%s\n", spi->driver_override ? : "");
++	device_unlock(dev);
++	return len;
++}
++static DEVICE_ATTR_RW(driver_override);
++
+ #define SPI_STATISTICS_ATTRS(field, file)				\
+ static ssize_t spi_controller_##field##_show(struct device *dev,	\
+ 					     struct device_attribute *attr, \
+@@ -158,6 +211,7 @@ SPI_STATISTICS_SHOW(transfers_split_maxsize, "%lu");
+ 
+ static struct attribute *spi_dev_attrs[] = {
+ 	&dev_attr_modalias.attr,
++	&dev_attr_driver_override.attr,
+ 	NULL,
+ };
+ 
+@@ -305,6 +359,10 @@ static int spi_match_device(struct device *dev, struct device_driver *drv)
+ 	const struct spi_device	*spi = to_spi_device(dev);
+ 	const struct spi_driver	*sdrv = to_spi_driver(drv);
+ 
++	/* Check override first, and if set, only use the named driver */
++	if (spi->driver_override)
++		return strcmp(spi->driver_override, drv->name) == 0;
++
+ 	/* Attempt an OF style match */
+ 	if (of_driver_match_device(dev, drv))
+ 		return 1;
+diff --git a/drivers/spi/spidev.c b/drivers/spi/spidev.c
+index cda10719d1d1..c5fe08bc34a0 100644
+--- a/drivers/spi/spidev.c
++++ b/drivers/spi/spidev.c
+@@ -724,11 +724,9 @@ static int spidev_probe(struct spi_device *spi)
+ 	 * compatible string, it is a Linux implementation thing
+ 	 * rather than a description of the hardware.
+ 	 */
+-	if (spi->dev.of_node && !of_match_device(spidev_dt_ids, &spi->dev)) {
+-		dev_err(&spi->dev, "buggy DT: spidev listed directly in DT\n");
+-		WARN_ON(spi->dev.of_node &&
+-			!of_match_device(spidev_dt_ids, &spi->dev));
+-	}
++	WARN(spi->dev.of_node &&
++	     of_device_is_compatible(spi->dev.of_node, "spidev"),
++	     "%pOF: buggy DT: spidev listed directly in DT\n", spi->dev.of_node);
+ 
+ 	spidev_probe_acpi(spi);
+ 
+diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
+index a64235e05321..e28f7c5d6eb6 100644
+--- a/include/linux/spi/spi.h
++++ b/include/linux/spi/spi.h
+@@ -167,6 +167,7 @@ struct spi_device {
+ 	void			*controller_state;
+ 	void			*controller_data;
+ 	char			modalias[SPI_NAME_SIZE];
++	const char		*driver_override;
+ 	int			cs_gpio;	/* chip select gpio */
+ 
+ 	/* the statistics */
