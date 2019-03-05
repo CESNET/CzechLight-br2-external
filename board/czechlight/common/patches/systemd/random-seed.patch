@@ -1,0 +1,304 @@
+diff --git a/meson.build b/meson.build
+index b338886c38..a968af87ee 100644
+--- a/meson.build
++++ b/meson.build
+@@ -146,7 +146,7 @@ bootlibdir = join_paths(prefixdir, 'lib/systemd/boot/efi')
+ testsdir = join_paths(prefixdir, 'lib/systemd/tests')
+ systemdstatedir = join_paths(localstatedir, 'lib/systemd')
+ catalogstatedir = join_paths(systemdstatedir, 'catalog')
+-randomseeddir = join_paths(localstatedir, 'lib/systemd')
++randomseeddir = '/cfg/random-seed'
+ profiledir = join_paths(rootlibexecdir, 'portable', 'profile')
+ 
+ docdir = get_option('docdir')
+diff --git a/src/random-seed/random-seed.c b/src/random-seed/random-seed.c
+index 0c5f329756..e68e2500d6 100644
+--- a/src/random-seed/random-seed.c
++++ b/src/random-seed/random-seed.c
+@@ -2,8 +2,13 @@
+ 
+ #include <errno.h>
+ #include <fcntl.h>
++#include <getopt.h>
++#include <linux/random.h>
+ #include <string.h>
++#include <sys/ioctl.h>
+ #include <sys/stat.h>
++#include <sys/types.h>
++#include <sys/xattr.h>
+ #include <unistd.h>
+ 
+ #include "sd-id128.h"
+@@ -14,16 +19,150 @@
+ #include "log.h"
+ #include "main-func.h"
+ #include "mkdir.h"
++#include "parse-util.h"
++#include "pretty-print.h"
+ #include "string-util.h"
+ #include "util.h"
+ 
+-#define POOL_SIZE_MIN 512
++static enum {
++        ACTION_NONE,
++        ACTION_LOAD,
++        ACTION_SAVE,
++} arg_action = ACTION_NONE;
++static int entropy_credit;
++
++#define POOL_SIZE_MIN 2048
+ #define POOL_SIZE_MAX (10*1024*1024)
+ 
++#define XATTR_NAME "trusted.entropy_count"
++
++static int help(void) {
++        _cleanup_free_ char *link = NULL;
++        int r;
++
++        r = terminal_urlify_man("systemd-random-seed", "8", &link);
++        if (r < 0)
++                return log_oom();
++
++        printf("systemd-random-seed [OPTIONS...] load\n"
++               "systemd-random-seed save\n\n"
++               "Load and save the system random seed at boot and shutdown\n\n"
++               "  -h --help                       Show this help\n"
++               "     --version                    Show package version\n"
++               "\nSee the %s for details.\n"
++               , link
++        );
++
++        return 0;
++}
++
++static int parse_argv(int argc, char *argv[]) {
++
++        enum {
++                ARG_VERSION = 0x100,
++                ARG_CREDIT,
++        };
++
++        static const struct option options[] = {
++                { "help",               no_argument,       NULL, 'h'                    },
++                { "version",            no_argument,       NULL, ARG_VERSION            },
++                { "entropy-credit",     required_argument, NULL, ARG_CREDIT             },
++                {},
++        };
++
++        const char *e;
++        int c;
++
++        e = getenv("SYSTEMD_ENTROPY_CREDIT");
++        if (e) {
++                entropy_credit = parse_permille(e);
++                if (entropy_credit < 0) {
++                        log_warning("Invalid value '%s' of 'SYSTEMD_ENTROPY_CREDIT'. Ignoring.", e);
++                        entropy_credit = 0;
++                }
++        }
++
++        assert(argc >= 0);
++        assert(argv);
++
++        while ((c = getopt_long(argc, argv, "h", options, NULL)) >= 0)
++
++                switch (c) {
++
++                case 'h':
++                        return help();
++
++                case ARG_VERSION:
++                        return version();
++
++                case ARG_CREDIT:
++                        entropy_credit = parse_permille(optarg);
++                        if (entropy_credit < 0) {
++                                log_warning("Ignoring invalid argument to --entropy-credit=: %s.",
++                                            optarg);
++                                entropy_credit = 0;
++                        }
++                        break;
++
++                case '?':
++                        return -EINVAL;
++
++                default:
++                        assert_not_reached("Unhandled option");
++                }
++
++        if (optind + 1 != argc)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL),
++                                       "This program requires one argument.");
++
++        if (streq(argv[optind], "load"))
++                arg_action = ACTION_LOAD;
++        else if (streq(argv[optind], "save"))
++                arg_action = ACTION_SAVE;
++        else
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL),
++                                       "Unknown verb '%s'.", argv[1]);
++
++        return 1;
++}
++
++static void write_entropy_xattr(int fd, int entropy_count)
++{
++        char buf[32];
++        int len;
++
++        len = snprintf(buf, sizeof(buf), "%d", entropy_count);
++        if (fsetxattr(fd, XATTR_NAME, buf, len+1, 0)) {
++                if (errno != ENOTSUP)
++                        log_warning_errno(errno, "Failed to set xattr '%s'", XATTR_NAME);
++                /* If we fail for any reason, attempt to delete the xattr. We
++                 * can't do much if that fails as well. */
++                fremovexattr(fd, XATTR_NAME);
++        }
++}
++
++static int read_entropy_xattr(int fd)
++{
++        char buf[32];
++        int len, entropy_count;
++
++        len = fgetxattr(fd, XATTR_NAME, buf, sizeof(buf));
++        if (len < 0 || len > (int) sizeof(buf))
++                return 0;
++        buf[sizeof(buf) - 1] = '\0';
++        if (safe_atoi(buf, &entropy_count) < 0)
++                return 0;
++        /* Make sure we never end up crediting the same bits twice. */
++        if (fremovexattr(fd, XATTR_NAME) < 0)
++                return 0;
++
++        return entropy_count;
++}
++
+ static int run(int argc, char *argv[]) {
++        _cleanup_free_ struct rand_pool_info *info = NULL;
+         _cleanup_close_ int seed_fd = -1, random_fd = -1;
+         bool read_seed_file, write_seed_file;
+-        _cleanup_free_ void* buf = NULL;
+         size_t buf_size = 0;
+         struct stat st;
+         ssize_t k;
+@@ -32,9 +171,9 @@ static int run(int argc, char *argv[]) {
+ 
+         log_setup_service();
+ 
+-        if (argc != 2)
+-                return log_error_errno(SYNTHETIC_ERRNO(EINVAL),
+-                                       "This program requires one argument.");
++        r = parse_argv(argc, argv);
++        if (r <= 0)
++                return r;
+ 
+         umask(0022);
+ 
+@@ -58,7 +197,7 @@ static int run(int argc, char *argv[]) {
+         /* When we load the seed we read it and write it to the device and then immediately update the saved seed with
+          * new data, to make sure the next boot gets seeded differently. */
+ 
+-        if (streq(argv[1], "load")) {
++        if (arg_action == ACTION_LOAD) {
+                 int open_rw_error;
+ 
+                 seed_fd = open(RANDOM_SEED, O_RDWR|O_CLOEXEC|O_NOCTTY|O_CREAT, 0600);
+@@ -90,7 +229,7 @@ static int run(int argc, char *argv[]) {
+ 
+                 read_seed_file = true;
+ 
+-        } else if (streq(argv[1], "save")) {
++        } else if (arg_action == ACTION_SAVE) {
+ 
+                 random_fd = open("/dev/urandom", O_RDONLY|O_CLOEXEC|O_NOCTTY);
+                 if (random_fd < 0)
+@@ -104,8 +243,7 @@ static int run(int argc, char *argv[]) {
+                 write_seed_file = true;
+ 
+         } else
+-                return log_error_errno(SYNTHETIC_ERRNO(EINVAL),
+-                                       "Unknown verb '%s'.", argv[1]);
++                assert_not_reached("Unexpected action.");
+ 
+         if (fstat(seed_fd, &st) < 0)
+                 return log_error_errno(errno, "Failed to stat() seed file " RANDOM_SEED ": %m");
+@@ -114,24 +252,32 @@ static int run(int argc, char *argv[]) {
+         if ((uint64_t) st.st_size > buf_size)
+                 buf_size = MIN(st.st_size, POOL_SIZE_MAX);
+ 
+-        buf = malloc(buf_size);
+-        if (!buf)
++        info = malloc(sizeof(*info) + buf_size);
++        if (!info)
+                 return log_oom();
+ 
+         if (read_seed_file) {
+                 sd_id128_t mid;
+                 int z;
+ 
+-                k = loop_read(seed_fd, buf, buf_size, false);
++                k = loop_read(seed_fd, info->buf, buf_size, false);
+                 if (k < 0)
+                         r = log_error_errno(k, "Failed to read seed from " RANDOM_SEED ": %m");
+                 else if (k == 0) {
+                         r = 0;
+                         log_debug("Seed file " RANDOM_SEED " not yet initialized, proceeding.");
+                 } else {
+-                        (void) lseek(seed_fd, 0, SEEK_SET);
++                        int entropy_count;
+ 
+-                        r = loop_write(random_fd, buf, (size_t) k, false);
++                        (void) lseek(seed_fd, 0, SEEK_SET);
++                        entropy_count = read_entropy_xattr(seed_fd);
++                        entropy_count = MIN(entropy_count, 8*k);
++                        entropy_count *= entropy_credit;
++                        entropy_count /= 1000;
++
++                        info->buf_size = k;
++                        info->entropy_count = entropy_count;
++                        r = ioctl(random_fd, RNDADDENTROPY, info);
+                         if (r < 0)
+                                 log_error_errno(r, "Failed to write seed to /dev/urandom: %m");
+                 }
+@@ -153,22 +299,29 @@ static int run(int argc, char *argv[]) {
+         }
+ 
+         if (write_seed_file) {
++                int e1, e2;
++
+                 /* This is just a safety measure. Given that we are root and
+                  * most likely created the file ourselves the mode and owner
+                  * should be correct anyway. */
+                 (void) fchmod(seed_fd, 0600);
+                 (void) fchown(seed_fd, 0, 0);
+ 
+-                k = loop_read(random_fd, buf, buf_size, false);
++                if (ioctl(random_fd, RNDGETENTCNT, &e1) < 0)
++                        e1 = 0;
++                k = loop_read(random_fd, info->buf, buf_size, false);
++                if (ioctl(random_fd, RNDGETENTCNT, &e2) < 0)
++                        e2 = 0;
+                 if (k < 0)
+                         return log_error_errno(k, "Failed to read new seed from /dev/urandom: %m");
+                 if (k == 0)
+                         return log_error_errno(SYNTHETIC_ERRNO(EIO),
+                                                "Got EOF while reading from /dev/urandom.");
+ 
+-                r = loop_write(seed_fd, buf, (size_t) k, false);
++                r = loop_write(seed_fd, info->buf, (size_t) k, false);
+                 if (r < 0)
+                         return log_error_errno(r, "Failed to write new random seed file: %m");
++                write_entropy_xattr(seed_fd, MIN(e1, e2));
+         }
+ 
+         return r;
+diff --git a/units/systemd-random-seed.service.in b/units/systemd-random-seed.service.in
+index 8903ee896c..571c603767 100644
+--- a/units/systemd-random-seed.service.in
++++ b/units/systemd-random-seed.service.in
+@@ -23,3 +23,4 @@ RemainAfterExit=yes
+ ExecStart=@rootlibexecdir@/systemd-random-seed load
+ ExecStop=@rootlibexecdir@/systemd-random-seed save
+ TimeoutSec=30s
++Environment=SYSTEMD_ENTROPY_CREDIT=100%
