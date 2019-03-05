@@ -1,13 +1,11 @@
 CZECHLIGHT_RAUC_TMP_TARGET_DIR = $(FS_DIR)/rootfs.czechlight-rauc.tmp
 
-CZECHLIGHT_RAUC_IMAGE_VERSION = dev
-
 $(BINARIES_DIR)/update.raucb: host-rauc rootfs-tar
 	@$(call MESSAGE,"Generating RAUC update bundle")
 	$(RM) -rf $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)
 	mkdir -p $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)
 	sed \
-		-e 's|CZECHLIGHT_RAUC_IMAGE_VERSION|$(call qstrip,$(CZECHLIGHT_RAUC_IMAGE_VERSION))|' \
+		-e 's|CZECHLIGHT_RAUC_IMAGE_VERSION|$(call qstrip,$(shell git --git-dir=$(BR2_EXTERNAL_CZECHLIGHT_PATH)/.git describe))|' \
 		-e 's|CZECHLIGHT_RAUC_COMPATIBLE|$(call qstrip,$(CZECHLIGHT_RAUC_COMPATIBLE))|' \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/rauc-manifest.raucm.in \
 		> $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)/manifest.raucm
