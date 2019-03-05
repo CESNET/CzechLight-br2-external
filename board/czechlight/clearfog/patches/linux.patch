@@ -165,7 +165,7 @@ index f5357f6d9e58..efbe9c83c514 100644
  }
  
 diff --git a/drivers/pinctrl/pinctrl-mcp23s08.c b/drivers/pinctrl/pinctrl-mcp23s08.c
-index cf73a403d22d..250e5e536a9c 100644
+index 98905d4a79ca..edb4048ca011 100644
 --- a/drivers/pinctrl/pinctrl-mcp23s08.c
 +++ b/drivers/pinctrl/pinctrl-mcp23s08.c
 @@ -16,6 +16,7 @@
@@ -317,7 +317,7 @@ index cf73a403d22d..250e5e536a9c 100644
  #ifdef CONFIG_OF_GPIO
  	mcp->chip.of_gpio_n_cells = 2;
  	mcp->chip.of_node = dev->of_node;
-@@ -1099,6 +989,7 @@ static int mcp23s08_probe(struct spi_device *spi)
+@@ -1104,6 +994,7 @@ static int mcp23s08_probe(struct spi_device *spi)
  	int				status, type;
  	unsigned			ngpio = 0;
  	const struct			of_device_id *match;
@@ -325,7 +325,7 @@ index cf73a403d22d..250e5e536a9c 100644
  
  	match = of_match_device(of_match_ptr(mcp23s08_spi_of_match), &spi->dev);
  	if (match)
-@@ -1161,6 +1052,16 @@ static int mcp23s08_probe(struct spi_device *spi)
+@@ -1166,6 +1057,16 @@ static int mcp23s08_probe(struct spi_device *spi)
  		if (pdata->base != -1)
  			pdata->base += data->mcp[addr]->chip.ngpio;
  		ngpio += data->mcp[addr]->chip.ngpio;
@@ -343,7 +343,7 @@ index cf73a403d22d..250e5e536a9c 100644
  	data->ngpio = ngpio;
  
 diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index 47ef6b1a2e76..d28ecdf3bafc 100644
+index 7f280567093e..1c4ec4452700 100644
 --- a/drivers/spi/spi-orion.c
 +++ b/drivers/spi/spi-orion.c
 @@ -93,6 +93,7 @@ struct orion_direct_acc {
@@ -354,9 +354,9 @@ index 47ef6b1a2e76..d28ecdf3bafc 100644
  };
  
  struct orion_spi {
-@@ -432,7 +433,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
- 	struct orion_spi *orion_spi;
+@@ -433,7 +434,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
  	int cs = spi->chip_select;
+ 	void __iomem *vaddr;
  
 -	word_len = spi->bits_per_word;
 +	word_len = xfer->bits_per_word;
@@ -381,7 +381,7 @@ index 47ef6b1a2e76..d28ecdf3bafc 100644
  			count -= 2;
  		} while (count);
  	}
-@@ -733,6 +738,12 @@ static int orion_spi_probe(struct platform_device *pdev)
+@@ -734,6 +739,12 @@ static int orion_spi_probe(struct platform_device *pdev)
  			}
  		}
  
@@ -394,7 +394,7 @@ index 47ef6b1a2e76..d28ecdf3bafc 100644
  		/*
  		 * Check if an address is configured for this SPI device. If
  		 * not, the MBus mapping via the 'ranges' property in the 'soc'
-@@ -744,6 +755,12 @@ static int orion_spi_probe(struct platform_device *pdev)
+@@ -745,6 +756,12 @@ static int orion_spi_probe(struct platform_device *pdev)
  		if (status)
  			continue;
  
@@ -407,124 +407,3 @@ index 47ef6b1a2e76..d28ecdf3bafc 100644
  		/*
  		 * Only map one page for direct access. This is enough for the
  		 * simple TX transfer which only writes to the first word.
-diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-index 9da0bc5a036c..097883f1fabd 100644
---- a/drivers/spi/spi.c
-+++ b/drivers/spi/spi.c
-@@ -60,6 +60,7 @@ static void spidev_release(struct device *dev)
- 		spi->controller->cleanup(spi);
- 
- 	spi_controller_put(spi->controller);
-+	kfree(spi->driver_override);
- 	kfree(spi);
- }
- 
-@@ -77,6 +78,58 @@ modalias_show(struct device *dev, struct device_attribute *a, char *buf)
- }
- static DEVICE_ATTR_RO(modalias);
- 
-+static ssize_t driver_override_store(struct device *dev,
-+				     struct device_attribute *a,
-+				     const char *buf, size_t count)
-+{
-+	struct spi_device *spi = to_spi_device(dev);
-+	const char *end = memchr(buf, '\n', count);
-+	const size_t len = end ? end - buf : count;
-+	const char *driver_override, *old;
-+	int ret;
-+
-+	/* We need to keep extra room for a newline when displaying value */
-+	if (len >= (PAGE_SIZE - 1))
-+		return -EINVAL;
-+
-+	driver_override = kstrndup(buf, len, GFP_KERNEL);
-+	if (!driver_override)
-+		return -ENOMEM;
-+
-+	device_lock(dev);
-+	old = spi->driver_override;
-+	if (len) {
-+		spi->driver_override = driver_override;
-+	} else {
-+		/* Emptry string, disable driver override */
-+		spi->driver_override = NULL;
-+		kfree(driver_override);
-+	}
-+	device_unlock(dev);
-+	kfree(old);
-+
-+	/* Attach device to new driver if it's not already attached */
-+	ret = device_attach(dev);
-+	if (ret < 0 && ret != -EPROBE_DEFER)
-+		dev_warn(dev, "device attach to '%s' failed (%d)\n",
-+			 spi->driver_override, ret);
-+
-+	return count;
-+}
-+
-+static ssize_t driver_override_show(struct device *dev,
-+				    struct device_attribute *a, char *buf)
-+{
-+	const struct spi_device *spi = to_spi_device(dev);
-+	ssize_t len;
-+
-+	device_lock(dev);
-+	len = snprintf(buf, PAGE_SIZE, "%s\n", spi->driver_override ? : "");
-+	device_unlock(dev);
-+	return len;
-+}
-+static DEVICE_ATTR_RW(driver_override);
-+
- #define SPI_STATISTICS_ATTRS(field, file)				\
- static ssize_t spi_controller_##field##_show(struct device *dev,	\
- 					     struct device_attribute *attr, \
-@@ -158,6 +211,7 @@ SPI_STATISTICS_SHOW(transfers_split_maxsize, "%lu");
- 
- static struct attribute *spi_dev_attrs[] = {
- 	&dev_attr_modalias.attr,
-+	&dev_attr_driver_override.attr,
- 	NULL,
- };
- 
-@@ -305,6 +359,10 @@ static int spi_match_device(struct device *dev, struct device_driver *drv)
- 	const struct spi_device	*spi = to_spi_device(dev);
- 	const struct spi_driver	*sdrv = to_spi_driver(drv);
- 
-+	/* Check override first, and if set, only use the named driver */
-+	if (spi->driver_override)
-+		return strcmp(spi->driver_override, drv->name) == 0;
-+
- 	/* Attempt an OF style match */
- 	if (of_driver_match_device(dev, drv))
- 		return 1;
-diff --git a/drivers/spi/spidev.c b/drivers/spi/spidev.c
-index cda10719d1d1..c5fe08bc34a0 100644
---- a/drivers/spi/spidev.c
-+++ b/drivers/spi/spidev.c
-@@ -724,11 +724,9 @@ static int spidev_probe(struct spi_device *spi)
- 	 * compatible string, it is a Linux implementation thing
- 	 * rather than a description of the hardware.
- 	 */
--	if (spi->dev.of_node && !of_match_device(spidev_dt_ids, &spi->dev)) {
--		dev_err(&spi->dev, "buggy DT: spidev listed directly in DT\n");
--		WARN_ON(spi->dev.of_node &&
--			!of_match_device(spidev_dt_ids, &spi->dev));
--	}
-+	WARN(spi->dev.of_node &&
-+	     of_device_is_compatible(spi->dev.of_node, "spidev"),
-+	     "%pOF: buggy DT: spidev listed directly in DT\n", spi->dev.of_node);
- 
- 	spidev_probe_acpi(spi);
- 
-diff --git a/include/linux/spi/spi.h b/include/linux/spi/spi.h
-index a64235e05321..e28f7c5d6eb6 100644
---- a/include/linux/spi/spi.h
-+++ b/include/linux/spi/spi.h
-@@ -167,6 +167,7 @@ struct spi_device {
- 	void			*controller_state;
- 	void			*controller_data;
- 	char			modalias[SPI_NAME_SIZE];
-+	const char		*driver_override;
- 	int			cs_gpio;	/* chip select gpio */
- 
- 	/* the statistics */
