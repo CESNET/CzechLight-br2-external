@@ -46,4 +46,8 @@ if [ -d /cfg/etc ]; then
   /bin/cp -a /cfg/etc/* /etc/
 fi
 
+if [ -f /cfg/random-seed/random-seed ]; then
+  cat /cfg/random-seed/random-seed | /sbin/czechlight-random-seed
+fi
+
 exec /sbin/init

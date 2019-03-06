@@ -12,10 +12,15 @@ ifeq ($(BR2_PACKAGE_CZECHLIGHT_CFG_FS)-$(call qstrip,$(CZECHLIGHT_CFG_FS_SIZE)),
 $(error CZECHLIGHT_CFG_FS_SIZE cannot be empty)
 endif
 
+define CZECHLIGHT_CFG_FS_BUILD_CMDS
+	$(TARGET_CC) $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-random-seed.c -o czechlight-random-seed
+endef
+
 define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0755 \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/init-czechlight.sh \
 		$(TARGET_DIR)/sbin/init-czechlight.sh
+	$(INSTALL) -D -m 0755 czechlight-random-seed $(TARGET_DIR)/sbin/czechlight-random-seed
 	mkdir -p $(TARGET_DIR)/cfg
 	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
 		mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
