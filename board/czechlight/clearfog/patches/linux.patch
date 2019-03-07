@@ -487,28 +487,3 @@ index 7f280567093e..1c4ec4452700 100644
  		/*
  		 * Only map one page for direct access. This is enough for the
  		 * simple TX transfer which only writes to the first word.
-diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-index 9a7def7c3237..1c618bd5b55c 100644
---- a/drivers/spi/spi.c
-+++ b/drivers/spi/spi.c
-@@ -75,6 +75,7 @@ static ssize_t driver_override_store(struct device *dev,
- 	const char *end = memchr(buf, '\n', count);
- 	const size_t len = end ? end - buf : count;
- 	const char *driver_override, *old;
-+	int ret;
- 
- 	/* We need to keep extra room for a newline when displaying value */
- 	if (len >= (PAGE_SIZE - 1))
-@@ -96,6 +97,12 @@ static ssize_t driver_override_store(struct device *dev,
- 	device_unlock(dev);
- 	kfree(old);
- 
-+	/* Attach device to new driver if it's not already attached */
-+	ret = device_attach(dev);
-+	if (ret < 0 && ret != -EPROBE_DEFER)
-+		dev_warn(dev, "device attach to '%s' failed (%d)\n",
-+			 spi->driver_override, ret);
-+
- 	return count;
- }
- 
