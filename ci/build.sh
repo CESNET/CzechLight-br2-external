@@ -6,7 +6,7 @@ shopt -s failglob
 ZUUL_JOB_NAME=$(jq < ~/zuul-env.json -r '.job')
 ZUUL_PROJECT_SRC_DIR=$HOME/$(jq < ~/zuul-env.json -r '.project.src_dir')
 ZUUL_PROJECT_SHORT_NAME=$(jq < ~/zuul-env.json -r '.project.short_name')
-CI_PARALLEL_JOBS=$(grep -c '^processor' /proc/cpuinfo)
+CI_PARALLEL_JOBS=$(awk -vcpu=$(getconf _NPROCESSORS_ONLN) 'BEGIN{printf "%.0f", cpu*1.3+1}')
 
 BUILD_DIR=~/build
 mkdir ${BUILD_DIR}
@@ -22,10 +22,9 @@ else
 fi
 
 echo BR2_PRIMARY_SITE=\"https://ci-logs.gerrit.cesnet.cz/t/public/mirror/buildroot\" >> .config
-make source
+make source -j${CI_PARALLEL_JOBS} --output-sync=target
 
-sed -i 's/^\(\.NOTPARALLEL\).*/#\1/' ${ZUUL_PROJECT_SRC_DIR}/submodules/buildroot/Makefile
-make -j${CI_PARALLEL_JOBS}
+make -j${CI_PARALLEL_JOBS} --output-sync=target
 mv images/update.raucb ~/zuul-output/artifacts/
 
 if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
