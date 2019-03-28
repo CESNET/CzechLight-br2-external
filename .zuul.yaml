@@ -14,7 +14,7 @@
       - github/sysrepo/sysrepo
       - github/CESNET/libnetconf2
       - github/CESNET/Netopeer2
-      - github/philsquared/Catch
+      - github/onqtam/doctest
       - github/docopt/docopt.cpp
       - github/gabime/spdlog
       - github/rollbear/trompeloeil
