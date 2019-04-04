@@ -1,0 +1,24 @@
+#include "armada-388-clearfog-pro.dts"
+
+&w25q32 {
+	status = "okay";
+};
+
+/ {
+	clocks {
+		spi_uart_clk: osc_max14830 {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <3686400>;
+		};
+	};
+
+	soc {
+		internal-regs {
+			sdhci@d8000 {
+				/delete-property/ cd-gpios;
+				broken-cd;
+			};
+		};
+	};
+};
