@@ -232,6 +232,8 @@
 			reg = <2>;
 		};
 
+		// OUT3 remains unused
+
 		line_red@4 {
 			label = "line:red";
 			reg = <4>;
@@ -245,6 +247,11 @@
 		line_blue@6 {
 			label = "line:blue";
 			reg = <6>;
+		};
+
+		led5_red@7 {
+			label = "led5:red";
+			reg = <7>;
 		};
 
 		status_red@8 {
@@ -263,6 +270,11 @@
 			reg = <10>;
 		};
 
+		led5_green@11 {
+			label = "led5:green";
+			reg = <11>;
+		};
+
 		uid_red@12 {
 			label = "uid:red";
 			reg = <12>;
@@ -276,6 +288,11 @@
 		uid_blue@14 {
 			label = "uid:blue";
 			reg = <14>;
+		};
+
+		led5_blue@15 {
+			label = "led5:blue";
+			reg = <15>;
 		};
 	};
 
