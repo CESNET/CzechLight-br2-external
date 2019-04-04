@@ -189,7 +189,7 @@
 		};
 	};
 
-	lumentum-ocm@3 {
+	lumentum_ocm: lumentum-ocm@3 {
 		compatible = "lumentum-ocm";
 		reg = <3>;
 		spi-max-frequency = <12000000>;
