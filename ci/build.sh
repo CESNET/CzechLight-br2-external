@@ -21,10 +21,17 @@ else
     exit 1
 fi
 
-echo BR2_PRIMARY_SITE=\"https://ci-logs.gerrit.cesnet.cz/t/public/mirror/buildroot\" >> .config
+echo BR2_PRIMARY_SITE=\"https://object-store.cloud.muni.cz/swift/v1/ci-artifacts-public/mirror/buildroot\" >> .config
 make source -j${CI_PARALLEL_JOBS} --output-sync=target
 
+# Builds of host-python{,3} often fail in the CI, so let's try to fix that mess
+# 1) Build the dependencies as usual
+make -j${CI_PARALLEL_JOBS} --output-sync=target host-python-depends host-python3-depends
+# 2) Be very careful when building the tools themselves
+make host-python host-python3
+# 3) Now we're free to resume the build
 make -j${CI_PARALLEL_JOBS} --output-sync=target
+
 mv images/update.raucb ~/zuul-output/artifacts/
 
 if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
