@@ -21,7 +21,7 @@ else
     exit 1
 fi
 
-echo BR2_PRIMARY_SITE=\"https://ci-logs.gerrit.cesnet.cz/t/public/mirror/buildroot\" >> .config
+echo BR2_PRIMARY_SITE=\"https://object-store.cloud.muni.cz/swift/v1/ci-artifacts-public/mirror/buildroot\" >> .config
 make source -j${CI_PARALLEL_JOBS} --output-sync=target
 
 make -j${CI_PARALLEL_JOBS} --output-sync=target
