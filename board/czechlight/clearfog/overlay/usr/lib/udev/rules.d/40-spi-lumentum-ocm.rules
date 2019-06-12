@@ -1,2 +1,1 @@
-# cannot use ATTR{driver_override}+="spidev" because it apparently only runs after the PROGRAM
-ACTION=="add|change", SUBSYSTEM=="spi", ENV{MODALIAS}=="spi:lumentum-ocm", PROGRAM+="/bin/sh -c 'echo spidev > %S%p/driver_override && echo %k > %S%p/subsystem/drivers/spidev/bind'"
+ACTION=="add|change", SUBSYSTEM=="spi", ENV{MODALIAS}=="spi:lumentum-ocm", ATTR{driver_override}="spidev", RUN+="/bin/sh -c 'echo %k > %S%p/subsystem/drivers/spidev/bind'"
