@@ -12,7 +12,7 @@
 		pagesize = <64>;
 	};
 
-	ad5593r@11 {
+	voa_adc: ad5593r@11 {
 		#size-cells = <0>;
 		#address-cells = <1>;
 		#gpio-cells = <2>;
@@ -30,6 +30,8 @@
 			"ST2_34",
 			"ST2_78"
 			;
+
+		#io-channel-cells = <1>;
 
 		channel@0 {
 			reg = <0>;
@@ -78,5 +80,17 @@
 			adi,mode = <CH_MODE_GPIO>;
 			adi,off-state = <CH_OFFSTATE_OUT_TRISTATE>;
 		};
+	};
+};
+
+/ {
+	iio-hwmon {
+		compatible = "iio-hwmon";
+		// Channel number looks like something rather dynamic. It is always that "last channel",
+		// and each "IO channel" consumes two "IIO channels". Therefore, our first DAC signal
+		// (with the associated ADC monitoring) is #0 and #1. The other VOA takes #2 and #3,
+		// which means that the temperature channel is #4.
+		io-channels = <&voa_adc 4>;
+		io-channel-names = "pcb-voa-xbar";
 	};
 };
