@@ -1,0 +1,1 @@
+uenvcmd=echo CzechLight BBB uEnv.txt; load mmc 0:2 ${scriptaddr} /boot/boot.scr || reset; source ${scriptaddr} || reset
