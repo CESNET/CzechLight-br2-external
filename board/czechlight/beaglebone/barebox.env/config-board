@@ -1,4 +1,0 @@
-#!/bin/sh
-
-global.boot.default=sd
-global.boot.watchdog_timeout=60
