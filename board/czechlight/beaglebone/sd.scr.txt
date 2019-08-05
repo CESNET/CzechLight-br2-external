@@ -1,0 +1,4 @@
+rauc_part=2
+rauc_slot=A
+load mmc 0:${rauc_part} ${scriptaddr} /boot/boot.scr || reset
+source ${scriptaddr} || reset
