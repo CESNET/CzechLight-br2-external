@@ -1,0 +1,55 @@
+#include "czechlight-bbb.dts"
+
+&i2c1 {
+	gpio_exp_u3: gpio@0x26 {
+		compatible = "microchip,mcp23017";
+		reg = <0x26>;
+
+		gpio-controller;
+		#gpio-cells = <2>;
+
+		gpio-line-names =
+			"S0_LW3",
+			"M2_LW3",
+			"M0_LW3",
+			"M1_LW3",
+			"M3_LW3",
+			"S1_LW3",
+			"",
+			"",
+			"MEMS2_RST",
+			"",
+			"M1_LW2",
+			"M3_LW2",
+			"S1_LW2",
+			"S0_LW2",
+			"M2_LW2",
+			"M0_LW2";
+	};
+
+	gpio_exp_u4: gpio@0x27 {
+		compatible = "microchip,mcp23017";
+		reg = <0x27>;
+
+		gpio-controller;
+		#gpio-cells = <2>;
+
+		gpio-line-names =
+			"S0_LW1",
+			"M2_LW1",
+			"M0_LW1",
+			"M1_LW1",
+			"M3_LW1",
+			"S1_LW1",
+			"",
+			"",
+			"MEMS1_RST",
+			"",
+			"M1_LW4",
+			"M3_LW4",
+			"S1_LW4",
+			"S0_LW4",
+			"M2_LW4",
+			"M0_LW4";
+	};
+};
