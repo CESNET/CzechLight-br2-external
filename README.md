@@ -95,3 +95,24 @@ The system will boot and flash the eMMC from the USB drive.
 Once the status LED starts blinking in yellow, data are being transferred to the eMMC.
 The light changes to solid yellow in later phases of the flashing process.
 Once everything is done, the status LED shows a solid white light and the system reboots automatically.
+
+Turn off power, remove the USB flash, re-jumper the board (`0 0 1 1 1`), power-cycle, and configure MAC addresses and system type at the U-Boot prompt.
+The MAC addresses are find on the label at the front panel.
+
+```
+=> setenv eth1addr 00:11:17:01:00:4c
+=> setenv eth2addr 00:11:17:01:00:4d
+=> setenv eth3addr 00:11:17:01:00:4e
+=> setenv czechlight sdn-roadm-line
+=> saveenv
+Saving Environment to MMC... Writing to redundant MMC(0)... OK
+=> boot
+```
+
+Once the system boots (which currently requires a reboot for some unknown reason -- fsck, perhaps?), configure hostname, plug in the network cable, and update SW:
+
+```console
+# hostnamectl set-hostname line-DQ000OE6
+# cp /etc/hostname /cfg/etc/
+# vorvan-update
+```
