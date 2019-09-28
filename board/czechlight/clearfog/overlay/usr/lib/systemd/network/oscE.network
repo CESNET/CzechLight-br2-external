@@ -1,0 +1,7 @@
+[Match]
+Name=enp1s0
+
+[Network]
+Bridge=br0
+LLDP=true
+EmitLLDP=nearest-bridge
