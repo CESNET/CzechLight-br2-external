@@ -24,7 +24,7 @@ fi
 echo BR2_PRIMARY_SITE=\"https://object-store.cloud.muni.cz/swift/v1/ci-artifacts-public/mirror/buildroot\" >> .config
 make source -j${CI_PARALLEL_JOBS} --output-sync=target
 
-make -j${CI_PARALLEL_JOBS} --output-sync=target
+make -j${CI_PARALLEL_JOBS} --output-sync=target rootfs-czechlight-rauc
 mv images/update.raucb ~/zuul-output/artifacts/
 
 if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
