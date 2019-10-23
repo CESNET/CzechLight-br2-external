@@ -9,3 +9,6 @@
 [submodule "submodules/netconf-cli"]
 	path = submodules/netconf-cli
 	url = ../netconf-cli
+[submodule "submodules/gammarus"]
+	path = submodules/gammarus
+	url = ../gammarus
