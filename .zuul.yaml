@@ -8,6 +8,7 @@
       - github/buildroot/buildroot
       - CzechLight/dependencies
       - CzechLight/cla-sysrepo
+      - CzechLight/gammarus
       - CzechLight/netconf-cli
       - github/CESNET/libyang
       - github/sysrepo/libredblack
