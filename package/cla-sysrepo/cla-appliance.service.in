@@ -9,7 +9,7 @@ ConditionKernelCommandLine=czechlight=__MODEL__
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/cla-sysrepod --io-log-level=4 --properties-log-level=5 --sr-bridge-log-level=5 --sysrepo-log-level=3 --appliance=__MODEL__-clearfog
+ExecStart=/usr/bin/cla-sysrepod --io-log-level=5 --properties-log-level=5 --sr-bridge-log-level=5 --sysrepo-log-level=3 --appliance=__MODEL__-clearfog
 PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes

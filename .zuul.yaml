@@ -19,6 +19,7 @@
       - github/docopt/docopt.cpp
       - github/gabime/spdlog
       - github/rollbear/trompeloeil
+      - github/tplgy/cppcodec
       - github/AmokHuginnsson/replxx
 
 - project:
