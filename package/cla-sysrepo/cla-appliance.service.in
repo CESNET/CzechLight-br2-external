@@ -18,6 +18,8 @@ Restart=on-abnormal
 SystemCallArchitectures=native
 Restart=always
 WatchdogSec=15s
+LogRateLimitIntervalSec=10
+LogRateLimitBurst=30000
 
 [Install]
 WantedBy=multi-user.target
