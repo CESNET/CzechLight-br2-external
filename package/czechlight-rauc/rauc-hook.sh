@@ -7,10 +7,11 @@ case "$1" in
         # whitelist so that we don't copy cruft or lost+found
         for ITEM in \
             etc \
+            journald-remote \
             random-seed \
             ssh-user-auth \
             ; do
-          if [[ -d /cfg/${ITEM} ]]; then
+          if [[ -d /cfg/${ITEM} || -f /cfg/${ITEM} ]]; then
             cp -a /cfg/${ITEM} ${RAUC_SLOT_MOUNT_POINT}/
           fi
         done
