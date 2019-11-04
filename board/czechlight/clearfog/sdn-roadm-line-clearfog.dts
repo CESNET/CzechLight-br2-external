@@ -1,1 +1,2 @@
 #include "sdn-roadm-clearfog.dtsi"
+#include "clearfog-output-voa.dtsi"
