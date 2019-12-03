@@ -10,8 +10,15 @@ Everything is in Gerrit.
 One should not need to clone anything from anywhere else.
 The build will download source tarballs of various open source components, though.
 
-TODO: Automate this via the CI system.
-I want to get the `.img` files for testing of each change, eventually.
+By default, each change of this repo uploaded to Gerrit causes the CI system to produce a firmware update.
+On Gerrit, the change will get a comment from Zuul with a link to the CI log server.
+Next to the logs, a file named `artifacts/update.raucb` [can be used for updating devices](#updates-via-rauc).
+
+Behind the scenes, the system uses [Zuul](https://zuul-ci.org/docs/zuul/) with a [configuration tracked in git](https://gerrit.cesnet.cz/plugins/gitiles/ci/).
+
+### Developer Workflow
+
+Here's how to reproduce the build on a developer's workstation:
 
 ```sh
 git clone ssh://$YOUR_LOGIN@cesnet.cz@gerrit.cesnet.cz:29418/CzechLight/br2-external czechlight
@@ -31,26 +38,6 @@ WARNING: Buildroot is fragile.
 It is *not* safe to perform incremental builds after changing an "important" setting.
 Please check their manual for details.
 
-### Hack: parallel build
-
-A significant amount of time is wasted in `configure` steps which are not parallelized :( as of November 2017.
-This can be hacked by patching Buildroot's top-level `Makefile`, but note that one cannot easily debug stuff afterwards.
-
-```diff
-diff --git a/Makefile b/Makefile
-index 79db7fe..905099a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -114,7 +114,7 @@ endif
- # this top-level Makefile in parallel comment the ".NOTPARALLEL" line and
- # use the -j<jobs> option when building, e.g:
- #      make -j$((`getconf _NPROCESSORS_ONLN`+1))
--.NOTPARALLEL:
- 
- # absolute path
- TOPDIR := $(CURDIR)
-```
-
 ## Installing
 
 ### Updates via RAUC
@@ -67,7 +54,7 @@ To install an update:
 make
 rsync -avP images/update.raucb somewhere.example.org:path/to/web/root
 
-# target, perhaps via an USB console
+# target, perhaps via an USB console or over SSH
 wget http://somewhere.example.org/update.raucb -O /tmp/update.raucb
 rauc install /tmp/update.raucb
 reboot
@@ -76,8 +63,6 @@ reboot
 ### Initial installation
 
 #### Clearfog
-
-On development boards with a µSD card slot, simply `dd` the `images/sdcard.img` to the SD card and boot from there.
 
 On a regular Clearfog Base with an eMMC, one has to bootstrap the device first.
 If recovering a totally bricked board, one can use the `kwboot` command to upload the initial U-Boot via the console.
@@ -97,7 +82,7 @@ The light changes to solid yellow in later phases of the flashing process.
 Once everything is done, the status LED shows a solid white light and the system reboots automatically.
 
 Turn off power, remove the USB flash, re-jumper the board (`0 0 1 1 1`), power-cycle, and configure MAC addresses and system type at the U-Boot prompt.
-The MAC addresses are find on the label at the front panel.
+The MAC addresses are found on the label at the front panel.
 
 ```
 => setenv eth1addr 00:11:17:01:00:4c
