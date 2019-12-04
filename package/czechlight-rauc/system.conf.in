@@ -1,6 +1,7 @@
 [system]
 compatible=CZECHLIGHT_RAUC_COMPATIBLE
 bootloader=CZECHLIGHT_RAUC_BOOTLOADER
+max-bundle-download-size=134217728
 
 [keyring]
 path=/etc/rauc/keyring.pem
