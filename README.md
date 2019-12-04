@@ -55,8 +55,7 @@ make
 rsync -avP images/update.raucb somewhere.example.org:path/to/web/root
 
 # target, perhaps via an USB console or over SSH
-wget http://somewhere.example.org/update.raucb -O /tmp/update.raucb
-rauc install /tmp/update.raucb
+rauc install http://somewhere.example.org/update.raucb
 reboot
 ```
 
@@ -85,9 +84,9 @@ Turn off power, remove the USB flash, re-jumper the board (`0 0 1 1 1`), power-c
 The MAC addresses are found on the label at the front panel.
 
 ```
-=> setenv eth1addr 00:11:17:01:00:4c
-=> setenv eth2addr 00:11:17:01:00:4d
-=> setenv eth3addr 00:11:17:01:00:4e
+=> setenv eth1addr 00:11:17:01:XX:XX
+=> setenv eth2addr 00:11:17:01:XX:YY
+=> setenv eth3addr 00:11:17:01:XX:ZZ
 => setenv czechlight sdn-roadm-line
 => saveenv
 Saving Environment to MMC... Writing to redundant MMC(0)... OK
@@ -97,7 +96,8 @@ Saving Environment to MMC... Writing to redundant MMC(0)... OK
 Once the system boots (which currently requires a reboot for some unknown reason -- fsck, perhaps?), configure hostname, plug in the network cable, and update SW:
 
 ```console
-# hostnamectl set-hostname line-DQ000OE6
+# hostnamectl set-hostname line-XYZSERIALNO
 # cp /etc/hostname /cfg/etc/
-# vorvan-update
+# rauc install http://somewhere.example.org/update.raucb
+# reboot
 ```

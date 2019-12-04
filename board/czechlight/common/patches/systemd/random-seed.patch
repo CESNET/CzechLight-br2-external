@@ -1,26 +1,37 @@
+From afb5af76c137c71bfdb94d47bd5e33dba54147f7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>
+Date: Wed, 4 Dec 2019 09:18:36 +0100
+Subject: [PATCH] Entropy seed for CzechLight
+
+Everything changed in sytemd v243 which gained a native service which is
+nowadays capable of crediting the seed with sufficient entropy. However,
+everything is still wrapped behind a random env variable (to guard
+against people cloning images) and runs rather late in the boot. The
+docs still suggest to run something custom "from the boot loader" on
+embedded systems with no HW random generator (hi ClearFog).
+
+So, given that we're using the pre-init shell script for seeding the
+random generator from disk, we only need this one for systemd to *save*
+the seed for the next boot.
+
+See-also: https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/1548
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/meson.build b/meson.build
-index b338886c38..a968af87ee 100644
+index e5ceb1e169..ff3af58b8f 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -146,7 +146,7 @@ bootlibdir = join_paths(prefixdir, 'lib/systemd/boot/efi')
+@@ -155,7 +155,7 @@ bootlibdir = join_paths(prefixdir, 'lib/systemd/boot/efi')
  testsdir = join_paths(prefixdir, 'lib/systemd/tests')
  systemdstatedir = join_paths(localstatedir, 'lib/systemd')
  catalogstatedir = join_paths(systemdstatedir, 'catalog')
 -randomseeddir = join_paths(localstatedir, 'lib/systemd')
 +randomseeddir = '/cfg/random-seed'
  profiledir = join_paths(rootlibexecdir, 'portable', 'profile')
+ ntpservicelistdir = join_paths(rootprefixdir, 'lib/systemd/ntp-units.d')
  
- docdir = get_option('docdir')
-diff --git a/src/random-seed/random-seed.c b/src/random-seed/random-seed.c
-index 0c5f329756..f30f32fb61 100644
---- a/src/random-seed/random-seed.c
-+++ b/src/random-seed/random-seed.c
-@@ -17,7 +17,7 @@
- #include "string-util.h"
- #include "util.h"
- 
--#define POOL_SIZE_MIN 512
-+#define POOL_SIZE_MIN 4096
- #define POOL_SIZE_MAX (10*1024*1024)
- 
- static int run(int argc, char *argv[]) {
+-- 
+2.21.0
+
