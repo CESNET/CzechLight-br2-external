@@ -1,0 +1,37 @@
+From 256274e4ca5786b4e68011fcb1b31272e278141d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>
+Date: Thu, 5 Dec 2019 17:03:06 +0100
+Subject: [PATCH] curl: Enable decoding from server's Content-Encoding
+
+I would like to consume RAUC bundles straight from our CI environment
+which uses OpenStack Swift as a backend for artifact storage, and
+OpenDev's Zuul as the CI runner. As it happens, our CI jobs sends file
+content to Swift with a Content-Encoding: gzip [1], and Swift appears to
+always send the file with that Content-Encoding no matter what
+Accept-Encoding the HTTP client sends in their request.
+
+This patch simply uses curl's list of default supported Content-Encoding
+decoders (that's the special magic "" value of this header). The end
+result is that our boxes can now fetch stuff from our CI environment
+without any problems.
+
+[1] https://review.opendev.org/688154
+---
+ src/network.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/network.c b/src/network.c
+index ade9f21..5793093 100644
+--- a/src/network.c
++++ b/src/network.c
+@@ -93,6 +93,7 @@ static gboolean transfer(RaucTransfer *xfer, GError **error)
+ 	curl_easy_setopt(curl, CURLOPT_XFERINFODATA, xfer);
+ 	curl_easy_setopt(curl, CURLOPT_FAILONERROR, xfer);
+ 	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errbuf);
++	curl_easy_setopt(curl, CURLOPT_ACCEPT_ENCODING, ""); /* decode all supported Accept-Encoding headers */
+ 
+ 	/* set error buffer empty before perorming a request */
+ 	errbuf[0] = 0;
+-- 
+2.21.0
+
