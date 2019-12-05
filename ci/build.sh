@@ -16,6 +16,8 @@ ${ZUUL_PROJECT_SRC_DIR}/dev-setup-git.sh
 
 if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
     make czechlight_clearfog_defconfig
+elif [[ "${ZUUL_JOB_NAME}" =~ beagleboneblack ]]; then
+    make czechlight_beaglebone_defconfig
 else
     echo "Unrecognized job name, cannot determine defconfig target"
     exit 1

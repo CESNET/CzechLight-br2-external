@@ -1,7 +1,7 @@
 - job:
     name: czechlight-clearfog
     parent: run-ci-build-sh
-    timeout: 5400
+    timeout: 3600
     vars:
       prepare_git_submodules: true
     required-projects: &projects
@@ -22,7 +22,16 @@
       - github/tplgy/cppcodec
       - github/AmokHuginnsson/replxx
 
+- job:
+    name: czechlight-beagleboneblack
+    parent: run-ci-build-sh
+    timeout: 3600
+    vars:
+      prepare_git_submodules: true
+    required-projects: *projects
+
 - project:
     check:
       jobs:
         - czechlight-clearfog
+        - czechlight-beagleboneblack
