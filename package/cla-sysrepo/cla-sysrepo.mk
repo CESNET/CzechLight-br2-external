@@ -46,6 +46,7 @@ define CLA_SYSREPO_INSTALL_INIT_SYSTEMD
 	$(call CLA_SYSREPO_ONE_MODEL_W_FEATURE,sdn-roadm-line,czechlight-roadm-device,hw-line-9)
 	$(call CLA_SYSREPO_ONE_MODEL,sdn-roadm-coherent-a-d,czechlight-coherent-add-drop)
 	$(call CLA_SYSREPO_ONE_MODEL,sdn-inline,czechlight-inline-amp)
+	$(call CLA_SYSREPO_ONE_MODEL,calibration-box,czechlight-calibration-device)
 endef
 
 $(eval $(cmake-package))
