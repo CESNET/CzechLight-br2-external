@@ -1,6 +1,6 @@
 # CzechLight-specific configuration:
 #
-# - do not record a failed uint when that thing dies (likely due to a network issue)
+# - do not record a failed unit when that thing dies (likely due to a network issue)
 # - only start when a custom config file exists
 # - do not bring in a network-online.target because that might trigger
 #   extra failure reports (and a watchdog action)
