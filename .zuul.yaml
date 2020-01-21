@@ -21,6 +21,7 @@
       - github/rollbear/trompeloeil
       - github/tplgy/cppcodec
       - github/AmokHuginnsson/replxx
+      - github/pybind/pybind11
 
 - job:
     name: czechlight-beagleboneblack
