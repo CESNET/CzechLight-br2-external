@@ -1,8 +1,0 @@
-# TODO: kill these
-czechlight=calibration
-machineid=567bc66a285241ea94f63d6ece9d00da
-
-rauc_part=2
-rauc_slot=A
-load mmc 0:${rauc_part} ${scriptaddr} /boot/boot.scr || reset
-source ${scriptaddr} || reset
