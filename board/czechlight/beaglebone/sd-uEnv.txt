@@ -1,1 +1,0 @@
-uenvcmd=setenv scriptaddr 0x80000000; load mmc 0:1 ${scriptaddr} boot.scr && source ${scriptaddr}
