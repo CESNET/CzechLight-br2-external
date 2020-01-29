@@ -101,3 +101,12 @@ Once the system boots (which currently requires a reboot for some unknown reason
 # rauc install http://somewhere.example.org/update.raucb
 # reboot
 ```
+
+#### Beaglebone Black
+
+Obtain a reasonable Linux distro image for BBB and flash it to a µSD card.
+Unlock eMMC boot partitions (`echo 0 > /sys/class/block/mmcblk1boot0/force_ro; echo 0 > /sys/class/block/mmcblk1boot1/force_ro`).
+Clean the eMMC data (`blkdiscard /dev/mmcblk1`).
+Flash the content of `images/emmc.img` to device's `/dev/mmcblk1`.
+Flash what fits into `/dev/mmcblk1boot0` and `/dev/mmcblk1boot1`.
+Fetching the image over web (`python3 -m http.server` and `wget http://...:8000/emmc.img -O - | dd of=/dev/mmcblk1 conv=sparse`) works well.
