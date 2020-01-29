@@ -17,7 +17,7 @@ for BOOT_SLOT in "${BOOT_ORDER}"; do
     if test ${BOOT_B_LEFT} -gt 0; then
       setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1;
       echo "Found valid slot B, ${BOOT_B_LEFT} attempts remaining";
-      rauc_part=4;
+      rauc_part=5;
       rauc_slot=B;
     fi;
   fi;
@@ -31,5 +31,5 @@ else
   saveenv;
   reset;
 fi;
-load mmc 0:${rauc_part} ${scriptaddr} /boot/boot.scr || reset;
+load mmc 1:${rauc_part} ${scriptaddr} /boot/boot.scr || reset;
 source ${scriptaddr} || reset;

@@ -1,0 +1,43 @@
+# CzechLight-specific configuration:
+#
+# - do not record a failed unit when that thing dies (likely due to a network issue)
+# - only start when a custom config file exists
+# - do not bring in a network-online.target because that might trigger
+#   extra failure reports (and a watchdog action)
+# - keep retrying upon failure(s)
+
+[Unit]
+Description=Journal Remote Upload Service
+
+[Service]
+DynamicUser=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+PrivateDevices=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+StateDirectory=systemd/journal-upload
+SupplementaryGroups=systemd-journal
+SystemCallArchitectures=native
+User=systemd-journal-upload
+WatchdogSec=3min
+LimitNOFILE=524288
+
+# - ignore failures
+# - read (one) location from the env file
+ExecStart=-/usr/lib/systemd/systemd-journal-upload --save-state --url=${DESTINATION}
+EnvironmentFile=-/cfg/journald-remote
+
+# run forever and ignore any network issues
+Restart=always
+RestartSec=5
+
+[Unit]
+# shared as an env file
+ConditionFileNotEmpty=/cfg/journald-remote
