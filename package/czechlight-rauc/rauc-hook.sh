@@ -6,6 +6,7 @@ case "$1" in
       cfg)
         # whitelist so that we don't copy cruft or lost+found
         for ITEM in \
+            calibration \
             etc \
             journald-remote \
             random-seed \
