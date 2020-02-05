@@ -1,1 +1,1 @@
-dwdm -1 optics -1 =dwdm /home/dwdm /bin/netconf-cli - Optical management
+dwdm -1 optics -1 =dwdm /home/dwdm /bin/sysrepo-cli - Optical management
