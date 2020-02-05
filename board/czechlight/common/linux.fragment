@@ -70,6 +70,9 @@ CONFIG_LEDS_TRIGGER_TRANSIENT=y
 CONFIG_LEDS_TRIGGER_NETDEV=y
 CONFIG_LEDS_TRIGGER_GPIO=y
 
+# this is used for EDFA GPIO mapping for LED triggers (I know, I know), bot just general debugging
+CONFIG_DEBUG_FS=y
+
 # network functionality for the OSC
 CONFIG_BRIDGE=y
 CONFIG_BRIDGE_VLAN_FILTERING=y

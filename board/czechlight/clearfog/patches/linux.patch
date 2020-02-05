@@ -42,10 +42,10 @@ index 8b94aa8f5971..2723e6143aa9 100644
 +	};
 +};
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index 59ff088c7d75..c7c6f753b0d3 100644
+index a8911ebd30e5..c51268788770 100644
 --- a/drivers/leds/leds-tlc591xx.c
 +++ b/drivers/leds/leds-tlc591xx.c
-@@ -39,6 +39,9 @@
+@@ -40,6 +40,9 @@
  
  #define ldev_to_led(c)		container_of(c, struct tlc591xx_led, ldev)
  
@@ -55,7 +55,7 @@ index 59ff088c7d75..c7c6f753b0d3 100644
  struct tlc591xx_led {
  	bool active;
  	unsigned int led_no;
-@@ -50,21 +53,25 @@ struct tlc591xx_priv {
+@@ -51,21 +54,25 @@ struct tlc591xx_priv {
  	struct tlc591xx_led leds[TLC591XX_MAX_LEDS];
  	struct regmap *regmap;
  	unsigned int reg_ledout_offset;
@@ -81,21 +81,11 @@ index 59ff088c7d75..c7c6f753b0d3 100644
  };
  
  static int
-@@ -137,6 +144,8 @@ tlc591xx_destroy_devices(struct tlc591xx_priv *priv, unsigned int j)
- 		if (priv->leds[i].active)
- 			led_classdev_unregister(&priv->leds[i].ldev);
- 	}
-+
-+	i2c_unregister_device(priv->swrst_client);
- }
+@@ -185,6 +192,18 @@ tlc591xx_probe(struct i2c_client *client,
+ 	if (err < 0)
+ 		return err;
  
- static int
-@@ -242,6 +251,19 @@ tlc591xx_probe(struct i2c_client *client,
- 		priv->leds[reg].ldev.default_trigger =
- 			of_get_property(child, "linux,default-trigger", NULL);
- 	}
-+
-+	priv->swrst_client = i2c_new_dummy(client->adapter, tlc591xx->swrst_addr);
++	priv->swrst_client = devm_i2c_new_dummy_device(dev, client->adapter, tlc591xx->swrst_addr);
 +	if (priv->swrst_client) {
 +		err = i2c_smbus_write_byte_data(priv->swrst_client,
 +				TLC591XX_RESET_BYTE_0, TLC591XX_RESET_BYTE_1);
@@ -107,9 +97,9 @@ index 59ff088c7d75..c7c6f753b0d3 100644
 +				tlc591xx->swrst_addr);
 +	}
 +
- 	return tlc591xx_configure(dev, priv, tlc591xx);
- }
- 
+ 	for_each_child_of_node(np, child) {
+ 		struct tlc591xx_led *led;
+ 		struct led_init_data init_data = {};
 diff --git a/drivers/pinctrl/pinctrl-mcp23s08.c b/drivers/pinctrl/pinctrl-mcp23s08.c
 index 3a235487e38d..3358891b3ea2 100644
 --- a/drivers/pinctrl/pinctrl-mcp23s08.c
@@ -140,7 +130,7 @@ index 3a235487e38d..3358891b3ea2 100644
  	data->ngpio = ngpio;
  
 diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index 6643ccdc2508..d7ec35233d7e 100644
+index c7266ef295fd..576bce155456 100644
 --- a/drivers/spi/spi-orion.c
 +++ b/drivers/spi/spi-orion.c
 @@ -88,10 +88,6 @@ struct orion_direct_acc {
@@ -181,7 +171,7 @@ index 6643ccdc2508..d7ec35233d7e 100644
  
  	if (vaddr && xfer->tx_buf && word_len == 8) {
  		unsigned int cnt = count / 4;
-@@ -684,7 +680,6 @@ static int orion_spi_probe(struct platform_device *pdev)
+@@ -682,7 +678,6 @@ static int orion_spi_probe(struct platform_device *pdev)
  	}
  
  	for_each_available_child_of_node(pdev->dev.of_node, np) {
@@ -189,7 +179,7 @@ index 6643ccdc2508..d7ec35233d7e 100644
  		u32 cs;
  		int cs_gpio;
  
-@@ -752,13 +747,14 @@ static int orion_spi_probe(struct platform_device *pdev)
+@@ -750,13 +745,14 @@ static int orion_spi_probe(struct platform_device *pdev)
  		 * This needs to get extended for the direct SPI-NOR / SPI-NAND
  		 * support, once this gets implemented.
  		 */
