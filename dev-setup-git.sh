@@ -22,6 +22,14 @@ CLA_SYSREPO_OVERRIDE_SRCDIR = ${CZECHLIGHT_BR2_EXT_LOC}/submodules/cla-sysrepo
 NETCONF_CLI_OVERRIDE_SRCDIR = ${CZECHLIGHT_BR2_EXT_LOC}/submodules/netconf-cli
 GAMMARUS_OVERRIDE_SRCDIR = ${CZECHLIGHT_BR2_EXT_LOC}/submodules/gammarus
 PYBIND11_OVERRIDE_SRCDIR = ${CZECHLIGHT_BR2_EXT_LOC}/submodules/pybind11
+
+define CZECHLIGHT_GIT_FIX_GITDIR
+	echo "gitdir: \$\$(git rev-parse --resolve-git-dir \$(SRCDIR)/.git)" > \$(@D)/.git
+endef
+CLA_SYSREPO_POST_RSYNC_HOOKS += CZECHLIGHT_GIT_FIX_GITDIR
+NETCONF_CLI_POST_RSYNC_HOOKS += CZECHLIGHT_GIT_FIX_GITDIR
+GAMMARUS_POST_RSYNC_HOOKS += CZECHLIGHT_GIT_FIX_GITDIR
+
 EOF
 
 # We have to run make first so that the proxy Makefile is created and the BR2_EXTERNAL is remembered

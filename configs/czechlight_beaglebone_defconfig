@@ -17,7 +17,7 @@ BR2_TARGET_GENERIC_GETTY_PORT="ttyS0"
 # BR2_TARGET_GENERIC_REMOUNT_ROOTFS_RW is not set
 BR2_ROOTFS_USERS_TABLES="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/users"
 BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/overlay/ $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/beaglebone/overlay/"
-BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/beaglebone/create-uEnv.sh"
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/beaglebone/create-uEnv.sh $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/os-release.sh"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="support/scripts/genimage.sh"
 BR2_ROOTFS_POST_SCRIPT_ARGS="-c $(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/beaglebone/genimage.cfg"
 BR2_LINUX_KERNEL=y
