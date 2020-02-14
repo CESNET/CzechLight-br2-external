@@ -42,7 +42,7 @@ index 8b94aa8f5971..2723e6143aa9 100644
 +	};
 +};
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index a8911ebd30e5..c51268788770 100644
+index a8911ebd30e5..b52d52cc2191 100644
 --- a/drivers/leds/leds-tlc591xx.c
 +++ b/drivers/leds/leds-tlc591xx.c
 @@ -40,6 +40,9 @@
@@ -81,9 +81,9 @@ index a8911ebd30e5..c51268788770 100644
  };
  
  static int
-@@ -185,6 +192,18 @@ tlc591xx_probe(struct i2c_client *client,
- 	if (err < 0)
- 		return err;
+@@ -181,6 +188,18 @@ tlc591xx_probe(struct i2c_client *client,
+ 
+ 	i2c_set_clientdata(client, priv);
  
 +	priv->swrst_client = devm_i2c_new_dummy_device(dev, client->adapter, tlc591xx->swrst_addr);
 +	if (priv->swrst_client) {
@@ -97,9 +97,9 @@ index a8911ebd30e5..c51268788770 100644
 +				tlc591xx->swrst_addr);
 +	}
 +
- 	for_each_child_of_node(np, child) {
- 		struct tlc591xx_led *led;
- 		struct led_init_data init_data = {};
+ 	err = tlc591xx_set_mode(priv->regmap, MODE2_DIM);
+ 	if (err < 0)
+ 		return err;
 diff --git a/drivers/pinctrl/pinctrl-mcp23s08.c b/drivers/pinctrl/pinctrl-mcp23s08.c
 index 3a235487e38d..3358891b3ea2 100644
 --- a/drivers/pinctrl/pinctrl-mcp23s08.c
