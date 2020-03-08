@@ -42,7 +42,7 @@ index 8b94aa8f5971..2723e6143aa9 100644
 +	};
 +};
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index a8911ebd30e5..b52d52cc2191 100644
+index a8911ebd30e5..632fd6a4c7bc 100644
 --- a/drivers/leds/leds-tlc591xx.c
 +++ b/drivers/leds/leds-tlc591xx.c
 @@ -40,6 +40,9 @@
@@ -86,15 +86,15 @@ index a8911ebd30e5..b52d52cc2191 100644
  	i2c_set_clientdata(client, priv);
  
 +	priv->swrst_client = devm_i2c_new_dummy_device(dev, client->adapter, tlc591xx->swrst_addr);
-+	if (priv->swrst_client) {
++	if (IS_ERR(priv->swrst_client)) {
++		dev_info(dev, "Skipping reset: address %02x already used\n",
++				tlc591xx->swrst_addr);
++	} else {
 +		err = i2c_smbus_write_byte_data(priv->swrst_client,
 +				TLC591XX_RESET_BYTE_0, TLC591XX_RESET_BYTE_1);
 +		if (err) {
 +			dev_warn(dev, "SW reset failed\n");
 +		}
-+	} else {
-+		dev_info(dev, "Skipping reset: address %02x already used\n",
-+				tlc591xx->swrst_addr);
 +	}
 +
  	err = tlc591xx_set_mode(priv->regmap, MODE2_DIM);
