@@ -7,7 +7,6 @@ BR2_ENABLE_DEBUG=y
 BR2_STRIP_EXCLUDE_FILES="cla-* netopeer2* sysrepo* libsysrepo* libSysrepo* libnetconf2* libyang* sysrepo-cli"
 BR2_STRIP_EXCLUDE_DIRS="/usr/lib/libyang /usr/lib/sysrepo"
 BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/patches"
-BR2_REPRODUCIBLE=y
 BR2_PER_PACKAGE_DIRECTORIES=y
 BR2_SSP_STRONG=y
 BR2_TOOLCHAIN_EXTERNAL=y
