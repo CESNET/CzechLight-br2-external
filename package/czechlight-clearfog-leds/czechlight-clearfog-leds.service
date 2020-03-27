@@ -3,13 +3,5 @@ Description=Indication of component state via LEDs on Clearfog
 
 [Service]
 Type=oneshot
-# SFP: green lit for "link"
-# SFP: green blinking for activity
-ExecStart=/bin/sh -c 'echo netdev > /sys/class/leds/sfp:green/trigger'
-ExecStart=/bin/sh -c 'echo eth2 > /sys/class/leds/sfp:green/device_name'
-ExecStart=/bin/sh -c 'echo 1 > /sys/class/leds/sfp:green/link'
-ExecStart=/bin/sh -c 'echo 1 > /sys/class/leds/sfp:green/rx'
-ExecStart=/bin/sh -c 'echo 1 > /sys/class/leds/sfp:green/tx'
-# LINE/EXPRESS: green for "we're getting some signal"
-ExecStart=/bin/sh -c 'echo gpio > /sys/class/leds/line:green/trigger'
-ExecStart=/bin/sh -c "sed -En 's/.*gpio-(.*) \\(EDFA1_ST1_IN_LOS_A .*/\\1/p' /sys/kernel/debug/gpio > /sys/class/leds/line:green/gpio"
+ExecStart=/usr/bin/init-leds-edfa.sh
+ExecStart=/usr/bin/init-leds-sfp.sh
