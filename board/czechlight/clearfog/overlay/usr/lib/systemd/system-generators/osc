@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -e
+
+mkdir -p /run/systemd/network
+
+# custom names for OSC channels
+if grep -q '\<czechlight=sdn-roadm-line\>' /proc/cmdline; then
+	ETH2_NAME=osc
+elif grep -q '\<czechlight=sdn-inline\>' /proc/cmdline; then
+	ETH2_NAME=oscW
+	ETH3_NAME=oscE
+fi
+
+[[ -n "${ETH2_NAME+set}" ]] && cat > /run/systemd/network/30-eth2.link <<EOF
+[Match]
+Path=platform-f1034000.ethernet
+[Link]
+Name=${ETH2_NAME}
+EOF
+
+[[ -n "${ETH3_NAME+set}" ]] && cat > /run/systemd/network/30-eth3.link <<EOF
+[Match]
+Path=platform-soc:pcie-pci-*
+[Link]
+Name=${ETH3_NAME}
+EOF

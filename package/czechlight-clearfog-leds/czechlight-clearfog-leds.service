@@ -6,7 +6,7 @@ Type=oneshot
 # SFP: green lit for "link"
 # SFP: green blinking for activity
 ExecStart=/bin/sh -c 'echo netdev > /sys/class/leds/sfp:green/trigger'
-ExecStart=/bin/sh -c 'echo eth2 > /sys/class/leds/sfp:green/device_name'
+ExecStart=/bin/sh -c 'for NETDEV in osc oscW oscE eth2; do [[ -d /sys/class/net/$NETDEV ]] && echo $NETDEV > /sys/class/leds/sfp:green/device_name ; done'
 ExecStart=/bin/sh -c 'echo 1 > /sys/class/leds/sfp:green/link'
 ExecStart=/bin/sh -c 'echo 1 > /sys/class/leds/sfp:green/rx'
 ExecStart=/bin/sh -c 'echo 1 > /sys/class/leds/sfp:green/tx'
