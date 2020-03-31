@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb7f7fbb_f56e11ca",
+        "filename": "board/czechlight/clearfog/overlay/usr/lib/systemd/system-generators/osc",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2020-03-31T11:00:17Z",
+      "side": 1,
+      "message": "nit: spaces instead of tabs?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "be45aa043a1b0f92370b7094e204886b693051b2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
