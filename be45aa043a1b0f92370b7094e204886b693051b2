@@ -22,6 +22,23 @@
       "revId": "be45aa043a1b0f92370b7094e204886b693051b2",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f1e0b07_4d8a91f8",
+        "filename": "package/czechlight-clearfog-leds/czechlight-clearfog-leds.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-03-31T14:12:35Z",
+      "side": 1,
+      "message": "oops, I tried this on the HW and it is actually broken, that \u0026\u0026 doesn\u0027t do what I think it would do, the last `eth2` still wins and therefore the whole command fails",
+      "revId": "be45aa043a1b0f92370b7094e204886b693051b2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
