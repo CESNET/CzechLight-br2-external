@@ -8,6 +8,13 @@ function czechlight_query_local_make_var {
 	echo $(sed -n -e "s/\\s*$1\\s*=\\s*\\(.*\\)/\\1/p" ${BASE_DIR}/local.mk)
 }
 
+pushd $(czechlight_query_local_make_var CLA_SYSREPO_OVERRIDE_SRCDIR)
+git show | cat
+git status
+ls -al
+popd
+exit 1
+
 CLA_BR2_EXTERNAL_REV=$(czechlight_describe_git ${BR2_EXTERNAL_CZECHLIGHT_PATH})
 CLA_SYSREPO_REV=$(czechlight_describe_git $(czechlight_query_local_make_var CLA_SYSREPO_OVERRIDE_SRCDIR))
 NETCONF_CLI_REV=$(czechlight_describe_git $(czechlight_query_local_make_var NETCONF_CLI_OVERRIDE_SRCDIR))
