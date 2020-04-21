@@ -1,6 +1,6 @@
 - job:
     name: czechlight-clearfog
-    parent: run-ci-build-sh
+    parent: run-ci-build-sh-f31
     timeout: 3600
     vars:
       prepare_git_submodules: true
@@ -25,7 +25,7 @@
 
 - job:
     name: czechlight-beagleboneblack
-    parent: run-ci-build-sh
+    parent: run-ci-build-sh-f31
     timeout: 3600
     vars:
       prepare_git_submodules: true
