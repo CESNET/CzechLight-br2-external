@@ -1,3 +1,6 @@
+# enable 1GB of RAM, not just 750 MB
+CONFIG_HIGHMEM=y
+
 # this is a part of the Clearfog Base carrier
 CONFIG_SENSORS_MCP3021=y
 

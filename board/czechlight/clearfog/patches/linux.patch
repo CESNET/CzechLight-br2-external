@@ -130,7 +130,7 @@ index 3a235487e38d..3358891b3ea2 100644
  	data->ngpio = ngpio;
  
 diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index c7266ef295fd..576bce155456 100644
+index 1f59beb7d27e..afbcc92dcaf8 100644
 --- a/drivers/spi/spi-orion.c
 +++ b/drivers/spi/spi-orion.c
 @@ -88,10 +88,6 @@ struct orion_direct_acc {
@@ -171,7 +171,7 @@ index c7266ef295fd..576bce155456 100644
  
  	if (vaddr && xfer->tx_buf && word_len == 8) {
  		unsigned int cnt = count / 4;
-@@ -682,7 +678,6 @@ static int orion_spi_probe(struct platform_device *pdev)
+@@ -681,7 +677,6 @@ static int orion_spi_probe(struct platform_device *pdev)
  	}
  
  	for_each_available_child_of_node(pdev->dev.of_node, np) {
@@ -179,7 +179,7 @@ index c7266ef295fd..576bce155456 100644
  		u32 cs;
  		int cs_gpio;
  
-@@ -750,13 +745,14 @@ static int orion_spi_probe(struct platform_device *pdev)
+@@ -749,13 +744,14 @@ static int orion_spi_probe(struct platform_device *pdev)
  		 * This needs to get extended for the direct SPI-NOR / SPI-NAND
  		 * support, once this gets implemented.
  		 */
