@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9732348_c93c9ad8",
+        "filename": "doc/architecture.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-04-28T10:25:39Z",
+      "side": 1,
+      "message": "nit: typo attaempts",
+      "revId": "c66a16f0d6ad348afebbd653f00ae9e03d212194",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "411e313a_9888ef40",
+        "filename": "doc/architecture.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-04-28T10:25:39Z",
+      "side": 1,
+      "message": "We saw today that the watchdog does not start if a systemd unit failed to start (on purpose).\nMaybe it could be mentioned somewhere? Not sure if here.",
+      "revId": "c66a16f0d6ad348afebbd653f00ae9e03d212194",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
