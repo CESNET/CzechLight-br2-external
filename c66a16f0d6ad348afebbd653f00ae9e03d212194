@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e5f05022_2d10bdd1",
+        "filename": "doc/architecture.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-05-11T15:48:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9732348_c93c9ad8",
+      "revId": "c66a16f0d6ad348afebbd653f00ae9e03d212194",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "411e313a_9888ef40",
         "filename": "doc/architecture.md",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "c66a16f0d6ad348afebbd653f00ae9e03d212194",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93f3edd5_e6e4245b",
+        "filename": "doc/architecture.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-05-11T15:48:19Z",
+      "side": 1,
+      "message": "Perhaps there\u0027s some confusion in terminology. The watchdog timer has been started already by U-Boot, it\u0027s just that there\u0027s nothing which keeps resetting the timer anymore. In a normal boot, systemd will soon take over once instructed so via `enable-hw-watchdog.service`, but that service only gets started when there\u0027s been no problem.\n\nI\u0027ve rephrased this text a bit, but I do not want to add too many forward references to this text.",
+      "parentUuid": "411e313a_9888ef40",
+      "revId": "c66a16f0d6ad348afebbd653f00ae9e03d212194",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
