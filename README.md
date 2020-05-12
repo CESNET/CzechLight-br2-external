@@ -4,6 +4,9 @@ This repository contains CzechLight-specific bits for [Buildroot](https://buildr
 Buildroot is a tool which produces system images for flashing to embedded devices.
 They have a [nice documentation](http://nightly.buildroot.org/manual.html) which explains everything that one might need.
 
+The [system architecture is described in another document](doc/architecture.md).
+This is a quick build HOWTO.
+
 ## Quick Start
 
 Everything is in Gerrit.
