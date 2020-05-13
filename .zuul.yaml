@@ -4,6 +4,7 @@
     timeout: 3600
     vars:
       prepare_git_submodules: true
+      zuul_work_dir: "{{ zuul.projects['cesnet-gerrit-czechlight/CzechLight/br2-external'].src_dir }}-ERROR"
     required-projects: &projects
       - github/buildroot/buildroot
       - CzechLight/dependencies
