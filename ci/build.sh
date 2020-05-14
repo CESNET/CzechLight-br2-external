@@ -20,6 +20,7 @@ if [[ $(jq < ~/zuul-env.json -r '.project.name') != 'CzechLight/br2-external' ]]
 else
     TRIGGERED_VIA_DEP=0
 fi
+REBUILD_EXTRA_TARGETS=""
 BR2_EXTERNAL_COMMIT=$(git --git-dir ${ZUUL_PROJECT_SRC_DIR}/.git rev-parse HEAD)
 
 # If we're being triggered via a change against another repo, use speculatively merged stuff from Zuul, not our submodules
@@ -46,6 +47,7 @@ if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
         if [[ ! -z "${DEPSRCDIR}" ]]; then
             sed -i "s|${ZUUL_PROJECT_SRC_DIR}/submodules/${PROJECT}|${HOME}/${DEPSRCDIR}|g" local.mk
         fi
+        REBUILD_EXTRA_TARGETS=${REBUILD_EXTRA_TARGETS:+"$REBUILD_EXTRA_TARGETS "}${PROJECT}-reconfigure
     done
 fi
 
@@ -59,9 +61,23 @@ else
 fi
 
 echo BR2_PRIMARY_SITE=\"https://object-store.cloud.muni.cz/swift/v1/ci-artifacts-public/mirror/buildroot\" >> .config
-make source -j${CI_PARALLEL_JOBS} --output-sync=target
 
-make -j${CI_PARALLEL_JOBS} --output-sync=target rootfs-czechlight-rauc
+if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
+    ARTIFACT_URL=$(jq < ~/zuul-env.json -r '[.artifacts[]? | select(.name == "br2-work-dir") | select(.project == "CzechLight/br2-external")][-1]?.url + ""')
+    if [[ -z "${ARTIFACT_URL}" ]]; then
+        # no job ahead, try to use git commit ID
+        ARTIFACT_URL="https://object-store.cloud.muni.cz/swift/v1/ci-artifacts-${ZUUL_TENANT}/${ZUUL_GERRIT_HOSTNAME}/CzechLight/br2-external/${ZUUL_JOB_NAME}/br2-work-dir-${BR2_EXTERNAL_COMMIT}.tar.zst"
+    fi
+    # We don't use gating, so there's a risk that there's no prebuilt artifact, so don't die if we cannot download that file
+    curl ${ARTIFACT_URL} | unzstd --stdout | tar -xf - || echo "No Buildroot prebuilt tarball found, will build from scratch"
+fi
+
+# Only fetch sources if we did not find a previous build's results
+if [[ ! -f images/update.raucb ]]; then
+    make source -j${CI_PARALLEL_JOBS} --output-sync=target
+fi
+
+make -j${CI_PARALLEL_JOBS} --output-sync=target ${REBUILD_EXTRA_TARGETS:+"$REBUILD_EXTRA_TARGETS"} rootfs-czechlight-rauc
 mv images/update.raucb ~/zuul-output/artifacts/
 
 if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
