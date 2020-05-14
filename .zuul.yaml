@@ -35,5 +35,14 @@
 - project:
     check:
       jobs:
-        - czechlight-clearfog
+        - czechlight-clearfog:
+            provides: CzechLight-br2-build-clearfog
+            vars:
+              artifacts:
+                name: br2-work-dir
+                glob: 'br2-work-dir-*.tar.zst'
+            post-run: ci/post.yaml
+            roles:
+              - zuul: return-built-artifact
+            post_timeout: 600
         - czechlight-beagleboneblack
