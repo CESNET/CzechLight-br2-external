@@ -15,8 +15,15 @@ cd ${BUILD_DIR}
 # Dependencies are normally specified via the cla-sysrepo.git repo
 ${ZUUL_PROJECT_SRC_DIR}/dev-setup-git.sh
 
-# If we're being triggered via a change against another repo, use speculatively merged stuff from Zuul, not our submodules
 if [[ $(jq < ~/zuul-env.json -r '.project.name') != 'CzechLight/br2-external' ]]; then
+    TRIGGERED_VIA_DEP=1
+else
+    TRIGGERED_VIA_DEP=0
+fi
+BR2_EXTERNAL_COMMIT=$(git --git-dir ${ZUUL_PROJECT_SRC_DIR}/.git rev-parse HEAD)
+
+# If we're being triggered via a change against another repo, use speculatively merged stuff from Zuul, not our submodules
+if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
     # C++ dependencies can be provided either via cla-sysrepo, or via netconf-cli.
     # Whatever is the latest change in the queue wins.
     USE_DEPENDENCIES_VIA=$(jq < ~/zuul-env.json -r '[.items[]? | select(.project.name == "CzechLight/cla-sysrepo" or .project.name == "CzechLight/netconf-cli")][-1]?.project.src_dir + ""')
@@ -58,7 +65,27 @@ make -j${CI_PARALLEL_JOBS} --output-sync=target rootfs-czechlight-rauc
 mv images/update.raucb ~/zuul-output/artifacts/
 
 if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
-    mv images/u-boot-spl.kwb ~/zuul-output/artifacts/
+    if [[ ${TRIGGERED_VIA_DEP} != 1 ]]; then
+        mv images/u-boot-spl.kwb ~/zuul-output/artifacts/
+
+        # store a cached tarball as an artifact
+        ARTIFACT=br2-work-dir-${BR2_EXTERNAL_COMMIT}.tar.zst
+        # everything but local.mk which we might have adjusted in job prologue, so let's not overwrite that
+        tar --totals -c \
+            .br* \
+            build \
+            .config \
+            host \
+            images \
+            Makefile \
+            per-package \
+            staging \
+            target \
+            --exclude='images/rootfs.*' \
+            --exclude='images/sdcard.*' \
+            --exclude='images/usb-flash.*' \
+            | zstd -T0 > ~/zuul-output/artifacts/${ARTIFACT}
+    fi
 fi
 
 # TODO: USB image as well? (`fallocate -d` to make it sparse)
