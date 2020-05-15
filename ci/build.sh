@@ -4,8 +4,10 @@ set -eux -o pipefail
 shopt -s failglob
 
 ZUUL_JOB_NAME=$(jq < ~/zuul-env.json -r '.job')
-ZUUL_PROJECT_SRC_DIR=$HOME/$(jq < ~/zuul-env.json -r '.projects["cesnet-gerrit-czechlight/CzechLight/br2-external"].src_dir')
-ZUUL_PROJECT_SHORT_NAME=$(jq < ~/zuul-env.json -r '.projects["cesnet-gerrit-czechlight/CzechLight/br2-external"].short_name')
+ZUUL_TENANT=$(jq < ~/zuul-env.json -r '.tenant')
+ZUUL_GERRIT_HOSTNAME=$(jq < ~/zuul-env.json -r '.project.canonical_hostname')
+ZUUL_PROJECT_SRC_DIR=$HOME/$(jq < ~/zuul-env.json -r ".projects[\"${ZUUL_TENANT}/CzechLight/br2-external\"].src_dir")
+ZUUL_PROJECT_SHORT_NAME=$(jq < ~/zuul-env.json -r ".projects[\"${ZUUL_TENANT}/CzechLight/br2-external\"].short_name")
 CI_PARALLEL_JOBS=$(awk -vcpu=$(getconf _NPROCESSORS_ONLN) 'BEGIN{printf "%.0f", cpu*1.3+1}')
 
 BUILD_DIR=~/build
