@@ -49,4 +49,5 @@
 
     promote:
       jobs:
-        - promote-artifacts
+        - promote-artifacts:
+            timeout: 600
