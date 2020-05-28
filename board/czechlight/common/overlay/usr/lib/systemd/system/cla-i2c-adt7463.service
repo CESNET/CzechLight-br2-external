@@ -1,6 +1,5 @@
 [Unit]
 Description=Configure the I2C ADT7463 for two-wire fans
-ConditionKernelCommandLine=|czechlight=CL-ROADMv2
 ConditionKernelCommandLine=|czechlight=sdn-roadm-add-drop
 ConditionKernelCommandLine=|czechlight=sdn-roadm-line
 ConditionKernelCommandLine=|czechlight=sdn-roadm-coherent-a-d
