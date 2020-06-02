@@ -24,6 +24,7 @@
       - github/tplgy/cppcodec
       - github/AmokHuginnsson/replxx
       - github/pybind/pybind11
+      - github/Kistler-Group/sdbus-cpp
 
 - job:
     name: czechlight-beagleboneblack
