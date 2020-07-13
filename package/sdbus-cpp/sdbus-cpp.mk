@@ -1,0 +1,9 @@
+SDBUS_CPP_VERSION = v0.8.2
+SDBUS_CPP_SITE = https://github.com/Kistler-Group/sdbus-cpp.git
+SDBUS_CPP_SITE_METHOD = git
+SDBUS_CPP_INSTALL_STAGING = YES
+SDBUS_CPP_DEPENDENCIES = systemd
+SDBUS_CPP_CONF_OPTS = -DTHREADS_PTHREAD_ARG:STRING=-pthread
+SDBUS_CPP_LICENSE_FILES = LICENSE.md
+
+$(eval $(cmake-package))

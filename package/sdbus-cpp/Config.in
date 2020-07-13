@@ -1,0 +1,5 @@
+config BR2_PACKAGE_SDBUS_CPP
+	bool "sdbus-cpp"
+	select BR2_PACKAGE_SYSTEMD
+	help
+	  TODO SOME DESCRIPTION STRING
