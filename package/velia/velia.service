@@ -1,0 +1,21 @@
+[Unit]
+Description=Velia is a health tracking for embedded devices running Linux
+Requires=multi-user.target
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c 'echo 0 > /sys/class/leds/status:green/brightness'
+ExecStart=/usr/bin/veliad --input-log-level=5 --output-log-level=5 --manager-log-level=5
+PrivateTmp=yes
+PrivateDevices=no
+ProtectSystem=yes
+ProtectHome=yes
+Restart=always
+WatchdogSec=15s
+LogRateLimitIntervalSec=10
+LogRateLimitBurst=30000
+SyslogLevel=alert
+
+[Install]
+WantedBy=multi-user.target
