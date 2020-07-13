@@ -22,6 +22,7 @@ CLA_SYSREPO_OVERRIDE_SRCDIR = ${CZECHLIGHT_BR2_EXT_LOC}/submodules/cla-sysrepo
 NETCONF_CLI_OVERRIDE_SRCDIR = ${CZECHLIGHT_BR2_EXT_LOC}/submodules/netconf-cli
 GAMMARUS_OVERRIDE_SRCDIR = ${CZECHLIGHT_BR2_EXT_LOC}/submodules/gammarus
 PYBIND11_OVERRIDE_SRCDIR = ${CZECHLIGHT_BR2_EXT_LOC}/submodules/pybind11
+SDBUS_CPP_OVERRIDE_SRCDIR = ${CZECHLIGHT_BR2_EXT_LOC}/submodules/cla-sysrepo/submodules/dependencies/sdbus-cpp
 
 define CZECHLIGHT_GIT_FIX_GITDIR
 	echo "gitdir: \$\$(git rev-parse --resolve-git-dir \$(SRCDIR)/.git)" > \$(@D)/.git
