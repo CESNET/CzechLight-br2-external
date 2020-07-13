@@ -10,3 +10,6 @@
 [submodule "submodules/gammarus"]
 	path = submodules/gammarus
 	url = ../gammarus
+[submodule "submodules/velia"]
+	path = submodules/velia
+	url = ../velia/
