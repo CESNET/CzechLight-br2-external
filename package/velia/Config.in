@@ -1,0 +1,11 @@
+config BR2_PACKAGE_VELIA
+	bool "velia"
+	select BR2_PACKAGE_DOCOPT_CPP
+	select BR2_PACKAGE_SPDLOG
+	select BR2_PACKAGE_BOOST
+	select BR2_PACKAGE_SDBUS_CPP
+	select BR2_PACKAGE_SYSTEMD
+	help
+	  Health tracking for embedded devices running Linux
+
+	  https://gerrit.cesnet.cz/q/project:CzechLight/velia
