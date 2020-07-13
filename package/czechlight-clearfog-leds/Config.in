@@ -3,12 +3,3 @@ config BR2_PACKAGE_CZECHLIGHT_CLEARFOG_LEDS
 	depends on BR2_INIT_SYSTEMD
 	help
 	  Userspace configuration of LEDs for indicating various states.
-
-if BR2_PACKAGE_CZECHLIGHT_CLEARFOG_LEDS
-
-config CZECHLIGHT_CLEARFOG_LEDS_BOOT
-	bool "Indicate a successful boot via LEDs"
-	depends on CZECHLIGHT_RAUC_ROOTFS
-	default Y
-
-endif # BR2_PACKAGE_CZECHLIGHT_CLEARFOG_LEDS
