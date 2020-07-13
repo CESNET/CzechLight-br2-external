@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae8cc80d_e8243470",
+        "filename": "package/velia/velia.mk",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-07-13T20:42:32Z",
+      "side": 1,
+      "message": "Ah, I see where you got that one from :(. It\u0027s of course complete BS :), fixed.",
+      "revId": "d758ee6c9ce246d9ad750fbdf4f34752250fcf01",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "892a3f7c_410b7dbc",
+        "filename": "submodules/velia",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-07-13T20:42:32Z",
+      "side": 1,
+      "message": "I\u0027ve bumped this and added an appropriate Depends-on footer for Zuul to pick up these changes that are under review (otherwise this build would keep failing I think).",
+      "revId": "d758ee6c9ce246d9ad750fbdf4f34752250fcf01",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    }
+  ]
+}
