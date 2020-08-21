@@ -6,7 +6,7 @@ After=multi-user.target
 [Service]
 Type=simple
 ExecStartPre=/bin/sh -c 'echo 0 > /sys/class/leds/status:green/brightness'
-ExecStart=/usr/bin/veliad --input-log-level=5 --output-log-level=5 --manager-log-level=5
+ExecStart=/usr/bin/veliad --log-level=4
 PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes
