@@ -5,8 +5,9 @@ After=multi-user.target
 
 [Service]
 Type=simple
-ExecStartPre=/bin/sh -c 'echo 0 > /sys/class/leds/status:green/brightness'
+ExecStartPre=/bin/sh -c 'echo 0 > /sys/class/leds/line:green/brightness'
 ExecStart=/usr/bin/veliad --log-level=4
+ExecStopPost=/bin/sh -c 'for COLOUR in red green blue; do echo 0 > /sys/class/leds/line:${COLOUR}/brightness; done; echo timer > /sys/class/leds/line:green/trigger; echo 255 > /sys/class/leds/line:green/brightness;'
 PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes
