@@ -22,6 +22,30 @@
       "revId": "6c4b5d6058c62754562147816210af7f44c41523",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7eafeff2_663d24e3",
+        "filename": "package/velia/velia.service",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-09-04T09:38:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "284f9856_5461713b",
+      "range": {
+        "startLine": 10,
+        "startChar": 240,
+        "endLine": 10,
+        "endChar": 243
+      },
+      "revId": "6c4b5d6058c62754562147816210af7f44c41523",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
