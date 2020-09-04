@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "284f9856_5461713b",
+        "filename": "package/velia/velia.service",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-09-04T09:09:56Z",
+      "side": 1,
+      "message": "make this \"256\" please, see https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/2929",
+      "range": {
+        "startLine": 10,
+        "startChar": 240,
+        "endLine": 10,
+        "endChar": 243
+      },
+      "revId": "6c4b5d6058c62754562147816210af7f44c41523",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
