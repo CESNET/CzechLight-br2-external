@@ -12,7 +12,7 @@ for NUM in $(seq 1 ${LAST}); do
         echo 0 > "/sys/class/leds/${LEDS[$PREVIOUS]}/brightness"
     fi
     if [[ $NUM -ne $LAST ]]; then
-        echo 255 > "/sys/class/leds/${LEDS[$NUM]}/brightness"
+        echo 256 > "/sys/class/leds/${LEDS[$NUM]}/brightness"
     fi
     sleep 0.3
 done
