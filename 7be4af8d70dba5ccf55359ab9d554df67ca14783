@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3d3e2f3_2e778e01",
+        "filename": "submodules/lldp-systemd-networkd-sysrepo",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-10-09T18:22:59Z",
+      "side": 1,
+      "message": "this is a wrong ref, though",
+      "revId": "7be4af8d70dba5ccf55359ab9d554df67ca14783",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
