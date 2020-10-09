@@ -1,0 +1,19 @@
+[Unit]
+Description=lldp-systemd-networkd-sysrepo is a sysrepo application announcing LLDP neighbours from systemd-networkd.
+After=syslog.target network.target sysrepod.service
+Requires=sysrepod.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/lldp-systemd-networkd-sysrepo
+PrivateTmp=yes
+PrivateDevices=no
+ProtectSystem=yes
+ProtectHome=yes
+Restart=always
+LogRateLimitIntervalSec=10
+LogRateLimitBurst=30000
+SyslogLevel=alert
+
+[Install]
+WantedBy=multi-user.target
