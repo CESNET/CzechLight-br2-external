@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85162a69_db292e61",
+        "filename": "configs/czechlight_clearfog_defconfig",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-10-15T13:50:32Z",
+      "side": 1,
+      "message": "For this to work, you\u0027ll have to create a package for that project in buildroot, so push that as a patch to our mirror, using cesnet/something as a branch name, and then update the submodule ref to point to that.",
+      "revId": "4b7f6d0c7685f7d04804a8a895d242dc71447a6e",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
