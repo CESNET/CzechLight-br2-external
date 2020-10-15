@@ -16,6 +16,24 @@
       "revId": "4b7f6d0c7685f7d04804a8a895d242dc71447a6e",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "493443d7_9cf47f94",
+        "filename": "configs/czechlight_clearfog_defconfig",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-10-15T13:51:24Z",
+      "side": 1,
+      "message": "Nah, sorry, my bad, this is obviously bullshit, it\u0027s in this repo. Yup, that works as well, we can move it later.",
+      "parentUuid": "85162a69_db292e61",
+      "revId": "4b7f6d0c7685f7d04804a8a895d242dc71447a6e",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
