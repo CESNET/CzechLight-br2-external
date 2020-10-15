@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad5f5fbd_6e4a0365",
+        "filename": "package/lldp-systemd-networkd-sysrepo/lldp-systemd-networkd-sysrepo-install-yang.service",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-10-15T19:29:38Z",
+      "side": 1,
+      "message": "This is copied straight from the cla-sysrepod init units, right? I think it is not great that we have multiple units (the cla-sdn-*.service, the ietf-hardware-state, which currently doesn\u0027t do it, and this new one) that all want to make peristent changes to the sysrepo state, but they are not synchronized at all. Any ideas on how to fix this?\n\nThis could wait until after we move to new sysrepo, I\u0027m not going to block on this one, but I\u0027d like to have some discussion about this before I merge this patch.",
+      "revId": "c65a15bc5eea1f1de5f437e1943c720b8eda2f3f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
