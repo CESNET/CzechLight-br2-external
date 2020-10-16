@@ -16,6 +16,23 @@
       "revId": "c65a15bc5eea1f1de5f437e1943c720b8eda2f3f",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4379fe1b_5f0be709",
+        "filename": "submodules/lldp-systemd-networkd-sysrepo",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-10-16T07:55:58Z",
+      "side": 1,
+      "message": "this needs updating now",
+      "revId": "c65a15bc5eea1f1de5f437e1943c720b8eda2f3f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
