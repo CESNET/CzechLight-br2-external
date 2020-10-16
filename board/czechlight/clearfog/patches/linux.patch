@@ -41,8 +41,37 @@ index 8b94aa8f5971..2723e6143aa9 100644
 +		gpio-line-names = ...
 +	};
 +};
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index 80137c1b3cdc..8d1c49a289eb 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -1727,11 +1727,6 @@ static inline void gpiochip_irqchip_free_valid_mask(struct gpio_chip *gc)
+  */
+ int gpiochip_generic_request(struct gpio_chip *gc, unsigned offset)
+ {
+-#ifdef CONFIG_PINCTRL
+-	if (list_empty(&gc->gpiodev->pin_ranges))
+-		return 0;
+-#endif
+-
+ 	return pinctrl_gpio_request(gc->gpiodev->base + offset);
+ }
+ EXPORT_SYMBOL_GPL(gpiochip_generic_request);
+diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+index 18e06fc6c53f..5c0f429ed7ad 100644
+--- a/drivers/hwmon/pmbus/pmbus.h
++++ b/drivers/hwmon/pmbus/pmbus.h
+@@ -361,7 +361,7 @@ enum pmbus_sensor_classes {
+ 	PSC_NUM_CLASSES		/* Number of power sensor classes */
+ };
+ 
+-#define PMBUS_PAGES	32	/* Per PMBus specification */
++#define PMBUS_PAGES	255	/* Per PMBus specification */
+ #define PMBUS_PHASES	8	/* Maximum number of phases per page */
+ 
+ /* Functionality bit mask */
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index a8911ebd30e5..632fd6a4c7bc 100644
+index 0929f1275814..710c56cba818 100644
 --- a/drivers/leds/leds-tlc591xx.c
 +++ b/drivers/leds/leds-tlc591xx.c
 @@ -40,6 +40,9 @@
@@ -100,27 +129,214 @@ index a8911ebd30e5..632fd6a4c7bc 100644
  	err = tlc591xx_set_mode(priv->regmap, MODE2_DIM);
  	if (err < 0)
  		return err;
+diff --git a/drivers/pci/controller/pci-mvebu.c b/drivers/pci/controller/pci-mvebu.c
+index c39978b750ec..653c0b3d2912 100644
+--- a/drivers/pci/controller/pci-mvebu.c
++++ b/drivers/pci/controller/pci-mvebu.c
+@@ -960,25 +960,16 @@ static void mvebu_pcie_powerdown(struct mvebu_pcie_port *port)
+ }
+ 
+ /*
+- * We can't use devm_of_pci_get_host_bridge_resources() because we
+- * need to parse our special DT properties encoding the MEM and IO
+- * apertures.
++ * devm_of_pci_get_host_bridge_resources() only sets up translateable resources,
++ * so we need extra resource setup parsing our special DT properties encoding
++ * the MEM and IO apertures.
+  */
+ static int mvebu_pcie_parse_request_resources(struct mvebu_pcie *pcie)
+ {
+ 	struct device *dev = &pcie->pdev->dev;
+-	struct device_node *np = dev->of_node;
+ 	struct pci_host_bridge *bridge = pci_host_bridge_from_priv(pcie);
+ 	int ret;
+ 
+-	/* Get the bus range */
+-	ret = of_pci_parse_bus_range(np, &pcie->busn);
+-	if (ret) {
+-		dev_err(dev, "failed to parse bus-range property: %d\n", ret);
+-		return ret;
+-	}
+-	pci_add_resource(&bridge->windows, &pcie->busn);
+-
+ 	/* Get the PCIe memory aperture */
+ 	mvebu_mbus_get_pcie_mem_aperture(&pcie->mem);
+ 	if (resource_size(&pcie->mem) == 0) {
+@@ -988,6 +979,9 @@ static int mvebu_pcie_parse_request_resources(struct mvebu_pcie *pcie)
+ 
+ 	pcie->mem.name = "PCI MEM";
+ 	pci_add_resource(&bridge->windows, &pcie->mem);
++	ret = devm_request_resource(dev, &iomem_resource, &pcie->mem);
++	if (ret)
++		return ret;
+ 
+ 	/* Get the PCIe IO aperture */
+ 	mvebu_mbus_get_pcie_io_aperture(&pcie->io);
+@@ -1001,9 +995,12 @@ static int mvebu_pcie_parse_request_resources(struct mvebu_pcie *pcie)
+ 		pcie->realio.name = "PCI I/O";
+ 
+ 		pci_add_resource(&bridge->windows, &pcie->realio);
++		ret = devm_request_resource(dev, &ioport_resource, &pcie->realio);
++		if (ret)
++			return ret;
+ 	}
+ 
+-	return devm_request_pci_bus_resources(dev, &bridge->windows);
++	return 0;
+ }
+ 
+ /*
 diff --git a/drivers/pinctrl/pinctrl-mcp23s08.c b/drivers/pinctrl/pinctrl-mcp23s08.c
-index 3a235487e38d..3358891b3ea2 100644
+index 42b12ea14d6b..ce2d8014b7e0 100644
 --- a/drivers/pinctrl/pinctrl-mcp23s08.c
 +++ b/drivers/pinctrl/pinctrl-mcp23s08.c
-@@ -993,6 +993,7 @@ static int mcp23s08_probe(struct spi_device *spi)
- 	int				status, type;
- 	unsigned			ngpio = 0;
- 	const struct			of_device_id *match;
-+	struct device_node		*np;
+@@ -87,7 +87,7 @@ const struct regmap_config mcp23x08_regmap = {
+ };
+ EXPORT_SYMBOL_GPL(mcp23x08_regmap);
  
- 	match = of_match_device(of_match_ptr(mcp23s08_spi_of_match), &spi->dev);
+-static const struct reg_default mcp23x16_defaults[] = {
++static const struct reg_default mcp23x17_defaults[] = {
+ 	{.reg = MCP_IODIR << 1,		.def = 0xffff},
+ 	{.reg = MCP_IPOL << 1,		.def = 0x0000},
+ 	{.reg = MCP_GPINTEN << 1,	.def = 0x0000},
+@@ -98,23 +98,23 @@ static const struct reg_default mcp23x16_defaults[] = {
+ 	{.reg = MCP_OLAT << 1,		.def = 0x0000},
+ };
+ 
+-static const struct regmap_range mcp23x16_volatile_range = {
++static const struct regmap_range mcp23x17_volatile_range = {
+ 	.range_min = MCP_INTF << 1,
+ 	.range_max = MCP_GPIO << 1,
+ };
+ 
+-static const struct regmap_access_table mcp23x16_volatile_table = {
+-	.yes_ranges = &mcp23x16_volatile_range,
++static const struct regmap_access_table mcp23x17_volatile_table = {
++	.yes_ranges = &mcp23x17_volatile_range,
+ 	.n_yes_ranges = 1,
+ };
+ 
+-static const struct regmap_range mcp23x16_precious_range = {
+-	.range_min = MCP_GPIO << 1,
++static const struct regmap_range mcp23x17_precious_range = {
++	.range_min = MCP_INTCAP << 1,
+ 	.range_max = MCP_GPIO << 1,
+ };
+ 
+-static const struct regmap_access_table mcp23x16_precious_table = {
+-	.yes_ranges = &mcp23x16_precious_range,
++static const struct regmap_access_table mcp23x17_precious_table = {
++	.yes_ranges = &mcp23x17_precious_range,
+ 	.n_yes_ranges = 1,
+ };
+ 
+@@ -124,10 +124,10 @@ const struct regmap_config mcp23x17_regmap = {
+ 
+ 	.reg_stride = 2,
+ 	.max_register = MCP_OLAT << 1,
+-	.volatile_table = &mcp23x16_volatile_table,
+-	.precious_table = &mcp23x16_precious_table,
+-	.reg_defaults = mcp23x16_defaults,
+-	.num_reg_defaults = ARRAY_SIZE(mcp23x16_defaults),
++	.volatile_table = &mcp23x17_volatile_table,
++	.precious_table = &mcp23x17_precious_table,
++	.reg_defaults = mcp23x17_defaults,
++	.num_reg_defaults = ARRAY_SIZE(mcp23x17_defaults),
+ 	.cache_type = REGCACHE_FLAT,
+ 	.val_format_endian = REGMAP_ENDIAN_LITTLE,
+ };
+@@ -564,7 +564,7 @@ int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
+ 
+ 	ret = mcp_read(mcp, MCP_IOCON, &status);
+ 	if (ret < 0)
+-		goto fail;
++		return dev_err_probe(dev, ret, "can't identify chip %d\n", addr);
+ 
+ 	mcp->irq_controller =
+ 		device_property_read_bool(dev, "interrupt-controller");
+@@ -598,7 +598,7 @@ int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
+ 
+ 		ret = mcp_write(mcp, MCP_IOCON, status);
+ 		if (ret < 0)
+-			goto fail;
++			return dev_err_probe(dev, ret, "can't write IOCON %d\n", addr);
+ 	}
+ 
+ 	if (mcp->irq && mcp->irq_controller) {
+@@ -616,7 +616,7 @@ int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
+ 
+ 	ret = devm_gpiochip_add_data(dev, &mcp->chip, mcp);
+ 	if (ret < 0)
+-		goto fail;
++		return dev_err_probe(dev, ret, "can't add GPIO chip\n");
+ 
+ 	mcp->pinctrl_desc.pctlops = &mcp_pinctrl_ops;
+ 	mcp->pinctrl_desc.confops = &mcp_pinconf_ops;
+@@ -628,18 +628,17 @@ int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
+ 	mcp->pinctrl_desc.owner = THIS_MODULE;
+ 
+ 	mcp->pctldev = devm_pinctrl_register(dev, &mcp->pinctrl_desc, mcp);
+-	if (IS_ERR(mcp->pctldev)) {
+-		ret = PTR_ERR(mcp->pctldev);
+-		goto fail;
+-	}
++	if (IS_ERR(mcp->pctldev))
++		return dev_err_probe(dev, PTR_ERR(mcp->pctldev), "can't register controller\n");
+ 
+-	if (mcp->irq)
++	if (mcp->irq) {
+ 		ret = mcp23s08_irq_setup(mcp);
++		if (ret)
++			return dev_err_probe(dev, ret, "can't setup IRQ\n");
++	}
+ 
+-fail:
+-	if (ret < 0)
+-		dev_dbg(dev, "can't setup chip %d, --> %d\n", addr, ret);
+-	return ret;
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(mcp23s08_probe_one);
++
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/pinctrl/pinctrl-mcp23s08_spi.c b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
+index 1f47a661b0a7..3271e304c985 100644
+--- a/drivers/pinctrl/pinctrl-mcp23s08_spi.c
++++ b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
+@@ -119,13 +119,15 @@ static int mcp23s08_spi_regmap_init(struct mcp23s08 *mcp, struct device *dev,
+ 		return -EINVAL;
+ 	}
+ 
+-	copy = devm_kmemdup(dev, &config, sizeof(config), GFP_KERNEL);
++	copy = devm_kmemdup(dev, config, sizeof(*config), GFP_KERNEL);
+ 	if (!copy)
+ 		return -ENOMEM;
+ 
+ 	copy->name = name;
+ 
+ 	mcp->regmap = devm_regmap_init(dev, &mcp23sxx_spi_regmap, mcp, copy);
++	if (IS_ERR(mcp->regmap))
++		dev_err(dev, "regmap init failed for %s\n", mcp->chip.label);
+ 	return PTR_ERR_OR_ZERO(mcp->regmap);
+ }
+ 
+@@ -141,6 +143,7 @@ static int mcp23s08_probe(struct spi_device *spi)
+ 	int type;
+ 	int ret;
+ 	u32 v;
++	struct device_node *np;
+ 
+ 	match = device_get_match_data(dev);
  	if (match)
-@@ -1061,6 +1062,16 @@ static int mcp23s08_probe(struct spi_device *spi)
- 		if (pdata->base != -1)
- 			pdata->base += data->mcp[addr]->chip.ngpio;
+@@ -190,6 +193,16 @@ static int mcp23s08_probe(struct spi_device *spi)
+ 			return ret;
+ 
  		ngpio += data->mcp[addr]->chip.ngpio;
 +
 +		for_each_available_child_of_node(spi->dev.of_node, np) {
 +			u32 chip_addr;
-+			status = of_property_read_u32(np, "address", &chip_addr);
-+			if (status)
++			ret = of_property_read_u32(np, "address", &chip_addr);
++			if (ret)
 +				continue;
 +			if (chip_addr != addr)
 +				continue;
@@ -130,10 +346,21 @@ index 3a235487e38d..3358891b3ea2 100644
  	data->ngpio = ngpio;
  
 diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index 1f59beb7d27e..afbcc92dcaf8 100644
+index b57b8b3cc26e..5dc323643522 100644
 --- a/drivers/spi/spi-orion.c
 +++ b/drivers/spi/spi-orion.c
-@@ -88,10 +88,6 @@ struct orion_direct_acc {
+@@ -17,8 +17,10 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_device.h>
++#include <linux/of_gpio.h>
+ #include <linux/clk.h>
+ #include <linux/sizes.h>
++#include <linux/gpio.h>
+ #include <asm/unaligned.h>
+ 
+ #define DRIVER_NAME			"orion_spi"
+@@ -86,18 +88,15 @@ struct orion_direct_acc {
  	u32			size;
  };
  
@@ -144,16 +371,53 @@ index 1f59beb7d27e..afbcc92dcaf8 100644
  struct orion_spi {
  	struct spi_master	*master;
  	void __iomem		*base;
-@@ -100,7 +96,7 @@ struct orion_spi {
+ 	struct clk              *clk;
+ 	struct clk              *axi_clk;
  	const struct orion_spi_dev *devdata;
- 	int			unused_hw_gpio;
++	int			unused_hw_gpio;
  
 -	struct orion_child_options	child[ORION_NUM_CHIPSELECTS];
 +	struct orion_direct_acc	direct_access[ORION_NUM_CHIPSELECTS];
  };
  
  static inline void __iomem *spi_reg(struct orion_spi *orion_spi, u32 reg)
-@@ -430,7 +426,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
+@@ -322,27 +321,20 @@ orion_spi_setup_transfer(struct spi_device *spi, struct spi_transfer *t)
+ static void orion_spi_set_cs(struct spi_device *spi, bool enable)
+ {
+ 	struct orion_spi *orion_spi;
++	int cs;
+ 
+ 	orion_spi = spi_master_get_devdata(spi->master);
+ 
+-	/*
+-	 * If this line is using a GPIO to control chip select, this internal
+-	 * .set_cs() function will still be called, so we clear any previous
+-	 * chip select. The CS we activate will not have any elecrical effect,
+-	 * as it is handled by a GPIO, but that doesn't matter. What we need
+-	 * is to deassert the old chip select and assert some other chip select.
+-	 */
++	if (gpio_is_valid(spi->cs_gpio))
++		cs = orion_spi->unused_hw_gpio;
++	else
++		cs = spi->chip_select;
++
+ 	orion_spi_clrbits(orion_spi, ORION_SPI_IF_CTRL_REG, ORION_SPI_CS_MASK);
+ 	orion_spi_setbits(orion_spi, ORION_SPI_IF_CTRL_REG,
+-			  ORION_SPI_CS(spi->chip_select));
++				ORION_SPI_CS(cs));
+ 
+-	/*
+-	 * Chip select logic is inverted from spi_set_cs(). For lines using a
+-	 * GPIO to do chip select SPI_CS_HIGH is enforced and inversion happens
+-	 * in the GPIO library, but we don't care about that, because in those
+-	 * cases we are dealing with an unused native CS anyways so the polarity
+-	 * doesn't matter.
+-	 */
++	/* Chip select logic is inverted from spi_set_cs */
+ 	if (!enable)
+ 		orion_spi_setbits(orion_spi, ORION_SPI_IF_CTRL_REG, 0x1);
+ 	else
+@@ -434,7 +426,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
  	int cs = spi->chip_select;
  	void __iomem *vaddr;
  
@@ -162,7 +426,7 @@ index 1f59beb7d27e..afbcc92dcaf8 100644
  	count = xfer->len;
  
  	orion_spi = spi_master_get_devdata(spi->master);
-@@ -439,7 +435,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
+@@ -443,7 +435,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
  	 * Use SPI direct write mode if base address is available. Otherwise
  	 * fall back to PIO mode for this transfer.
  	 */
@@ -171,16 +435,88 @@ index 1f59beb7d27e..afbcc92dcaf8 100644
  
  	if (vaddr && xfer->tx_buf && word_len == 8) {
  		unsigned int cnt = count / 4;
-@@ -681,7 +677,6 @@ static int orion_spi_probe(struct platform_device *pdev)
+@@ -507,6 +499,9 @@ static int orion_spi_transfer_one(struct spi_master *master,
+ 
+ static int orion_spi_setup(struct spi_device *spi)
+ {
++	if (gpio_is_valid(spi->cs_gpio)) {
++		gpio_direction_output(spi->cs_gpio, !(spi->mode & SPI_CS_HIGH));
++	}
+ 	return orion_spi_setup_transfer(spi, NULL);
+ }
+ 
+@@ -623,13 +618,13 @@ static int orion_spi_probe(struct platform_device *pdev)
+ 	master->setup = orion_spi_setup;
+ 	master->bits_per_word_mask = SPI_BPW_MASK(8) | SPI_BPW_MASK(16);
+ 	master->auto_runtime_pm = true;
+-	master->use_gpio_descriptors = true;
+ 	master->flags = SPI_MASTER_GPIO_SS;
+ 
+ 	platform_set_drvdata(pdev, master);
+ 
+ 	spi = spi_master_get_devdata(master);
+ 	spi->master = master;
++	spi->unused_hw_gpio = -1;
+ 
+ 	of_id = of_match_device(orion_spi_of_match_table, &pdev->dev);
+ 	devdata = (of_id) ? of_id->data : &orion_spi_dev_data;
+@@ -682,8 +677,8 @@ static int orion_spi_probe(struct platform_device *pdev)
  	}
  
  	for_each_available_child_of_node(pdev->dev.of_node, np) {
 -		struct orion_direct_acc *dir_acc;
  		u32 cs;
- 		int cs_gpio;
++		int cs_gpio;
  
-@@ -749,13 +744,14 @@ static int orion_spi_probe(struct platform_device *pdev)
- 		 * This needs to get extended for the direct SPI-NOR / SPI-NAND
+ 		/* Get chip-select number from the "reg" property */
+ 		status = of_property_read_u32(np, "reg", &cs);
+@@ -694,6 +689,44 @@ static int orion_spi_probe(struct platform_device *pdev)
+ 			continue;
+ 		}
+ 
++		/*
++		 * Initialize the CS GPIO:
++		 * - properly request the actual GPIO signal
++		 * - de-assert the logical signal so that all GPIO CS lines
++		 *   are inactive when probing for slaves
++		 * - find an unused physical CS which will be driven for any
++		 *   slave which uses a CS GPIO
++		 */
++		cs_gpio = of_get_named_gpio(pdev->dev.of_node, "cs-gpios", cs);
++		if (cs_gpio > 0) {
++			char *gpio_name;
++			int cs_flags;
++
++			if (spi->unused_hw_gpio == -1) {
++				dev_info(&pdev->dev,
++					"Selected unused HW CS#%d for any GPIO CSes\n",
++					cs);
++				spi->unused_hw_gpio = cs;
++			}
++
++			gpio_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
++					"%s-CS%d", dev_name(&pdev->dev), cs);
++			if (!gpio_name) {
++				status = -ENOMEM;
++				goto out_rel_axi_clk;
++			}
++
++			cs_flags = of_property_read_bool(np, "spi-cs-high") ?
++				GPIOF_OUT_INIT_LOW : GPIOF_OUT_INIT_HIGH;
++			status = devm_gpio_request_one(&pdev->dev, cs_gpio,
++					cs_flags, gpio_name);
++			if (status) {
++				dev_err(&pdev->dev,
++					"Can't request GPIO for CS %d\n", cs);
++				goto out_rel_axi_clk;
++			}
++		}
++
+ 		/*
+ 		 * Check if an address is configured for this SPI device. If
+ 		 * not, the MBus mapping via the 'ranges' property in the 'soc'
+@@ -711,13 +744,14 @@ static int orion_spi_probe(struct platform_device *pdev)
+ 		 * This needs to get extended for the direct SPI NOR / SPI NAND
  		 * support, once this gets implemented.
  		 */
 -		dir_acc = &spi->child[cs].direct_access;
@@ -199,7 +535,7 @@ index 1f59beb7d27e..afbcc92dcaf8 100644
  		dev_info(&pdev->dev, "CS%d configured for direct access\n", cs);
  	}
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index 8434bd5a8ec7..59d3c27d36a2 100644
+index 8434bd5a8ec7..7db66392fcd5 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
 @@ -235,6 +235,10 @@
@@ -232,7 +568,50 @@ index 8434bd5a8ec7..59d3c27d36a2 100644
  		}
  	}
  
-@@ -1327,6 +1334,10 @@ static int max310x_probe(struct device *dev, struct max310x_devtype *devtype,
+@@ -1056,9 +1063,9 @@ static int max310x_startup(struct uart_port *port)
+ 	max310x_port_update(port, MAX310X_MODE1_REG,
+ 			    MAX310X_MODE1_TRNSCVCTRL_BIT, 0);
+ 
+-	/* Configure MODE2 register & Reset FIFOs*/
+-	val = MAX310X_MODE2_RXEMPTINV_BIT | MAX310X_MODE2_FIFORST_BIT;
+-	max310x_port_write(port, MAX310X_MODE2_REG, val);
++	/* Reset FIFOs */
++	max310x_port_write(port, MAX310X_MODE2_REG,
++			   MAX310X_MODE2_FIFORST_BIT);
+ 	max310x_port_update(port, MAX310X_MODE2_REG,
+ 			    MAX310X_MODE2_FIFORST_BIT, 0);
+ 
+@@ -1086,8 +1093,27 @@ static int max310x_startup(struct uart_port *port)
+ 	/* Clear IRQ status register */
+ 	max310x_port_read(port, MAX310X_IRQSTS_REG);
+ 
+-	/* Enable RX, TX, CTS change interrupts */
+-	val = MAX310X_IRQ_RXEMPTY_BIT | MAX310X_IRQ_TXEMPTY_BIT;
++	/*
++	 * Let's ask for an interrupt after a timeout equivalent to
++	 * the receiving time of 4 characters after the last character
++	 * has been received.
++	 */
++	max310x_port_write(port, MAX310X_RXTO_REG, 4);
++
++	/*
++	 * Make sure we also get RX interrupts when the RX FIFO is
++	 * filling up quickly, so get an interrupt when half of the RX
++	 * FIFO has been filled in.
++	 */
++	max310x_port_write(port, MAX310X_FIFOTRIGLVL_REG,
++			   MAX310X_FIFOTRIGLVL_RX(MAX310X_FIFO_SIZE / 2));
++
++	/* Enable RX timeout interrupt in LSR */
++	max310x_port_write(port, MAX310X_LSR_IRQEN_REG,
++			   MAX310X_LSR_RXTO_BIT);
++
++	/* Enable LSR, RX FIFO trigger, CTS change interrupts */
++	val = MAX310X_IRQ_LSR_BIT  | MAX310X_IRQ_RXFIFO_BIT | MAX310X_IRQ_TXEMPTY_BIT;
+ 	max310x_port_write(port, MAX310X_IRQEN_REG, val | MAX310X_IRQ_CTS_BIT);
+ 
+ 	return 0;
+@@ -1327,6 +1353,10 @@ static int max310x_probe(struct device *dev, struct max310x_devtype *devtype,
  	}
  
  	uartclk = max310x_set_ref_clk(dev, s, freq, xtal);
