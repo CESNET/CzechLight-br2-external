@@ -48,7 +48,7 @@
             post-run: ci/post.yaml
             roles:
               - zuul: return-built-artifact
-        - czechlight-beagleboneblack
+        # - czechlight-beagleboneblack
 
     promote:
       jobs:
