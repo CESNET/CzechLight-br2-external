@@ -41,8 +41,37 @@ index 8b94aa8f5971..2723e6143aa9 100644
 +		gpio-line-names = ...
 +	};
 +};
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index 80137c1b3cdc..8d1c49a289eb 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -1727,11 +1727,6 @@ static inline void gpiochip_irqchip_free_valid_mask(struct gpio_chip *gc)
+  */
+ int gpiochip_generic_request(struct gpio_chip *gc, unsigned offset)
+ {
+-#ifdef CONFIG_PINCTRL
+-	if (list_empty(&gc->gpiodev->pin_ranges))
+-		return 0;
+-#endif
+-
+ 	return pinctrl_gpio_request(gc->gpiodev->base + offset);
+ }
+ EXPORT_SYMBOL_GPL(gpiochip_generic_request);
+diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+index 18e06fc6c53f..5c0f429ed7ad 100644
+--- a/drivers/hwmon/pmbus/pmbus.h
++++ b/drivers/hwmon/pmbus/pmbus.h
+@@ -361,7 +361,7 @@ enum pmbus_sensor_classes {
+ 	PSC_NUM_CLASSES		/* Number of power sensor classes */
+ };
+ 
+-#define PMBUS_PAGES	32	/* Per PMBus specification */
++#define PMBUS_PAGES	255	/* Per PMBus specification */
+ #define PMBUS_PHASES	8	/* Maximum number of phases per page */
+ 
+ /* Functionality bit mask */
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index a8911ebd30e5..632fd6a4c7bc 100644
+index 0929f1275814..710c56cba818 100644
 --- a/drivers/leds/leds-tlc591xx.c
 +++ b/drivers/leds/leds-tlc591xx.c
 @@ -40,6 +40,9 @@
@@ -100,27 +129,27 @@ index a8911ebd30e5..632fd6a4c7bc 100644
  	err = tlc591xx_set_mode(priv->regmap, MODE2_DIM);
  	if (err < 0)
  		return err;
-diff --git a/drivers/pinctrl/pinctrl-mcp23s08.c b/drivers/pinctrl/pinctrl-mcp23s08.c
-index 3a235487e38d..3358891b3ea2 100644
---- a/drivers/pinctrl/pinctrl-mcp23s08.c
-+++ b/drivers/pinctrl/pinctrl-mcp23s08.c
-@@ -993,6 +993,7 @@ static int mcp23s08_probe(struct spi_device *spi)
- 	int				status, type;
- 	unsigned			ngpio = 0;
- 	const struct			of_device_id *match;
-+	struct device_node		*np;
+diff --git a/drivers/pinctrl/pinctrl-mcp23s08_spi.c b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
+index 1f47a661b0a7..a7dfd6c349aa 100644
+--- a/drivers/pinctrl/pinctrl-mcp23s08_spi.c
++++ b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
+@@ -141,6 +141,7 @@ static int mcp23s08_probe(struct spi_device *spi)
+ 	int type;
+ 	int ret;
+ 	u32 v;
++	struct device_node *np;
  
- 	match = of_match_device(of_match_ptr(mcp23s08_spi_of_match), &spi->dev);
+ 	match = device_get_match_data(dev);
  	if (match)
-@@ -1061,6 +1062,16 @@ static int mcp23s08_probe(struct spi_device *spi)
- 		if (pdata->base != -1)
- 			pdata->base += data->mcp[addr]->chip.ngpio;
+@@ -190,6 +191,16 @@ static int mcp23s08_probe(struct spi_device *spi)
+ 			return ret;
+ 
  		ngpio += data->mcp[addr]->chip.ngpio;
 +
 +		for_each_available_child_of_node(spi->dev.of_node, np) {
 +			u32 chip_addr;
-+			status = of_property_read_u32(np, "address", &chip_addr);
-+			if (status)
++			ret = of_property_read_u32(np, "address", &chip_addr);
++			if (ret)
 +				continue;
 +			if (chip_addr != addr)
 +				continue;
@@ -130,10 +159,10 @@ index 3a235487e38d..3358891b3ea2 100644
  	data->ngpio = ngpio;
  
 diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index 1f59beb7d27e..afbcc92dcaf8 100644
+index b57b8b3cc26e..056d107d8f32 100644
 --- a/drivers/spi/spi-orion.c
 +++ b/drivers/spi/spi-orion.c
-@@ -88,10 +88,6 @@ struct orion_direct_acc {
+@@ -86,10 +86,6 @@ struct orion_direct_acc {
  	u32			size;
  };
  
@@ -144,16 +173,16 @@ index 1f59beb7d27e..afbcc92dcaf8 100644
  struct orion_spi {
  	struct spi_master	*master;
  	void __iomem		*base;
-@@ -100,7 +96,7 @@ struct orion_spi {
+@@ -97,7 +93,7 @@ struct orion_spi {
+ 	struct clk              *axi_clk;
  	const struct orion_spi_dev *devdata;
- 	int			unused_hw_gpio;
  
 -	struct orion_child_options	child[ORION_NUM_CHIPSELECTS];
 +	struct orion_direct_acc	direct_access[ORION_NUM_CHIPSELECTS];
  };
  
  static inline void __iomem *spi_reg(struct orion_spi *orion_spi, u32 reg)
-@@ -430,7 +426,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
+@@ -434,7 +430,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
  	int cs = spi->chip_select;
  	void __iomem *vaddr;
  
@@ -162,7 +191,7 @@ index 1f59beb7d27e..afbcc92dcaf8 100644
  	count = xfer->len;
  
  	orion_spi = spi_master_get_devdata(spi->master);
-@@ -439,7 +435,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
+@@ -443,7 +439,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
  	 * Use SPI direct write mode if base address is available. Otherwise
  	 * fall back to PIO mode for this transfer.
  	 */
@@ -171,16 +200,16 @@ index 1f59beb7d27e..afbcc92dcaf8 100644
  
  	if (vaddr && xfer->tx_buf && word_len == 8) {
  		unsigned int cnt = count / 4;
-@@ -681,7 +677,6 @@ static int orion_spi_probe(struct platform_device *pdev)
+@@ -682,7 +678,6 @@ static int orion_spi_probe(struct platform_device *pdev)
  	}
  
  	for_each_available_child_of_node(pdev->dev.of_node, np) {
 -		struct orion_direct_acc *dir_acc;
  		u32 cs;
- 		int cs_gpio;
  
-@@ -749,13 +744,14 @@ static int orion_spi_probe(struct platform_device *pdev)
- 		 * This needs to get extended for the direct SPI-NOR / SPI-NAND
+ 		/* Get chip-select number from the "reg" property */
+@@ -711,13 +706,14 @@ static int orion_spi_probe(struct platform_device *pdev)
+ 		 * This needs to get extended for the direct SPI NOR / SPI NAND
  		 * support, once this gets implemented.
  		 */
 -		dir_acc = &spi->child[cs].direct_access;
