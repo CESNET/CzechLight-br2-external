@@ -1,6 +1,6 @@
 [Unit]
 Description=Persisting persistent sysrepo datastores to /cfg
-After=sysrepod.service cfg.mount
+After=netopeer2-server.service cfg.mount
 Requires=cfg.mount
 
 [Service]

@@ -1,8 +1,6 @@
 [Unit]
 Description=A NETCONF server on top of sysrepo
-After=syslog.target network.target sysrepod.service
-Requires=sysrepod.service
-PartOf=sysrepod.service
+After=syslog.target network.target
 StartLimitIntervalSec=0
 
 [Service]

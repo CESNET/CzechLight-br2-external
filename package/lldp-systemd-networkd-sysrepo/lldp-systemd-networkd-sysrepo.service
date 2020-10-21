@@ -1,7 +1,7 @@
 [Unit]
 Description=lldp-systemd-networkd-sysrepo is a sysrepo application announcing LLDP neighbours from systemd-networkd.
-After=syslog.target network.target sysrepod.service
-Requires=sysrepod.service
+After=syslog.target network.target netopeer2-server.service
+PartOf=netopeer2-server.service
 
 [Service]
 Type=simple
