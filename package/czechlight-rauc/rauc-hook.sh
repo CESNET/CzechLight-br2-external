@@ -28,4 +28,10 @@ case "$1" in
     ;;
 esac
 
+if [[ -f /lib/libsysrepo.so.0.7 ]]; then
+  # Updating from old sysrepo with incompatible repository layout
+  rm -rf ${RAUC_SLOT_MOUNT_POINT}/etc/sysrepo
+  echo "sysrepo configuration not preserved"
+fi
+
 exit 0

@@ -59,7 +59,7 @@ These are copied from `/cfg`, our R/W configuration partition, into their "final
 
 - Some LEDs are [set up from userspace](../package/czechlight-clearfog-leds/)
 
-- The most important services are `sysrepod`, `sysrepo-plugind`, `netopper2-server` which together provide a NETCONF server with a YANG data store, and `cla-sysrepod` which contains code that talks to the optical modules.
+- The most important services are `sysrepo-plugind`, `netopeer2-server` which together provide a NETCONF server with a YANG data store, and `cla-sysrepod` which contains code that talks to the optical modules.
 
 - There's also a web UI along with [a poor man's RESTCONF](../package/gammarus/) implementation that I'm ashamed of.
 But hey, once there's a RESTCONF server for sysrepo, I'll use it, I swear!

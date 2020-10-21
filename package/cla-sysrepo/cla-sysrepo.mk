@@ -31,7 +31,7 @@ endef
 define CLA_SYSREPO_ONE_MODEL_W_FEATURE
 	$(call CLA_SYSREPO_ONE_MODEL_INSTALL_1,$1,$2)
 	# FIXME: multiple features...
-	sed -i 's|__FEATURE__|ExecStart=/usr/bin/sysrepoctl --module $2 --feature-enable $3\n__FEATURE__|' \
+	sed -i 's|__FEATURE__|ExecStart=/usr/bin/sysrepoctl --change $2 --enable-feature $3 --apply\n__FEATURE__|' \
 		$(TARGET_DIR)/usr/lib/systemd/system/cla-install-yang-$1.service
 	$(call CLA_SYSREPO_ONE_MODEL_INSTALL_2,$1,$2)
 endef

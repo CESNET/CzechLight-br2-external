@@ -1,9 +1,8 @@
 [Unit]
 Description=CzechLight __MODEL__ driver
-After=syslog.target network.target sysrepod.service
+After=syslog.target network.target
 Before=rauc-mark-good.service
-Requires=sysrepod.service
-PartOf=sysrepod.service
+PartOf=netopeer2-server.service
 StartLimitIntervalSec=0
 ConditionKernelCommandLine=czechlight=__MODEL__
 

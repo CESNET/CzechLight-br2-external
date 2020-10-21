@@ -4,7 +4,7 @@ ConditionKernelCommandLine=|czechlight=sdn-roadm-add-drop
 ConditionKernelCommandLine=|czechlight=sdn-roadm-line
 ConditionKernelCommandLine=|czechlight=sdn-roadm-coherent-a-d
 ConditionKernelCommandLine=|czechlight=sdn-inline
-Before=sysrepod.service
+Before=netopeer2-server.service
 
 [Service]
 Type=oneshot
