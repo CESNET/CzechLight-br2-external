@@ -1,16 +1,18 @@
 [Unit]
 Description=Install YANG and initial data for __MODEL__
-Requires=sysrepod.service
 ConditionKernelCommandLine=czechlight=__MODEL__
 ConditionPathExistsGlob=!/etc/sysrepo/yang/__YANG__@*.yang
-Before=sysrepod.service
+Before=netopeer2.service
+After=netopeer2-setup.service
+Before=cla-__MODEL__.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/sysrepoctl --install --yang /usr/share/cla-sysrepo/yang/__YANG__.yang
-ExecStart=/usr/bin/sysrepoctl --module __YANG__ --feature-enable __FEATURE__
-ExecStart=/usr/bin/sysrepocfg --datastore=startup --import=/usr/share/cla-sysrepo/yang/__MODEL__.json __YANG__
-ExecStart=/bin/cp -a /etc/sysrepo /cfg/etc/
+ExecStart=/usr/bin/sysrepoctl --search-dirs /usr/share/cla-sysrepo/yang --install /usr/share/cla-sysrepo/yang/__YANG__.yang
+__FEATURE__
+ExecStart=/bin/sh -c '/usr/bin/sysrepocfg --datastore=startup --module=__YANG__ --format=json --new-data=/usr/share/cla-sysrepo/yang/__MODEL__.json || /usr/bin/sysrepocfg --datastore=startup --module=__YANG__ --format=json --import=/usr/share/cla-sysrepo/yang/__MODEL__.json'
+ExecStart=/bin/mkdir -p /cfg/etc/sysrepo/
+ExecStart=/bin/cp -a /etc/sysrepo/data /etc/sysrepo/yang /cfg/etc/sysrepo/
 
 [Install]
 WantedBy=multi-user.target
