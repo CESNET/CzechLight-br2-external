@@ -1,6 +1,5 @@
 [Unit]
 Description=Install YANG model ietf-hardware-state and its dependencies
-Requires=sysrepod.service
 ConditionKernelCommandLine=|czechlight=sdn-roadm-line
 ConditionKernelCommandLine=|czechlight=sdn-roadm-add-drop
 ConditionKernelCommandLine=|czechlight=sdn-roadm-coherent-a-d
@@ -11,9 +10,8 @@ Before=cla-install-yang-sdn-roadm-line.service cla-install-yang-sdn-roadm-add-dr
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/sysrepoctl --install --yang /usr/share/cla-sysrepo/yang/iana-hardware@2018-03-13.yang
-ExecStart=/usr/bin/sysrepoctl --install --yang /usr/share/cla-sysrepo/yang/ietf-hardware-state@2018-03-13.yang
-ExecStart=/usr/bin/sysrepoctl --module ietf-hardware-state --feature-enable hardware-sensor
+ExecStart=/usr/bin/sysrepoctl --search-dirs /usr/share/cla-sysrepo/yang --install /usr/share/cla-sysrepo/yang/iana-hardware@2018-03-13.yang --apply
+ExecStart=/usr/bin/sysrepoctl --search-dirs /usr/share/cla-sysrepo/yang --install /usr/share/cla-sysrepo/yang/ietf-hardware-state@2018-03-13.yang --enable-feature hardware-sensor --apply
 
 [Install]
 WantedBy=multi-user.target

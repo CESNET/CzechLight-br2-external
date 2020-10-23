@@ -1,14 +1,11 @@
 [Unit]
 Description=Install YANG and initial data for lldp-systemd-networkd-sysrepo
-Requires=sysrepod.service
-Before=sysrepod.service
+Before=netopeer2.service lldp-systemd-networkd-sysrepo.service
+After=netopeer2-setup.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/sysrepoctl --install --yang /usr/share/lldp-systemd-networkd-sysrepo/yang/czechlight-lldp.yang
-ExecStart=/usr/bin/sysrepoctl --install --yang /usr/share/lldp-systemd-networkd-sysrepo/yang/iana-afn-safi@2013-07-04.yang
-ExecStart=/usr/bin/sysrepoctl --install --yang /usr/share/lldp-systemd-networkd-sysrepo/yang/ietf-inet-types@2013-07-15.yang
-ExecStart=/bin/cp -a /etc/sysrepo /cfg/etc/
+ExecStart=/usr/bin/sysrepoctl --search-dirs /usr/share/lldp-systemd-networkd-sysrepo/yang --install /usr/share/lldp-systemd-networkd-sysrepo/yang/czechlight-lldp.yang --apply
 
 [Install]
 WantedBy=multi-user.target
