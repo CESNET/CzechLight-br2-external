@@ -1,14 +1,13 @@
 [Unit]
 Description=CzechLight __MODEL__ driver
-After=syslog.target network.target sysrepod.service
+After=syslog.target network.target
 Before=rauc-mark-good.service
-Requires=sysrepod.service
-PartOf=sysrepod.service
+PartOf=netopeer2.service
 StartLimitIntervalSec=0
 ConditionKernelCommandLine=czechlight=__MODEL__
 
 [Service]
-Type=simple
+Type=notify
 ExecStart=/usr/bin/cla-sysrepod --io-log-level=5 --properties-log-level=5 --sr-bridge-log-level=5 --sysrepo-log-level=3 --appliance=__MODEL__
 PrivateTmp=yes
 PrivateDevices=no
