@@ -1,8 +1,8 @@
 [Unit]
 Description=Persisting persistent sysrepo datastores to /cfg
-After=sysrepod.service cfg.mount
-Requires=cfg.mount
+After=netopeer2.service cfg.mount
+Requires=netopeer2.service cfg.mount
 
 [Service]
 Type=simple
-ExecStart=/bin/sh -c 'while true; do inotifywait -e CLOSE_WRITE /etc/sysrepo/data/*.startup /etc/sysrepo/data/*.persist && mkdir -p /cfg/etc/sysrepo/data/ && cp -a /etc/sysrepo/data/*.startup /etc/sysrepo/data/*.persist /cfg/etc/sysrepo/data/; done'
+ExecStart=/bin/sh -c 'while true; do inotifywait -e CLOSE_WRITE /etc/sysrepo/data/*.startup && mkdir -p /cfg/etc/sysrepo/data/ && cp -a /etc/sysrepo/data/*.startup /cfg/etc/sysrepo/data/; done'

@@ -1,0 +1,10 @@
+[Unit]
+Description=Install CzechLight YANG models
+After=netopeer2-setup.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /usr/bin/czechlight-install-yang.sh
+
+[Install]
+WantedBy=multi-user.target
