@@ -12,16 +12,20 @@ elif grep -q '\<czechlight=sdn-inline\>' /proc/cmdline; then
 	ETH3_NAME=oscE
 fi
 
-[[ -n "${ETH2_NAME+set}" ]] && cat > /run/systemd/network/30-eth2.link <<EOF
+if [[ -n "${ETH2_NAME+set}" ]] ; then
+	cat > /run/systemd/network/30-eth2.link <<EOF
 [Match]
 Path=platform-f1034000.ethernet
 [Link]
 Name=${ETH2_NAME}
 EOF
+fi
 
-[[ -n "${ETH3_NAME+set}" ]] && cat > /run/systemd/network/30-eth3.link <<EOF
+if [[ -n "${ETH3_NAME+set}" ]]; then
+	cat > /run/systemd/network/30-eth3.link <<EOF
 [Match]
 Path=platform-soc:pcie-pci-*
 [Link]
 Name=${ETH3_NAME}
 EOF
+fi
