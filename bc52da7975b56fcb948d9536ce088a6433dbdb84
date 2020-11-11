@@ -46,6 +46,30 @@
       "revId": "bc52da7975b56fcb948d9536ce088a6433dbdb84",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25efa0d7_4065d58b",
+        "filename": "configs/czechlight_clearfog_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-11-11T13:56:00Z",
+      "side": 1,
+      "message": "\u003e Do you want me to push that?\n\nYes please -- it\u0027s important that the config is \"stable\" over a few of these cycles. Thanks!",
+      "parentUuid": "7c44d5a2_83bd4a5f",
+      "range": {
+        "startLine": 39,
+        "startChar": 19,
+        "endLine": 39,
+        "endChar": 29
+      },
+      "revId": "bc52da7975b56fcb948d9536ce088a6433dbdb84",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
