@@ -22,6 +22,30 @@
       "revId": "bc52da7975b56fcb948d9536ce088a6433dbdb84",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c44d5a2_83bd4a5f",
+        "filename": "configs/czechlight_clearfog_defconfig",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2020-11-11T13:13:04Z",
+      "side": 1,
+      "message": "They don\u0027t, but I thought it was good to explain why I\u0027m enabling these packages. Although it\u0027s clear from the commit message. make savedefconfig removes the comments and reorders the lines:\n\n diff --git a/configs/czechlight_clearfog_defconfig b/configs/czechlight_clearfog_defconfig\n index 93e28ee..0f11ee4 100644\n --- a/configs/czechlight_clearfog_defconfig\n +++ b/configs/czechlight_clearfog_defconfig\n @@ -36,11 +36,8 @@ BR2_LINUX_KERNEL_INSTALL_TARGET\u003dy\n BR2_PACKAGE_LINUX_TOOLS_GPIO\u003dy\n BR2_PACKAGE_LINUX_TOOLS_IIO\u003dy\n BR2_PACKAGE_LINUX_TOOLS_PERF\u003dy\n-BR2_PACKAGE_ZSTD\u003dy # for perf\n-BR2_PACKAGE_AUDIT\u003dy # for perf\n-BR2_PACKAGE_LIBUNWIND\u003dy # for perf\n-BR2_PACKAGE_ELFUTILS\u003dy # for perf\n BR2_PACKAGE_BUSYBOX_CONFIG_FRAGMENT_FILES\u003d\"$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/busybox-config\"\n+BR2_PACKAGE_ZSTD\u003dy\n BR2_PACKAGE_STRACE\u003dy\n BR2_PACKAGE_E2FSPROGS\u003dy\n BR2_PACKAGE_MMC_UTILS\u003dy\n@@ -53,6 +50,8 @@ BR2_PACKAGE_LIBGPIOD_TOOLS\u003dy\n BR2_PACKAGE_MSTPD\u003dy\n BR2_PACKAGE_NETOPEER2_CLI\u003dy\n BR2_PACKAGE_NGHTTP2_CXX\u003dy\n+BR2_PACKAGE_ELFUTILS\u003dy\n+BR2_PACKAGE_LIBUNWIND\u003dy\n BR2_PACKAGE_ETHTOOL\u003dy\n BR2_PACKAGE_IPROUTE2\u003dy\n BR2_PACKAGE_NETCONF_CLI\u003dy\n@@ -60,6 +59,7 @@ BR2_PACKAGE_OPENSSH\u003dy\n BR2_PACKAGE_TCPDUMP\u003dy\n BR2_PACKAGE_BASH\u003dy\n BR2_PACKAGE_INOTIFY_TOOLS\u003dy\n+BR2_PACKAGE_AUDIT\u003dy\n BR2_PACKAGE_DDRESCUE\u003dy\n BR2_PACKAGE_RAUC\u003dy\n BR2_PACKAGE_RAUC_NETWORK\u003dy\n\n\nDo you want me to push that?",
+      "parentUuid": "6db30cdf_007ed2fe",
+      "range": {
+        "startLine": 39,
+        "startChar": 19,
+        "endLine": 39,
+        "endChar": 29
+      },
+      "revId": "bc52da7975b56fcb948d9536ce088a6433dbdb84",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
