@@ -25,14 +25,6 @@
       - github/AmokHuginnsson/replxx
       - github/Kistler-Group/sdbus-cpp
 
-- job:
-    name: czechlight-beagleboneblack
-    parent: run-ci-build-sh-f31
-    timeout: 3600
-    vars:
-      prepare_git_submodules: true
-    required-projects: *projects
-
 - project:
     check:
       jobs:
@@ -45,7 +37,6 @@
             post-run: ci/post.yaml
             roles:
               - zuul: return-built-artifact
-        # - czechlight-beagleboneblack
 
     promote:
       jobs:
