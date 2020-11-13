@@ -101,7 +101,7 @@ Here's how one could be debugging code on device:
 user@laptop ~/build/br-cfb $ make cla-sysrepo-reconfigure
 user@laptop ~/build/br-cfb $ scp per-package/cla-sysrepo/target/usr/bin/cla-sysrepod root@10.10.10.228:/tmp/
 user@laptop ~/build/br-cfb $ ssh root@10.10.10.228 gdbserver :33666 /tmp/cla-sysrepod ...some args here...
-user@laptop ~/build/br-cfb $ ./host/usr/bin/arm-linux-gnueabihf-gdb -x staging/usr/share/buildroot/gdbinit \
+user@laptop ~/build/br-cfb $ ./host/usr/bin/arm-linux-gdb -x staging/usr/share/buildroot/gdbinit \
   per-package/cla-sysrepo/target/usr/bin/cla-sysrepod --ex 'set sysroot target/' \
   --ex 'target remote 10.10.10.228:33666' --ex c
 ```
