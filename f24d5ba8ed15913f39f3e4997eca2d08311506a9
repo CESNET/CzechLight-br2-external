@@ -22,6 +22,30 @@
       "revId": "f24d5ba8ed15913f39f3e4997eca2d08311506a9",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee76c052_b230ce9b",
+        "filename": "doc/architecture.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-11-13T13:50:39Z",
+      "side": 1,
+      "message": "OK, that one is not required (it still produces a warning, but well). I have host/arm-buildroot-linux-gnueabihf/sysroot/usr/share/buildroot/gdbinit, but there\u0027s no need to use it because it only sets \"sysroot\", and the sysroot it uses is an incomplete one that gets overwritten later on anyway.",
+      "parentUuid": "9ebb3224_e6bb88bd",
+      "range": {
+        "startLine": 104,
+        "startChar": 61,
+        "endLine": 104,
+        "endChar": 96
+      },
+      "revId": "f24d5ba8ed15913f39f3e4997eca2d08311506a9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }
