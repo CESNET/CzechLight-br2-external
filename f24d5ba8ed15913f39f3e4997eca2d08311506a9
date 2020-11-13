@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ebb3224_e6bb88bd",
+        "filename": "doc/architecture.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-11-13T13:47:32Z",
+      "side": 1,
+      "message": "I do not have this path. Is is available on your build?",
+      "range": {
+        "startLine": 104,
+        "startChar": 61,
+        "endLine": 104,
+        "endChar": 96
+      },
+      "revId": "f24d5ba8ed15913f39f3e4997eca2d08311506a9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
