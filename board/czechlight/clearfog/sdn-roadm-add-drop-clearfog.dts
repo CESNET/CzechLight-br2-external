@@ -1,1 +1,2 @@
+#define CLEARFOG_REV1
 #include "sdn-roadm-clearfog.dtsi"
