@@ -21,6 +21,13 @@ CONFIG_I2C_GPIO=y
 # SPI GPIO expander
 CONFIG_PINCTRL_MCP23S08=y
 
+# thermal
+CONFIG_SENSORS_LM75=y
+
+# fan control
+CONFIG_SENSORS_MAX31790=y
+
+# LEDs
 CONFIG_LEDS_TLC591XX=y
 
 # For the Lumentum OCM

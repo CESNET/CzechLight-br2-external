@@ -70,10 +70,18 @@
 			"OCM_HS_IN",
 			"OCM_RESET",
 			"WSS_MRST",
+#ifdef CLEARFOG_REV1
 			"I2C_XOR_ENABLE",
 			"I2C_XORH",
 			"I2C_BB_ENABLE",
 			"GPIO_K6",
+#else
+
+			"",
+			"",
+			"",
+			"",
+#endif
 			"",
 			"",
 			"EDFA1_AMP_DISABLE",
@@ -83,6 +91,7 @@
 			"EXP_GPIO1"
 			;
 
+#ifdef CLEARFOG_REV1
 		i2c_bitbang_enable {
 			gpio-hog;
 			gpios = <7 GPIO_ACTIVE_HIGH>;
@@ -103,6 +112,7 @@
 			output-low;
 			line-name = "I2C addr xlate";
 		};
+#endif
 	};
 
 	gpio_spi_chips: gpio@1 {
@@ -126,10 +136,18 @@
 				"EDFA1_RESET",
 				"EDFA2_RESET",
 				"PMB_ALERT",
+#ifdef CLEARFOG_REV1
 				"EXP_GPIO2",
+#else
+				"GND",
+#endif
 				"WSS_SC",
 				"WSS_RST",
+#ifdef CLEARFOG_REV1
 				"I2C_XOR_RDY",
+#else
+				"GND",
+#endif
 				"OCM_HS_OUT",
 
 				"EDFA1_OUT_REFLECT_A",
@@ -145,9 +163,13 @@
 		gpio-bank@2 {
 			address = <2>;
 			gpio-line-names =
-				/* these are all grounded */
+#ifdef CLEARFOG_REV1
 				"GND",
 				"GND",
+#else
+				"OCM_READY",
+				"OCM_ALARM",
+#endif
 				"GND",
 				"GND",
 				"GND",
@@ -165,6 +187,7 @@
 				"EDFA2_PUMP_TEMP_A";
 		};
 
+#ifdef CLEARFOG_REV1
 		// FIXME: this hogs both .1 and .2 chips' #6 pin...
 		i2c_xor_ready {
 			gpio-hog;
@@ -172,6 +195,7 @@
 			input;
 			line-name = "I2C XOR ready";
 		};
+#endif
 	};
 
 	lumentum_ocm: lumentum-ocm@3 {
@@ -184,6 +208,7 @@
 };
 
 &i2c1 {
+#ifdef CLEARFOG_REV1
 	eeprom@53 {
 		compatible = "atmel,24c128";
 		reg = <0x53>;
@@ -194,6 +219,22 @@
 		// on the HW level. At least we can install that jumper and make the writes pass
 		// magically without fiddling with the DT and rebooting.
 	};
+#else
+	temperature@48 {
+		compatible = "ti,tmp175";
+		reg = <0x48>;
+	};
+
+	// 24CSxx is treated as two separate devices
+	eeprom@50 {
+		compatible = "atmel,24c64";
+		reg = <0x50>; // FIXME: conflicts with the SFP cage
+	};
+	eeprom@58 {
+		compatible = "atmel,24cs64";
+		reg = <0x58>;
+	};
+#endif
 
 	tlc59116@60 {
 		#address-cells = <1>;
@@ -281,5 +322,27 @@
 		};
 	};
 
+#ifdef CLEARFOG_REV1
 	/* ADT7463: it doesn't use the DT */
+#else
+	temperature@49 {
+		compatible = "ti,tmp175";
+		reg = <0x49>;
+	};
+
+	fancontrol@20 {
+		compatible = "maxim,max31790";
+		reg = <0x20>;
+	};
+
+	// 24CSxx is treated as two separate devices
+	eeprom@54 {
+		compatible = "atmel,24c64";
+		reg = <0x54>;
+	};
+	eeprom@5c {
+		compatible = "atmel,24cs64";
+		reg = <0x5c>;
+	};
+#endif
 };

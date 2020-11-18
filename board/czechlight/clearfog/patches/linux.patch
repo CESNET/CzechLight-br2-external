@@ -57,6 +57,29 @@ index 80137c1b3cdc..8d1c49a289eb 100644
  	return pinctrl_gpio_request(gc->gpiodev->base + offset);
  }
  EXPORT_SYMBOL_GPL(gpiochip_generic_request);
+diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+index 117fb79ef294..610f62eab72a 100644
+--- a/drivers/hwmon/max31790.c
++++ b/drivers/hwmon/max31790.c
+@@ -489,11 +489,18 @@ static const struct i2c_device_id max31790_id[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, max31790_id);
+ 
++static const struct of_device_id __maybe_unused max31790_of_match[] = {
++	{ .compatible = "maxim,max31790" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, max31790_of_match);
++
+ static struct i2c_driver max31790_driver = {
+ 	.class		= I2C_CLASS_HWMON,
+ 	.probe		= max31790_probe,
+ 	.driver = {
+ 		.name	= "max31790",
++		.of_match_table = of_match_ptr(max31790_of_match),
+ 	},
+ 	.id_table	= max31790_id,
+ };
 diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
 index 18e06fc6c53f..5c0f429ed7ad 100644
 --- a/drivers/hwmon/pmbus/pmbus.h
