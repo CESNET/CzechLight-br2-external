@@ -5,6 +5,8 @@ config BR2_PACKAGE_VELIA
 	select BR2_PACKAGE_BOOST
 	select BR2_PACKAGE_SDBUS_CPP
 	select BR2_PACKAGE_SYSTEMD
+	select BR2_PACKAGE_SYSREPO
+	select BR2_PACKAGE_SYSREPO_CPP
 	help
 	  Health tracking for embedded devices running Linux
 
