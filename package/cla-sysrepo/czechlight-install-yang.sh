@@ -43,10 +43,25 @@ case "${CZECHLIGHT}" in
         ;;
 esac
 
-if [[ ${IETF_HW_STATE} == 1 && ! -f ${REPO}/ietf-hardware-state@2018-03-13.yang ]]; then
-    sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/iana-hardware@2018-03-13.yang
-    sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/ietf-hardware-state@2018-03-13.yang
-    sysrepoctl --change ietf-hardware-state --permissions 0664 --enable-feature hardware-sensor --apply
+# asks ietf-yang-library model in sysrepo for the state of a module given by $1
+# can return "implement", "import" or "" if the module is not present in the tree
+# the xargs in the end trims the whitespaces from the string
+yang-module-state() {
+	sysrepocfg -f xml -X --xpath "/ietf-yang-library:modules-state/module[name='$1']/conformance-type" -d operational  | sed -n 's/<conformance-type>\(.*\)<\/conformance-type>/\1/p' | xargs
+}
+
+if [[ ${IETF_HW_STATE} == 1 ]]; then
+    # if old model is implemented, remove it first. This uninstall dependent ietf-hardware if imported and not implemented
+	if [[ "$(yang-module-state ietf-hardware-state)" == "implement" ]]; then
+        sysrepoctl -u ietf-hardware-state --apply
+    fi
+
+	# if new model is not implemented
+	if [[ "$(yang-module-state ietf-hardware)" != "implement" ]]; then
+        sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/iana-hardware@2018-03-13.yang
+        sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/ietf-hardware@2018-03-13.yang
+        sysrepoctl --change ietf-hardware --permissions 0664 --enable-feature hardware-sensor --apply
+    fi
 fi
 
 if [[ ${YANG_ROADM} == 1 && ! -f ${REPO}/czechlight-roadm-device@2019-09-30.yang ]]; then
