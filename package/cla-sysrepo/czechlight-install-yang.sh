@@ -43,10 +43,17 @@ case "${CZECHLIGHT}" in
         ;;
 esac
 
-if [[ ${IETF_HW_STATE} == 1 && ! -f ${REPO}/ietf-hardware-state@2018-03-13.yang ]]; then
-    sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/iana-hardware@2018-03-13.yang
-    sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/ietf-hardware-state@2018-03-13.yang
-    sysrepoctl --change ietf-hardware-state --permissions 0664 --enable-feature hardware-sensor --apply
+if [[ ${IETF_HW_STATE} == 1 ]]; then
+    # if old model is present, remove it first. This deletes imported ietf-hardware too
+    if sysrepoctl -l | grep "^ietf-hardware-state[[:space:]]*| 2018-03-13 | I" >/dev/null; then
+        sysrepoctl -u ietf-hardware-state --apply
+    fi
+
+    if ! $sysrepoctl -l | grep "^ietf-hardware[[:space:]]*| 2018-03-13 | I" >/dev/null; then
+        sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/iana-hardware@2018-03-13.yang
+        sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/ietf-hardware@2018-03-13.yang
+        sysrepoctl --change ietf-hardware --permissions 0664 --enable-feature hardware-sensor --apply
+    fi
 fi
 
 if [[ ${YANG_ROADM} == 1 && ! -f ${REPO}/czechlight-roadm-device@2019-09-30.yang ]]; then
