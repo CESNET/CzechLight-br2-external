@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea6b06c2_0031bdcb",
+        "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-12-16T20:34:04Z",
+      "side": 1,
+      "message": "I need to check with you (Jan) on this. I have a feeling this might be more complicated.",
+      "revId": "c4a0ecf1acb6118f6a497559615e8374287cfdc3",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
