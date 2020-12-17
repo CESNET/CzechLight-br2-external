@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46f487a1_bc42eeca",
+        "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-12-17T18:00:03Z",
+      "side": 1,
+      "message": "This is highly dependent on sysrepoctl\u0027s output format and I really don\u0027t like this.\nFlagging as WIP, just want to test.",
+      "revId": "263476f2feea41a8b8affe3b8d70d8e61010918f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
