@@ -16,6 +16,24 @@
       "revId": "263476f2feea41a8b8affe3b8d70d8e61010918f",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "698dee9e_5ca13896",
+        "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-12-17T19:32:17Z",
+      "side": 1,
+      "message": "it works, but, meh.",
+      "parentUuid": "46f487a1_bc42eeca",
+      "revId": "263476f2feea41a8b8affe3b8d70d8e61010918f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
