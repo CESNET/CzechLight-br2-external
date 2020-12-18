@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "32910611_2a246efc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-12-18T12:22:44Z",
+      "side": 1,
+      "message": "I did not have it at the time (it was a low priority for me today) but I opened it. Added to footer.",
+      "parentUuid": "54bd799c_43d4cc4e",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 30
+      },
+      "revId": "1dc5361d9396c3a58a388c7e4de09d2f6136f9f1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2bee15f_45ae60e5",
         "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "df9d6bea_80beb22e",
+        "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-12-18T12:22:44Z",
+      "side": 1,
+      "message": "It\u0027s up in the comments. Easy way to trim preceeding whitespace so the comparison on L60 works.  But now thinking of it I can easily modify sed to begin with \\s* which will be better.",
+      "parentUuid": "d2bee15f_45ae60e5",
+      "range": {
+        "startLine": 50,
+        "startChar": 181,
+        "endLine": 50,
+        "endChar": 186
+      },
+      "revId": "1dc5361d9396c3a58a388c7e4de09d2f6136f9f1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7daa8f30_63842a51",
         "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
         "patchSetId": 4
@@ -62,6 +110,24 @@
       "revId": "1dc5361d9396c3a58a388c7e4de09d2f6136f9f1",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "769d05c4_f48be812",
+        "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-12-18T12:22:44Z",
+      "side": 1,
+      "message": "Sorry, I always forget about when editing in vim.",
+      "parentUuid": "7daa8f30_63842a51",
+      "revId": "1dc5361d9396c3a58a388c7e4de09d2f6136f9f1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }

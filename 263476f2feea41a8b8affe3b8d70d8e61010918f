@@ -70,6 +70,24 @@
       "revId": "263476f2feea41a8b8affe3b8d70d8e61010918f",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d7f3f43_25b76197",
+        "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-12-18T12:22:44Z",
+      "side": 1,
+      "message": "I know there is a bash tool for running XPaths on XMLs using libxml. I think it was xmllint. But jq is probably smaller.",
+      "parentUuid": "ef8cee1b_5ccc542e",
+      "revId": "263476f2feea41a8b8affe3b8d70d8e61010918f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
     }
   ]
 }
