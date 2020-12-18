@@ -52,6 +52,24 @@
       "revId": "263476f2feea41a8b8affe3b8d70d8e61010918f",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef8cee1b_5ccc542e",
+        "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-12-18T11:42:41Z",
+      "side": 1,
+      "message": "I see that the new sysrepo took away that option for requesting *just* that raw data from that leaf. OK, bummer :(, this means that one has to somehow transform it. At this point I think this kinda deserves running `jq` as you suggested this morning -- your call.",
+      "parentUuid": "476665b4_52d9cd59",
+      "revId": "263476f2feea41a8b8affe3b8d70d8e61010918f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": false
     }
   ]
 }

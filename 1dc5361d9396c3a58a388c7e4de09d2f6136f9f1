@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54bd799c_43d4cc4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-12-18T11:42:41Z",
+      "side": 1,
+      "message": "please add a link to your bugreport upstream",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 30
+      },
+      "revId": "1dc5361d9396c3a58a388c7e4de09d2f6136f9f1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2bee15f_45ae60e5",
+        "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-12-18T11:42:41Z",
+      "side": 1,
+      "message": "what is the `xargs` for?",
+      "range": {
+        "startLine": 50,
+        "startChar": 181,
+        "endLine": 50,
+        "endChar": 186
+      },
+      "revId": "1dc5361d9396c3a58a388c7e4de09d2f6136f9f1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7daa8f30_63842a51",
+        "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-12-18T11:42:41Z",
+      "side": 1,
+      "message": "nit: gerrit says that this is mixing tabs and spaces, please use spaces",
+      "revId": "1dc5361d9396c3a58a388c7e4de09d2f6136f9f1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
