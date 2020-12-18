@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "663b7bf5_ab7e684b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2020-12-18T14:36:47Z",
+      "side": 1,
+      "message": "I will update the commit hashes for cla-sysrepo and velia once they settle.",
+      "revId": "a9b541feb1badd631cfb701d5ede0f0ba1977b9c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68",
+      "unresolved": true
+    }
+  ]
+}
