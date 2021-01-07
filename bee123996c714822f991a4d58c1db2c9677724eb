@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "906e1493_23eebb3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000062
+      },
+      "writtenOn": "2021-01-07T15:07:21Z",
+      "side": 1,
+      "message": "Image from PS 7 built by CI currently on NFP box.\n\n cla-sysrepo: 3352/4 https://gerrit.cesnet.cz/c/CzechLight/cla-sysrepo/+/3352\n velia:       3329/5 https://gerrit.cesnet.cz/c/CzechLight/velia/+/3329",
+      "revId": "bee123996c714822f991a4d58c1db2c9677724eb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
