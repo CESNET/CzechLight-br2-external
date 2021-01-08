@@ -9,4 +9,8 @@ define GAMMARUS_INSTALL_TARGET_CMDS
 	$(TARGET_CONFIGURE_OPTS) $(MAKE) -C $(@D) DESTDIR=$(TARGET_DIR) install
 endef
 
+define GAMMARUS_USERS
+	yangnobody 333666 nobody * - - - Anonymous operations via RESTCONF
+endef
+
 $(eval $(generic-package))
