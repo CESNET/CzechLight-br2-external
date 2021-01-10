@@ -46,6 +46,11 @@ if [ -d /cfg/etc ]; then
   /bin/cp -a /cfg/etc/* /etc/
 fi
 
+if [ -d /cfg/sysrepo-startup ]; then
+  echo "Restoring sysrepo startup files"
+  /bin/cp -a /cfg/sysrepo-startup/*.startup /etc/sysrepo/data/
+fi
+
 if [ -f /cfg/random-seed/random-seed ]; then
   cat /cfg/random-seed/random-seed | /sbin/czechlight-random-seed
 fi
