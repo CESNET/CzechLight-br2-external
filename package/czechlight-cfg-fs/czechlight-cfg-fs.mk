@@ -36,6 +36,7 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 			$(TARGET_DIR)/usr/lib/systemd/system/
 		ln -sf ../openssh-persistent-keys.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 	$(endif)
+	mkdir -p $(TARGET_DIR)/etc/sysrepo/data
 endef
 
 # Configure OpenSSH to look for *user* keys in the /cfg
