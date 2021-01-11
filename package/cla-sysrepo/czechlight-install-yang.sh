@@ -98,6 +98,3 @@ if [[ ! -f ${REPO}/czechlight-lldp@2020-11-04.yang ]]; then
     fi
     sysrepoctl --change czechlight-lldp --permissions 0664 --apply
 fi
-
-mkdir -p /cfg/etc/sysrepo/
-cp -a /etc/sysrepo/data /etc/sysrepo/yang /cfg/etc/sysrepo/

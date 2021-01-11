@@ -10,6 +10,7 @@ case "$1" in
             etc \
             journald-remote \
             random-seed \
+            sysrepo \
             ssh-user-auth \
             ; do
           if [[ -d /cfg/${ITEM} || -f /cfg/${ITEM} ]]; then
@@ -34,6 +35,11 @@ if [[ -f /lib/libsysrepo.so.0.7 ]]; then
   # No more netopeer2-keystored, different config
   rm -rf ${RAUC_SLOT_MOUNT_POINT}/etc/keystored
   echo "sysrepo configuration not preserved"
+elif [[ -d /cfg/etc/sysrepo ]]; then
+  # switch from "persisting whole /etc/sysrepo" to "exporting config via JSON"
+  rm -rf ${RAUC_SLOT_MOUNT_POINT}/etc/sysrepo
+  mkdir ${RAUC_SLOT_MOUNT_POINT}/sysrepo
+  sysrepocfg -d startup -f json -X > ${RAUC_SLOT_MOUNT_POINT}/sysrepo/startup-1.json
 fi
 
 exit 0
