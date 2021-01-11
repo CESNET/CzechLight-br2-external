@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37645e03_0a2e97e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-11T18:49:43Z",
+      "side": 1,
+      "message": "OK, tested on HW, this thing (finally) works.\n\nWhen reviewing, please pay attention to the changes in Buildroot as well:\n\n- https://gerrit.cesnet.cz/plugins/gitiles/github/buildroot/buildroot/+/71f622b823fdd65f77a1195b06c382870872cfeb..df1be941207302f1b88c494733de227f787d9d24\n- https://gerrit.cesnet.cz/plugins/gitiles/github/buildroot/buildroot/+/df1be941207302f1b88c494733de227f787d9d24",
+      "revId": "07ccc753fed065060cfad53723c40e0d2ed3e691",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
