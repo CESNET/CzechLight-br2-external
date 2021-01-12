@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60f4a2da_9bece2f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-12T01:11:22Z",
+      "side": 1,
+      "message": "OK, *now* this works. Tested an update from previous version (with pre-November sysrepo, which is of course that new gen 1.x, but has oldish \"pid\" in sysrepo-monitoring.yang), both with and without \"state\" in sysrepo, and aslo update from this new version to itself. I have not hit any obstacles.\n\nI had to change the buildroot packaging of Netopeer2 yet again, so the diff link I posted earlier doesn\u0027t apply.",
+      "revId": "34d2f481652532c85bfcdf5f5be1e8124d899cc4",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
