@@ -90,6 +90,11 @@ if [[ ${YANG_CALIBRATION} == 1 && ! -f ${REPO}/czechlight-calibration-device@201
     sysrepocfg --datastore=startup --format=json --module=czechlight-calibration-device --import="${YANG_DIR}/${CZECHLIGHT}.json"
 fi
 
+if [[ ! -f ${REPO}/ietf-system@2014-08-06.yang ]]; then
+	sysrepoctl --search-dirs /usr/share/velia/yang --install /usr/share/velia/yang/ietf-system@2014-08-06.yang
+    sysrepoctl --change ietf-system --permissions 0664 --apply
+fi
+
 if [[ ! -f ${REPO}/czechlight-lldp@2020-11-04.yang ]]; then
     if compgen -G "${REPO}/czechlight-lldp@*.yang" >/dev/null; then
         sysrepoctl --search-dirs /usr/share/lldp-systemd-networkd-sysrepo/yang --update /usr/share/lldp-systemd-networkd-sysrepo/yang/czechlight-lldp@2020-11-04.yang
