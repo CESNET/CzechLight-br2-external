@@ -8,6 +8,7 @@ Before=netopeer2.service
 
 [Service]
 Type=oneshot
+RemainAfterExit=yes
 
 # Configuration for two-wire fans (0b1111)
 ExecStart=/sbin/i2cset -y 1 0x2e 0x73 0x0f b

@@ -6,6 +6,7 @@ After=mnt.mount
 
 [Service]
 Type=oneshot
+RemainAfterExit=yes
 StandardInput=tty
 StandardOutput=tty
 StandardError=inherit

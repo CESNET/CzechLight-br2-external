@@ -3,5 +3,6 @@ Description=Indication of component state via LEDs on Clearfog
 
 [Service]
 Type=oneshot
+RemainAfterExit=yes
 ExecStart=/usr/bin/init-leds-edfa.sh
 ExecStart=/usr/bin/init-leds-sfp.sh

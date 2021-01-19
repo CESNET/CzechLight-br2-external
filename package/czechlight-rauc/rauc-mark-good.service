@@ -6,5 +6,6 @@ After=multi-user.target
 
 [Service]
 Type=oneshot
+RemainAfterExit=yes
 ExecStartPre=/bin/sh -c '[ "$(/bin/systemctl list-units --failed --all --no-legend --no-pager)" == "" ]'
 ExecStart=/usr/bin/rauc status mark-good

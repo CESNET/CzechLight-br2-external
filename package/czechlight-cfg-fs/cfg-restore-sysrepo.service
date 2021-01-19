@@ -7,6 +7,7 @@ ConditionPathExists=/cfg/sysrepo/startup.json
 
 [Service]
 Type=oneshot
+RemainAfterExit=yes
 ExecStart=/bin/sysrepocfg -d startup -f json --import=/cfg/sysrepo/startup.json
 ExecStart=/bin/sysrepocfg -C startup
 
