@@ -1,0 +1,57 @@
+From 25591463ae3bfbb359c42edde15158a714437c65 Mon Sep 17 00:00:00 2001
+From: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Date: Wed, 23 Sep 2020 19:09:51 +0200
+Subject: [PATCH] examples: make examples/ optional
+
+Most users don't need the standalone API examples. Distributions like SUSE
+do not supply libgcc for cross-compiling and we cannot do without on ARMv8
+for building examples/.
+
+Make examples selectable via symbol CONFIG_EXAMPLES. It defaults to
+yes on ARCH_QEMU to ensure that we compile the API as part of our
+continuous integration.
+
+Cc: Matthias Brugger <mbrugger@suse.com>
+Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Reviewed-by: Tom Rini <trini@konsulko.com>
+Reviewed-by: Simon Glass <sjg@chromium.org>
+Reviewed-by: Matthias Brugger <mbrugger@suse.com>
+---
+ Kconfig           | 8 ++++++++
+ examples/Makefile | 2 +-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/Kconfig b/Kconfig
+index d96e3373c1..b272def247 100644
+--- a/Kconfig
++++ b/Kconfig
+@@ -221,6 +221,14 @@ config BUILD_ROM
+ 	  which are not shipped in the U-Boot source tree.
+ 	  Please, see doc/README.x86 for details.
+ 
++config EXAMPLES
++	bool "Compile API examples"
++	depends on !SANDBOX
++	default y if ARCH_QEMU
++	help
++	  U-Boot provides an API for standalone applications. Examples are
++	  provided in directory examples/.
++
+ endmenu		# General setup
+ 
+ menu "Boot images"
+diff --git a/examples/Makefile b/examples/Makefile
+index d440bc5655..bf518bd221 100644
+--- a/examples/Makefile
++++ b/examples/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0+
+ 
+-ifndef CONFIG_SANDBOX
++ifdef CONFIG_EXAMPLES
+ 
+ ifdef FTRACE
+ subdir-ccflags-y += -finstrument-functions -DFTRACE
+-- 
+2.29.0
+
