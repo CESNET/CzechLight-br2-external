@@ -74,6 +74,15 @@ if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
             rm -rf build/${PROJECT}-custom/ per-package/${PROJECT}/
         fi
     done
+
+    # Is there a change ahead which updates CzechLight/dependencies? If so, make sure these will get rebuilt
+    # This is (still) not foolproof. It will use a wrong version of dependencies if that change has been already merged, but br2-external doesn't have it merged
+    HAS_CHANGE_OF_DEPENDENCIES=$(jq < ~/zuul-env.json -r '[.items[]? | select(.project.name == "CzechLight/dependencies")][-1]?.project.src_dir + ""')
+    if [[ ! -z "${HAS_CHANGE_OF_DEPENDENCIES}" ]]; then
+        for PROJECT in libyang sysrepo libnetconf2 netopeer2; do
+            rm -rf build/{,host-}${PROJECT}-custom/ per-package/{,host-}${PROJECT}/
+        done
+    fi
 fi
 
 make source -j${CI_PARALLEL_JOBS} --output-sync=target
