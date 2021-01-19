@@ -16,6 +16,24 @@
       "message": "- fails on velia (ietf-system)\n- cla-sdn-roadm-line segfaults, yay",
       "revId": "c2bd2a2eb957f131b90196a482259628558164dc",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb3008f6_59d8d421",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-19T22:25:35Z",
+      "side": 1,
+      "message": "\u003e - fails on velia (ietf-system)\n\nfixed\n\n\u003e - cla-sdn-roadm-line segfaults, yay\n\nhappens on a first run of cla-sysrepod. This is a WTF, but it\u0027s apparently \"been there for some time\" (WTF2). Anyway, https://github.com/sysrepo/sysrepo/issues/2289, and since https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/3430/1 this can be at least worked around.",
+      "parentUuid": "1207ba0d_dc29d957",
+      "revId": "c2bd2a2eb957f131b90196a482259628558164dc",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
