@@ -16,6 +16,24 @@
       "message": "I can see some stuff is being removed, is that intentional?",
       "revId": "c82bf7a690943dbf926809c3560147c0a3966377",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "832e2b2a_c2f0f512",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-19T22:41:51Z",
+      "side": 1,
+      "message": "Missed your comment, sorry. I assumed that this happened automatically when I ran `make savedefconfig` which removes \"redundant\" options, but nope, it was apparently some PEBKAC On my side from a loooong, looong time ago. Cause unknown, good catch, thanks!",
+      "parentUuid": "39d5a3fb_1496259f",
+      "revId": "c82bf7a690943dbf926809c3560147c0a3966377",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
