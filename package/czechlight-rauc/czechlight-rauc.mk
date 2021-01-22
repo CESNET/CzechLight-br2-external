@@ -5,7 +5,7 @@ $(BINARIES_DIR)/update.raucb: host-rauc rootfs-tar
 	$(RM) -rf $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)
 	mkdir -p $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)
 	sed \
-		-e 's|CZECHLIGHT_RAUC_IMAGE_VERSION|$(call qstrip,$(shell git --git-dir=$(BR2_EXTERNAL_CZECHLIGHT_PATH)/.git describe --dirty))|' \
+		-e 's|CZECHLIGHT_RAUC_IMAGE_VERSION|$(call qstrip,$(shell git --git-dir=$(BR2_EXTERNAL_CZECHLIGHT_PATH)/.git --work-tree=$(BR2_EXTERNAL_CZECHLIGHT_PATH) describe --dirty))|' \
 		-e 's|CZECHLIGHT_RAUC_COMPATIBLE|$(call qstrip,$(CZECHLIGHT_RAUC_COMPATIBLE))|' \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-rauc/rauc-manifest.raucm.in \
 		> $(CZECHLIGHT_RAUC_TMP_TARGET_DIR)/manifest.raucm
