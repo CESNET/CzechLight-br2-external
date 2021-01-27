@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c359804b_345d8c1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2021-01-27T16:19:37Z",
+      "side": 1,
+      "message": "I\u0027m sorry, again. I have added a TODO note to to setup vim properly.",
+      "revId": "77c1cb1f24772fd3b6c4c1888b0bf00973601d75",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
