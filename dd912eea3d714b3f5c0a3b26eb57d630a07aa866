@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a2719c6_83337edd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-27T19:59:48Z",
+      "side": 1,
+      "message": "I\u0027ll test this on real HW once I\u0027m back into the lab.",
+      "revId": "dd912eea3d714b3f5c0a3b26eb57d630a07aa866",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3c6a40c_239fff0e",
+        "filename": "package/velia/velia-health.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-27T19:59:48Z",
+      "side": 1,
+      "message": "maybe this one can be enabled? I think it was disabled orignaly because of sysfs access for linux-level sensors",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "dd912eea3d714b3f5c0a3b26eb57d630a07aa866",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20194a8b_76411e89",
+        "filename": "package/velia/velia-system.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-27T19:59:48Z",
+      "side": 1,
+      "message": "these do not look appropriate, let\u0027s check what exactly they disable, and what is currently available in velia",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "dd912eea3d714b3f5c0a3b26eb57d630a07aa866",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
