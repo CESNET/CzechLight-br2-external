@@ -1,7 +1,7 @@
 [Unit]
 Description=CzechLight __MODEL__ driver
 After=syslog.target network.target czechlight-install-yang.service cfg-restore-sysrepo.service
-Before=rauc-mark-good.service
+Before=rauc-mark-good.service velia-hardware.service
 PartOf=netopeer2.service
 Requires=czechlight-install-yang.service cfg-restore-sysrepo.service
 StartLimitIntervalSec=0
@@ -24,3 +24,4 @@ SyslogLevel=alert
 
 [Install]
 WantedBy=multi-user.target
+RequiredBy=velia-hardware.service
