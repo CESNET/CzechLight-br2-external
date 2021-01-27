@@ -104,5 +104,10 @@ if [[ ! -f ${REPO}/czechlight-lldp@2020-11-04.yang ]]; then
     sysrepoctl --change czechlight-lldp --permissions 0664 --apply
 fi
 
+if [[ ! -f ${REPO}/czechlight-system@2021-01-13.yang ]]; then
+    sysrepoctl --search-dirs /usr/share/velia/yang --install /usr/share/velia/yang/czechlight-system@2021-01-13.yang
+    sysrepoctl --change czechlight-system --permissions 0664 --apply
+fi
+
 # If not do not copy here from startup -> running, running might be stale.
 sysrepocfg -C startup

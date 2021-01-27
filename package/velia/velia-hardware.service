@@ -1,0 +1,23 @@
+[Unit]
+Description=Tracking hardware metrics
+After=syslog.target network.target czechlight-install-yang.service cfg-restore-sysrepo.service
+Before=rauc-mark-good.service
+PartOf=netopeer2.service
+Requires=czechlight-install-yang.service cfg-restore-sysrepo.service
+ConditionKernelCommandLine=czechlight
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/veliad-hardware --log-level=4 --appliance=czechlight-clearfog
+PrivateTmp=yes
+PrivateDevices=no
+ProtectSystem=yes
+ProtectHome=yes
+Restart=always
+RestartSec=10s
+LogRateLimitIntervalSec=10
+LogRateLimitBurst=30000
+SyslogLevel=alert
+
+[Install]
+WantedBy=multi-user.target

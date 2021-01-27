@@ -22,7 +22,8 @@ define RESET_SYSREPO_INSTALL_TARGET_CMDS
 		lldp-systemd-networkd-sysrepo.service \
 		netopeer2.service \
 		sysrepo-persistent-cfg.service \
-		velia.service \
+		velia-system.service \
+		velia-hardware.service \
 	; do \
 		echo "Adding systemd drop-ins $${UNIT} <-> /run/sysrepo"; \
 		$(INSTALL) -d -m 0755 $(TARGET_DIR)/usr/lib/systemd/system/$${UNIT}.d/ ; \
