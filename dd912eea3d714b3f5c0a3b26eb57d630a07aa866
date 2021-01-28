@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98a64f1e_c7118cd4",
+        "filename": "package/velia/velia-health.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2021-01-28T11:07:00Z",
+      "side": 1,
+      "message": "Yes, I think it could be enabled (lets try in PS3)",
+      "parentUuid": "b3c6a40c_239fff0e",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "dd912eea3d714b3f5c0a3b26eb57d630a07aa866",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "20194a8b_76411e89",
         "filename": "package/velia/velia-system.service",
         "patchSetId": 2
@@ -54,6 +78,30 @@
       "writtenOn": "2021-01-27T19:59:48Z",
       "side": 1,
       "message": "these do not look appropriate, let\u0027s check what exactly they disable, and what is currently available in velia",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "dd912eea3d714b3f5c0a3b26eb57d630a07aa866",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ace19104_9695bd4b",
+        "filename": "package/velia/velia-system.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2021-01-28T11:07:00Z",
+      "side": 1,
+      "message": "Why do you think so? \nProtectSystem\u003dyes makes /usr/, /boot and /efi read-only. I don\u0027t think we need it to be rw.\nProtectHome\u003dyes makes /home, /root and /run/user inaccessible. I\u0027m not sure whether /run/user is needed for RAUC but I don\u0027t think so, because the installation worked for me in the old velia daemon which used option.\n\n\nDocs: https://www.freedesktop.org/software/systemd/man/systemd.exec.html#ProtectSystem\u003d",
+      "parentUuid": "20194a8b_76411e89",
       "range": {
         "startLine": 14,
         "startChar": 0,
