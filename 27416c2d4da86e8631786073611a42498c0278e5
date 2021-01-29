@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1591bc3c_515de46c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-29T18:09:53Z",
+      "side": 1,
+      "message": "This thing boots, let\u0027s merge it. And that U-boot update improved compatibility with newer USB flashes, yay!",
+      "revId": "27416c2d4da86e8631786073611a42498c0278e5",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
