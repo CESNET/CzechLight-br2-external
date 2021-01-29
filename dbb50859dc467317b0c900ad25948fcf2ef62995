@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a6a8a52_aaedd0c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-29T15:55:19Z",
+      "side": 1,
+      "message": "This boots -- both from USB and then via eMMC. Yay.",
+      "revId": "dbb50859dc467317b0c900ad25948fcf2ef62995",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
