@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b37c749f_44b2641e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-29T18:16:16Z",
+      "side": 1,
+      "message": "recheck missing Depends-on, got merged in the meanwhile",
+      "revId": "de10a417f8a986926968846bf2d08bd48ef6213d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
