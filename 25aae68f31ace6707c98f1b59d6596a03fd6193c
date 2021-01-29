@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a67f9b58_999fdecc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-29T19:21:09Z",
+      "side": 1,
+      "message": "tested on a Line Degree ROADM and on a Coherent Add/Drop, both appear to work, yay",
+      "revId": "25aae68f31ace6707c98f1b59d6596a03fd6193c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
