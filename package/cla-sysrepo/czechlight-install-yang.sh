@@ -74,20 +74,20 @@ fi
 
 if [[ ${YANG_COHERENT} == 1 && ! -f ${REPO}/czechlight-coherent-add-drop@2019-09-30.yang ]]; then
     sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/czechlight-coherent-add-drop@2019-09-30.yang
-    sysrepoctl --change czechlight-coherent-add-drop --group optics --permissions 0664 --apply
     sysrepocfg --datastore=startup --format=json --module=czechlight-coherent-add-drop --new-data="${YANG_DIR}/${CZECHLIGHT}.json"
+    sysrepoctl --change czechlight-coherent-add-drop --group optics --permissions 0664 --apply
 fi
 
 if [[ ${YANG_INLINE} == 1 && ! -f ${REPO}/czechlight-inline-amp@2019-09-30.yang ]]; then
     sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/czechlight-inline-amp@2019-09-30.yang
-    sysrepoctl --change czechlight-inline-amp --group optics --permissions 0664 --apply
     sysrepocfg --datastore=startup --format=json --module=czechlight-inline-amp --import="${YANG_DIR}/${CZECHLIGHT}.json"
+    sysrepoctl --change czechlight-inline-amp --group optics --permissions 0664 --apply
 fi
 
 if [[ ${YANG_CALIBRATION} == 1 && ! -f ${REPO}/czechlight-calibration-device@2019-06-25.yang ]]; then
     sysrepoctl --search-dirs ${YANG_DIR} --install ${YANG_DIR}/czechlight-calibration-device@2019-06-25.yang
-    sysrepoctl --change czechlight-calibration-device --group optics --permissions 0664 --apply
     sysrepocfg --datastore=startup --format=json --module=czechlight-calibration-device --import="${YANG_DIR}/${CZECHLIGHT}.json"
+    sysrepoctl --change czechlight-calibration-device --group optics --permissions 0664 --apply
 fi
 
 if [[ ! -f ${REPO}/ietf-system@2014-08-06.yang ]]; then
