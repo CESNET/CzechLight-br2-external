@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -ex
+
+if [[ "$1" -ne "--yes-this-is-dangerous" ]]; then
+    echo "Refusing to continue, re-run with the --yes-this-is-dangerous option to proceed"
+    exit 1
+fi
+
+# BOOTENV=$(mktemp)
+# fw_printenv | sed -E 's/^([^=]+)=/\1 /' > ${BOOTENV}
+
+echo 0 > /sys/block/mmcblk0boot0/force_ro
+echo 0 > /sys/block/mmcblk0boot1/force_ro
+ddrescue --force /usr/libexec/u-boot-spl.kwb /dev/mmcblk0boot0
+ddrescue --force /usr/libexec/u-boot-spl.kwb /dev/mmcblk0boot1
+dd if=/usr/libexec/u-boot-spl.kwb of=/dev/mmcblk0 bs=512 seek=1
+sync
+echo 1 > /sys/block/mmcblk0boot1/force_ro
+echo 1 > /sys/block/mmcblk0boot0/force_ro
+
+# fw_setenv --script ${BOOTENV}
