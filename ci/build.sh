@@ -92,8 +92,6 @@ mv images/update.raucb ~/zuul-output/artifacts/
 
 if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
     if [[ ${TRIGGERED_VIA_DEP} != 1 ]]; then
-        mv images/u-boot-spl.kwb ~/zuul-output/artifacts/
-
         # store a cached tarball as an artifact
         ARTIFACT=br2-work-dir-${BR2_EXTERNAL_COMMIT}.tar.zst
         # everything but local.mk which we might have adjusted in job prologue, so let's not overwrite that
