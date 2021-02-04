@@ -21,9 +21,16 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/init-czechlight.sh \
 		$(TARGET_DIR)/sbin/init-czechlight.sh
 	$(INSTALL) -D -m 0755 $(@D)/czechlight-random-seed $(TARGET_DIR)/sbin/czechlight-random-seed
+	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
+	$(INSTALL) -D -m 0644 \
+	    $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm-restore.service \
+	    $(TARGET_DIR)/usr/lib/systemd/system/
 	mkdir -p $(TARGET_DIR)/cfg
+	mkdir -p $(TARGET_DIR)/cfg/sysrepo
+	$(INSTALL) -D -m 0644 \
+	    $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm.json \
+	    $(TARGET_DIR)/cfg/sysrepo/
 	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
-		mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 		$(INSTALL) -D -m 0644 \
 			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/sysrepo-persistent-cfg.service \
 			$(TARGET_DIR)/usr/lib/systemd/system/
@@ -34,7 +41,6 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		ln -sf ../cfg-restore-sysrepo.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 	$(endif)
 	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_KEYS),y))
-		mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 		$(INSTALL) -D -m 0644 \
 			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/openssh-persistent-keys.service \
 			$(TARGET_DIR)/usr/lib/systemd/system/
