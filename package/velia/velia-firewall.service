@@ -1,0 +1,23 @@
+[Unit]
+Description=Firewall management via sysrepo
+After=syslog.target network.target czechlight-install-yang.service cfg-restore-sysrepo.service nacm-restore.service
+Before=rauc-mark-good.service
+PartOf=netopeer2.service
+Requires=czechlight-install-yang.service cfg-restore-sysrepo.service nacm-restore.service
+ConditionKernelCommandLine=czechlight
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/veliad-firewall --log-level=4
+PrivateTmp=yes
+PrivateDevices=no
+ProtectSystem=yes
+ProtectHome=yes
+Restart=always
+RestartSec=10s
+LogRateLimitIntervalSec=10
+LogRateLimitBurst=30000
+SyslogLevel=alert
+
+[Install]
+WantedBy=multi-user.target

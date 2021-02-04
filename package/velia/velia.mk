@@ -24,6 +24,7 @@ define VELIA_INSTALL_INIT_SYSTEMD
         $(call VELIA_PREPARE_SERVICE,velia-hardware-g1)
         $(call VELIA_PREPARE_SERVICE,velia-hardware-g2)
         $(call VELIA_PREPARE_SERVICE,velia-system)
+        $(call VELIA_PREPARE_SERVICE,velia-firewall)
 endef
 
 $(eval $(cmake-package))
