@@ -1,0 +1,14 @@
+[Unit]
+Description=Restore NACM rules
+After=netopeer2-install-yang.service czechlight-install-yang.service cfg.mount
+Requires=netopeer2-install-yang.service czechlight-install-yang.service cfg.mount
+Before=netopeer2-setup.service netopeer2.service sysrepo-persistent-cfg.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sysrepocfg -d startup -m ietf-netconf-acm -f json --import=/cfg/sysrepo/nacm.json
+ExecStart=/bin/sysrepocfg -C startup
+
+[Install]
+WantedBy=multi-user.target

@@ -22,6 +22,7 @@ define RESET_SYSREPO_INSTALL_TARGET_CMDS
 		lldp-systemd-networkd-sysrepo.service \
 		netopeer2.service \
 		sysrepo-persistent-cfg.service \
+		nacm-restore.service \
 		velia-system.service \
 		velia-hardware-g1.service \
 		velia-hardware-g2.service \
