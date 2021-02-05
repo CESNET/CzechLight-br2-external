@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42bebd2d_60240d8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-05T13:37:51Z",
+      "side": 1,
+      "message": "docs about the YANG initialization, you\u0027re gonna need them for NACM",
+      "revId": "c12ce5aed218ba9057f73c585dd9ab9c6f448f09",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
