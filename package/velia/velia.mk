@@ -21,7 +21,8 @@ define VELIA_INSTALL_INIT_SYSTEMD
                 $(TARGET_DIR)/usr/share/dbus-1/system.d/
 
         $(call VELIA_PREPARE_SERVICE,velia-health)
-        $(call VELIA_PREPARE_SERVICE,velia-hardware)
+        $(call VELIA_PREPARE_SERVICE,velia-hardware-g1)
+        $(call VELIA_PREPARE_SERVICE,velia-hardware-g2)
         $(call VELIA_PREPARE_SERVICE,velia-system)
 endef
 
