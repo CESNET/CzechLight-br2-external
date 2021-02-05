@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60813382_800326bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-05T19:50:30Z",
+      "side": 1,
+      "message": "boots on:\n\n- a g2 board with \"nothing\" on it\n- add-drop-DQ000SPI\n- coherent-add-drop-v9u\n- line-qr79",
+      "revId": "811c0b0eea5d00af990289c6ca2d73f0f24ce7e8",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
