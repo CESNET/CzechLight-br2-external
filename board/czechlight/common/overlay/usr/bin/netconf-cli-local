@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/netconf-cli --socket /var/run/netopeer2-server.sock
