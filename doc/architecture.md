@@ -24,6 +24,20 @@ Of course there are still (Q2 2020) exceptions:
 - passwords for direct login, which should not be supported anyway
 - ...
 
+### YANG
+
+The system always boots with an empty sysrepo database -- no YANG modules, and no configuration is installed.
+The required modules (and configuration) is added in several steps:
+
+- the YANG modules for `netopeer2-server` are added via `netopeer2-install-yang.service` (via our Buildroot patches),
+- CzechLight-specific YANG modules and their initial data are added via [`czechlight-install-yang.service`](../package/cla-sysrepo/czechlight-install-yang.service),
+- system configuration is restored from the persistent location in `/cfg` via [`cfg-restore-sysrepo.service`](../package/czechlight-cfg-fs/cfg-restore-sysrepo.service),
+- configuration of the Netopeer server gets re-checked via 'netopeer2-setup.service` (once again in our Buildroot patches); this is needed especially during the first boot with no previous configuration to restore,
+- finally, any daemons that use sysrepo are started.
+
+We are also [using a `tmpfs` mount at `/run/sysrepo`](../package/reset-sysrepo/run-sysrepo.mount) that [gets wiped out whenever a sysrepo service fails](../package/reset-sysrepo/reset-sysrepo.mk).
+This is currently (Q1 2021) needed because of the risk of corrption of the in-memory sysrepo SHM data.
+
 ### Factory data
 
 MAC addresses and some identification data and in future also calibration data.
