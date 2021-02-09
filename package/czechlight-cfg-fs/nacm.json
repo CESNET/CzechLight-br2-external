@@ -1,0 +1,54 @@
+{
+    "ietf-netconf-acm:nacm": {
+        "groups": {
+            "group": [
+                {
+                    "name": "root",
+                    "user-name": ["root"]
+                },
+                {
+                    "name": "dwdm",
+                    "user-name": ["dwdm"]
+                }
+            ]
+        },
+        "rule-list": [
+            {
+                "name": "one",
+                "group": ["root"],
+                "rule": [
+                    {
+                        "name": "Allow everything for root",
+                        "action": "permit"
+                    }
+                ]
+            },
+            {
+                "name": "two",
+                "group": ["dwdm"],
+                "rule": [
+                    {
+                        "name": "Allow czechlight-roadm-device for dwdm",
+                        "module": "czechlight-roadm-device",
+                        "action": "permit"
+                    },
+                    {
+                        "name": "Allow czechlight-inline-amp for dwdm",
+                        "module": "czechlight-inline-amp",
+                        "action": "permit"
+                    },
+                    {
+                        "name": "Allow czechlight-coherent-add-drop for dwdm",
+                        "module": "czechlight-coherent-add-drop",
+                        "action": "permit"
+                    },
+                    {
+                        "name": "Allow czechlight-calibration-device for dwdm",
+                        "module": "czechlight-calibration-device",
+                        "action": "permit"
+                    }
+                ]
+            }
+        ]
+    }
+}
