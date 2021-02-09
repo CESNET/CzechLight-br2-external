@@ -22,6 +22,14 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		$(TARGET_DIR)/sbin/init-czechlight.sh
 	$(INSTALL) -D -m 0755 $(@D)/czechlight-random-seed $(TARGET_DIR)/sbin/czechlight-random-seed
 	mkdir -p $(TARGET_DIR)/cfg
+	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system
+	$(INSTALL) -D -m 0644 \
+	    $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm-restore.service \
+	    $(TARGET_DIR)/usr/lib/systemd/system/
+	mkdir -p $(TARGET_DIR)/usr/share/yang-data
+	$(INSTALL) -D -m 0644 \
+	    $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm.json \
+	    $(TARGET_DIR)/usr/share/yang-data/
 	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
 		mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 		$(INSTALL) -D -m 0644 \
