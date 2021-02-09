@@ -32,7 +32,8 @@ The required modules (and configuration) is added in several steps:
 - the YANG modules for `netopeer2-server` are added via `netopeer2-install-yang.service` (via our Buildroot patches),
 - CzechLight-specific YANG modules and their initial data are added via [`czechlight-install-yang.service`](../package/cla-sysrepo/czechlight-install-yang.service),
 - system configuration is restored from the persistent location in `/cfg` via [`cfg-restore-sysrepo.service`](../package/czechlight-cfg-fs/cfg-restore-sysrepo.service),
-- configuration of the Netopeer server gets re-checked via 'netopeer2-setup.service` (once again in our Buildroot patches); this is needed especially during the first boot with no previous configuration to restore,
+- configuration of the Netopeer server gets re-checked via `netopeer2-setup.service` (once again in our Buildroot patches); this is needed especially during the first boot with no previous configuration to restore,
+- configuration of NACM is applied via [`nacm-restore.service`](../package/czechlight-cfg-fs/nacm-restore.service),
 - finally, any daemons that use sysrepo are started.
 
 We are also [using a `tmpfs` mount at `/run/sysrepo`](../package/reset-sysrepo/run-sysrepo.mount) that [gets wiped out whenever a sysrepo service fails](../package/reset-sysrepo/reset-sysrepo.mk).
