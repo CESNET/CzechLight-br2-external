@@ -16,6 +16,24 @@
       "message": "I would prefer to understand why your particular build setup (Arch) suddenly requires 30% more space compared to mine (NixOS) and the CI system (Fedora), but let\u0027s not waste much time on this.",
       "revId": "69f6fabbfe6c3d9bb1b0eced82d1ecbe130820d2",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b56b994_7d963b8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-11T13:45:40Z",
+      "side": 1,
+      "message": "I have no idea, I\u0027ll look at it some other time",
+      "parentUuid": "1878f03a_8a1f04ab",
+      "revId": "69f6fabbfe6c3d9bb1b0eced82d1ecbe130820d2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
