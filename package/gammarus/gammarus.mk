@@ -10,7 +10,7 @@ define GAMMARUS_INSTALL_TARGET_CMDS
 endef
 
 define GAMMARUS_USERS
-	yangnobody 333666 nobody * - - - Anonymous operations via RESTCONF
+	yangnobody 333666 dwdm -1 * - - - Unauthenticated operations via RESTCONF
 endef
 
 $(eval $(generic-package))
