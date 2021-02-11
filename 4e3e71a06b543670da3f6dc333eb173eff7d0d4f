@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24af8676_8b57d0b8",
+        "filename": "configs/czechlight_clearfog_defconfig",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-11T12:41:01Z",
+      "side": 1,
+      "message": "based on the description in buildroot\u0027s menuconfig, I don\u0027t think we need these, do we?",
+      "revId": "4e3e71a06b543670da3f6dc333eb173eff7d0d4f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7392154_649d873e",
+        "filename": "package/velia/nacm.json",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-11T12:41:01Z",
+      "side": 1,
+      "message": "this looks like an unused file",
+      "revId": "4e3e71a06b543670da3f6dc333eb173eff7d0d4f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
