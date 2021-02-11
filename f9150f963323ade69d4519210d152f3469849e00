@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ab91aa5_be7184dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-11T20:51:13Z",
+      "side": 1,
+      "message": "recheck\n\nThis also needs https://github.com/sysrepo/sysrepo/pull/2319, but I\u0027ll bring in later via a separate change once upstream merges that.",
+      "revId": "f9150f963323ade69d4519210d152f3469849e00",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
