@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ce70102_9f2fcde4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-11T19:02:17Z",
+      "side": 1,
+      "message": "Nah, I don\u0027t think I want to disable that parallel rootfs compression. On a no-op rebuild, without this it takes about 1m45s on my laptop, while it\u0027s 2m50s with reproducible build enabled. That\u0027s about one minute penalty, and I don\u0027t want that.",
+      "revId": "59ca4bb83d5bcbebbf60a9dcf654a7f37fda9707",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
