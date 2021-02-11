@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e41e6a6c_ce01b696",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-11T12:39:27Z",
+      "side": 1,
+      "message": "Please document why it\u0027s done like it\u0027s done. It\u0027s a non-trivial change, so it deserves a much better description than this one-liner.",
+      "revId": "e012929b1c634e1beed523050d01b415fc2cd3de",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6436a6c4_806308e1",
+        "filename": "package/czechlight-cfg-fs/czechlight-cfg-fs.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-11T12:39:27Z",
+      "side": 1,
+      "message": "mkdir is not needed if `install` is invoked with -D and --target-directory, like this: https://gerrit.cesnet.cz/plugins/gitiles/CzechLight/br2-external/+/refs/heads/master/package/reset-sysrepo/reset-sysrepo.mk#13\n\n(yup, I didn\u0027t know that either when I wrote the rest of this file)",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 42
+      },
+      "revId": "e012929b1c634e1beed523050d01b415fc2cd3de",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
