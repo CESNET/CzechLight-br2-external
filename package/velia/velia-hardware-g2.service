@@ -12,7 +12,7 @@ ConditionKernelCommandLine=|czechlight=sdn-roadm-hires-add-drop-g2
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/veliad-hardware --log-level=4 --appliance=czechlight-clearfog-g2
+ExecStart=/usr/bin/veliad-hardware --appliance=czechlight-clearfog-g2
 PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes
