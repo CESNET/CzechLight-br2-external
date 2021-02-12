@@ -18,6 +18,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71a6ea68_6a5f5562",
+        "filename": "configs/czechlight_clearfog_defconfig",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-12T08:37:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24af8676_8b57d0b8",
+      "revId": "4e3e71a06b543670da3f6dc333eb173eff7d0d4f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7392154_649d873e",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-02-11T12:41:01Z",
       "side": 1,
       "message": "this looks like an unused file",
+      "revId": "4e3e71a06b543670da3f6dc333eb173eff7d0d4f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "502cc3d2_7709b661",
+        "filename": "package/velia/nacm.json",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-12T08:37:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7392154_649d873e",
       "revId": "4e3e71a06b543670da3f6dc333eb173eff7d0d4f",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
