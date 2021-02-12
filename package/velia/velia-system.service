@@ -8,7 +8,7 @@ ConditionKernelCommandLine=czechlight
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/veliad-system --log-level=4
+ExecStart=/usr/bin/veliad-system
 PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes
