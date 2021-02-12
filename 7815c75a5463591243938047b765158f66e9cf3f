@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f10e6a43_d8f3b57e",
+        "filename": "board/czechlight/common/linux.fragment",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-12T11:09:01Z",
+      "side": 1,
+      "message": "no need to enable this one explicitly :)",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 13
+      },
+      "revId": "7815c75a5463591243938047b765158f66e9cf3f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb801cfb_a0929ccb",
+        "filename": "package/velia/velia-firewall.service",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-12T11:09:01Z",
+      "side": 1,
+      "message": "this will need an update for the log-level rework",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "7815c75a5463591243938047b765158f66e9cf3f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
