@@ -3,9 +3,17 @@ VELIA_SITE = https://gerrit.cesnet.cz/CzechLight/velia
 VELIA_SITE_METHOD = git
 VELIA_INSTALL_STAGING = NO
 VELIA_DEPENDENCIES = docopt-cpp spdlog boost sdbus-cpp systemd sysrepo
-VELIA_CONF_OPTS = -DTHREADS_PTHREAD_ARG:STRING=-pthread
 VELIA_LICENSE = Apache-2.0
 VELIA_LICENSE_FILES = LICENSE.md
+
+VELIA_CONF_OPTS = \
+	-DTHREADS_PTHREAD_ARG:STRING=-pthread \
+	-DVELIA_BACKUP_ETC_SHADOW=/cfg/etc/shadow \
+	-DVELIA_AUTHORIZED_KEYS_FORMAT="/cfg/ssh-user-auth/{USER}" \
+	-DNFT_EXECUTABLE=/usr/bin/nft \
+	-DSSH_KEYGEN_EXECUTABLE=/usr/bin/ssh-keygen \
+	-DCHPASSWD_EXECUTABLE=/usr/bin/chpasswd \
+	-DSYSTEMCTL_EXECUTABLE=/usr/bin/systemctl
 
 define VELIA_PREPARE_SERVICE
     $(INSTALL) -D -m 0644 \
