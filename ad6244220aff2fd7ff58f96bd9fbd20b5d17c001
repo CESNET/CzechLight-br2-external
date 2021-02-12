@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39494e2a_6806eb05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-12T11:06:20Z",
+      "side": 1,
+      "message": "I glanced over the NACM once again, and there\u0027s support for explicitly tagging the sensitive parts of each module. Please implement that for all of our \"system modules\".",
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbec2dcc_57e16d83",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-12T11:06:20Z",
+      "side": 1,
+      "message": "this should not be needed with enable-external-groups \u003d true; if I understand netopeer2\u0027s code correctly, it add the unix groups",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69ee0ea7_f68f260e",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-12T11:06:20Z",
+      "side": 1,
+      "message": "this is meaningless",
+      "range": {
+        "startLine": 17,
+        "startChar": 25,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20031536_c884fb98",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-12T11:06:20Z",
+      "side": 1,
+      "message": "Please re-check if this is needed after https://github.com/CESNET/netopeer2/issues/829#issuecomment-778116519",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b697c1_4e104705",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-12T11:06:20Z",
+      "side": 1,
+      "message": "add proper name here, too",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6bf082a_075cfbc6",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-12T11:06:20Z",
+      "side": 1,
+      "message": "change this to \"optics\"",
+      "range": {
+        "startLine": 28,
+        "startChar": 27,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fa2f7cc_2349853b",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-12T11:06:20Z",
+      "side": 1,
+      "message": "this description wold be appropriate for the `rule-list` IMHO; for this one better use device descriptions",
+      "range": {
+        "startLine": 31,
+        "startChar": 33,
+        "endLine": 31,
+        "endChar": 71
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
