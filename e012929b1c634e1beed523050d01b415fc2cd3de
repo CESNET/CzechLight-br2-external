@@ -41,6 +41,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a786e5e1_9b8396f1",
+        "filename": "package/czechlight-cfg-fs/czechlight-cfg-fs.mk",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-12T08:37:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6436a6c4_806308e1",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 42
+      },
+      "revId": "e012929b1c634e1beed523050d01b415fc2cd3de",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b1c35a0_7483e5cc",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-02-11T18:15:05Z",
       "side": 1,
       "message": "please also let the `dwdm` group perform modifications (and call RPCs) for these modules:\n\n- czechlight-roadm-device\n- czechlight-inline-amp\n- czechlight-coherent-add-drop\n- czechlight-calibration-device",
+      "revId": "e012929b1c634e1beed523050d01b415fc2cd3de",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2450c39c_2824ca8a",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-12T08:37:16Z",
+      "side": 1,
+      "message": "Done, but I haven\u0027t tested yet",
+      "parentUuid": "9b1c35a0_7483e5cc",
       "revId": "e012929b1c634e1beed523050d01b415fc2cd3de",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
