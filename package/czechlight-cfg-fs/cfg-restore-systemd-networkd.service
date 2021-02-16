@@ -1,0 +1,14 @@
+[Unit]
+Description=Restore systemd-networkd network settings from /cfg
+After=cfg.mount
+Requires=cfg.mount
+Before=network-pre.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStartPre=/bin/sh -c "mkdir -p /run/systemd/network"
+ExecStart=/bin/sh -c "[[ -f /cfg/network/eth1.network ]] && cp /cfg/network/eth1.network /run/systemd/network/ || true"
+
+[Install]
+WantedBy=network-pre.target
