@@ -40,6 +40,13 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 			$(TARGET_DIR)/usr/lib/systemd/system/
 		ln -sf ../openssh-persistent-keys.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 	$(endif)
+	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_NETWORK),y))
+		mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/network-pre.target.wants/
+		$(INSTALL) -D -m 0644 \
+			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-restore-systemd-networkd.service \
+			$(TARGET_DIR)/usr/lib/systemd/system/
+		ln -sf ../cfg-restore-systemd-network.service $(TARGET_DIR)/usr/lib/systemd/system/network-pre.target.wants/
+	$(endif)
 endef
 
 # Configure OpenSSH to look for *user* keys in the /cfg
