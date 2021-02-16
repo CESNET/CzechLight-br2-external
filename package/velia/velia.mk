@@ -13,7 +13,8 @@ VELIA_CONF_OPTS = \
 	-DNFT_EXECUTABLE=/usr/bin/nft \
 	-DSSH_KEYGEN_EXECUTABLE=/usr/bin/ssh-keygen \
 	-DCHPASSWD_EXECUTABLE=/usr/bin/chpasswd \
-	-DSYSTEMCTL_EXECUTABLE=/usr/bin/systemctl
+	-DSYSTEMCTL_EXECUTABLE=/usr/bin/systemctl \
+	-DNETWORKCTL_EXECUTABLE=/usr/bin/networkctl
 
 define VELIA_PREPARE_SERVICE
     $(INSTALL) -D -m 0644 \
