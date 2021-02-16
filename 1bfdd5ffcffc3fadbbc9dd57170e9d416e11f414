@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca81934a_de971713",
+        "filename": "package/czechlight-cfg-fs/cfg-restore-systemd-networkd.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-16T19:48:55Z",
+      "side": 1,
+      "message": "looks like one too many \" in there",
+      "range": {
+        "startLine": 10,
+        "startChar": 107,
+        "endLine": 10,
+        "endChar": 109
+      },
+      "revId": "1bfdd5ffcffc3fadbbc9dd57170e9d416e11f414",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad643b9d_11ae19b9",
+        "filename": "package/czechlight-cfg-fs/cfg-restore-systemd-networkd.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-16T19:48:55Z",
+      "side": 1,
+      "message": "on target /bin/sh is not bash, but busybox\u0027 sh. This is probably safe here, but please keep that in mind.",
+      "range": {
+        "startLine": 10,
+        "startChar": 15,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "1bfdd5ffcffc3fadbbc9dd57170e9d416e11f414",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18de1ea9_57f4666f",
+        "filename": "package/czechlight-cfg-fs/cfg-restore-systemd-networkd.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-16T19:48:55Z",
+      "side": 1,
+      "message": "you\u0027ll probably need a `mkdir -p` in ExecStartPre",
+      "range": {
+        "startLine": 10,
+        "startChar": 86,
+        "endLine": 10,
+        "endChar": 107
+      },
+      "revId": "1bfdd5ffcffc3fadbbc9dd57170e9d416e11f414",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
