@@ -37,4 +37,14 @@ config CZECHLIGHT_CFG_FS_PERSIST_KEYS
 
 endif # BR2_PACKAGE_NETOPEER2
 
+if BR2_PACKAGE_SYSTEMD
+
+config CZECHLIGHT_CFG_FS_PERSIST_NETWORK
+	bool "Persist network configuration for eth1"
+	default Y
+	help
+	  Save network configuration file for eth1 into /cfg
+
+endif # BR2_PACKAGE_SYSTEMD
+
 endif # BR2_PACKAGE_CZECHLIGHT_CFG_FS
