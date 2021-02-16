@@ -2,7 +2,7 @@ VELIA_VERSION = master
 VELIA_SITE = https://gerrit.cesnet.cz/CzechLight/velia
 VELIA_SITE_METHOD = git
 VELIA_INSTALL_STAGING = NO
-VELIA_DEPENDENCIES = docopt-cpp spdlog boost sdbus-cpp systemd sysrepo
+VELIA_DEPENDENCIES = docopt-cpp spdlog boost sdbus-cpp systemd sysrepo iproute2
 VELIA_LICENSE = Apache-2.0
 VELIA_LICENSE_FILES = LICENSE.md
 
@@ -13,7 +13,8 @@ VELIA_CONF_OPTS = \
 	-DNFT_EXECUTABLE=/usr/bin/nft \
 	-DSSH_KEYGEN_EXECUTABLE=/usr/bin/ssh-keygen \
 	-DCHPASSWD_EXECUTABLE=/usr/bin/chpasswd \
-	-DSYSTEMCTL_EXECUTABLE=/usr/bin/systemctl
+	-DSYSTEMCTL_EXECUTABLE=/usr/bin/systemctl \
+	-DNETWORKCTL_EXECUTABLE=/usr/bin/networkctl
 
 define VELIA_PREPARE_SERVICE
     $(INSTALL) -D -m 0644 \
