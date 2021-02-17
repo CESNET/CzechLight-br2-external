@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2f33cff_1b2d0562",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2021-02-17T08:54:26Z",
+      "side": 1,
+      "message": "Also implemented: Don\u0027t fail if the file does not exist.",
+      "revId": "1bfdd5ffcffc3fadbbc9dd57170e9d416e11f414",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca81934a_de971713",
@@ -60,6 +77,54 @@
       "writtenOn": "2021-02-16T19:48:55Z",
       "side": 1,
       "message": "you\u0027ll probably need a `mkdir -p` in ExecStartPre",
+      "range": {
+        "startLine": 10,
+        "startChar": 86,
+        "endLine": 10,
+        "endChar": 107
+      },
+      "revId": "1bfdd5ffcffc3fadbbc9dd57170e9d416e11f414",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3acc8f1_6e5c5e93",
+        "filename": "package/czechlight-cfg-fs/cfg-restore-systemd-networkd.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2021-02-17T08:54:26Z",
+      "side": 1,
+      "message": "Done, thx.",
+      "parentUuid": "ca81934a_de971713",
+      "range": {
+        "startLine": 10,
+        "startChar": 107,
+        "endLine": 10,
+        "endChar": 109
+      },
+      "revId": "1bfdd5ffcffc3fadbbc9dd57170e9d416e11f414",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5e0170a_8a9980a6",
+        "filename": "package/czechlight-cfg-fs/cfg-restore-systemd-networkd.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2021-02-17T08:54:26Z",
+      "side": 1,
+      "message": "Yup. Thanks.",
+      "parentUuid": "18de1ea9_57f4666f",
       "range": {
         "startLine": 10,
         "startChar": 86,
