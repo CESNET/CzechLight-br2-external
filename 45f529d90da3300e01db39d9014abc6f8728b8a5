@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c87e42d_c2133b1a",
+        "filename": "package/czechlight-cfg-fs/cfg-restore-systemd-networkd.service",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-17T09:28:42Z",
+      "side": 1,
+      "message": "you don\u0027t need a shell for this, just call /usr/bin/mkdir",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "45f529d90da3300e01db39d9014abc6f8728b8a5",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
