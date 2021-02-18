@@ -10,11 +10,12 @@ VELIA_CONF_OPTS = \
 	-DTHREADS_PTHREAD_ARG:STRING=-pthread \
 	-DVELIA_BACKUP_ETC_SHADOW=/cfg/etc/shadow \
 	-DVELIA_AUTHORIZED_KEYS_FORMAT="/cfg/ssh-user-auth/{USER}" \
-	-DNFT_EXECUTABLE=/usr/bin/nft \
+	-DNFT_EXECUTABLE=/usr/sbin/nft \
 	-DSSH_KEYGEN_EXECUTABLE=/usr/bin/ssh-keygen \
 	-DCHPASSWD_EXECUTABLE=/usr/bin/chpasswd \
 	-DSYSTEMCTL_EXECUTABLE=/usr/bin/systemctl \
-	-DNETWORKCTL_EXECUTABLE=/usr/bin/networkctl
+	-DNETWORKCTL_EXECUTABLE=/usr/bin/networkctl \
+	-DHOSTNAMECTL_EXECUTABLE=/usr/bin/hostnamectl
 
 define VELIA_PREPARE_SERVICE
     $(INSTALL) -D -m 0644 \
