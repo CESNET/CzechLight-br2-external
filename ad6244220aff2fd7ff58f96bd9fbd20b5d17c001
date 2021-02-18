@@ -41,6 +41,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "432b1f6b_f5a465bd",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-18T04:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbec2dcc_57e16d83",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69ee0ea7_f68f260e",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-02-12T11:06:20Z",
       "side": 1,
       "message": "this is meaningless",
+      "range": {
+        "startLine": 17,
+        "startChar": 25,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62a6218f_babae855",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-18T04:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69ee0ea7_f68f260e",
       "range": {
         "startLine": 17,
         "startChar": 25,
@@ -87,6 +135,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "619975e8_cf3c7b45",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-18T04:28:13Z",
+      "side": 1,
+      "message": "It is not needed anymore. How I tested:\n/ietf-system:system-restart has nacm:default-deny-all;\nand using an empty NACM configuration.\n\nWhen connecting as normal user:\n vk@KAREL:~/git/netconf-cli/build \n $ ./netconf-cli ci@192.168.122.204\n /\u003e exec ietf-system:system-restart/\n Server error:\n  #0: Executing the operation is denied because \"ci\" NACM authorization failed. \n (XPath /ietf-system:system-restart)\n\n /\u003e\n\nWhen connecting as root:\n vk@KAREL:~/git/netconf-cli/build \n $ ./netconf-cli root@192.168.122.204\n /\u003e exec ietf-system:system-restart/\n RPC/action output:\n /\u003e Connection to 192.168.122.204 closed by remote host.\n    [ERR]: Session 2: communication socket unexpectedly closed.\n [ERR]: Session 2: invalid session to read from.\n [ERR]: Session 2: failed to receive a reply to \u003cclose-session\u003e.\n vk@KAREL:~/git/netconf-cli/build 👎 255\n $",
+      "parentUuid": "20031536_c884fb98",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48b697c1_4e104705",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-02-12T11:06:20Z",
       "side": 1,
       "message": "add proper name here, too",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d29abbd0_cfaa5149",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-18T04:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48b697c1_4e104705",
       "range": {
         "startLine": 27,
         "startChar": 25,
@@ -133,6 +229,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93fa962d_971eaeb5",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-18T04:28:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6bf082a_075cfbc6",
+      "range": {
+        "startLine": 28,
+        "startChar": 27,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fa2f7cc_2349853b",
@@ -146,6 +266,30 @@
       "writtenOn": "2021-02-12T11:06:20Z",
       "side": 1,
       "message": "this description wold be appropriate for the `rule-list` IMHO; for this one better use device descriptions",
+      "range": {
+        "startLine": 31,
+        "startChar": 33,
+        "endLine": 31,
+        "endChar": 71
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba1f8426_df8c9fee",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-18T04:28:13Z",
+      "side": 1,
+      "message": "I\u0027m not sure what I should put in.",
+      "parentUuid": "4fa2f7cc_2349853b",
       "range": {
         "startLine": 31,
         "startChar": 33,
