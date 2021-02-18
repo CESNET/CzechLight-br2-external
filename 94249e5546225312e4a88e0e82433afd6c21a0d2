@@ -33,6 +33,24 @@
       "message": "Ah, I see. This should have been part of the previous patch, though.",
       "revId": "94249e5546225312e4a88e0e82433afd6c21a0d2",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de32a9b7_5dfac8e4",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-18T17:18:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f792fca_f5abb3a3",
+      "revId": "94249e5546225312e4a88e0e82433afd6c21a0d2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
