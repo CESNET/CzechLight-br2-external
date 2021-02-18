@@ -33,6 +33,24 @@
       "message": "this needs an update to point to the latest commit in velia",
       "revId": "1408efcff5e5d6506038be5d2d2de98ee1e8f55c",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9148f101_f9a18f7d",
+        "filename": "submodules/velia",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-18T08:01:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0862c78a_913e54b0",
+      "revId": "1408efcff5e5d6506038be5d2d2de98ee1e8f55c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
