@@ -7,22 +7,22 @@
                 "rule": [
                     {
                         "name": "czechlight-roadm-device",
-                        "module": "czechlight-roadm-device",
+                        "module-name": "czechlight-roadm-device",
                         "action": "permit"
                     },
                     {
                         "name": "czechlight-inline-amp",
-                        "module": "czechlight-inline-amp",
+                        "module-name": "czechlight-inline-amp",
                         "action": "permit"
                     },
                     {
                         "name": "czechlight-coherent-add-drop",
-                        "module": "czechlight-coherent-add-drop",
+                        "module-name": "czechlight-coherent-add-drop",
                         "action": "permit"
                     },
                     {
                         "name": "czechlight-calibration-device",
-                        "module": "czechlight-calibration-device",
+                        "module-name": "czechlight-calibration-device",
                         "action": "permit"
                     }
                 ]

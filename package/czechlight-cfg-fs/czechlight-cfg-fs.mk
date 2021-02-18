@@ -1,5 +1,5 @@
 CZECHLIGHT_CFG_FS_INSTALL_IMAGES = YES
-CZECHLIGHT_CFG_FS_DEPENDENCIES = host-e2fsprogs
+CZECHLIGHT_CFG_FS_DEPENDENCIES = host-e2fsprogs host-libyang netopeer2
 
 CZECHLIGHT_CFG_FS_LOCATION = $(BINARIES_DIR)/cfg.ext4
 
@@ -14,6 +14,10 @@ endif
 
 define CZECHLIGHT_CFG_FS_BUILD_CMDS
 	$(TARGET_CC) $(CZECHLIGHT_CFG_FS_PKGDIR)/czechlight-random-seed.c -o $(@D)/czechlight-random-seed
+
+	$(HOST_DIR)/usr/bin/yanglint -t config --strict \
+		$(TARGET_DIR)/usr/share/yang/modules/netopeer2/ietf-netconf-acm@2018-02-14.yang \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm.json
 endef
 
 define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
