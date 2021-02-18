@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6fd0f04_14aa66b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-18T09:14:21Z",
+      "side": 1,
+      "message": "LGTM apart from that fix-up from the previous patch in this serie.",
+      "revId": "94249e5546225312e4a88e0e82433afd6c21a0d2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f792fca_f5abb3a3",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-18T09:14:21Z",
+      "side": 1,
+      "message": "Ah, I see. This should have been part of the previous patch, though.",
+      "revId": "94249e5546225312e4a88e0e82433afd6c21a0d2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
