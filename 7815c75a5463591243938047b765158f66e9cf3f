@@ -24,6 +24,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20792024_3928b95a",
+        "filename": "board/czechlight/common/linux.fragment",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-18T03:52:48Z",
+      "side": 1,
+      "message": "Yeah, but I did have some problems with this. I wasted at least like an hour trying to figure which stuff I need to enable so that the other stuff also gets enabled.",
+      "parentUuid": "f10e6a43_d8f3b57e",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 13
+      },
+      "revId": "7815c75a5463591243938047b765158f66e9cf3f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb801cfb_a0929ccb",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-12T11:09:01Z",
       "side": 1,
       "message": "this will need an update for the log-level rework",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "7815c75a5463591243938047b765158f66e9cf3f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99dec0e5_59591aae",
+        "filename": "package/velia/velia-firewall.service",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-18T03:52:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb801cfb_a0929ccb",
       "range": {
         "startLine": 11,
         "startChar": 35,
