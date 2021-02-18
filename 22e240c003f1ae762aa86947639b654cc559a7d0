@@ -16,6 +16,24 @@
       "message": "looks like this one is broken:\n \n/usr/sbin/nft ended with a non-zero exit code. stderr: /dev/stdin:3:1-66: Error: Could not process rule: Operation not supported\n/dev/stdin:4:22-25: Error: Could not process rule: No such file or directory\n/dev/stdin:5:22-25: Error: Could not process rule: No such file or directory",
       "revId": "22e240c003f1ae762aa86947639b654cc559a7d0",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e7d195e_d62c7edd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-18T22:19:09Z",
+      "side": 1,
+      "message": "just a stale kernel build on my side",
+      "parentUuid": "06c20112_b32285bc",
+      "revId": "22e240c003f1ae762aa86947639b654cc559a7d0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
