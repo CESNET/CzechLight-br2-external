@@ -340,6 +340,30 @@
       },
       "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "367cba79_1214699d",
+        "filename": "package/czechlight-cfg-fs/nacm.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-02-18T17:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ab54ead_6b2a192e",
+      "range": {
+        "startLine": 31,
+        "startChar": 33,
+        "endLine": 31,
+        "endChar": 71
+      },
+      "revId": "ad6244220aff2fd7ff58f96bd9fbd20b5d17c001",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
