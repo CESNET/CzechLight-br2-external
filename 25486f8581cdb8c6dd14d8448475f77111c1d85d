@@ -16,6 +16,24 @@
       "message": "you have to modify package/reset-sysrepo/reset-sysrepo.mk so that a reinit of sysrepo\u0027s SHM filesystem restarts velia-firewall as well",
       "revId": "25486f8581cdb8c6dd14d8448475f77111c1d85d",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7e31737_1976b892",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-02-18T18:28:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f449984_d0c5d851",
+      "revId": "25486f8581cdb8c6dd14d8448475f77111c1d85d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
