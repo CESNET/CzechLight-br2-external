@@ -56,7 +56,7 @@ Nothing updates this script as it's hard-embedded into the bootloader, and nothi
 
 - U-Boot [environment](https://elinux.org/U-boot_environment_variables_in_linux) is marked as "I'm trying to boot an A/B slot now" while keeping track of how many attaempts are remaining.
 
-- Once an A/B boot slot is chosen, another [U-Boot script](../board/czechlight/clearfog/boot.scr.txt) (which is a part of every system release and therefore updateable) changes LED blinking patterns, loads the [device tree](https://elinux.org/Device_Tree_Reference) (such as [this one](../board/czechlight/clearfog/sdn-roadm-line-clearfog.dts)) which provides Linux-level device description, and launches the kernel.
+- Once an A/B boot slot is chosen, another [U-Boot script](../board/czechlight/clearfog/boot.scr.txt) (which is a part of every system release and therefore updateable) changes LED blinking patterns, resets the fan controller, loads the [device tree](https://elinux.org/Device_Tree_Reference) (such as [this one](../board/czechlight/clearfog/sdn-roadm-line-clearfog.dts)) which provides Linux-level device description, and launches the kernel.
 
 ### 2) Linux Kernel:
 
