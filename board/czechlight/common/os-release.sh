@@ -14,6 +14,7 @@ NETCONF_CLI_REV=$(czechlight_describe_git $(czechlight_query_local_make_var NETC
 CLA_CPP_DEPENDENCIES_REV=$(czechlight_describe_git $(czechlight_query_local_make_var CLA_SYSREPO_OVERRIDE_SRCDIR)/submodules/dependencies)
 GAMMARUS_REV=$(czechlight_describe_git $(czechlight_query_local_make_var GAMMARUS_OVERRIDE_SRCDIR))
 VELIA_REV=$(czechlight_describe_git $(czechlight_query_local_make_var VELIA_OVERRIDE_SRCDIR))
+ROUSETTE_REV=$(czechlight_describe_git $(czechlight_query_local_make_var VELIA_OVERRIDE_SRCDIR))
 
 sed -i \
 	-e 's/^VERSION_ID=/BUILDROOT_VERSION_ID=/' \
@@ -33,5 +34,5 @@ CLA_SYSREPO_VERSION=${CLA_SYSREPO_REV}
 NETCONF_CLI_VERSION=${NETCONF_CLI_REV}
 CPP_DEPENDENCIES_VERSION=${CLA_CPP_DEPENDENCIES_REV}
 GAMMARUS_VERSION=${GAMMARUS_REV}
-VELIA_VERSION=${VELIA_REV}
+ROUSETTE_VERSION=${ROUSETTE_REV}
 EOF
