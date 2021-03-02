@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ead47e09_e4fe89a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2021-03-02T07:05:21Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we also add \u0027libnl\u0027 to VELIA_DEPENDENCIES in velia.mk?\n\nhttps://buildroot.org/downloads/manual/manual.html#generic-package-reference\n LIBFOO_DEPENDENCIES lists the dependencies (in terms of package name) that are required for the current target package to compile. These dependencies are guaranteed to be compiled and installed before the configuration of the current package starts. However, modifications to configuration of these dependencies will not force a rebuild of the current package. In a similar way, HOST_LIBFOO_DEPENDENCIES lists the dependencies for the current host package. \n\nWe need libnl to compile velia.",
+      "revId": "5ddbe82828e19f65c8f6146d6c730cc1e6eaee11",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
