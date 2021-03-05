@@ -29,10 +29,19 @@
 		i2c-gpio.delay-us = <1>;
 		#address-cells = <1>;
 		#size-cells = <0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&uart1_pins_i2c_bb>;
 	};
 };
 
-&uart1_pins {
+&pinctrl {
+	uart1_pins_i2c_bb: uart1-pins-i2c-bb {
+		marvell,pins = "mpp24", "mpp25";
+		marvell,function = "gpio";
+	};
+};
+
+&mikro_uart_pins {
 	status = "disabled";
 };
 

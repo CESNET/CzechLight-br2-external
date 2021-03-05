@@ -41,27 +41,638 @@ index 8b94aa8f5971..2723e6143aa9 100644
 +		gpio-line-names = ...
 +	};
 +};
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index 80137c1b3cdc..8d1c49a289eb 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -1727,11 +1727,6 @@ static inline void gpiochip_irqchip_free_valid_mask(struct gpio_chip *gc)
-  */
- int gpiochip_generic_request(struct gpio_chip *gc, unsigned offset)
- {
--#ifdef CONFIG_PINCTRL
--	if (list_empty(&gc->gpiodev->pin_ranges))
--		return 0;
--#endif
--
- 	return pinctrl_gpio_request(gc->gpiodev->base + offset);
- }
- EXPORT_SYMBOL_GPL(gpiochip_generic_request);
+diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
+index f301385d8cef..05ee1a3e5a01 100644
+--- a/Documentation/hwmon/max31790.rst
++++ b/Documentation/hwmon/max31790.rst
+@@ -30,14 +30,62 @@ monitoring and control of fan RPM as well as detection of fan failure.
+ Six pins are dedicated tachometer inputs. Any of the six PWM outputs can
+ also be configured to serve as tachometer inputs.
+ 
++About pwm[1-6]_enable
++---------------------
++0 - full-speed
++    The chip doesn't have a specific way to set "full speed", so setting
++    pwm[1-6]_enable to 0 is just "set PWM mode with 255 duty cycle".
++1 - PWM mode
++    Fan speed is controlled by writing a value to pwm[1-6].
++2 - RPM mode
++    Fan speed is controlled by writing a value to fan[1-6]_target.
++
++About fan[1-6]_fault
++--------------------
++In PWM (or full-speed) mode, if the input RPM goes below what is set
++in fan[1-6]_target, fan[1-6]_fault gets set to 1. In other words,
++fan[1-6]_target works as the minimum input RPM before a fan fault goes off.
++
++In RPM mode, fan fault is set when the fan spins "too slowly" (exact
++conditions are in the datasheet). RPM mode depends on four variables:
++    target_speed:        This is set by fan[1-6]_target.
++    speed_range:         This is set automatically when setting target_speed
++                         or manually by fan[1-12]_div.
++    pwm_rate_of_change:  NOT set by the driver.
++    fan_window:          NOT set by the driver.
++
++The last two values are not set by the driver, because there's no generic way to
++compute them. You should set them manually through i2c (in the bootloader for
++example). Check the datasheet for details.
++
++The fan fault value latches, to reset it, set a value to pwm[1-6]
++or fan[1-6]_target.
++
++About fan[1-12]_pulses
++----------------------
++You should set this depending on the fan you use. It affects what values
++are in fan[1-12]_input and also what gets written to fan[1-6]_target.
++
++About fan[1-12]_div
++-------------------
++This value affects the measurable range of the chip. The driver sets this value
++automatically in RPM based on fan[1-6]_target. In PWM mode, you should set this
++value manually based on the details from the datasheet. Setting the speed range
++is disabled while in RPM mode to prevent overwriting the automatically
++calculated value.
+ 
+ Sysfs entries
+ -------------
+ 
+-================== === =======================================================
++================== === =============================================================
++fan[1-12]_enable   RW  enable fan speed monitoring
++fan[1-12]_pulses   RW  pulses per fan revolution (default: 2)
+ fan[1-12]_input    RO  fan tachometer speed in RPM
+ fan[1-12]_fault    RO  fan experienced fault
+-fan[1-6]_target    RW  desired fan speed in RPM
+-pwm[1-6]_enable    RW  regulator mode, 0=disabled, 1=manual mode, 2=rpm mode
++fan[1-12]_div      RW  set the measurable speed range, not available in RPM mode
++fan[1-6]_target    RW  RPM mode = desired fan speed
++                       PWM mode = minimum fan speed until fault
++pwm[1-6]_enable    RW  regulator mode, 0=full speed, 1=manual (pwm) mode, 2=rpm mode
++                       setting rpm mode sets fan*_enable to 1
+ pwm[1-6]           RW  fan target duty cycle (0-255)
+-================== === =======================================================
++================== === =============================================================
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 1ecf697d8d99..9f11d036c316 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -1095,6 +1095,7 @@ config SENSORS_MAX6697
+ config SENSORS_MAX31790
+ 	tristate "Maxim MAX31790 sensor chip"
+ 	depends on I2C
++	select REGMAP_I2C
+ 	help
+ 	  If you say yes here you get support for 6-Channel PWM-Output
+ 	  Fan RPM Controller.
 diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
-index 117fb79ef294..610f62eab72a 100644
+index 86e6c71db685..3ef205e45dc1 100644
 --- a/drivers/hwmon/max31790.c
 +++ b/drivers/hwmon/max31790.c
-@@ -489,11 +489,18 @@ static const struct i2c_device_id max31790_id[] = {
+@@ -12,6 +12,7 @@
+ #include <linux/init.h>
+ #include <linux/jiffies.h>
+ #include <linux/module.h>
++#include <linux/regmap.h>
+ #include <linux/slab.h>
+ 
+ /* MAX31790 registers */
+@@ -38,22 +39,65 @@
+ 
+ #define FAN_RPM_MIN			120
+ #define FAN_RPM_MAX			7864320
++#define MAX_PWM				0XFF80
+ 
+-#define RPM_FROM_REG(reg, sr)		(((reg) >> 4) ? \
+-					 ((60 * (sr) * 8192) / ((reg) >> 4)) : \
+-					 FAN_RPM_MAX)
+-#define RPM_TO_REG(rpm, sr)		((60 * (sr) * 8192) / ((rpm) * 2))
++#define RPM_FROM_REG(reg, sr, pulses) \
++	(((reg) >> 5) ? \
++	 ((60 * (sr) * 8192) / ((reg) >> 5) / (pulses)) : \
++	 FAN_RPM_MAX)
++#define RPM_TO_REG(rpm, sr, pulses) \
++	((60 * (sr) * 8192) / ((rpm) * (pulses)))
+ 
+ #define NR_CHANNEL			6
+ 
++#define MAX31790_REG_USER_BYTE_67	0x67
++
++#define BULK_TO_U16(msb, lsb)		(((msb) << 8) + (lsb))
++#define U16_MSB(num)			(((num) & 0xFF00) >> 8)
++#define U16_LSB(num)			((num) & 0x00FF)
++
++#define FAN_INFO_1_TO_6 \
++	(HWMON_F_DIV | \
++	HWMON_F_PULSES | \
++	HWMON_F_ENABLE | \
++	HWMON_F_INPUT | \
++	HWMON_F_TARGET | \
++	HWMON_F_FAULT)
++
++#define FAN_INFO_7_TO_12 \
++	(HWMON_F_PULSES | \
++	HWMON_F_ENABLE | \
++	HWMON_F_INPUT | \
++	HWMON_F_FAULT)
++
++static const struct regmap_range max31790_ro_range = {
++	.range_min = MAX31790_REG_TACH_COUNT(0),
++	.range_max = MAX31790_REG_PWMOUT(0) - 1,
++};
++
++static const struct regmap_access_table max31790_wr_table = {
++	.no_ranges = &max31790_ro_range,
++	.n_no_ranges = 1,
++};
++
++static const struct regmap_config max31790_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.reg_stride = 1,
++	.max_register = MAX31790_REG_USER_BYTE_67,
++	.wr_table = &max31790_wr_table,
++};
++
+ /*
+  * Client data (each client gets its own)
+  */
+ struct max31790_data {
+-	struct i2c_client *client;
++	struct regmap *regmap;
+ 	struct mutex update_lock;
+ 	bool valid; /* zero until following fields are valid */
+ 	unsigned long last_updated; /* in jiffies */
++	bool full_speed[NR_CHANNEL];
++	u8 pulses[NR_CHANNEL];
+ 
+ 	/* register values */
+ 	u8 fan_config[NR_CHANNEL];
+@@ -67,53 +111,72 @@ struct max31790_data {
+ static struct max31790_data *max31790_update_device(struct device *dev)
+ {
+ 	struct max31790_data *data = dev_get_drvdata(dev);
+-	struct i2c_client *client = data->client;
++	struct regmap *regmap = data->regmap;
+ 	struct max31790_data *ret = data;
+ 	int i;
+ 	int rv;
++	int val;
++	u8 val_bulk[2];
+ 
+ 	mutex_lock(&data->update_lock);
+ 
+ 	if (time_after(jiffies, data->last_updated + HZ) || !data->valid) {
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_FAULT_STATUS1);
++		rv = regmap_read(regmap,
++				 MAX31790_REG_FAN_FAULT_STATUS1,
++				 &val);
+ 		if (rv < 0)
+ 			goto abort;
+-		data->fault_status = rv & 0x3F;
++		data->fault_status = val & 0x3F;
+ 
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_FAULT_STATUS2);
++		rv = regmap_read(regmap,
++				 MAX31790_REG_FAN_FAULT_STATUS2,
++				 &val);
+ 		if (rv < 0)
+ 			goto abort;
+-		data->fault_status |= (rv & 0x3F) << 6;
++		data->fault_status |= (val & 0x3F) << 6;
+ 
+ 		for (i = 0; i < NR_CHANNEL; i++) {
+-			rv = i2c_smbus_read_word_swapped(client,
+-					MAX31790_REG_TACH_COUNT(i));
++			rv = regmap_bulk_read(regmap,
++					      MAX31790_REG_TACH_COUNT(i),
++					      val_bulk,
++					      2);
+ 			if (rv < 0)
+ 				goto abort;
+-			data->tach[i] = rv;
++			data->tach[i] = BULK_TO_U16(val_bulk[0],
++						    val_bulk[1]);
+ 
+ 			if (data->fan_config[i]
+ 			    & MAX31790_FAN_CFG_TACH_INPUT) {
+-				rv = i2c_smbus_read_word_swapped(client,
+-					MAX31790_REG_TACH_COUNT(NR_CHANNEL
+-								+ i));
++				rv = regmap_bulk_read(regmap,
++						      MAX31790_REG_TACH_COUNT(NR_CHANNEL
++									      + i),
++					      val_bulk,
++					      2);
+ 				if (rv < 0)
+ 					goto abort;
+-				data->tach[NR_CHANNEL + i] = rv;
++
++				data->tach[NR_CHANNEL + i] =
++					BULK_TO_U16(val_bulk[0],
++						    val_bulk[1]);
+ 			} else {
+-				rv = i2c_smbus_read_word_swapped(client,
+-						MAX31790_REG_PWMOUT(i));
++				rv = regmap_bulk_read(regmap,
++						      MAX31790_REG_PWMOUT(i),
++						      val_bulk,
++						      2);
+ 				if (rv < 0)
+ 					goto abort;
+-				data->pwm[i] = rv;
++				data->pwm[i] = BULK_TO_U16(val_bulk[0],
++							   val_bulk[1]);
+ 
+-				rv = i2c_smbus_read_word_swapped(client,
+-						MAX31790_REG_TARGET_COUNT(i));
++				rv = regmap_bulk_read(regmap,
++						      MAX31790_REG_TARGET_COUNT(i),
++						      val_bulk,
++						      2);
+ 				if (rv < 0)
+ 					goto abort;
+-				data->target_count[i] = rv;
++				data->target_count[i] =
++					BULK_TO_U16(val_bulk[0],
++						    val_bulk[1]);
+ 			}
+ 		}
+ 
+@@ -159,6 +222,26 @@ static u8 bits_for_tach_period(int rpm)
+ 	return bits;
+ }
+ 
++static int bits_for_speed_range(int speed_range)
++{
++	switch (speed_range) {
++	case 1:
++		return 0x0;
++	case 2:
++		return 0x1;
++	case 4:
++		return 0x2;
++	case 8:
++		return 0x3;
++	case 16:
++		return 0x4;
++	case 32:
++		return 0x5;
++	default:
++		return -1;
++	}
++}
++
+ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
+ 			     long *val)
+ {
+@@ -170,18 +253,41 @@ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
+ 
+ 	switch (attr) {
+ 	case hwmon_fan_input:
++		if (!(data->fan_config[channel] &
++		      MAX31790_FAN_CFG_TACH_INPUT_EN)) {
++			*val = 0;
++			return 0;
++		}
+ 		sr = get_tach_period(data->fan_dynamics[channel]);
+-		rpm = RPM_FROM_REG(data->tach[channel], sr);
++		rpm = RPM_FROM_REG(data->tach[channel],
++				   sr,
++				   data->pulses[channel]);
+ 		*val = rpm;
+ 		return 0;
+ 	case hwmon_fan_target:
+ 		sr = get_tach_period(data->fan_dynamics[channel]);
+-		rpm = RPM_FROM_REG(data->target_count[channel], sr);
++		rpm = RPM_FROM_REG(data->target_count[channel],
++				   sr,
++				   data->pulses[channel]);
+ 		*val = rpm;
+ 		return 0;
+ 	case hwmon_fan_fault:
++		if (!(data->fan_config[channel] &
++		      MAX31790_FAN_CFG_TACH_INPUT_EN)) {
++			*val = 0;
++			return 0;
++		}
+ 		*val = !!(data->fault_status & (1 << channel));
+ 		return 0;
++	case hwmon_fan_enable:
++		*val = !!(data->fan_config[channel] & MAX31790_FAN_CFG_TACH_INPUT_EN);
++		return 0;
++	case hwmon_fan_pulses:
++		*val = data->pulses[channel];
++		return 0;
++	case hwmon_fan_div:
++		*val = get_tach_period(data->fan_config[channel]);
++		return 0;
+ 	default:
+ 		return -EOPNOTSUPP;
+ 	}
+@@ -191,11 +297,12 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+ 			      long val)
+ {
+ 	struct max31790_data *data = dev_get_drvdata(dev);
+-	struct i2c_client *client = data->client;
++	struct regmap *regmap = data->regmap;
+ 	int target_count;
+ 	int err = 0;
+ 	u8 bits;
+ 	int sr;
++	u8 bulk_val[2];
+ 
+ 	mutex_lock(&data->update_lock);
+ 
+@@ -207,21 +314,55 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+ 			((data->fan_dynamics[channel] &
+ 			  ~MAX31790_FAN_DYN_SR_MASK) |
+ 			 (bits << MAX31790_FAN_DYN_SR_SHIFT));
+-		err = i2c_smbus_write_byte_data(client,
+-					MAX31790_REG_FAN_DYNAMICS(channel),
+-					data->fan_dynamics[channel]);
++		err = regmap_write(regmap,
++				   MAX31790_REG_FAN_DYNAMICS(channel),
++				   data->fan_dynamics[channel]);
+ 		if (err < 0)
+ 			break;
+ 
+ 		sr = get_tach_period(data->fan_dynamics[channel]);
+-		target_count = RPM_TO_REG(val, sr);
++		target_count = RPM_TO_REG(val, sr, data->pulses[channel]);
+ 		target_count = clamp_val(target_count, 0x1, 0x7FF);
+ 
+ 		data->target_count[channel] = target_count << 5;
++		bulk_val[0] = U16_MSB(data->target_count[channel]);
++		bulk_val[1] = U16_LSB(data->target_count[channel]);
+ 
+-		err = i2c_smbus_write_word_swapped(client,
++		err = regmap_bulk_write(regmap,
+ 					MAX31790_REG_TARGET_COUNT(channel),
+-					data->target_count[channel]);
++					bulk_val,
++					2);
++		break;
++	case hwmon_fan_enable:
++		if (val == 0)
++			data->fan_config[channel] &= ~MAX31790_FAN_CFG_TACH_INPUT_EN;
++		else
++			data->fan_config[channel] |= MAX31790_FAN_CFG_TACH_INPUT_EN;
++		err = regmap_write(regmap,
++				   MAX31790_REG_FAN_CONFIG(channel),
++				   data->fan_config[channel]);
++		break;
++	case hwmon_fan_pulses:
++		data->pulses[channel] = val;
++		break;
++	case hwmon_fan_div:
++		if (data->fan_config[channel] & MAX31790_FAN_CFG_RPM_MODE) {
++			err = -EINVAL;
++			break;
++		}
++		sr = bits_for_speed_range(val);
++		if (sr < 0) {
++			err = -EINVAL;
++			break;
++		}
++
++		data->fan_dynamics[channel] =
++			((data->fan_dynamics[channel] &
++			  ~MAX31790_FAN_DYN_SR_MASK) |
++			 (sr << MAX31790_FAN_DYN_SR_SHIFT));
++		err = regmap_write(regmap,
++				   MAX31790_REG_FAN_DYNAMICS(channel),
++				   data->fan_dynamics[channel]);
+ 		break;
+ 	default:
+ 		err = -EOPNOTSUPP;
+@@ -250,6 +391,16 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
+ 		    !(fan_config & MAX31790_FAN_CFG_TACH_INPUT))
+ 			return 0644;
+ 		return 0;
++	case hwmon_fan_enable:
++		if (channel < NR_CHANNEL ||
++		    (fan_config & MAX31790_FAN_CFG_TACH_INPUT))
++			return 0644;
++		return 0;
++	case hwmon_fan_div:
++	case hwmon_fan_pulses:
++		if (channel < NR_CHANNEL)
++			return 0644;
++		return 0;
+ 	default:
+ 		return 0;
+ 	}
+@@ -271,12 +422,12 @@ static int max31790_read_pwm(struct device *dev, u32 attr, int channel,
+ 		*val = data->pwm[channel] >> 8;
+ 		return 0;
+ 	case hwmon_pwm_enable:
+-		if (fan_config & MAX31790_FAN_CFG_RPM_MODE)
++		if (data->full_speed[channel])
++			*val = 0;
++		else if (fan_config & MAX31790_FAN_CFG_RPM_MODE)
+ 			*val = 2;
+-		else if (fan_config & MAX31790_FAN_CFG_TACH_INPUT_EN)
+-			*val = 1;
+ 		else
+-			*val = 0;
++			*val = 1;
+ 		return 0;
+ 	default:
+ 		return -EOPNOTSUPP;
+@@ -287,43 +438,69 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
+ 			      long val)
+ {
+ 	struct max31790_data *data = dev_get_drvdata(dev);
+-	struct i2c_client *client = data->client;
++	struct regmap *regmap = data->regmap;
+ 	u8 fan_config;
+ 	int err = 0;
++	u8 bulk_val[2];
+ 
+ 	mutex_lock(&data->update_lock);
+ 
+ 	switch (attr) {
+ 	case hwmon_pwm_input:
+-		if (val < 0 || val > 255) {
++		if (data->full_speed[channel] || val < 0 || val > 255) {
+ 			err = -EINVAL;
+ 			break;
+ 		}
+ 		data->pwm[channel] = val << 8;
+-		err = i2c_smbus_write_word_swapped(client,
+-						   MAX31790_REG_PWMOUT(channel),
+-						   data->pwm[channel]);
++		bulk_val[0] = U16_MSB(data->pwm[channel]);
++		bulk_val[1] = U16_LSB(data->pwm[channel]);
++		err = regmap_bulk_write(regmap,
++					MAX31790_REG_PWMOUT(channel),
++					bulk_val,
++					2);
+ 		break;
+ 	case hwmon_pwm_enable:
+ 		fan_config = data->fan_config[channel];
+-		if (val == 0) {
+-			fan_config &= ~(MAX31790_FAN_CFG_TACH_INPUT_EN |
+-					MAX31790_FAN_CFG_RPM_MODE);
+-		} else if (val == 1) {
+-			fan_config = (fan_config |
+-				      MAX31790_FAN_CFG_TACH_INPUT_EN) &
+-				     ~MAX31790_FAN_CFG_RPM_MODE;
++		if (val == 0 || val == 1) {
++			fan_config &= ~MAX31790_FAN_CFG_RPM_MODE;
+ 		} else if (val == 2) {
+-			fan_config |= MAX31790_FAN_CFG_TACH_INPUT_EN |
+-				      MAX31790_FAN_CFG_RPM_MODE;
++			fan_config |= MAX31790_FAN_CFG_RPM_MODE;
+ 		} else {
+ 			err = -EINVAL;
+ 			break;
+ 		}
+ 		data->fan_config[channel] = fan_config;
+-		err = i2c_smbus_write_byte_data(client,
+-					MAX31790_REG_FAN_CONFIG(channel),
+-					fan_config);
++		err = regmap_write(regmap,
++				   MAX31790_REG_FAN_CONFIG(channel),
++				   fan_config);
++
++		/*
++		 * The chip sets PWM to zero when using its "monitor only" mode
++		 * and 0 means full speed.
++		 */
++		if (val == 0) {
++			data->full_speed[channel] = true;
++			data->pwm[channel] = MAX_PWM;
++			bulk_val[0] = U16_MSB(data->pwm[channel]);
++			bulk_val[1] = U16_LSB(data->pwm[channel]);
++			err = regmap_bulk_write(regmap,
++						MAX31790_REG_PWMOUT(channel),
++						bulk_val,
++						2);
++		} else {
++			data->full_speed[channel] = false;
++		}
++
++		/*
++		 * RPM mode implies enabled TACH input, so enable it in RPM
++		 * mode.
++		 */
++		if (val == 2) {
++			data->fan_config[channel] |= MAX31790_FAN_CFG_TACH_INPUT_EN;
++			err = regmap_write(regmap,
++					   MAX31790_REG_FAN_CONFIG(channel),
++					   data->fan_config[channel]);
++		}
+ 		break;
+ 	default:
+ 		err = -EOPNOTSUPP;
+@@ -393,25 +570,25 @@ static umode_t max31790_is_visible(const void *data,
+ 
+ static const struct hwmon_channel_info *max31790_info[] = {
+ 	HWMON_CHANNEL_INFO(fan,
+-			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_FAULT,
+-			   HWMON_F_INPUT | HWMON_F_FAULT),
++		FAN_INFO_1_TO_6,
++		FAN_INFO_1_TO_6,
++		FAN_INFO_1_TO_6,
++		FAN_INFO_1_TO_6,
++		FAN_INFO_1_TO_6,
++		FAN_INFO_1_TO_6,
++		FAN_INFO_7_TO_12,
++		FAN_INFO_7_TO_12,
++		FAN_INFO_7_TO_12,
++		FAN_INFO_7_TO_12,
++		FAN_INFO_7_TO_12,
++		FAN_INFO_7_TO_12),
+ 	HWMON_CHANNEL_INFO(pwm,
+-			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+-			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+-			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+-			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+-			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+-			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
++		HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
++		HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
++		HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
++		HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
++		HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
++		HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
+ 	NULL
+ };
+ 
+@@ -426,23 +603,29 @@ static const struct hwmon_chip_info max31790_chip_info = {
+ 	.info = max31790_info,
+ };
+ 
+-static int max31790_init_client(struct i2c_client *client,
++static int max31790_init_client(struct regmap *regmap,
+ 				struct max31790_data *data)
+ {
+-	int i, rv;
++	int i, rv, val;
+ 
+ 	for (i = 0; i < NR_CHANNEL; i++) {
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_CONFIG(i));
++		rv = regmap_read(regmap,
++				 MAX31790_REG_FAN_CONFIG(i),
++				 &val);
+ 		if (rv < 0)
+ 			return rv;
+-		data->fan_config[i] = rv;
++		data->fan_config[i] = val;
++
++		data->full_speed[i] = false;
+ 
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_DYNAMICS(i));
++		data->pulses[i] = 2;
++
++		rv = regmap_read(regmap,
++				 MAX31790_REG_FAN_DYNAMICS(i),
++				 &val);
+ 		if (rv < 0)
+ 			return rv;
+-		data->fan_dynamics[i] = rv;
++		data->fan_dynamics[i] = val;
+ 	}
+ 
+ 	return 0;
+@@ -464,13 +647,19 @@ static int max31790_probe(struct i2c_client *client)
+ 	if (!data)
+ 		return -ENOMEM;
+ 
+-	data->client = client;
+ 	mutex_init(&data->update_lock);
+ 
++	data->regmap = devm_regmap_init_i2c(client, &max31790_regmap_config);
++
++	if (IS_ERR(data->regmap)) {
++		dev_err(dev, "failed to allocate register map\n");
++		return PTR_ERR(data->regmap);
++	}
++
+ 	/*
+ 	 * Initialize the max31790 chip
+ 	 */
+-	err = max31790_init_client(client, data);
++	err = max31790_init_client(data->regmap, data);
+ 	if (err)
+ 		return err;
+ 
+@@ -488,11 +677,18 @@ static const struct i2c_device_id max31790_id[] = {
  };
  MODULE_DEVICE_TABLE(i2c, max31790_id);
  
@@ -73,28 +684,15 @@ index 117fb79ef294..610f62eab72a 100644
 +
  static struct i2c_driver max31790_driver = {
  	.class		= I2C_CLASS_HWMON,
- 	.probe		= max31790_probe,
+ 	.probe_new	= max31790_probe,
  	.driver = {
  		.name	= "max31790",
 +		.of_match_table = of_match_ptr(max31790_of_match),
  	},
  	.id_table	= max31790_id,
  };
-diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
-index 18e06fc6c53f..5c0f429ed7ad 100644
---- a/drivers/hwmon/pmbus/pmbus.h
-+++ b/drivers/hwmon/pmbus/pmbus.h
-@@ -361,7 +361,7 @@ enum pmbus_sensor_classes {
- 	PSC_NUM_CLASSES		/* Number of power sensor classes */
- };
- 
--#define PMBUS_PAGES	32	/* Per PMBus specification */
-+#define PMBUS_PAGES	255	/* Per PMBus specification */
- #define PMBUS_PHASES	8	/* Maximum number of phases per page */
- 
- /* Functionality bit mask */
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index 0929f1275814..710c56cba818 100644
+index 5b9dfdf743ec..26ea1164cb49 100644
 --- a/drivers/leds/leds-tlc591xx.c
 +++ b/drivers/leds/leds-tlc591xx.c
 @@ -40,6 +40,9 @@
@@ -133,7 +731,7 @@ index 0929f1275814..710c56cba818 100644
  };
  
  static int
-@@ -181,6 +188,18 @@ tlc591xx_probe(struct i2c_client *client,
+@@ -176,6 +183,18 @@ tlc591xx_probe(struct i2c_client *client,
  
  	i2c_set_clientdata(client, priv);
  
@@ -152,151 +750,87 @@ index 0929f1275814..710c56cba818 100644
  	err = tlc591xx_set_mode(priv->regmap, MODE2_DIM);
  	if (err < 0)
  		return err;
-diff --git a/drivers/pci/controller/pci-mvebu.c b/drivers/pci/controller/pci-mvebu.c
-index c39978b750ec..653c0b3d2912 100644
---- a/drivers/pci/controller/pci-mvebu.c
-+++ b/drivers/pci/controller/pci-mvebu.c
-@@ -960,25 +960,16 @@ static void mvebu_pcie_powerdown(struct mvebu_pcie_port *port)
- }
+diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
+index 03f78fdb0dcd..7e2e12f70d70 100644
+--- a/drivers/net/ethernet/intel/igb/igb_main.c
++++ b/drivers/net/ethernet/intel/igb/igb_main.c
+@@ -577,16 +577,15 @@ static void igb_set_i2c_data(void *data, int state)
+ 	struct e1000_hw *hw = &adapter->hw;
+ 	s32 i2cctl = rd32(E1000_I2CPARAMS);
  
- /*
-- * We can't use devm_of_pci_get_host_bridge_resources() because we
-- * need to parse our special DT properties encoding the MEM and IO
-- * apertures.
-+ * devm_of_pci_get_host_bridge_resources() only sets up translateable resources,
-+ * so we need extra resource setup parsing our special DT properties encoding
-+ * the MEM and IO apertures.
-  */
- static int mvebu_pcie_parse_request_resources(struct mvebu_pcie *pcie)
- {
- 	struct device *dev = &pcie->pdev->dev;
--	struct device_node *np = dev->of_node;
- 	struct pci_host_bridge *bridge = pci_host_bridge_from_priv(pcie);
- 	int ret;
- 
--	/* Get the bus range */
--	ret = of_pci_parse_bus_range(np, &pcie->busn);
--	if (ret) {
--		dev_err(dev, "failed to parse bus-range property: %d\n", ret);
--		return ret;
--	}
--	pci_add_resource(&bridge->windows, &pcie->busn);
--
- 	/* Get the PCIe memory aperture */
- 	mvebu_mbus_get_pcie_mem_aperture(&pcie->mem);
- 	if (resource_size(&pcie->mem) == 0) {
-@@ -988,6 +979,9 @@ static int mvebu_pcie_parse_request_resources(struct mvebu_pcie *pcie)
- 
- 	pcie->mem.name = "PCI MEM";
- 	pci_add_resource(&bridge->windows, &pcie->mem);
-+	ret = devm_request_resource(dev, &iomem_resource, &pcie->mem);
-+	if (ret)
-+		return ret;
- 
- 	/* Get the PCIe IO aperture */
- 	mvebu_mbus_get_pcie_io_aperture(&pcie->io);
-@@ -1001,9 +995,12 @@ static int mvebu_pcie_parse_request_resources(struct mvebu_pcie *pcie)
- 		pcie->realio.name = "PCI I/O";
- 
- 		pci_add_resource(&bridge->windows, &pcie->realio);
-+		ret = devm_request_resource(dev, &ioport_resource, &pcie->realio);
-+		if (ret)
-+			return ret;
- 	}
- 
--	return devm_request_pci_bus_resources(dev, &bridge->windows);
-+	return 0;
- }
- 
- /*
-diff --git a/drivers/pinctrl/pinctrl-mcp23s08.c b/drivers/pinctrl/pinctrl-mcp23s08.c
-index 7edb067f5e76..ce2d8014b7e0 100644
---- a/drivers/pinctrl/pinctrl-mcp23s08.c
-+++ b/drivers/pinctrl/pinctrl-mcp23s08.c
-@@ -564,7 +564,7 @@ int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
- 
- 	ret = mcp_read(mcp, MCP_IOCON, &status);
- 	if (ret < 0)
--		goto fail;
-+		return dev_err_probe(dev, ret, "can't identify chip %d\n", addr);
- 
- 	mcp->irq_controller =
- 		device_property_read_bool(dev, "interrupt-controller");
-@@ -598,7 +598,7 @@ int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
- 
- 		ret = mcp_write(mcp, MCP_IOCON, status);
- 		if (ret < 0)
--			goto fail;
-+			return dev_err_probe(dev, ret, "can't write IOCON %d\n", addr);
- 	}
- 
- 	if (mcp->irq && mcp->irq_controller) {
-@@ -616,7 +616,7 @@ int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
- 
- 	ret = devm_gpiochip_add_data(dev, &mcp->chip, mcp);
- 	if (ret < 0)
--		goto fail;
-+		return dev_err_probe(dev, ret, "can't add GPIO chip\n");
- 
- 	mcp->pinctrl_desc.pctlops = &mcp_pinctrl_ops;
- 	mcp->pinctrl_desc.confops = &mcp_pinconf_ops;
-@@ -628,18 +628,17 @@ int mcp23s08_probe_one(struct mcp23s08 *mcp, struct device *dev,
- 	mcp->pinctrl_desc.owner = THIS_MODULE;
- 
- 	mcp->pctldev = devm_pinctrl_register(dev, &mcp->pinctrl_desc, mcp);
--	if (IS_ERR(mcp->pctldev)) {
--		ret = PTR_ERR(mcp->pctldev);
--		goto fail;
--	}
-+	if (IS_ERR(mcp->pctldev))
-+		return dev_err_probe(dev, PTR_ERR(mcp->pctldev), "can't register controller\n");
- 
--	if (mcp->irq)
-+	if (mcp->irq) {
- 		ret = mcp23s08_irq_setup(mcp);
-+		if (ret)
-+			return dev_err_probe(dev, ret, "can't setup IRQ\n");
+-	if (state)
+-		i2cctl |= E1000_I2C_DATA_OUT;
+-	else
++	if (state) {
++		i2cctl |= E1000_I2C_DATA_OUT | E1000_I2C_DATA_OE_N;
++	} else {
++		i2cctl &= ~E1000_I2C_DATA_OE_N;
+ 		i2cctl &= ~E1000_I2C_DATA_OUT;
 +	}
  
--fail:
--	if (ret < 0)
--		dev_dbg(dev, "can't setup chip %d, --> %d\n", addr, ret);
--	return ret;
-+	return 0;
+-	i2cctl &= ~E1000_I2C_DATA_OE_N;
+-	i2cctl |= E1000_I2C_CLK_OE_N;
+ 	wr32(E1000_I2CPARAMS, i2cctl);
+ 	wrfl();
+-
  }
- EXPORT_SYMBOL_GPL(mcp23s08_probe_one);
+ 
+ /**
+@@ -603,8 +602,7 @@ static void igb_set_i2c_clk(void *data, int state)
+ 	s32 i2cctl = rd32(E1000_I2CPARAMS);
+ 
+ 	if (state) {
+-		i2cctl |= E1000_I2C_CLK_OUT;
+-		i2cctl &= ~E1000_I2C_CLK_OE_N;
++		i2cctl |= E1000_I2C_CLK_OUT | E1000_I2C_CLK_OE_N;
+ 	} else {
+ 		i2cctl &= ~E1000_I2C_CLK_OUT;
+ 		i2cctl &= ~E1000_I2C_CLK_OE_N;
+@@ -3109,11 +3107,20 @@ static void igb_init_mas(struct igb_adapter *adapter)
+ static s32 igb_init_i2c(struct igb_adapter *adapter)
+ {
+ 	s32 status = 0;
++	s32 i2cctl;
++	struct e1000_hw *hw = &adapter->hw;
+ 
+ 	/* I2C interface supported on i350 devices */
+ 	if (adapter->hw.mac.type != e1000_i350)
+ 		return 0;
+ 
++	i2cctl = rd32(E1000_I2CPARAMS);
++	i2cctl |= E1000_I2CBB_EN
++		| E1000_I2C_CLK_OUT | E1000_I2C_CLK_OE_N
++		| E1000_I2C_DATA_OUT | E1000_I2C_DATA_OE_N;
++	wr32(E1000_I2CPARAMS, i2cctl);
++	wrfl();
 +
- MODULE_LICENSE("GPL");
+ 	/* Initialize the i2c bus which is controlled by the registers.
+ 	 * This bus will use the i2c_algo_bit structue that implements
+ 	 * the protocol through toggling of the 4 bits in the register.
 diff --git a/drivers/pinctrl/pinctrl-mcp23s08_spi.c b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
-index 1f47a661b0a7..3271e304c985 100644
+index 9ae10318f6f3..d378369bbeca 100644
 --- a/drivers/pinctrl/pinctrl-mcp23s08_spi.c
 +++ b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
-@@ -119,13 +119,15 @@ static int mcp23s08_spi_regmap_init(struct mcp23s08 *mcp, struct device *dev,
- 		return -EINVAL;
- 	}
+@@ -8,6 +8,7 @@
+ #include <linux/spi/spi.h>
  
--	copy = devm_kmemdup(dev, &config, sizeof(config), GFP_KERNEL);
-+	copy = devm_kmemdup(dev, config, sizeof(*config), GFP_KERNEL);
- 	if (!copy)
- 		return -ENOMEM;
+ #include "pinctrl-mcp23s08.h"
++#include "../gpio/gpiolib.h"
  
- 	copy->name = name;
+ #define MCP_MAX_DEV_PER_CS	8
  
- 	mcp->regmap = devm_regmap_init(dev, &mcp23sxx_spi_regmap, mcp, copy);
-+	if (IS_ERR(mcp->regmap))
-+		dev_err(dev, "regmap init failed for %s\n", mcp->chip.label);
- 	return PTR_ERR_OR_ZERO(mcp->regmap);
- }
- 
-@@ -141,6 +143,7 @@ static int mcp23s08_probe(struct spi_device *spi)
+@@ -143,6 +144,10 @@ static int mcp23s08_probe(struct spi_device *spi)
  	int type;
  	int ret;
  	u32 v;
 +	struct device_node *np;
++	int line_name_count;
++	const char **names;
++	int i;
  
  	match = device_get_match_data(dev);
  	if (match)
-@@ -190,6 +193,16 @@ static int mcp23s08_probe(struct spi_device *spi)
+@@ -192,6 +197,43 @@ static int mcp23s08_probe(struct spi_device *spi)
  			return ret;
  
  		ngpio += data->mcp[addr]->chip.ngpio;
@@ -308,27 +842,43 @@ index 1f47a661b0a7..3271e304c985 100644
 +				continue;
 +			if (chip_addr != addr)
 +				continue;
-+			devprop_gpiochip_set_names(&data->mcp[addr]->chip, of_fwnode_handle(np));
++
++			line_name_count = fwnode_property_read_string_array(of_fwnode_handle(np), "gpio-line-names", NULL, 0);
++			if (line_name_count < 0)
++				continue;
++
++			if (line_name_count > data->mcp[addr]->chip.ngpio) {
++				dev_warn(&spi->dev, "gpio-line-names is length %d but should be at most length %d",
++					 line_name_count, data->mcp[addr]->chip.ngpio);
++				line_name_count = data->mcp[addr]->chip.ngpio;
++			}
++
++			names = kcalloc(line_name_count, sizeof(*names), GFP_KERNEL);
++			if (!names) {
++				dev_warn(&spi->dev, "cannot allocate gpio-line-names");
++				continue;
++			}
++
++			ret = fwnode_property_read_string_array(of_fwnode_handle(np), "gpio-line-names", names, line_name_count);
++			if (ret < 0) {
++				dev_warn(&spi->dev, "failed to read GPIO line names");
++				kfree(names);
++				continue;
++			}
++
++			for (i = 0; i < line_name_count; i++)
++				data->mcp[addr]->chip.gpiodev->descs[i].name = names[i];
++
++			kfree(names);
 +		}
  	}
  	data->ngpio = ngpio;
  
 diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index b57b8b3cc26e..5dc323643522 100644
+index b57b8b3cc26e..056d107d8f32 100644
 --- a/drivers/spi/spi-orion.c
 +++ b/drivers/spi/spi-orion.c
-@@ -17,8 +17,10 @@
- #include <linux/of.h>
- #include <linux/of_address.h>
- #include <linux/of_device.h>
-+#include <linux/of_gpio.h>
- #include <linux/clk.h>
- #include <linux/sizes.h>
-+#include <linux/gpio.h>
- #include <asm/unaligned.h>
- 
- #define DRIVER_NAME			"orion_spi"
-@@ -86,18 +88,15 @@ struct orion_direct_acc {
+@@ -86,10 +86,6 @@ struct orion_direct_acc {
  	u32			size;
  };
  
@@ -339,53 +889,16 @@ index b57b8b3cc26e..5dc323643522 100644
  struct orion_spi {
  	struct spi_master	*master;
  	void __iomem		*base;
- 	struct clk              *clk;
+@@ -97,7 +93,7 @@ struct orion_spi {
  	struct clk              *axi_clk;
  	const struct orion_spi_dev *devdata;
-+	int			unused_hw_gpio;
  
 -	struct orion_child_options	child[ORION_NUM_CHIPSELECTS];
 +	struct orion_direct_acc	direct_access[ORION_NUM_CHIPSELECTS];
  };
  
  static inline void __iomem *spi_reg(struct orion_spi *orion_spi, u32 reg)
-@@ -322,27 +321,20 @@ orion_spi_setup_transfer(struct spi_device *spi, struct spi_transfer *t)
- static void orion_spi_set_cs(struct spi_device *spi, bool enable)
- {
- 	struct orion_spi *orion_spi;
-+	int cs;
- 
- 	orion_spi = spi_master_get_devdata(spi->master);
- 
--	/*
--	 * If this line is using a GPIO to control chip select, this internal
--	 * .set_cs() function will still be called, so we clear any previous
--	 * chip select. The CS we activate will not have any elecrical effect,
--	 * as it is handled by a GPIO, but that doesn't matter. What we need
--	 * is to deassert the old chip select and assert some other chip select.
--	 */
-+	if (gpio_is_valid(spi->cs_gpio))
-+		cs = orion_spi->unused_hw_gpio;
-+	else
-+		cs = spi->chip_select;
-+
- 	orion_spi_clrbits(orion_spi, ORION_SPI_IF_CTRL_REG, ORION_SPI_CS_MASK);
- 	orion_spi_setbits(orion_spi, ORION_SPI_IF_CTRL_REG,
--			  ORION_SPI_CS(spi->chip_select));
-+				ORION_SPI_CS(cs));
- 
--	/*
--	 * Chip select logic is inverted from spi_set_cs(). For lines using a
--	 * GPIO to do chip select SPI_CS_HIGH is enforced and inversion happens
--	 * in the GPIO library, but we don't care about that, because in those
--	 * cases we are dealing with an unused native CS anyways so the polarity
--	 * doesn't matter.
--	 */
-+	/* Chip select logic is inverted from spi_set_cs */
- 	if (!enable)
- 		orion_spi_setbits(orion_spi, ORION_SPI_IF_CTRL_REG, 0x1);
- 	else
-@@ -434,7 +426,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
+@@ -434,7 +430,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
  	int cs = spi->chip_select;
  	void __iomem *vaddr;
  
@@ -394,7 +907,7 @@ index b57b8b3cc26e..5dc323643522 100644
  	count = xfer->len;
  
  	orion_spi = spi_master_get_devdata(spi->master);
-@@ -443,7 +435,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
+@@ -443,7 +439,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
  	 * Use SPI direct write mode if base address is available. Otherwise
  	 * fall back to PIO mode for this transfer.
  	 */
@@ -403,87 +916,15 @@ index b57b8b3cc26e..5dc323643522 100644
  
  	if (vaddr && xfer->tx_buf && word_len == 8) {
  		unsigned int cnt = count / 4;
-@@ -507,6 +499,9 @@ static int orion_spi_transfer_one(struct spi_master *master,
- 
- static int orion_spi_setup(struct spi_device *spi)
- {
-+	if (gpio_is_valid(spi->cs_gpio)) {
-+		gpio_direction_output(spi->cs_gpio, !(spi->mode & SPI_CS_HIGH));
-+	}
- 	return orion_spi_setup_transfer(spi, NULL);
- }
- 
-@@ -623,13 +618,13 @@ static int orion_spi_probe(struct platform_device *pdev)
- 	master->setup = orion_spi_setup;
- 	master->bits_per_word_mask = SPI_BPW_MASK(8) | SPI_BPW_MASK(16);
- 	master->auto_runtime_pm = true;
--	master->use_gpio_descriptors = true;
- 	master->flags = SPI_MASTER_GPIO_SS;
- 
- 	platform_set_drvdata(pdev, master);
- 
- 	spi = spi_master_get_devdata(master);
- 	spi->master = master;
-+	spi->unused_hw_gpio = -1;
- 
- 	of_id = of_match_device(orion_spi_of_match_table, &pdev->dev);
- 	devdata = (of_id) ? of_id->data : &orion_spi_dev_data;
-@@ -682,8 +677,8 @@ static int orion_spi_probe(struct platform_device *pdev)
+@@ -682,7 +678,6 @@ static int orion_spi_probe(struct platform_device *pdev)
  	}
  
  	for_each_available_child_of_node(pdev->dev.of_node, np) {
 -		struct orion_direct_acc *dir_acc;
  		u32 cs;
-+		int cs_gpio;
  
  		/* Get chip-select number from the "reg" property */
- 		status = of_property_read_u32(np, "reg", &cs);
-@@ -694,6 +689,44 @@ static int orion_spi_probe(struct platform_device *pdev)
- 			continue;
- 		}
- 
-+		/*
-+		 * Initialize the CS GPIO:
-+		 * - properly request the actual GPIO signal
-+		 * - de-assert the logical signal so that all GPIO CS lines
-+		 *   are inactive when probing for slaves
-+		 * - find an unused physical CS which will be driven for any
-+		 *   slave which uses a CS GPIO
-+		 */
-+		cs_gpio = of_get_named_gpio(pdev->dev.of_node, "cs-gpios", cs);
-+		if (cs_gpio > 0) {
-+			char *gpio_name;
-+			int cs_flags;
-+
-+			if (spi->unused_hw_gpio == -1) {
-+				dev_info(&pdev->dev,
-+					"Selected unused HW CS#%d for any GPIO CSes\n",
-+					cs);
-+				spi->unused_hw_gpio = cs;
-+			}
-+
-+			gpio_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
-+					"%s-CS%d", dev_name(&pdev->dev), cs);
-+			if (!gpio_name) {
-+				status = -ENOMEM;
-+				goto out_rel_axi_clk;
-+			}
-+
-+			cs_flags = of_property_read_bool(np, "spi-cs-high") ?
-+				GPIOF_OUT_INIT_LOW : GPIOF_OUT_INIT_HIGH;
-+			status = devm_gpio_request_one(&pdev->dev, cs_gpio,
-+					cs_flags, gpio_name);
-+			if (status) {
-+				dev_err(&pdev->dev,
-+					"Can't request GPIO for CS %d\n", cs);
-+				goto out_rel_axi_clk;
-+			}
-+		}
-+
- 		/*
- 		 * Check if an address is configured for this SPI device. If
- 		 * not, the MBus mapping via the 'ranges' property in the 'soc'
-@@ -711,13 +744,14 @@ static int orion_spi_probe(struct platform_device *pdev)
+@@ -711,13 +706,14 @@ static int orion_spi_probe(struct platform_device *pdev)
  		 * This needs to get extended for the direct SPI NOR / SPI NAND
  		 * support, once this gets implemented.
  		 */
@@ -503,7 +944,7 @@ index b57b8b3cc26e..5dc323643522 100644
  		dev_info(&pdev->dev, "CS%d configured for direct access\n", cs);
  	}
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index 8434bd5a8ec7..7db66392fcd5 100644
+index 9795b2e8b0b2..67e7c310a7dc 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
 @@ -235,6 +235,10 @@
@@ -536,50 +977,7 @@ index 8434bd5a8ec7..7db66392fcd5 100644
  		}
  	}
  
-@@ -1056,9 +1063,9 @@ static int max310x_startup(struct uart_port *port)
- 	max310x_port_update(port, MAX310X_MODE1_REG,
- 			    MAX310X_MODE1_TRNSCVCTRL_BIT, 0);
- 
--	/* Configure MODE2 register & Reset FIFOs*/
--	val = MAX310X_MODE2_RXEMPTINV_BIT | MAX310X_MODE2_FIFORST_BIT;
--	max310x_port_write(port, MAX310X_MODE2_REG, val);
-+	/* Reset FIFOs */
-+	max310x_port_write(port, MAX310X_MODE2_REG,
-+			   MAX310X_MODE2_FIFORST_BIT);
- 	max310x_port_update(port, MAX310X_MODE2_REG,
- 			    MAX310X_MODE2_FIFORST_BIT, 0);
- 
-@@ -1086,8 +1093,27 @@ static int max310x_startup(struct uart_port *port)
- 	/* Clear IRQ status register */
- 	max310x_port_read(port, MAX310X_IRQSTS_REG);
- 
--	/* Enable RX, TX, CTS change interrupts */
--	val = MAX310X_IRQ_RXEMPTY_BIT | MAX310X_IRQ_TXEMPTY_BIT;
-+	/*
-+	 * Let's ask for an interrupt after a timeout equivalent to
-+	 * the receiving time of 4 characters after the last character
-+	 * has been received.
-+	 */
-+	max310x_port_write(port, MAX310X_RXTO_REG, 4);
-+
-+	/*
-+	 * Make sure we also get RX interrupts when the RX FIFO is
-+	 * filling up quickly, so get an interrupt when half of the RX
-+	 * FIFO has been filled in.
-+	 */
-+	max310x_port_write(port, MAX310X_FIFOTRIGLVL_REG,
-+			   MAX310X_FIFOTRIGLVL_RX(MAX310X_FIFO_SIZE / 2));
-+
-+	/* Enable RX timeout interrupt in LSR */
-+	max310x_port_write(port, MAX310X_LSR_IRQEN_REG,
-+			   MAX310X_LSR_RXTO_BIT);
-+
-+	/* Enable LSR, RX FIFO trigger, CTS change interrupts */
-+	val = MAX310X_IRQ_LSR_BIT  | MAX310X_IRQ_RXFIFO_BIT | MAX310X_IRQ_TXEMPTY_BIT;
- 	max310x_port_write(port, MAX310X_IRQEN_REG, val | MAX310X_IRQ_CTS_BIT);
- 
- 	return 0;
-@@ -1327,6 +1353,10 @@ static int max310x_probe(struct device *dev, struct max310x_devtype *devtype,
+@@ -1346,6 +1353,10 @@ static int max310x_probe(struct device *dev, const struct max310x_devtype *devty
  	}
  
  	uartclk = max310x_set_ref_clk(dev, s, freq, xtal);
