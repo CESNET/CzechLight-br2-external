@@ -27,6 +27,7 @@ define RESET_SYSREPO_INSTALL_TARGET_CMDS
 		velia-system.service \
 		velia-hardware-g1.service \
 		velia-hardware-g2.service \
+		rousette.service \
 	; do \
 		echo "Adding systemd drop-ins $${UNIT} <-> /run/sysrepo"; \
 		$(INSTALL) -d -m 0755 $(TARGET_DIR)/usr/lib/systemd/system/$${UNIT}.d/ ; \
