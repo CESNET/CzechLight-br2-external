@@ -117,6 +117,27 @@ if [[ ! -f ${REPO}/czechlight-system@2021-01-13.yang ]]; then
     sysrepoctl --change czechlight-system --permissions 0664 --apply
 fi
 
+# if ietf-interfaces is already imported remove it first.
+if [[ "$(yang-module-state ietf-hardware-state)" == "implement" ]]; then
+	sysrepoctl -u ietf-interfaces --apply
+fi
+if [[ ! -f ${REPO}/ietf-interfaces@2018-02-20.yang ]]; then
+    sysrepoctl --search-dirs /usr/share/velia/yang --install /usr/share/velia/yang/iana-if-type@2017-01-19.yang
+    sysrepoctl --search-dirs /usr/share/velia/yang --install /usr/share/velia/yang/ietf-interfaces@2018-02-20.yang
+    sysrepoctl --change ietf-interfaces --permissions 0664 --apply
+fi
+
+if [[ ! -f ${REPO}/ietf-ip@2018-02-22.yang ]]; then
+    sysrepoctl --search-dirs /usr/share/velia/yang --install /usr/share/velia/yang/ietf-ip@2018-02-22.yang
+    sysrepoctl --change ietf-ip --permissions 0664 --apply
+fi
+
+if [[ ! -f ${REPO}/czechlight-network@2021-02-22.yang ]]; then
+    sysrepoctl --search-dirs /usr/share/velia/yang --install /usr/share/velia/yang/czechlight-network@2021-02-22.yang
+    sysrepoctl --change czechlight-network --permissions 0664 --apply
+fi
+
+
 if [[ ! -f ${REPO}/czechlight-firewall@2021-01-25.yang ]]; then
     sysrepoctl --search-dirs /usr/share/velia/yang --install /usr/share/velia/yang/czechlight-firewall@2021-01-25.yang
     sysrepoctl --change czechlight-firewall --permissions 0600 --apply
