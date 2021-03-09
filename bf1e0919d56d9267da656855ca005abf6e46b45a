@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc0b9257_7b12db97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-03-09T14:51:33Z",
+      "side": 1,
+      "message": "tested on line-qr79, it boots, SPI CS GPIOs are happy, and bitbanging of i2c-2 still works as expected, yay",
+      "revId": "bf1e0919d56d9267da656855ca005abf6e46b45a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86189b3d_163d5a70",
+        "filename": "board/czechlight/clearfog/sdn-roadm-clearfog.dtsi",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-03-09T14:51:33Z",
+      "side": 1,
+      "message": "this looks like a proper fix for those missing pinctrl ranges, so I sent an answer to my ML thread \"GPIO regression on mvebu and/or max310x since 2ab73c6d8323\" (no link, it\u0027s waiting in some spam GW I suppose)",
+      "range": {
+        "startLine": 32,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 2
+      },
+      "revId": "bf1e0919d56d9267da656855ca005abf6e46b45a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
