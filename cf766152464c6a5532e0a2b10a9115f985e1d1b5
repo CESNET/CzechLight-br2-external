@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffa81b4f_288251bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-03-09T13:55:11Z",
+      "side": 1,
+      "message": "this needs re-adding that missing patch for GPIOs, let me fix that",
+      "revId": "cf766152464c6a5532e0a2b10a9115f985e1d1b5",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
