@@ -62,6 +62,13 @@ rauc install http://somewhere.example.org/update.raucb
 reboot
 ```
 
+Because `/cfg` is preserved, it can happen that there are data, which are incompatible with the version you are
+uploading. The reason could be that a YANG model got downgraded to an older one (example: cla-sysrepo downgrade). This
+is signalled by the failure of the [`cfg-restore-sysrepo.service`](package/czechlight-cfg-fs/cfg-restore-sysrepo.service) service.
+In this case, one needs to edit the `/cfg/sysrepo/startup.json` file and remove the offending content. The exact errors
+will be shown in the systemd journal and also in the console.
+
+
 ### Initial installation
 
 #### Clearfog
