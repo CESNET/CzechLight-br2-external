@@ -23,6 +23,7 @@ define CLA_SYSREPO_INSTALL_INIT_SYSTEMD
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/cla-sysrepo/czechlight-install-yang.service
 
 	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-roadm-add-drop)
+	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-roadm-hires-add-drop)
 	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-roadm-line)
 	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-roadm-coherent-a-d)
 	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-inline)

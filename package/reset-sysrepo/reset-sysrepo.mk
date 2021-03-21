@@ -18,6 +18,7 @@ define RESET_SYSREPO_INSTALL_TARGET_CMDS
 		cla-sdn-inline.service \
 		cla-sdn-roadm-add-drop.service \
 		cla-sdn-roadm-coherent-a-d.service \
+		cla-sdn-roadm-hires-drop.service \
 		cla-sdn-roadm-line.service \
 		lldp-systemd-networkd-sysrepo.service \
 		netopeer2.service \
