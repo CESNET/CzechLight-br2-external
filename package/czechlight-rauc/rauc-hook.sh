@@ -9,6 +9,7 @@ case "$1" in
             calibration \
             etc \
             journald-remote \
+            network \
             random-seed \
             sysrepo \
             ssh-user-auth \
