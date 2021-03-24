@@ -1,0 +1,5 @@
+[Unit]
+Description=Dynamic loading of power supply drivers
+
+[Service]
+ExecStart=/usr/bin/czechlight-power.sh

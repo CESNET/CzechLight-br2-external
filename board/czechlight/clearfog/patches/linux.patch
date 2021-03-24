@@ -691,6 +691,227 @@ index 86e6c71db685..3ef205e45dc1 100644
  	},
  	.id_table	= max31790_id,
  };
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 03606d4298a4..66d1655b6750 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -56,6 +56,15 @@ config SENSORS_BEL_PFE
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called bel-pfe.
+ 
++config SENSORS_FSP_3Y
++	tristate "FSP/3Y-Power power supplies"
++	help
++	  If you say yes here you get hardware monitoring support for
++	  FSP/3Y-Power hot-swap power supplies.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called fsp-3y.
++
+ config SENSORS_IBM_CFFPS
+ 	tristate "IBM Common Form Factor Power Supply"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index 6a4ba0fdc1db..bfe218ad898f 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -8,6 +8,7 @@ obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
+ obj-$(CONFIG_SENSORS_ADM1266)	+= adm1266.o
+ obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+ obj-$(CONFIG_SENSORS_BEL_PFE)	+= bel-pfe.o
++obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
+ obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+ obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+ obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
+new file mode 100644
+index 000000000000..eef716e7bdcd
+--- /dev/null
++++ b/drivers/hwmon/pmbus/fsp-3y.c
+@@ -0,0 +1,170 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Hardware monitoring driver for FSP 3Y-Power PSUs
++ *
++ * Copyright (c) 2021 Václav Kubernát, CESNET
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/delay.h>
++#include <linux/init.h>
++#include <linux/err.h>
++#include <linux/slab.h>
++#include <linux/mutex.h>
++#include <linux/i2c.h>
++#include <linux/pmbus.h>
++#include "pmbus.h"
++
++#define YM2151_PAGE_12V		0x00
++#define YM2151_PAGE_5V		0x20
++#define YH5151E_PAGE_12V	0x00
++#define YH5151E_PAGE_5V		0x10
++#define YH5151E_PAGE_3V3	0x11
++
++enum chips {
++	ym2151e,
++	yh5151e
++};
++
++static int set_page(struct i2c_client *client, int page)
++{
++	int rv;
++
++	rv = i2c_smbus_read_byte_data(client, PMBUS_PAGE);
++
++	if (rv < 0)
++		return rv;
++
++	if (rv != page) {
++		rv = pmbus_set_page(client, page, 0xff);
++		if (rv < 0)
++			return rv;
++
++		msleep(20);
++	}
++
++	return 0;
++}
++
++static int fsp3y_read_byte_data(struct i2c_client *client, int page, int reg)
++{
++	int rv;
++
++	rv = set_page(client, page);
++	if (rv < 0)
++		return rv;
++
++	return i2c_smbus_read_byte_data(client, reg);
++}
++
++static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase, int reg)
++{
++	int rv;
++
++	if (reg >= PMBUS_VIRT_BASE)
++		return -ENXIO;
++
++	switch (reg) {
++	case PMBUS_OT_WARN_LIMIT:
++	case PMBUS_OT_FAULT_LIMIT:
++	case PMBUS_UT_WARN_LIMIT:
++	case PMBUS_UT_FAULT_LIMIT:
++	case PMBUS_VIN_UV_WARN_LIMIT:
++	case PMBUS_VIN_UV_FAULT_LIMIT:
++	case PMBUS_VIN_OV_FAULT_LIMIT:
++	case PMBUS_VIN_OV_WARN_LIMIT:
++	case PMBUS_IOUT_OC_WARN_LIMIT:
++	case PMBUS_IOUT_UC_FAULT_LIMIT:
++	case PMBUS_IOUT_OC_FAULT_LIMIT:
++	case PMBUS_IIN_OC_WARN_LIMIT:
++	case PMBUS_IIN_OC_FAULT_LIMIT:
++	case PMBUS_VOUT_UV_WARN_LIMIT:
++	case PMBUS_VOUT_UV_FAULT_LIMIT:
++	case PMBUS_VOUT_OV_WARN_LIMIT:
++	case PMBUS_VOUT_OV_FAULT_LIMIT:
++	case PMBUS_MFR_VIN_MIN:
++	case PMBUS_MFR_VIN_MAX:
++	case PMBUS_MFR_IIN_MAX:
++	case PMBUS_MFR_VOUT_MIN:
++	case PMBUS_MFR_VOUT_MAX:
++	case PMBUS_MFR_IOUT_MAX:
++	case PMBUS_MFR_PIN_MAX:
++	case PMBUS_POUT_MAX:
++	case PMBUS_POUT_OP_WARN_LIMIT:
++	case PMBUS_POUT_OP_FAULT_LIMIT:
++	case PMBUS_MFR_MAX_TEMP_1:
++	case PMBUS_MFR_MAX_TEMP_2:
++	case PMBUS_MFR_MAX_TEMP_3:
++	case PMBUS_MFR_POUT_MAX:
++		return -ENXIO;
++	}
++
++
++	rv = set_page(client, page);
++	if (rv < 0)
++		return rv;
++
++	return i2c_smbus_read_word_data(client, reg);
++}
++
++struct pmbus_driver_info fsp3y_info[] = {
++	[ym2151e] = {
++		.pages = 0x21,
++		.func[YM2151_PAGE_12V] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_PIN | PMBUS_HAVE_POUT  |
++			PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
++			PMBUS_HAVE_VIN | PMBUS_HAVE_IIN |
++			PMBUS_HAVE_FAN12,
++		.func[YM2151_PAGE_5V] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT,
++			PMBUS_HAVE_IIN,
++		.read_word_data = fsp3y_read_word_data,
++		.read_byte_data = fsp3y_read_byte_data,
++	},
++	[yh5151e] = {
++		.pages = 0x12,
++		.func[YH5151E_PAGE_12V] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT  |
++			PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3,
++		.func[YH5151E_PAGE_5V] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT,
++		.func[YH5151E_PAGE_3V3] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT,
++		.read_word_data = fsp3y_read_word_data,
++		.read_byte_data = fsp3y_read_byte_data,
++	}
++};
++
++static int fsp3y_probe(struct i2c_client *client,
++		       const struct i2c_device_id *id)
++{
++	return pmbus_do_probe(client, &fsp3y_info[id->driver_data]);
++}
++
++static const struct i2c_device_id pmbus_id[] = {
++	{"fsp3y_ym2151e", ym2151e},
++	{"fsp3y_yh5151e", yh5151e},
++	{}
++};
++
++MODULE_DEVICE_TABLE(i2c, pmbus_id);
++
++/* This is the driver that will be inserted */
++static struct i2c_driver fsp3y_driver = {
++	.driver = {
++		   .name = "fsp3y",
++		   },
++	.probe = fsp3y_probe,
++	.id_table = pmbus_id
++};
++
++module_i2c_driver(fsp3y_driver);
++
++MODULE_AUTHOR("XXX");
++MODULE_DESCRIPTION("XXX");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
+index 4c30ec89f5bf..c888d4244b70 100644
+--- a/drivers/hwmon/pmbus/pmbus.h
++++ b/drivers/hwmon/pmbus/pmbus.h
+@@ -374,7 +374,7 @@ enum pmbus_sensor_classes {
+ 	PSC_NUM_CLASSES		/* Number of power sensor classes */
+ };
+ 
+-#define PMBUS_PAGES	32	/* Per PMBus specification */
++#define PMBUS_PAGES	255	/* Per PMBus specification */
+ #define PMBUS_PHASES	8	/* Maximum number of phases per page */
+ 
+ /* Functionality bit mask */
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
 index 5b9dfdf743ec..26ea1164cb49 100644
 --- a/drivers/leds/leds-tlc591xx.c
