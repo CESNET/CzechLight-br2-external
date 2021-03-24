@@ -1,0 +1,5 @@
+config BR2_PACKAGE_CZECHLIGHT_POWER
+	bool "Dynamic power supply loading"
+	depends on BR2_INIT_SYSTEMD
+	help
+	  Userspace script which dynamically loads drivers for power supplies
