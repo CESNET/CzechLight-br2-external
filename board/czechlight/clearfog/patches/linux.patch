@@ -41,11 +41,57 @@ index 8b94aa8f5971..2723e6143aa9 100644
 +		gpio-line-names = ...
 +	};
 +};
+diff --git a/Documentation/hwmon/fsp-3y.rst b/Documentation/hwmon/fsp-3y.rst
+new file mode 100644
+index 000000000000..5693d83a2035
+--- /dev/null
++++ b/Documentation/hwmon/fsp-3y.rst
+@@ -0,0 +1,28 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Kernel driver fsp3y
++======================
++Supported devices:
++  * 3Y POWER YH-5151E
++  * 3Y POWER YM-2151E
++
++Author: Václav Kubernát <kubernat@cesnet.cz>
++
++Description
++-----------
++This driver implements limited support for two 3Y POWER devices.
++
++Sysfs entries
++-------------
++  * in1_input            input voltage
++  * in2_input            12V output voltage
++  * in3_input            5V output voltage
++  * curr1_input          input current
++  * curr2_input          12V output current
++  * curr3_input          5V output current
++  * fan1_input           fan rpm
++  * temp1_input          temperature 1
++  * temp2_input          temperature 2
++  * temp3_input          temperature 3
++  * power1_input         input power
++  * power2_input         output power
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index fcb870ce6286..55c9f014c248 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -63,6 +63,7 @@ Hardware Monitoring Kernel Drivers
+    f71805f
+    f71882fg
+    fam15h_power
++   fsp-3y
+    ftsteutates
+    g760a
+    g762
 diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
-index f301385d8cef..05ee1a3e5a01 100644
+index f301385d8cef..6056b67c3a95 100644
 --- a/Documentation/hwmon/max31790.rst
 +++ b/Documentation/hwmon/max31790.rst
-@@ -30,14 +30,62 @@ monitoring and control of fan RPM as well as detection of fan failure.
+@@ -30,14 +30,56 @@ monitoring and control of fan RPM as well as detection of fan failure.
  Six pins are dedicated tachometer inputs. Any of the six PWM outputs can
  also be configured to serve as tachometer inputs.
  
@@ -80,11 +126,6 @@ index f301385d8cef..05ee1a3e5a01 100644
 +The fan fault value latches, to reset it, set a value to pwm[1-6]
 +or fan[1-6]_target.
 +
-+About fan[1-12]_pulses
-+----------------------
-+You should set this depending on the fan you use. It affects what values
-+are in fan[1-12]_input and also what gets written to fan[1-6]_target.
-+
 +About fan[1-12]_div
 +-------------------
 +This value affects the measurable range of the chip. The driver sets this value
@@ -99,7 +140,6 @@ index f301385d8cef..05ee1a3e5a01 100644
 -================== === =======================================================
 +================== === =============================================================
 +fan[1-12]_enable   RW  enable fan speed monitoring
-+fan[1-12]_pulses   RW  pulses per fan revolution (default: 2)
  fan[1-12]_input    RO  fan tachometer speed in RPM
  fan[1-12]_fault    RO  fan experienced fault
 -fan[1-6]_target    RW  desired fan speed in RPM
@@ -125,7 +165,7 @@ index 1ecf697d8d99..9f11d036c316 100644
  	  If you say yes here you get support for 6-Channel PWM-Output
  	  Fan RPM Controller.
 diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
-index 86e6c71db685..3ef205e45dc1 100644
+index 86e6c71db685..d719d85cdd0c 100644
 --- a/drivers/hwmon/max31790.c
 +++ b/drivers/hwmon/max31790.c
 @@ -12,6 +12,7 @@
@@ -136,22 +176,15 @@ index 86e6c71db685..3ef205e45dc1 100644
  #include <linux/slab.h>
  
  /* MAX31790 registers */
-@@ -38,22 +39,65 @@
+@@ -38,6 +39,7 @@
  
  #define FAN_RPM_MIN			120
  #define FAN_RPM_MAX			7864320
 +#define MAX_PWM				0XFF80
  
--#define RPM_FROM_REG(reg, sr)		(((reg) >> 4) ? \
--					 ((60 * (sr) * 8192) / ((reg) >> 4)) : \
--					 FAN_RPM_MAX)
--#define RPM_TO_REG(rpm, sr)		((60 * (sr) * 8192) / ((rpm) * 2))
-+#define RPM_FROM_REG(reg, sr, pulses) \
-+	(((reg) >> 5) ? \
-+	 ((60 * (sr) * 8192) / ((reg) >> 5) / (pulses)) : \
-+	 FAN_RPM_MAX)
-+#define RPM_TO_REG(rpm, sr, pulses) \
-+	((60 * (sr) * 8192) / ((rpm) * (pulses)))
+ #define RPM_FROM_REG(reg, sr)		(((reg) >> 4) ? \
+ 					 ((60 * (sr) * 8192) / ((reg) >> 4)) : \
+@@ -46,92 +48,54 @@
  
  #define NR_CHANNEL			6
  
@@ -160,20 +193,6 @@ index 86e6c71db685..3ef205e45dc1 100644
 +#define BULK_TO_U16(msb, lsb)		(((msb) << 8) + (lsb))
 +#define U16_MSB(num)			(((num) & 0xFF00) >> 8)
 +#define U16_LSB(num)			((num) & 0x00FF)
-+
-+#define FAN_INFO_1_TO_6 \
-+	(HWMON_F_DIV | \
-+	HWMON_F_PULSES | \
-+	HWMON_F_ENABLE | \
-+	HWMON_F_INPUT | \
-+	HWMON_F_TARGET | \
-+	HWMON_F_FAULT)
-+
-+#define FAN_INFO_7_TO_12 \
-+	(HWMON_F_PULSES | \
-+	HWMON_F_ENABLE | \
-+	HWMON_F_INPUT | \
-+	HWMON_F_FAULT)
 +
 +static const struct regmap_range max31790_ro_range = {
 +	.range_min = MAX31790_REG_TACH_COUNT(0),
@@ -185,12 +204,24 @@ index 86e6c71db685..3ef205e45dc1 100644
 +	.n_no_ranges = 1,
 +};
 +
++static const struct regmap_range max31790_volatile_ranges[] = {
++	regmap_reg_range(MAX31790_REG_TACH_COUNT(0), MAX31790_REG_TACH_COUNT(12)),
++	regmap_reg_range(MAX31790_REG_FAN_FAULT_STATUS2, MAX31790_REG_FAN_FAULT_STATUS1),
++};
++
++static const struct regmap_access_table max31790_volatile_table = {
++	.no_ranges = max31790_volatile_ranges,
++	.n_no_ranges = 2,
++	.n_yes_ranges = 0
++};
++
 +static const struct regmap_config max31790_regmap_config = {
 +	.reg_bits = 8,
 +	.val_bits = 8,
 +	.reg_stride = 1,
 +	.max_register = MAX31790_REG_USER_BYTE_67,
 +	.wr_table = &max31790_wr_table,
++	.volatile_table = &max31790_volatile_table
 +};
 +
  /*
@@ -199,112 +230,131 @@ index 86e6c71db685..3ef205e45dc1 100644
  struct max31790_data {
 -	struct i2c_client *client;
 +	struct regmap *regmap;
++
  	struct mutex update_lock;
- 	bool valid; /* zero until following fields are valid */
- 	unsigned long last_updated; /* in jiffies */
+-	bool valid; /* zero until following fields are valid */
+-	unsigned long last_updated; /* in jiffies */
+-
+-	/* register values */
 +	bool full_speed[NR_CHANNEL];
-+	u8 pulses[NR_CHANNEL];
- 
- 	/* register values */
  	u8 fan_config[NR_CHANNEL];
-@@ -67,53 +111,72 @@ struct max31790_data {
- static struct max31790_data *max31790_update_device(struct device *dev)
- {
- 	struct max31790_data *data = dev_get_drvdata(dev);
+ 	u8 fan_dynamics[NR_CHANNEL];
+-	u16 fault_status;
+-	u16 tach[NR_CHANNEL * 2];
+-	u16 pwm[NR_CHANNEL];
+-	u16 target_count[NR_CHANNEL];
+ };
+ 
+-static struct max31790_data *max31790_update_device(struct device *dev)
+-{
+-	struct max31790_data *data = dev_get_drvdata(dev);
 -	struct i2c_client *client = data->client;
-+	struct regmap *regmap = data->regmap;
- 	struct max31790_data *ret = data;
- 	int i;
- 	int rv;
-+	int val;
-+	u8 val_bulk[2];
- 
- 	mutex_lock(&data->update_lock);
- 
- 	if (time_after(jiffies, data->last_updated + HZ) || !data->valid) {
+-	struct max31790_data *ret = data;
+-	int i;
+-	int rv;
+-
+-	mutex_lock(&data->update_lock);
+-
+-	if (time_after(jiffies, data->last_updated + HZ) || !data->valid) {
 -		rv = i2c_smbus_read_byte_data(client,
 -				MAX31790_REG_FAN_FAULT_STATUS1);
-+		rv = regmap_read(regmap,
-+				 MAX31790_REG_FAN_FAULT_STATUS1,
-+				 &val);
- 		if (rv < 0)
- 			goto abort;
+-		if (rv < 0)
+-			goto abort;
 -		data->fault_status = rv & 0x3F;
-+		data->fault_status = val & 0x3F;
- 
+-
 -		rv = i2c_smbus_read_byte_data(client,
 -				MAX31790_REG_FAN_FAULT_STATUS2);
-+		rv = regmap_read(regmap,
-+				 MAX31790_REG_FAN_FAULT_STATUS2,
-+				 &val);
- 		if (rv < 0)
- 			goto abort;
+-		if (rv < 0)
+-			goto abort;
 -		data->fault_status |= (rv & 0x3F) << 6;
-+		data->fault_status |= (val & 0x3F) << 6;
- 
- 		for (i = 0; i < NR_CHANNEL; i++) {
+-
+-		for (i = 0; i < NR_CHANNEL; i++) {
 -			rv = i2c_smbus_read_word_swapped(client,
 -					MAX31790_REG_TACH_COUNT(i));
-+			rv = regmap_bulk_read(regmap,
-+					      MAX31790_REG_TACH_COUNT(i),
-+					      val_bulk,
-+					      2);
- 			if (rv < 0)
- 				goto abort;
+-			if (rv < 0)
+-				goto abort;
 -			data->tach[i] = rv;
-+			data->tach[i] = BULK_TO_U16(val_bulk[0],
-+						    val_bulk[1]);
- 
- 			if (data->fan_config[i]
- 			    & MAX31790_FAN_CFG_TACH_INPUT) {
+-
+-			if (data->fan_config[i]
+-			    & MAX31790_FAN_CFG_TACH_INPUT) {
 -				rv = i2c_smbus_read_word_swapped(client,
 -					MAX31790_REG_TACH_COUNT(NR_CHANNEL
 -								+ i));
-+				rv = regmap_bulk_read(regmap,
-+						      MAX31790_REG_TACH_COUNT(NR_CHANNEL
-+									      + i),
-+					      val_bulk,
-+					      2);
- 				if (rv < 0)
- 					goto abort;
+-				if (rv < 0)
+-					goto abort;
 -				data->tach[NR_CHANNEL + i] = rv;
-+
-+				data->tach[NR_CHANNEL + i] =
-+					BULK_TO_U16(val_bulk[0],
-+						    val_bulk[1]);
- 			} else {
+-			} else {
 -				rv = i2c_smbus_read_word_swapped(client,
 -						MAX31790_REG_PWMOUT(i));
-+				rv = regmap_bulk_read(regmap,
-+						      MAX31790_REG_PWMOUT(i),
-+						      val_bulk,
-+						      2);
- 				if (rv < 0)
- 					goto abort;
+-				if (rv < 0)
+-					goto abort;
 -				data->pwm[i] = rv;
-+				data->pwm[i] = BULK_TO_U16(val_bulk[0],
-+							   val_bulk[1]);
- 
+-
 -				rv = i2c_smbus_read_word_swapped(client,
 -						MAX31790_REG_TARGET_COUNT(i));
-+				rv = regmap_bulk_read(regmap,
-+						      MAX31790_REG_TARGET_COUNT(i),
-+						      val_bulk,
-+						      2);
- 				if (rv < 0)
- 					goto abort;
+-				if (rv < 0)
+-					goto abort;
 -				data->target_count[i] = rv;
-+				data->target_count[i] =
-+					BULK_TO_U16(val_bulk[0],
-+						    val_bulk[1]);
- 			}
- 		}
+-			}
+-		}
+-
+-		data->last_updated = jiffies;
+-		data->valid = true;
+-	}
+-	goto done;
+-
+-abort:
+-	data->valid = false;
+-	ret = ERR_PTR(rv);
+-
+-done:
+-	mutex_unlock(&data->update_lock);
+-
+-	return ret;
+-}
+-
+ static const u8 tach_period[8] = { 1, 2, 4, 8, 16, 32, 32, 32 };
  
-@@ -159,6 +222,26 @@ static u8 bits_for_tach_period(int rpm)
+ static u8 get_tach_period(u8 fan_dynamics)
+@@ -159,28 +123,109 @@ static u8 bits_for_tach_period(int rpm)
  	return bits;
  }
  
-+static int bits_for_speed_range(int speed_range)
++static int read_reg_byte(struct regmap *regmap, u8 reg)
++{
++	int rv;
++	int val;
++
++	rv = regmap_read(regmap, reg, &val);
++	if (rv < 0)
++		return rv;
++
++	return val;
++}
++
++static int read_reg_word(struct regmap *regmap, u8 reg)
++{
++	int rv;
++	u8 val_bulk[2];
++
++	rv = regmap_bulk_read(regmap, reg, val_bulk, 2);
++	if (rv < 0)
++		return rv;
++
++	return BULK_TO_U16(val_bulk[0], val_bulk[1]);
++}
++
++static int write_reg_word(struct regmap *regmap, u8 reg, u16 val)
++{
++	u8 bulk_val[2];
++
++	bulk_val[0] = U16_MSB(val);
++	bulk_val[1] = U16_LSB(val);
++
++	return regmap_bulk_write(regmap, reg, bulk_val, 2);
++}
++
++static int bits_for_speed_range(long speed_range)
 +{
 +	switch (speed_range) {
 +	case 1:
@@ -327,51 +377,68 @@ index 86e6c71db685..3ef205e45dc1 100644
  static int max31790_read_fan(struct device *dev, u32 attr, int channel,
  			     long *val)
  {
-@@ -170,18 +253,41 @@ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
+-	struct max31790_data *data = max31790_update_device(dev);
+-	int sr, rpm;
+-
+-	if (IS_ERR(data))
+-		return PTR_ERR(data);
++	struct max31790_data *data = dev_get_drvdata(dev);
++	struct regmap *regmap = data->regmap;
++	int tach, fault;
  
  	switch (attr) {
  	case hwmon_fan_input:
-+		if (!(data->fan_config[channel] &
-+		      MAX31790_FAN_CFG_TACH_INPUT_EN)) {
-+			*val = 0;
-+			return 0;
-+		}
- 		sr = get_tach_period(data->fan_dynamics[channel]);
+-		sr = get_tach_period(data->fan_dynamics[channel]);
 -		rpm = RPM_FROM_REG(data->tach[channel], sr);
-+		rpm = RPM_FROM_REG(data->tach[channel],
-+				   sr,
-+				   data->pulses[channel]);
- 		*val = rpm;
+-		*val = rpm;
++		if (!(data->fan_config[channel] & MAX31790_FAN_CFG_TACH_INPUT_EN))
++			return -ENODATA;
++
++		tach = read_reg_word(regmap, MAX31790_REG_TACH_COUNT(channel));
++		if (tach < 0)
++			return tach;
++
++		*val = RPM_FROM_REG(tach, get_tach_period(data->fan_dynamics[channel]));
  		return 0;
  	case hwmon_fan_target:
- 		sr = get_tach_period(data->fan_dynamics[channel]);
+-		sr = get_tach_period(data->fan_dynamics[channel]);
 -		rpm = RPM_FROM_REG(data->target_count[channel], sr);
-+		rpm = RPM_FROM_REG(data->target_count[channel],
-+				   sr,
-+				   data->pulses[channel]);
- 		*val = rpm;
+-		*val = rpm;
++		tach = read_reg_word(regmap, MAX31790_REG_TARGET_COUNT(channel));
++		if (tach < 0)
++			return tach;
++
++		*val = RPM_FROM_REG(tach, get_tach_period(data->fan_dynamics[channel]));
  		return 0;
  	case hwmon_fan_fault:
-+		if (!(data->fan_config[channel] &
-+		      MAX31790_FAN_CFG_TACH_INPUT_EN)) {
+-		*val = !!(data->fault_status & (1 << channel));
++		if (!(data->fan_config[channel] & MAX31790_FAN_CFG_TACH_INPUT_EN)) {
 +			*val = 0;
 +			return 0;
 +		}
- 		*val = !!(data->fault_status & (1 << channel));
- 		return 0;
++
++		if (channel > 6)
++			fault = read_reg_byte(regmap, MAX31790_REG_FAN_FAULT_STATUS2);
++		else
++			fault = read_reg_byte(regmap, MAX31790_REG_FAN_FAULT_STATUS1);
++
++		if (fault < 0)
++			return fault;
++
++		if (channel > 6)
++			*val = !!(fault & (1 << (channel - 6)));
++		else
++			*val = !!(fault & (1 << channel));
++		return 0;
 +	case hwmon_fan_enable:
 +		*val = !!(data->fan_config[channel] & MAX31790_FAN_CFG_TACH_INPUT_EN);
 +		return 0;
-+	case hwmon_fan_pulses:
-+		*val = data->pulses[channel];
-+		return 0;
 +	case hwmon_fan_div:
 +		*val = get_tach_period(data->fan_config[channel]);
-+		return 0;
+ 		return 0;
  	default:
  		return -EOPNOTSUPP;
- 	}
-@@ -191,11 +297,12 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+@@ -191,7 +236,7 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
  			      long val)
  {
  	struct max31790_data *data = dev_get_drvdata(dev);
@@ -380,39 +447,33 @@ index 86e6c71db685..3ef205e45dc1 100644
  	int target_count;
  	int err = 0;
  	u8 bits;
- 	int sr;
-+	u8 bulk_val[2];
- 
- 	mutex_lock(&data->update_lock);
- 
-@@ -207,21 +314,55 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+@@ -207,9 +252,10 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
  			((data->fan_dynamics[channel] &
  			  ~MAX31790_FAN_DYN_SR_MASK) |
  			 (bits << MAX31790_FAN_DYN_SR_SHIFT));
 -		err = i2c_smbus_write_byte_data(client,
 -					MAX31790_REG_FAN_DYNAMICS(channel),
 -					data->fan_dynamics[channel]);
++
 +		err = regmap_write(regmap,
 +				   MAX31790_REG_FAN_DYNAMICS(channel),
 +				   data->fan_dynamics[channel]);
  		if (err < 0)
  			break;
  
- 		sr = get_tach_period(data->fan_dynamics[channel]);
--		target_count = RPM_TO_REG(val, sr);
-+		target_count = RPM_TO_REG(val, sr, data->pulses[channel]);
+@@ -217,11 +263,38 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+ 		target_count = RPM_TO_REG(val, sr);
  		target_count = clamp_val(target_count, 0x1, 0x7FF);
  
- 		data->target_count[channel] = target_count << 5;
-+		bulk_val[0] = U16_MSB(data->target_count[channel]);
-+		bulk_val[1] = U16_LSB(data->target_count[channel]);
+-		data->target_count[channel] = target_count << 5;
++		target_count = target_count << 5;
  
 -		err = i2c_smbus_write_word_swapped(client,
-+		err = regmap_bulk_write(regmap,
- 					MAX31790_REG_TARGET_COUNT(channel),
+-					MAX31790_REG_TARGET_COUNT(channel),
 -					data->target_count[channel]);
-+					bulk_val,
-+					2);
++		err = write_reg_word(regmap,
++				     MAX31790_REG_TARGET_COUNT(channel),
++				     target_count);
 +		break;
 +	case hwmon_fan_enable:
 +		if (val == 0)
@@ -422,9 +483,6 @@ index 86e6c71db685..3ef205e45dc1 100644
 +		err = regmap_write(regmap,
 +				   MAX31790_REG_FAN_CONFIG(channel),
 +				   data->fan_config[channel]);
-+		break;
-+	case hwmon_fan_pulses:
-+		data->pulses[channel] = val;
 +		break;
 +	case hwmon_fan_div:
 +		if (data->fan_config[channel] & MAX31790_FAN_CFG_RPM_MODE) {
@@ -437,51 +495,67 @@ index 86e6c71db685..3ef205e45dc1 100644
 +			break;
 +		}
 +
-+		data->fan_dynamics[channel] =
-+			((data->fan_dynamics[channel] &
-+			  ~MAX31790_FAN_DYN_SR_MASK) |
-+			 (sr << MAX31790_FAN_DYN_SR_SHIFT));
++		data->fan_dynamics[channel] = ((data->fan_dynamics[channel] &
++						~MAX31790_FAN_DYN_SR_MASK) |
++					       (sr << MAX31790_FAN_DYN_SR_SHIFT));
 +		err = regmap_write(regmap,
 +				   MAX31790_REG_FAN_DYNAMICS(channel),
 +				   data->fan_dynamics[channel]);
  		break;
  	default:
  		err = -EOPNOTSUPP;
-@@ -250,6 +391,16 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
+@@ -250,6 +323,12 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
  		    !(fan_config & MAX31790_FAN_CFG_TACH_INPUT))
  			return 0644;
  		return 0;
 +	case hwmon_fan_enable:
++	case hwmon_fan_div:
 +		if (channel < NR_CHANNEL ||
 +		    (fan_config & MAX31790_FAN_CFG_TACH_INPUT))
-+			return 0644;
-+		return 0;
-+	case hwmon_fan_div:
-+	case hwmon_fan_pulses:
-+		if (channel < NR_CHANNEL)
 +			return 0644;
 +		return 0;
  	default:
  		return 0;
  	}
-@@ -271,12 +422,12 @@ static int max31790_read_pwm(struct device *dev, u32 attr, int channel,
- 		*val = data->pwm[channel] >> 8;
+@@ -258,25 +337,25 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
+ static int max31790_read_pwm(struct device *dev, u32 attr, int channel,
+ 			     long *val)
+ {
+-	struct max31790_data *data = max31790_update_device(dev);
+-	u8 fan_config;
+-
+-	if (IS_ERR(data))
+-		return PTR_ERR(data);
+-
+-	fan_config = data->fan_config[channel];
++	struct max31790_data *data = dev_get_drvdata(dev);
++	struct regmap *regmap = data->regmap;
++	int read;
+ 
+ 	switch (attr) {
+ 	case hwmon_pwm_input:
+-		*val = data->pwm[channel] >> 8;
++		read = read_reg_word(regmap, MAX31790_REG_PWMOUT(channel));
++		if (read < 0)
++			return read;
++
++		*val = read >> 8;
  		return 0;
  	case hwmon_pwm_enable:
 -		if (fan_config & MAX31790_FAN_CFG_RPM_MODE)
 +		if (data->full_speed[channel])
 +			*val = 0;
-+		else if (fan_config & MAX31790_FAN_CFG_RPM_MODE)
++		else if (data->fan_config[channel] & MAX31790_FAN_CFG_RPM_MODE)
  			*val = 2;
 -		else if (fan_config & MAX31790_FAN_CFG_TACH_INPUT_EN)
--			*val = 1;
- 		else
++		else
+ 			*val = 1;
+-		else
 -			*val = 0;
-+			*val = 1;
  		return 0;
  	default:
  		return -EOPNOTSUPP;
-@@ -287,43 +438,69 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
+@@ -287,7 +366,7 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
  			      long val)
  {
  	struct max31790_data *data = dev_get_drvdata(dev);
@@ -489,9 +563,8 @@ index 86e6c71db685..3ef205e45dc1 100644
 +	struct regmap *regmap = data->regmap;
  	u8 fan_config;
  	int err = 0;
-+	u8 bulk_val[2];
  
- 	mutex_lock(&data->update_lock);
+@@ -295,35 +374,46 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
  
  	switch (attr) {
  	case hwmon_pwm_input:
@@ -500,16 +573,12 @@ index 86e6c71db685..3ef205e45dc1 100644
  			err = -EINVAL;
  			break;
  		}
- 		data->pwm[channel] = val << 8;
+-		data->pwm[channel] = val << 8;
 -		err = i2c_smbus_write_word_swapped(client,
 -						   MAX31790_REG_PWMOUT(channel),
 -						   data->pwm[channel]);
-+		bulk_val[0] = U16_MSB(data->pwm[channel]);
-+		bulk_val[1] = U16_LSB(data->pwm[channel]);
-+		err = regmap_bulk_write(regmap,
-+					MAX31790_REG_PWMOUT(channel),
-+					bulk_val,
-+					2);
++
++		err = write_reg_word(regmap, MAX31790_REG_PWMOUT(channel), val << 8);
  		break;
  	case hwmon_pwm_enable:
  		fan_config = data->fan_config[channel];
@@ -530,13 +599,6 @@ index 86e6c71db685..3ef205e45dc1 100644
  			err = -EINVAL;
  			break;
  		}
- 		data->fan_config[channel] = fan_config;
--		err = i2c_smbus_write_byte_data(client,
--					MAX31790_REG_FAN_CONFIG(channel),
--					fan_config);
-+		err = regmap_write(regmap,
-+				   MAX31790_REG_FAN_CONFIG(channel),
-+				   fan_config);
 +
 +		/*
 +		 * The chip sets PWM to zero when using its "monitor only" mode
@@ -544,13 +606,7 @@ index 86e6c71db685..3ef205e45dc1 100644
 +		 */
 +		if (val == 0) {
 +			data->full_speed[channel] = true;
-+			data->pwm[channel] = MAX_PWM;
-+			bulk_val[0] = U16_MSB(data->pwm[channel]);
-+			bulk_val[1] = U16_LSB(data->pwm[channel]);
-+			err = regmap_bulk_write(regmap,
-+						MAX31790_REG_PWMOUT(channel),
-+						bulk_val,
-+						2);
++			err = write_reg_word(regmap, MAX31790_REG_PWMOUT(channel), MAX_PWM);
 +		} else {
 +			data->full_speed[channel] = false;
 +		}
@@ -559,16 +615,20 @@ index 86e6c71db685..3ef205e45dc1 100644
 +		 * RPM mode implies enabled TACH input, so enable it in RPM
 +		 * mode.
 +		 */
-+		if (val == 2) {
-+			data->fan_config[channel] |= MAX31790_FAN_CFG_TACH_INPUT_EN;
-+			err = regmap_write(regmap,
-+					   MAX31790_REG_FAN_CONFIG(channel),
-+					   data->fan_config[channel]);
-+		}
++		if (val == 2)
++			fan_config |= MAX31790_FAN_CFG_TACH_INPUT_EN;
++
+ 		data->fan_config[channel] = fan_config;
+-		err = i2c_smbus_write_byte_data(client,
+-					MAX31790_REG_FAN_CONFIG(channel),
+-					fan_config);
++		err = regmap_write(regmap,
++				   MAX31790_REG_FAN_CONFIG(channel),
++				   fan_config);
  		break;
  	default:
  		err = -EOPNOTSUPP;
-@@ -393,25 +570,25 @@ static umode_t max31790_is_visible(const void *data,
+@@ -393,18 +483,18 @@ static umode_t max31790_is_visible(const void *data,
  
  static const struct hwmon_channel_info *max31790_info[] = {
  	HWMON_CHANNEL_INFO(fan,
@@ -584,35 +644,22 @@ index 86e6c71db685..3ef205e45dc1 100644
 -			   HWMON_F_INPUT | HWMON_F_FAULT,
 -			   HWMON_F_INPUT | HWMON_F_FAULT,
 -			   HWMON_F_INPUT | HWMON_F_FAULT),
-+		FAN_INFO_1_TO_6,
-+		FAN_INFO_1_TO_6,
-+		FAN_INFO_1_TO_6,
-+		FAN_INFO_1_TO_6,
-+		FAN_INFO_1_TO_6,
-+		FAN_INFO_1_TO_6,
-+		FAN_INFO_7_TO_12,
-+		FAN_INFO_7_TO_12,
-+		FAN_INFO_7_TO_12,
-+		FAN_INFO_7_TO_12,
-+		FAN_INFO_7_TO_12,
-+		FAN_INFO_7_TO_12),
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
++			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT),
  	HWMON_CHANNEL_INFO(pwm,
--			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
--			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
--			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
--			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
--			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
--			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
-+		HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-+		HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-+		HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-+		HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-+		HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
-+		HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
- 	NULL
- };
- 
-@@ -426,23 +603,29 @@ static const struct hwmon_chip_info max31790_chip_info = {
+ 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+ 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+@@ -426,23 +516,23 @@ static const struct hwmon_chip_info max31790_chip_info = {
  	.info = max31790_info,
  };
  
@@ -620,37 +667,28 @@ index 86e6c71db685..3ef205e45dc1 100644
 +static int max31790_init_client(struct regmap *regmap,
  				struct max31790_data *data)
  {
--	int i, rv;
-+	int i, rv, val;
+ 	int i, rv;
  
  	for (i = 0; i < NR_CHANNEL; i++) {
 -		rv = i2c_smbus_read_byte_data(client,
 -				MAX31790_REG_FAN_CONFIG(i));
-+		rv = regmap_read(regmap,
-+				 MAX31790_REG_FAN_CONFIG(i),
-+				 &val);
++		rv = read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(i % NR_CHANNEL));
  		if (rv < 0)
  			return rv;
--		data->fan_config[i] = rv;
-+		data->fan_config[i] = val;
-+
-+		data->full_speed[i] = false;
+ 		data->fan_config[i] = rv;
  
 -		rv = i2c_smbus_read_byte_data(client,
 -				MAX31790_REG_FAN_DYNAMICS(i));
-+		data->pulses[i] = 2;
-+
-+		rv = regmap_read(regmap,
-+				 MAX31790_REG_FAN_DYNAMICS(i),
-+				 &val);
++		rv = read_reg_byte(regmap, MAX31790_REG_FAN_DYNAMICS(i));
  		if (rv < 0)
  			return rv;
--		data->fan_dynamics[i] = rv;
-+		data->fan_dynamics[i] = val;
+ 		data->fan_dynamics[i] = rv;
++
++		data->full_speed[i] = false;
  	}
  
  	return 0;
-@@ -464,13 +647,19 @@ static int max31790_probe(struct i2c_client *client)
+@@ -464,13 +554,18 @@ static int max31790_probe(struct i2c_client *client)
  	if (!data)
  		return -ENOMEM;
  
@@ -658,7 +696,6 @@ index 86e6c71db685..3ef205e45dc1 100644
  	mutex_init(&data->update_lock);
  
 +	data->regmap = devm_regmap_init_i2c(client, &max31790_regmap_config);
-+
 +	if (IS_ERR(data->regmap)) {
 +		dev_err(dev, "failed to allocate register map\n");
 +		return PTR_ERR(data->regmap);
@@ -672,25 +709,298 @@ index 86e6c71db685..3ef205e45dc1 100644
  	if (err)
  		return err;
  
-@@ -488,11 +677,18 @@ static const struct i2c_device_id max31790_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, max31790_id);
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 03606d4298a4..9d12d446396c 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -56,6 +56,16 @@ config SENSORS_BEL_PFE
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called bel-pfe.
  
-+static const struct of_device_id __maybe_unused max31790_of_match[] = {
-+	{ .compatible = "maxim,max31790" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, max31790_of_match);
++config SENSORS_FSP_3Y
++	tristate "FSP/3Y-Power power supplies"
++	help
++	  If you say yes here you get hardware monitoring support for
++	  FSP/3Y-Power hot-swap power supplies.
++	  Supported models: YH-5151E, YM-2151E
 +
- static struct i2c_driver max31790_driver = {
- 	.class		= I2C_CLASS_HWMON,
- 	.probe_new	= max31790_probe,
- 	.driver = {
- 		.name	= "max31790",
-+		.of_match_table = of_match_ptr(max31790_of_match),
- 	},
- 	.id_table	= max31790_id,
- };
++	  This driver can also be built as a module. If so, the module will
++	  be called fsp-3y.
++
+ config SENSORS_IBM_CFFPS
+ 	tristate "IBM Common Form Factor Power Supply"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index 6a4ba0fdc1db..bfe218ad898f 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -8,6 +8,7 @@ obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
+ obj-$(CONFIG_SENSORS_ADM1266)	+= adm1266.o
+ obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+ obj-$(CONFIG_SENSORS_BEL_PFE)	+= bel-pfe.o
++obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
+ obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+ obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+ obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
+new file mode 100644
+index 000000000000..564649e87e34
+--- /dev/null
++++ b/drivers/hwmon/pmbus/fsp-3y.c
+@@ -0,0 +1,253 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Hardware monitoring driver for FSP 3Y-Power PSUs
++ *
++ * Copyright (c) 2021 Václav Kubernát, CESNET
++ *
++ * This driver is mostly reverse engineered with the help of a tool called pmbus_peek written by
++ * David Brownell (and later adopted by Jan Kundrát). The device has some sort of a timing issue
++ * when switching pages, details are explained in the code. The driver support is limited. It
++ * exposes only the values, that have been tested to work correctly. Unsupported values either
++ * aren't supported by the devices or their encondings are unknown.
++ */
++
++#include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include "pmbus.h"
++
++#define YM2151_PAGE_12V_LOG	0x00
++#define YM2151_PAGE_12V_REAL	0x00
++#define YM2151_PAGE_5VSB_LOG	0x01
++#define YM2151_PAGE_5VSB_REAL	0x20
++#define YH5151E_PAGE_12V_LOG	0x00
++#define YH5151E_PAGE_12V_REAL	0x00
++#define YH5151E_PAGE_5V_LOG	0x01
++#define YH5151E_PAGE_5V_REAL	0x10
++#define YH5151E_PAGE_3V3_LOG	0x02
++#define YH5151E_PAGE_3V3_REAL	0x11
++
++enum chips {
++	ym2151e,
++	yh5151e
++};
++
++struct fsp3y_data {
++	struct pmbus_driver_info info;
++	int chip;
++	int page;
++};
++
++#define to_fsp3y_data(x) container_of(x, struct fsp3y_data, info)
++
++static int page_log_to_page_real(int page_log, enum chips chip)
++{
++	switch (chip) {
++	case ym2151e:
++		switch (page_log) {
++		case YM2151_PAGE_12V_LOG:
++			return YM2151_PAGE_12V_REAL;
++		case YM2151_PAGE_5VSB_LOG:
++			return YM2151_PAGE_5VSB_REAL;
++		}
++		return -EINVAL;
++	case yh5151e:
++		switch (page_log) {
++		case YH5151E_PAGE_12V_LOG:
++			return YH5151E_PAGE_12V_REAL;
++		case YH5151E_PAGE_5V_LOG:
++			return YH5151E_PAGE_5V_LOG;
++		case YH5151E_PAGE_3V3_LOG:
++			return YH5151E_PAGE_3V3_REAL;
++		}
++		return -EINVAL;
++	}
++
++	return -EINVAL;
++}
++
++static int set_page(struct i2c_client *client, int page_log)
++{
++	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
++	struct fsp3y_data *data = to_fsp3y_data(info);
++	int rv;
++	int page_real;
++
++	if (page_log < 0)
++		return 0;
++
++	page_real = page_log_to_page_real(page_log, data->chip);
++	if (page_real < 0)
++		return page_real;
++
++	if (data->page != page_real) {
++		rv = i2c_smbus_write_byte_data(client, PMBUS_PAGE, page_real);
++		if (rv < 0)
++			return rv;
++
++		data->page = page_real;
++
++		/*
++		 * Testing showed that the device has a timing issue. After
++		 * setting a page, it takes a while, before the device actually
++		 * gives the correct values from the correct page. 20 ms was
++		 * tested to be enough to not give wrong values (15 ms wasn't
++		 * enough).
++		 */
++		usleep_range(20000, 30000);
++	}
++
++	return 0;
++}
++
++static int fsp3y_read_byte_data(struct i2c_client *client, int page, int reg)
++{
++	int rv;
++
++	rv = set_page(client, page);
++	if (rv < 0)
++		return rv;
++
++	return i2c_smbus_read_byte_data(client, reg);
++}
++
++static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase, int reg)
++{
++	int rv;
++
++	/*
++	 * This masks commands which weren't tested to work correctly. Some of
++	 * the masked commands return 0xFFFF. These would probably get tagged as
++	 * invalid by pmbus_core. Other ones do return values which might be
++	 * useful (that is, they are not 0xFFFF), but their encoding is unknown,
++	 * and so they are unsupported.
++	 */
++	switch (reg) {
++	case PMBUS_READ_FAN_SPEED_1:
++	case PMBUS_READ_IIN:
++	case PMBUS_READ_IOUT:
++	case PMBUS_READ_PIN:
++	case PMBUS_READ_POUT:
++	case PMBUS_READ_TEMPERATURE_1:
++	case PMBUS_READ_TEMPERATURE_2:
++	case PMBUS_READ_TEMPERATURE_3:
++	case PMBUS_READ_VIN:
++	case PMBUS_READ_VOUT:
++	case PMBUS_STATUS_WORD:
++		break;
++	default:
++		return -ENXIO;
++	}
++
++	rv = set_page(client, page);
++	if (rv < 0)
++		return rv;
++
++	return i2c_smbus_read_word_data(client, reg);
++}
++
++struct pmbus_driver_info fsp3y_info[] = {
++	[ym2151e] = {
++		.pages = 2,
++		.func[YM2151_PAGE_12V_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_PIN | PMBUS_HAVE_POUT  |
++			PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
++			PMBUS_HAVE_VIN | PMBUS_HAVE_IIN |
++			PMBUS_HAVE_FAN12,
++		.func[YM2151_PAGE_5VSB_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT,
++			PMBUS_HAVE_IIN,
++		.read_word_data = fsp3y_read_word_data,
++		.read_byte_data = fsp3y_read_byte_data,
++	},
++	[yh5151e] = {
++		.pages = 3,
++		.func[YH5151E_PAGE_12V_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT  |
++			PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3,
++		.func[YH5151E_PAGE_5V_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT,
++		.func[YH5151E_PAGE_3V3_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT,
++		.read_word_data = fsp3y_read_word_data,
++		.read_byte_data = fsp3y_read_byte_data,
++	}
++};
++
++static int fsp3y_detect(struct i2c_client *client)
++{
++	int rv;
++	u8 buf[I2C_SMBUS_BLOCK_MAX + 1];
++
++	rv = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
++	if (rv < 0)
++		return rv;
++
++	buf[rv] = '\0';
++
++	if (rv == 8) {
++		if (!strcmp(buf, "YM-2151E"))
++			return ym2151e;
++		else if (!strcmp(buf, "YH-5151E"))
++			return yh5151e;
++	}
++
++	dev_err(&client->dev, "Unsupported model %.*s\n", rv, buf);
++	return -ENODEV;
++}
++
++static const struct i2c_device_id fsp3y_id[] = {
++	{"ym2151e", ym2151e},
++	{"yh5151e", yh5151e},
++	{0}
++};
++
++static int fsp3y_probe(struct i2c_client *client)
++{
++	struct fsp3y_data *data;
++	const struct i2c_device_id *id;
++	int rv;
++
++	data = devm_kzalloc(&client->dev, sizeof(struct fsp3y_data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	data->chip = fsp3y_detect(client);
++	if (data->chip < 0)
++		return data->chip;
++
++	id = i2c_match_id(fsp3y_id, client);
++	if (data->chip != id->driver_data)
++		dev_warn(&client->dev, "Device mismatch: Configured %s (%d), detected %d\n",
++			 id->name, (int)id->driver_data, data->chip);
++
++	rv = i2c_smbus_read_byte_data(client, PMBUS_PAGE);
++	if (rv < 0)
++		return rv;
++	data->page = rv;
++
++	data->info = fsp3y_info[data->chip];
++
++	return pmbus_do_probe(client, &data->info);
++}
++
++MODULE_DEVICE_TABLE(i2c, fsp3y_id);
++
++static struct i2c_driver fsp3y_driver = {
++	.driver = {
++		   .name = "fsp3y",
++		   },
++	.probe_new = fsp3y_probe,
++	.id_table = fsp3y_id
++};
++
++module_i2c_driver(fsp3y_driver);
++
++MODULE_AUTHOR("Václav Kubernát");
++MODULE_DESCRIPTION("PMBus driver for FSP/3Y-Power power supplies");
++MODULE_LICENSE("GPL");
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
 index 5b9dfdf743ec..26ea1164cb49 100644
 --- a/drivers/leds/leds-tlc591xx.c
