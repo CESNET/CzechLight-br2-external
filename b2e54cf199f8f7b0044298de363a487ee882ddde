@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb4e864f_27fe55b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-03-29T11:46:07Z",
+      "side": 1,
+      "message": "please make sure that the linux kernel patches are fresh, and add a note to the commit message which tree contains these commits (repo, branch name, commit hash)",
+      "revId": "b2e54cf199f8f7b0044298de363a487ee882ddde",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
