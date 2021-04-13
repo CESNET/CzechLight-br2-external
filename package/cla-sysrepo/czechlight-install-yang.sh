@@ -90,5 +90,19 @@ sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-firewa
 sysrepoctl --change czechlight-firewall --permissions 0600 --apply
 sysrepoctl --change ietf-access-control-list --enable-feature eth --enable-feature match-on-eth --enable-feature match-on-ipv4 --enable-feature ipv4 --enable-feature match-on-ipv6 --enable-feature ipv6 --enable-feature mixed-eth-ipv4-ipv6
 
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/iana-if-type@2017-01-19.yang
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-interfaces@2018-02-20.yang
+sysrepoctl --change ietf-interfaces --permissions 0664 --apply
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-ip@2018-02-22.yang
+sysrepoctl --change ietf-ip --permissions 0664 --apply
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-routing@2018-03-13.yang
+sysrepoctl --change ietf-routing --permissions 0664 --apply
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-ipv4-unicast-routing@2018-03-13.yang
+sysrepoctl --change ietf-ipv4-unicast-routing --permissions 0664 --apply
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-ipv6-unicast-routing@2018-03-13.yang
+sysrepoctl --change ietf-ipv6-unicast-routing --permissions 0664 --apply
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-network@2021-02-22.yang
+sysrepoctl --change czechlight-network --permissions 0664 --apply
+
 # If not do not copy here from startup -> running, running might be stale.
 sysrepocfg -C startup
