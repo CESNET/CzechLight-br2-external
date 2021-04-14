@@ -8,3 +8,6 @@ CONFIG_FEATURE_SEAMLESS_XZ=y
 
 # initial flashing
 CONFIG_BLKDISCARD=y
+
+# velia-system password change
+CONFIG_CHPASSWD=y
