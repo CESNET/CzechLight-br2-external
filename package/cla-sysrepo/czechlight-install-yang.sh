@@ -83,7 +83,7 @@ sysrepoctl --change ietf-system --permissions 0664 --apply
 sysrepoctl --search-dirs /usr/share/lldp-systemd-networkd-sysrepo/yang --install /usr/share/lldp-systemd-networkd-sysrepo/yang/czechlight-lldp@2020-11-04.yang
 sysrepoctl --change czechlight-lldp --permissions 0664 --apply
 
-sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-system@2021-01-13.yang
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-system@2021-04-19.yang
 sysrepoctl --change czechlight-system --permissions 0664 --apply
 
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-firewall@2021-01-25.yang
