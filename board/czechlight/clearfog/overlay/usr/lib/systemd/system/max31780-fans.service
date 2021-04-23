@@ -1,0 +1,10 @@
+[Unit]
+Description=Enable fans
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# FIXME: how to not hardcode the hwmon number?
+# FIXME: also how do I know which fans ot enable, do all our devices have the same fans connected?
+ExecStart=/bin/sh -c 'echo 1 > /sys/bus/i2c/devices/1-0020/hwmon/hwmon4/fan3_enable'
+ExecStart=/bin/sh -c 'echo 1 > /sys/bus/i2c/devices/1-0020/hwmon/hwmon4/fan4_enable'
