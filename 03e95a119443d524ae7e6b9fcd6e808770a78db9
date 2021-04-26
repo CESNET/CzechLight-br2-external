@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ff88068_8db64cd1",
+        "filename": "board/czechlight/clearfog/overlay/usr/lib/systemd/system/max31780-fans.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-26T17:07:05Z",
+      "side": 1,
+      "message": "This should only activate on the \"g2\" HW models. While we still support the older boards (with ADT7463), use \"ConditionKernelCommandLine\u003d|...\". Check package/velia/velia-hardware-g2.service for an example.",
+      "revId": "03e95a119443d524ae7e6b9fcd6e808770a78db9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e34b69a5_7406cbdf",
+        "filename": "board/czechlight/clearfog/overlay/usr/lib/systemd/system/max31780-fans.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-26T17:07:05Z",
+      "side": 1,
+      "message": "I think it\u0027s OK to use something like `for FAN in /sys/bus/i2c/devices/1-0020/hwmon/hwmon*/fan{1,2,3,4}_enable; do ...`",
+      "revId": "03e95a119443d524ae7e6b9fcd6e808770a78db9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddf4d6a9_b7518c2c",
+        "filename": "board/czechlight/clearfog/overlay/usr/lib/systemd/system/max31780-fans.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-26T17:07:05Z",
+      "side": 1,
+      "message": "There will always be four fans (1, 2, 3, 4). See CzechLight/hw-docs, products/sdn-roadm/SDN_ROADM_fan_base\\ 2.0\\ Complete.PDF .",
+      "revId": "03e95a119443d524ae7e6b9fcd6e808770a78db9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
