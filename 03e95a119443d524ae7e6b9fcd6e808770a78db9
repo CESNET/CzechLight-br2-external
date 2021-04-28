@@ -18,6 +18,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b350c042_a59520e6",
+        "filename": "board/czechlight/clearfog/overlay/usr/lib/systemd/system/max31780-fans.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-04-28T08:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ff88068_8db64cd1",
+      "revId": "03e95a119443d524ae7e6b9fcd6e808770a78db9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e34b69a5_7406cbdf",
@@ -35,6 +53,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "426226df_8bff8a5b",
+        "filename": "board/czechlight/clearfog/overlay/usr/lib/systemd/system/max31780-fans.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-04-28T08:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e34b69a5_7406cbdf",
+      "revId": "03e95a119443d524ae7e6b9fcd6e808770a78db9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddf4d6a9_b7518c2c",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-04-26T17:07:05Z",
       "side": 1,
       "message": "There will always be four fans (1, 2, 3, 4). See CzechLight/hw-docs, products/sdn-roadm/SDN_ROADM_fan_base\\ 2.0\\ Complete.PDF .",
+      "revId": "03e95a119443d524ae7e6b9fcd6e808770a78db9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b07d85e_24b925f5",
+        "filename": "board/czechlight/clearfog/overlay/usr/lib/systemd/system/max31780-fans.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-04-28T08:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf4d6a9_b7518c2c",
       "revId": "03e95a119443d524ae7e6b9fcd6e808770a78db9",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
