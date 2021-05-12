@@ -33,6 +33,24 @@
       "message": "Tested on line-qcp9, it boots, so the kernel upgrade went OK. However, I don\u0027s see any PSU data in ietf-hardware, and the stuff in sysfs looks fishy to me:\n \nline-DB00QCP9 ~ # tail -n1 /sys/class/hwmon/hwmon4/*_input\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/curr1_input \u003c\u003d\u003d\n847\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/curr2_input \u003c\u003d\u003d\n691\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/curr3_input \u003c\u003d\u003d\n531\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/in1_input \u003c\u003d\u003d\n1062\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/in2_input \u003c\u003d\u003d\n9625\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/in3_input \u003c\u003d\u003d\n1019062\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/power1_input \u003c\u003d\u003d\n13000000\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/power2_input \u003c\u003d\u003d\n13000000\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/power3_input \u003c\u003d\u003d\n14000000\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/temp1_input \u003c\u003d\u003d\n27000\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/temp2_input \u003c\u003d\u003d\n36000\n\u003d\u003d\u003e /sys/class/hwmon/hwmon4/temp3_input \u003c\u003d\u003d\n33000\n\nHere\u0027s what I think is wrong:\n- there should be just one power sensor (for \"pout\"), or perhaps also the second one for \"pin\" which however reports 0 for me via pmbus_peek, so I would prefer not to include that one\n- the voltages are just wrong (it should be 12V, 5V and 3.3V)\n- check the amps, and make sure it reports just \"iout\" for each voltage rail (\"iin\" reports 0 via pmbus_peek for me)\n\nAlso, the driver for the PSU is not bound.\n\nCan you please check these? On which HW did you test this, BTW?",
       "revId": "8e351be4eb70583a67ed0a3d1a229d5a5d5a8cdb",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe2a3d99_a81aa02d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-05-12T15:05:35Z",
+      "side": 1,
+      "message": "I tested on cfb-DB00QP0E, works fine",
+      "parentUuid": "4756e802_14934fbf",
+      "revId": "8e351be4eb70583a67ed0a3d1a229d5a5d5a8cdb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
