@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "412f6f7a_b14fab2a",
+        "filename": "configs/czechlight_clearfog_defconfig",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-05-14T15:52:13Z",
+      "side": 1,
+      "message": "the latest one is 5.12.4, so I\u0027ve bumped that",
+      "revId": "6b8a8a692bea5cff5087466eded34f0d6943dec0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
