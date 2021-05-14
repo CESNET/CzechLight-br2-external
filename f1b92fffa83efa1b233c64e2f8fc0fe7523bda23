@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f474cf24_d90552de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-05-14T21:20:36Z",
+      "side": 1,
+      "message": "Tested on line-qr79, line-DB00QCP9 and cfb-DB00QP0E, it shows sensible numbers. The per-channel power is broken, and so is the current at the 5Vsb on some device, but hey, let\u0027s pretend we don\u0027t see that.",
+      "revId": "f1b92fffa83efa1b233c64e2f8fc0fe7523bda23",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
