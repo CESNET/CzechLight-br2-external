@@ -16,6 +16,23 @@
       "message": "Huh.\n\n2021-05-28 01:59:17.800779 | w |   \"msg\": \"rsync: write failed on \\\"/var/lib/zuul/builds/d6891900bc6c423b84bb9af88516a9a1/work/artifacts/br2-work-dir-62622b7e883a7f19502742ee26a4288538f7fba1.tar.zst\\\": No space left on device (28)\\nrsync error: error in file IO (code 11) at receiver.c(393) [receiver\u003d3.1.2]\\nrsync: [generator] write error: Broken pipe (32)\\n\",\n",
       "revId": "62622b7e883a7f19502742ee26a4288538f7fba1",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c82692a5_77ac2d87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000056
+      },
+      "writtenOn": "2021-05-28T00:19:56Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "62622b7e883a7f19502742ee26a4288538f7fba1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
