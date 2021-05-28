@@ -79,6 +79,9 @@ CONFIG_BRIDGE=y
 CONFIG_BRIDGE_VLAN_FILTERING=y
 CONFIG_VLAN_8021Q=y
 
+# network: simplufy configuration by not caring for sit0
+CONFIG_IPV6_SIT=n
+
 # These are not needed, let's nuke them
 CONFIG_SOUND=n
 CONFIG_MD=n
