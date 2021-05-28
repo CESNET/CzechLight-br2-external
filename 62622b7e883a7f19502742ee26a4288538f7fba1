@@ -33,6 +33,23 @@
       "message": "recheck",
       "revId": "62622b7e883a7f19502742ee26a4288538f7fba1",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e242896_083362fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-05-28T10:52:23Z",
+      "side": 1,
+      "message": "A CI job is running, it failed because the zuul-executor ran out of space. I should really set up logrotate there I guess.",
+      "revId": "62622b7e883a7f19502742ee26a4288538f7fba1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
