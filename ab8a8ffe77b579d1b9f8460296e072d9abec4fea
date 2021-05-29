@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4cd3cf7_4a40ab40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2021-05-29T12:43:44Z",
+      "side": 1,
+      "message": "Looks good. I think.\n\n(PS2 is only a typo fix.)",
+      "revId": "ab8a8ffe77b579d1b9f8460296e072d9abec4fea",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
