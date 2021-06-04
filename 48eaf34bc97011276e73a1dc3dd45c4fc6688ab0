@@ -16,6 +16,24 @@
       "message": "https://github.com/CESNET/velia/issues/3",
       "revId": "48eaf34bc97011276e73a1dc3dd45c4fc6688ab0",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "500f771c_b79d1078",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2021-06-04T18:31:59Z",
+      "side": 1,
+      "message": "Fixed via\nhttps://gerrit.cesnet.cz/c/CzechLight/dependencies/+/4267\nhttps://gerrit.cesnet.cz/c/CzechLight/cla-sysrepo/+/4268\n\nrootfs from PS3 is installed on line-qr79",
+      "parentUuid": "216c90f5_82aa3144",
+      "revId": "48eaf34bc97011276e73a1dc3dd45c4fc6688ab0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
