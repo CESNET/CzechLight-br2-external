@@ -74,10 +74,15 @@ These are copied from `/cfg`, our R/W configuration partition, into their "final
 
 - Some LEDs are [set up from userspace](../package/czechlight-clearfog-leds/)
 
-- The most important services are `sysrepo-plugind`, `netopeer2` which together provide a NETCONF server with a YANG data store, and `cla-sysrepod` which contains code that talks to the optical modules.
+- The most important service is `netopeer2` which provides a NETCONF server with a YANG data store (on top of `sysrepo`).
+There's also `rousette` which pretends that it's a RESTCONF frontend on top of `sysrepo`.
 
-- There's also a web UI along with [a poor man's RESTCONF](../package/gammarus/) implementation that I'm ashamed of.
-But hey, once there's a RESTCONF server for sysrepo, I'll use it, I swear!
+- System management is handled by `velia-*` which bridges the YANG configuration in sysrepo with configuration for, say, `systemd-networkd`, manages user accounts, etc.
+
+- Anything optical is handled by `cla-sysrepod` which contains code that talks to the optical modules.
+
+- There's also a super-basic [web UI](../package/gammarus/) which doesn't do much.
+It talks over an anonymous, unathenticated almost-RESTCONF with the system, so this is a frontend only thing.
 
 - Once everything has started up properly (`Requires=multi-user.target` and `After=multi-user.target`), we [mark the current RAUC slot as functional](../package/czechlight-rauc/rauc-mark-good.service), and [instruct systemd to start pinging the HW watchdog](../package/czechlight-rauc/enable-hw-watchdog.service) as the last services to start.
 
@@ -95,6 +100,7 @@ There's no password.
 
 Unlike the NETCONF access which has its own SSH key store (but uses regular system-wide accounts for UIDs, etc), there's a separate "store" of SSH keys for direct shell access.
 Put public keys into `/cfg/ssh-user-auth/$USERNAME` ([configured here](../package/czechlight-cfg-fs/czechlight-cfg-fs.mk)).
+This pubkey store supports modifications and querying over the `/czechlight-system:authentication/users` YANG model.
 
 ## Debugging, Installing Custom Software, Packages, Utilities, etc
 
