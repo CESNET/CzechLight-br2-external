@@ -90,14 +90,31 @@ Once the status LED starts blinking in yellow, data are being transferred to the
 The light changes to solid yellow in later phases of the flashing process.
 Once everything is done, the status LED shows a solid white light and the system reboots automatically.
 
-Turn off power, remove the USB flash, re-jumper the board (`0 0 1 1 1`), power-cycle, and configure MAC addresses and system type at the U-Boot prompt.
+Turn off power, remove the USB flash, re-jumper the board (`0 0 1 1 1`), power-cycle, and configure MAC addresses at the U-Boot prompt.
 The MAC addresses are found on the label at the front panel.
 
 ```
 => setenv eth1addr 00:11:17:01:XX:XX
 => setenv eth2addr 00:11:17:01:XX:YY
 => setenv eth3addr 00:11:17:01:XX:ZZ
-=> setenv czechlight sdn-roadm-line
+```
+
+Also set up the system type:
+
+| Model | `czechlight` variable value |
+|-------|-----------------------------|
+| ROADM Line Degree | `sdn-roadm-line-g2` |
+| WSS Add/Drop | `sdn-roadm-add-drop-g2` |
+| Hi-resolution Add/Drop | `sdn-roadm-hires-add-drop-g2` |
+| Coherent Add/Drop | `sdn-roadm-coherent-a-d-g2` |
+| Inline EDFA Amplifier | `sdn-inline-g2` |
+
+Some prototypes have deprecated PCBs (blue).
+On these, skip the `-g2` suffix.
+All red PCBs are `-g2`.
+
+```
+=> setenv czechlight sdn-roadm-line-g2
 => saveenv
 Saving Environment to MMC... Writing to redundant MMC(0)... OK
 => boot
