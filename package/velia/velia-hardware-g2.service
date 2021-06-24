@@ -9,7 +9,6 @@ ConditionKernelCommandLine=|czechlight=sdn-roadm-add-drop-g2
 ConditionKernelCommandLine=|czechlight=sdn-roadm-coherent-a-d-g2
 ConditionKernelCommandLine=|czechlight=sdn-roadm-hires-add-drop-g2
 ConditionKernelCommandLine=|czechlight=sdn-roadm-line-g2
-ConditionKernelCommandLine=|czechlight=sdn-roadm-hires-add-drop-g2
 
 [Service]
 Type=simple
