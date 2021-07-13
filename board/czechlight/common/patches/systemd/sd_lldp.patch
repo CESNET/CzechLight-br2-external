@@ -1,6 +1,6 @@
-From 1cdab502f703bdca754d7d55b9017d25c492c0c9 Mon Sep 17 00:00:00 2001
-From: Tomas Pecka <peckato1@fit.cvut.cz>
-Date: Mon, 7 Sep 2020 18:26:47 +0200
+From b2562db7d0657e48baa22352acc9102c3f1a0feb Mon Sep 17 00:00:00 2001
+From: Tomas Pecka <peckato1@users.noreply.github.com>
+Date: Tue, 13 Jul 2021 16:37:08 +0200
 Subject: [PATCH] Move sd_lldp to libsystemd
 
 This makes sd_lldp public in libsystemd. Clients can therefore operate
@@ -25,8 +25,8 @@ with LLDP structures and files (e.g. parse LLDP neighbours).
  src/libsystemd/sd-lldp/sd-lldp.c       | 498 ++++++++++++++++
  src/libsystemd/sd-lldp/test-lldp.c     | 378 ++++++++++++
  src/systemd/meson.build                |   2 +-
- src/test/meson.build                   |  10 +-
- 20 files changed, 1935 insertions(+), 1895 deletions(-)
+ src/test/meson.build                   |   9 +-
+ 20 files changed, 1934 insertions(+), 1895 deletions(-)
  delete mode 100644 src/libsystemd-network/lldp-internal.h
  delete mode 100644 src/libsystemd-network/lldp-neighbor.c
  delete mode 100644 src/libsystemd-network/lldp-neighbor.h
@@ -43,10 +43,10 @@ with LLDP structures and files (e.g. parse LLDP neighbours).
  create mode 100644 src/libsystemd/sd-lldp/test-lldp.c
 
 diff --git a/meson.build b/meson.build
-index a5d1ed3d4d..45cc47f604 100644
+index 580964c3fa..22783a2f9f 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1552,6 +1552,7 @@ includes = include_directories('src/basic',
+@@ -1574,6 +1574,7 @@ includes = include_directories('src/basic',
                                 'src/libsystemd/sd-event',
                                 'src/libsystemd/sd-hwdb',
                                 'src/libsystemd/sd-id128',
@@ -56,11 +56,11 @@ index a5d1ed3d4d..45cc47f604 100644
                                 'src/libsystemd/sd-resolve',
 diff --git a/src/libsystemd-network/lldp-internal.h b/src/libsystemd-network/lldp-internal.h
 deleted file mode 100644
-index 9598438dba..0000000000
+index f23695f974..0000000000
 --- a/src/libsystemd-network/lldp-internal.h
 +++ /dev/null
 @@ -1,39 +0,0 @@
--/* SPDX-License-Identifier: LGPL-2.1+ */
+-/* SPDX-License-Identifier: LGPL-2.1-or-later */
 -#pragma once
 -
 -#include "sd-event.h"
@@ -101,11 +101,11 @@ index 9598438dba..0000000000
 -sd_lldp_event lldp_event_from_string(const char *s) _pure_;
 diff --git a/src/libsystemd-network/lldp-neighbor.c b/src/libsystemd-network/lldp-neighbor.c
 deleted file mode 100644
-index 02645b2bcd..0000000000
+index 546ae1c980..0000000000
 --- a/src/libsystemd-network/lldp-neighbor.c
 +++ /dev/null
 @@ -1,792 +0,0 @@
--/* SPDX-License-Identifier: LGPL-2.1+ */
+-/* SPDX-License-Identifier: LGPL-2.1-or-later */
 -
 -#include "alloc-util.h"
 -#include "escape.h"
@@ -899,11 +899,11 @@ index 02645b2bcd..0000000000
 -}
 diff --git a/src/libsystemd-network/lldp-neighbor.h b/src/libsystemd-network/lldp-neighbor.h
 deleted file mode 100644
-index 74175edf54..0000000000
+index a5718c8c31..0000000000
 --- a/src/libsystemd-network/lldp-neighbor.h
 +++ /dev/null
 @@ -1,92 +0,0 @@
--/* SPDX-License-Identifier: LGPL-2.1+ */
+-/* SPDX-License-Identifier: LGPL-2.1-or-later */
 -#pragma once
 -
 -#include <inttypes.h>
@@ -997,11 +997,11 @@ index 74175edf54..0000000000
 -bool lldp_neighbor_equal(const sd_lldp_neighbor *a, const sd_lldp_neighbor *b);
 diff --git a/src/libsystemd-network/lldp-network.c b/src/libsystemd-network/lldp-network.c
 deleted file mode 100644
-index 53e329734b..0000000000
+index 9616cb6250..0000000000
 --- a/src/libsystemd-network/lldp-network.c
 +++ /dev/null
 @@ -1,78 +0,0 @@
--/* SPDX-License-Identifier: LGPL-2.1+ */
+-/* SPDX-License-Identifier: LGPL-2.1-or-later */
 -
 -#include <linux/filter.h>
 -#include <netinet/if_ether.h>
@@ -1050,7 +1050,7 @@ index 53e329734b..0000000000
 -
 -        assert(ifindex > 0);
 -
--        fd = socket(PF_PACKET, SOCK_RAW|SOCK_CLOEXEC|SOCK_NONBLOCK,
+-        fd = socket(AF_PACKET, SOCK_RAW|SOCK_CLOEXEC|SOCK_NONBLOCK,
 -                    htobe16(ETHERTYPE_LLDP));
 -        if (fd < 0)
 -                return -errno;
@@ -1081,18 +1081,18 @@ index 53e329734b..0000000000
 -}
 diff --git a/src/libsystemd-network/lldp-network.h b/src/libsystemd-network/lldp-network.h
 deleted file mode 100644
-index e4ed2898a5..0000000000
+index bc69b324c2..0000000000
 --- a/src/libsystemd-network/lldp-network.h
 +++ /dev/null
 @@ -1,6 +0,0 @@
--/* SPDX-License-Identifier: LGPL-2.1+ */
+-/* SPDX-License-Identifier: LGPL-2.1-or-later */
 -#pragma once
 -
 -#include "sd-event.h"
 -
 -int lldp_network_bind_raw_socket(int ifindex);
 diff --git a/src/libsystemd-network/meson.build b/src/libsystemd-network/meson.build
-index 7fa0c67956..517ffd1471 100644
+index 604cfd999b..7864fc3d07 100644
 --- a/src/libsystemd-network/meson.build
 +++ b/src/libsystemd-network/meson.build
 @@ -34,12 +34,6 @@ sources = files('''
@@ -1110,11 +1110,11 @@ index 7fa0c67956..517ffd1471 100644
  network_internal_h = files('network-internal.h')
 diff --git a/src/libsystemd-network/sd-lldp.c b/src/libsystemd-network/sd-lldp.c
 deleted file mode 100644
-index d3606cf501..0000000000
+index 8b666522cb..0000000000
 --- a/src/libsystemd-network/sd-lldp.c
 +++ /dev/null
 @@ -1,498 +0,0 @@
--/* SPDX-License-Identifier: LGPL-2.1+ */
+-/* SPDX-License-Identifier: LGPL-2.1-or-later */
 -
 -#include <arpa/inet.h>
 -#include <linux/sockios.h>
@@ -1392,7 +1392,8 @@ index d3606cf501..0000000000
 -}
 -
 -_public_ int sd_lldp_stop(sd_lldp *lldp) {
--        assert_return(lldp, -EINVAL);
+-        if (!lldp)
+-                return 0;
 -
 -        if (lldp->fd < 0)
 -                return 0;
@@ -1547,7 +1548,6 @@ index d3606cf501..0000000000
 -
 -_public_ int sd_lldp_get_neighbors(sd_lldp *lldp, sd_lldp_neighbor ***ret) {
 -        sd_lldp_neighbor **l = NULL, *n;
--        Iterator i;
 -        int k = 0, r;
 -
 -        assert_return(lldp, -EINVAL);
@@ -1568,7 +1568,7 @@ index d3606cf501..0000000000
 -                return r;
 -        }
 -
--        HASHMAP_FOREACH(n, lldp->neighbor_by_id, i)
+-        HASHMAP_FOREACH(n, lldp->neighbor_by_id)
 -                l[k++] = sd_lldp_neighbor_ref(n);
 -
 -        assert((size_t) k == hashmap_size(lldp->neighbor_by_id));
@@ -1614,11 +1614,11 @@ index d3606cf501..0000000000
 -}
 diff --git a/src/libsystemd-network/test-lldp.c b/src/libsystemd-network/test-lldp.c
 deleted file mode 100644
-index a2ac65095f..0000000000
+index c52d422fce..0000000000
 --- a/src/libsystemd-network/test-lldp.c
 +++ /dev/null
 @@ -1,378 +0,0 @@
--/* SPDX-License-Identifier: LGPL-2.1+ */
+-/* SPDX-License-Identifier: LGPL-2.1-or-later */
 -
 -#include <arpa/inet.h>
 -#include <errno.h>
@@ -1997,16 +1997,16 @@ index a2ac65095f..0000000000
 -        return 0;
 -}
 diff --git a/src/libsystemd/libsystemd.sym b/src/libsystemd/libsystemd.sym
-index 1e654b49ea..d584ac2faf 100644
+index f83b364c96..45565e5821 100644
 --- a/src/libsystemd/libsystemd.sym
 +++ b/src/libsystemd/libsystemd.sym
-@@ -720,4 +720,43 @@ global:
- 
-         sd_journal_enumerate_available_data;
-         sd_journal_enumerate_available_unique;
+@@ -735,4 +735,43 @@ global:
+         sd_device_get_current_tag_next;
+         sd_device_has_current_tag;
+         sd_device_set_sysattr_valuef;
 +
 +        sd_lldp_start;
-+		sd_lldp_neighbor_ref;
++        sd_lldp_neighbor_ref;
 +        sd_lldp_neighbor_unref;
 +        sd_lldp_neighbor_get_source_address;
 +        sd_lldp_neighbor_get_destination_address;
@@ -2043,31 +2043,31 @@ index 1e654b49ea..d584ac2faf 100644
 +        sd_lldp_set_neighbors_max;
 +        sd_lldp_match_capabilities;
 +        sd_lldp_set_filter_address;
- } LIBSYSTEMD_245;
+ } LIBSYSTEMD_246;
 diff --git a/src/libsystemd/meson.build b/src/libsystemd/meson.build
-index aa1ed9b7dd..db28fbcf37 100644
+index 50716f7b94..68b19d30c5 100644
 --- a/src/libsystemd/meson.build
 +++ b/src/libsystemd/meson.build
 @@ -70,6 +70,12 @@ libsystemd_sources = files('''
          sd-hwdb/hwdb-util.c
          sd-hwdb/hwdb-util.h
          sd-hwdb/sd-hwdb.c
-+        sd-lldp/sd-lldp.c
 +        sd-lldp/lldp-internal.h
-+        sd-lldp/lldp-neighbor.c
-+        sd-lldp/lldp-neighbor.h
-+        sd-lldp/lldp-network.c
 +        sd-lldp/lldp-network.h
++        sd-lldp/lldp-network.c
++        sd-lldp/lldp-neighbor.h
++        sd-lldp/lldp-neighbor.c
++        sd-lldp/sd-lldp.c
          sd-netlink/generic-netlink.c
          sd-netlink/generic-netlink.h
          sd-netlink/netlink-internal.h
 diff --git a/src/libsystemd/sd-lldp/lldp-internal.h b/src/libsystemd/sd-lldp/lldp-internal.h
 new file mode 100644
-index 0000000000..9598438dba
+index 0000000000..f23695f974
 --- /dev/null
 +++ b/src/libsystemd/sd-lldp/lldp-internal.h
 @@ -0,0 +1,39 @@
-+/* SPDX-License-Identifier: LGPL-2.1+ */
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
 +#pragma once
 +
 +#include "sd-event.h"
@@ -2108,11 +2108,11 @@ index 0000000000..9598438dba
 +sd_lldp_event lldp_event_from_string(const char *s) _pure_;
 diff --git a/src/libsystemd/sd-lldp/lldp-neighbor.c b/src/libsystemd/sd-lldp/lldp-neighbor.c
 new file mode 100644
-index 0000000000..02645b2bcd
+index 0000000000..546ae1c980
 --- /dev/null
 +++ b/src/libsystemd/sd-lldp/lldp-neighbor.c
 @@ -0,0 +1,792 @@
-+/* SPDX-License-Identifier: LGPL-2.1+ */
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
 +
 +#include "alloc-util.h"
 +#include "escape.h"
@@ -2906,11 +2906,11 @@ index 0000000000..02645b2bcd
 +}
 diff --git a/src/libsystemd/sd-lldp/lldp-neighbor.h b/src/libsystemd/sd-lldp/lldp-neighbor.h
 new file mode 100644
-index 0000000000..74175edf54
+index 0000000000..a5718c8c31
 --- /dev/null
 +++ b/src/libsystemd/sd-lldp/lldp-neighbor.h
 @@ -0,0 +1,92 @@
-+/* SPDX-License-Identifier: LGPL-2.1+ */
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
 +#pragma once
 +
 +#include <inttypes.h>
@@ -3004,11 +3004,11 @@ index 0000000000..74175edf54
 +bool lldp_neighbor_equal(const sd_lldp_neighbor *a, const sd_lldp_neighbor *b);
 diff --git a/src/libsystemd/sd-lldp/lldp-network.c b/src/libsystemd/sd-lldp/lldp-network.c
 new file mode 100644
-index 0000000000..53e329734b
+index 0000000000..9616cb6250
 --- /dev/null
 +++ b/src/libsystemd/sd-lldp/lldp-network.c
 @@ -0,0 +1,78 @@
-+/* SPDX-License-Identifier: LGPL-2.1+ */
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
 +
 +#include <linux/filter.h>
 +#include <netinet/if_ether.h>
@@ -3057,7 +3057,7 @@ index 0000000000..53e329734b
 +
 +        assert(ifindex > 0);
 +
-+        fd = socket(PF_PACKET, SOCK_RAW|SOCK_CLOEXEC|SOCK_NONBLOCK,
++        fd = socket(AF_PACKET, SOCK_RAW|SOCK_CLOEXEC|SOCK_NONBLOCK,
 +                    htobe16(ETHERTYPE_LLDP));
 +        if (fd < 0)
 +                return -errno;
@@ -3088,11 +3088,11 @@ index 0000000000..53e329734b
 +}
 diff --git a/src/libsystemd/sd-lldp/lldp-network.h b/src/libsystemd/sd-lldp/lldp-network.h
 new file mode 100644
-index 0000000000..e4ed2898a5
+index 0000000000..bc69b324c2
 --- /dev/null
 +++ b/src/libsystemd/sd-lldp/lldp-network.h
 @@ -0,0 +1,6 @@
-+/* SPDX-License-Identifier: LGPL-2.1+ */
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
 +#pragma once
 +
 +#include "sd-event.h"
@@ -3100,11 +3100,11 @@ index 0000000000..e4ed2898a5
 +int lldp_network_bind_raw_socket(int ifindex);
 diff --git a/src/libsystemd/sd-lldp/sd-lldp.c b/src/libsystemd/sd-lldp/sd-lldp.c
 new file mode 100644
-index 0000000000..d3606cf501
+index 0000000000..8b666522cb
 --- /dev/null
 +++ b/src/libsystemd/sd-lldp/sd-lldp.c
 @@ -0,0 +1,498 @@
-+/* SPDX-License-Identifier: LGPL-2.1+ */
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
 +
 +#include <arpa/inet.h>
 +#include <linux/sockios.h>
@@ -3382,7 +3382,8 @@ index 0000000000..d3606cf501
 +}
 +
 +_public_ int sd_lldp_stop(sd_lldp *lldp) {
-+        assert_return(lldp, -EINVAL);
++        if (!lldp)
++                return 0;
 +
 +        if (lldp->fd < 0)
 +                return 0;
@@ -3537,7 +3538,6 @@ index 0000000000..d3606cf501
 +
 +_public_ int sd_lldp_get_neighbors(sd_lldp *lldp, sd_lldp_neighbor ***ret) {
 +        sd_lldp_neighbor **l = NULL, *n;
-+        Iterator i;
 +        int k = 0, r;
 +
 +        assert_return(lldp, -EINVAL);
@@ -3558,7 +3558,7 @@ index 0000000000..d3606cf501
 +                return r;
 +        }
 +
-+        HASHMAP_FOREACH(n, lldp->neighbor_by_id, i)
++        HASHMAP_FOREACH(n, lldp->neighbor_by_id)
 +                l[k++] = sd_lldp_neighbor_ref(n);
 +
 +        assert((size_t) k == hashmap_size(lldp->neighbor_by_id));
@@ -3604,11 +3604,11 @@ index 0000000000..d3606cf501
 +}
 diff --git a/src/libsystemd/sd-lldp/test-lldp.c b/src/libsystemd/sd-lldp/test-lldp.c
 new file mode 100644
-index 0000000000..a2ac65095f
+index 0000000000..c52d422fce
 --- /dev/null
 +++ b/src/libsystemd/sd-lldp/test-lldp.c
 @@ -0,0 +1,378 @@
-+/* SPDX-License-Identifier: LGPL-2.1+ */
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
 +
 +#include <arpa/inet.h>
 +#include <errno.h>
@@ -3987,17 +3987,17 @@ index 0000000000..a2ac65095f
 +        return 0;
 +}
 diff --git a/src/systemd/meson.build b/src/systemd/meson.build
-index 62baf7784e..090f06087b 100644
+index 3d328e5fd3..2e53004452 100644
 --- a/src/systemd/meson.build
 +++ b/src/systemd/meson.build
-@@ -13,6 +13,7 @@ _systemd_headers = '''
+@@ -9,6 +9,7 @@ _systemd_headers = '''
+         sd-event.h
+         sd-hwdb.h
+         sd-id128.h
++        sd-lldp.h
+         sd-journal.h
          sd-login.h
          sd-messages.h
-         sd-path.h
-+        sd-lldp.h
- '''.split()
- 
- # https://github.com/mesonbuild/meson/issues/1633
 @@ -28,7 +29,6 @@ _not_installed_headers = '''
          sd-dhcp-server.h
          sd-ipv4acd.h
@@ -4007,10 +4007,10 @@ index 62baf7784e..090f06087b 100644
          sd-netlink.h
          sd-network.h
 diff --git a/src/test/meson.build b/src/test/meson.build
-index 132989f197..1b7d2d6e6d 100644
+index 6234294947..f2fd2362da 100644
 --- a/src/test/meson.build
 +++ b/src/test/meson.build
-@@ -1037,6 +1037,11 @@ tests += [
+@@ -1069,6 +1069,10 @@ tests += [
           [],
           []],
  
@@ -4018,11 +4018,10 @@ index 132989f197..1b7d2d6e6d 100644
 +         [libsystemd_static,
 +          libshared],
 +         []],
-+
  ]
  
  if cxx_cmd != ''
-@@ -1122,11 +1127,6 @@ tests += [
+@@ -1154,11 +1158,6 @@ tests += [
           [libshared,
            libsystemd_network],
           []],
@@ -4035,5 +4034,5 @@ index 132989f197..1b7d2d6e6d 100644
  
  ############################################################
 -- 
-2.28.0
+2.32.0
 
