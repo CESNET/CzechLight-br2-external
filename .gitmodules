@@ -13,9 +13,6 @@
 [submodule "submodules/velia"]
 	path = submodules/velia
 	url = ../velia/
-[submodule "submodules/lldp-systemd-networkd-sysrepo"]
-	path = submodules/lldp-systemd-networkd-sysrepo
-	url = ../lldp-systemd-networkd-sysrepo
 [submodule "submodules/rousette"]
 	path = submodules/rousette
 	url = ../rousette
