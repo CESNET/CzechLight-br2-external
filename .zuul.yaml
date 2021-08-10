@@ -13,7 +13,6 @@
       - CzechLight/gammarus
       - CzechLight/netconf-cli
       - CzechLight/velia
-      - CzechLight/lldp-systemd-networkd-sysrepo
       - CzechLight/rousette
       - github/CESNET/libyang
       - github/sysrepo/sysrepo
