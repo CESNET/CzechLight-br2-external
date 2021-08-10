@@ -61,7 +61,7 @@ if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
     # We don't use gating, so there's a risk that there's no prebuilt artifact, so don't die if we cannot download that file
     curl ${ARTIFACT_URL} | unzstd --stdout | tar -xf - || echo "No Buildroot prebuilt tarball found, will build from scratch"
 
-    for PROJECT in cla-sysrepo netconf-cli gammarus velia rousette lldp-systemd-networkd-sysrepo; do
+    for PROJECT in cla-sysrepo netconf-cli gammarus velia rousette; do
         # If there's a change for ${PROJECT} queued ahead, ensure it gets used.
         # This means that if our submodules still pin, say, `cla-sysrepo` to some ancient version and we're testing a `netconf-cli` change,
         # then we will keep using that ancient `cla-sysrepo`. Hopefully this reduces the number of false alerts.
