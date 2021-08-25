@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33693bc6_c290b4f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-25T17:44:40Z",
+      "side": 1,
+      "message": "In case I ever forget again, the `update.raucb` file goes into the \"logs\" bucket, not into the \"artifacts\" bucket for some reason. The TTL for the logs bucket is set to two months via https://gerrit.cesnet.cz/plugins/gitiles/ci/project-config/+/refs/heads/master/playbooks/base/post-logs.yaml#14 .",
+      "revId": "a0f9bba22e541c740cae1a20c4172a53a4b983a0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
