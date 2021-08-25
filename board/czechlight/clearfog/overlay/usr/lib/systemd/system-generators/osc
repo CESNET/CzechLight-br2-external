@@ -10,6 +10,7 @@ if grep -q '\<czechlight=sdn-roadm-line.*\>' /proc/cmdline; then
 elif grep -q '\<czechlight=sdn-inline.*\>' /proc/cmdline; then
 	ETH2_NAME=oscW
 	ETH3_NAME=oscE
+	ETH4_NAME=sfp3
 fi
 
 if [[ -n "${ETH2_NAME+set}" ]] ; then
@@ -24,8 +25,17 @@ fi
 if [[ -n "${ETH3_NAME+set}" ]]; then
 	cat > /run/systemd/network/30-eth3.link <<EOF
 [Match]
-Path=platform-soc:pcie-pci-*
+Path=platform-soc:pcie-pci-0000:01:00.0
 [Link]
 Name=${ETH3_NAME}
+EOF
+fi
+
+if [[ -n "${ETH4_NAME+set}" ]]; then
+	cat > /run/systemd/network/30-eth4.link <<EOF
+[Match]
+Path=platform-soc:pcie-pci-0000:01:00.1
+[Link]
+Name=${ETH4_NAME}
 EOF
 fi
