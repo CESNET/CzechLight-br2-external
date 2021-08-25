@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "722cd9b5_a84eacf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-25T19:05:54Z",
+      "side": 1,
+      "message": "Tested on EDFA-LINE-SDN-ID210513, and it appears to work.",
+      "revId": "5eb04d9096dd6824f4d1906a9028c667ecb6ed90",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
