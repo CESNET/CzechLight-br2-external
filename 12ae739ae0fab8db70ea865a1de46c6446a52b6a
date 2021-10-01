@@ -18,6 +18,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81c96343_ba3c8448",
+        "filename": "package/cla-sysrepo/czechlight-install-yang.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-10-01T11:55:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9411400b_ca312900",
+      "revId": "12ae739ae0fab8db70ea865a1de46c6446a52b6a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "daacd6a2_fa6fdb0d",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-10-01T01:16:58Z",
       "side": 1,
       "message": "this needs updating",
+      "revId": "12ae739ae0fab8db70ea865a1de46c6446a52b6a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "707db4f3_5739d393",
+        "filename": "submodules/velia",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-10-01T11:55:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daacd6a2_fa6fdb0d",
       "revId": "12ae739ae0fab8db70ea865a1de46c6446a52b6a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
