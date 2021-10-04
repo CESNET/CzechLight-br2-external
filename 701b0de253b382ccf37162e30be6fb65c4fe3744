@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "701b0de253b382ccf37162e30be6fb65c4fe3744",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b8c751d_db0e7574",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2021-10-04T16:34:44Z",
+      "side": 1,
+      "message": "@Jan: I think you finished it. Or is there any other work to be done? I tried the image and it seems to work.",
+      "revId": "701b0de253b382ccf37162e30be6fb65c4fe3744",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
