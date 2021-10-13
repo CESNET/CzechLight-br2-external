@@ -8,6 +8,7 @@ config BR2_PACKAGE_VELIA
 	select BR2_PACKAGE_SYSTEMD
 	select BR2_PACKAGE_SYSREPO
 	select BR2_PACKAGE_SYSREPO_CPP
+	select BR2_PACKAGE_JSON_FOR_MODERN_CPP
 	help
 	  Health tracking for embedded devices running Linux
 
