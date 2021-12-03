@@ -32,7 +32,7 @@ case "${CZECHLIGHT}" in
         ;;
     sdn-roadm-hires-add-drop*)
         YANG_ROADM=1
-        WITH_FEATURE=hw-add-drop-20
+        WITH_FEATURE="hw-add-drop-20 pre-wss-ocm"
         INITIAL_DATA=sdn-roadm-add-drop
         ;;
     sdn-roadm-coherent-a-d*)
@@ -54,7 +54,9 @@ if [[ ${YANG_ROADM} == 1 ]]; then
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang
     sysrepoctl --change czechlight-roadm-device --group optics --permissions 0664 --apply
     if [[ ${WITH_FEATURE} ]]; then
-        sysrepoctl --change czechlight-roadm-device --enable-feature ${WITH_FEATURE}
+        for FEATURE in ${WITH_FEATURE}; do
+            sysrepoctl --change czechlight-roadm-device --enable-feature ${FEATURE}
+        done
     fi
     sysrepocfg --datastore=startup --format=json --module=czechlight-roadm-device --import="${CLA_YANG}/${INITIAL_DATA}.json"
 fi
