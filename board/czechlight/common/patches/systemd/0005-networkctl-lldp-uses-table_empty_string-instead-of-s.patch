@@ -1,4 +1,4 @@
-From 876c47e0743031e352a126000c87b0b51209408d Mon Sep 17 00:00:00 2001
+From 3f997c34cdaef7a66fdb1d0bc10a1bafd4f7e656 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Thu, 7 Oct 2021 14:11:45 +0200
 Subject: [PATCH 5/9] networkctl: lldp uses table_empty_string instead of strna
@@ -8,10 +8,10 @@ Subject: [PATCH 5/9] networkctl: lldp uses table_empty_string instead of strna
  1 file changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/src/network/networkctl.c b/src/network/networkctl.c
-index 9bbfe177b1..235731079d 100644
+index 68dd4b185c..30cd75eec0 100644
 --- a/src/network/networkctl.c
 +++ b/src/network/networkctl.c
-@@ -2531,6 +2531,9 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
+@@ -2529,6 +2529,9 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
          assert_se(cell = table_get_cell(table, 0, 5));
          table_set_minimum_width(table, cell, 16);
  
@@ -21,7 +21,7 @@ index 9bbfe177b1..235731079d 100644
          for (int i = 0; i < c; i++) {
                  _cleanup_fclose_ FILE *f = NULL;
  
-@@ -2592,11 +2595,11 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
+@@ -2590,11 +2593,11 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
  
                          r = table_add_many(table,
                                             TABLE_STRING, links[i].name,
@@ -39,5 +39,5 @@ index 9bbfe177b1..235731079d 100644
                                  return table_log_add_error(r);
  
 -- 
-2.33.0
+2.34.1
 

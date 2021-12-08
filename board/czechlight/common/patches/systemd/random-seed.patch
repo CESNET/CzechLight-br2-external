@@ -24,13 +24,13 @@ index e5ceb1e169..ff3af58b8f 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -155,7 +155,7 @@ bootlibdir = join_paths(prefixdir, 'lib/systemd/boot/efi')
- testsdir = join_paths(prefixdir, 'lib/systemd/tests')
- systemdstatedir = join_paths(localstatedir, 'lib/systemd')
- catalogstatedir = join_paths(systemdstatedir, 'catalog')
--randomseeddir = join_paths(localstatedir, 'lib/systemd')
+ testsdir = prefixdir / 'lib/systemd/tests'
+ systemdstatedir = localstatedir / 'lib/systemd'
+ catalogstatedir = systemdstatedir / 'catalog'
+-randomseeddir = localstatedir / 'lib/systemd'
 +randomseeddir = '/cfg/random-seed'
- profiledir = join_paths(rootlibexecdir, 'portable', 'profile')
- ntpservicelistdir = join_paths(rootprefixdir, 'lib/systemd/ntp-units.d')
+ profiledir = rootlibexecdir / 'portable' / 'profile'
+ ntpservicelistdir = rootprefixdir / 'lib/systemd/ntp-units.d'
  
 -- 
 2.21.0

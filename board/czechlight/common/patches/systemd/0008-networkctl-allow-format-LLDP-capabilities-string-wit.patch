@@ -1,4 +1,4 @@
-From 658e0a69a353e2559ab04c3caa7ea1eaf0ef6dda Mon Sep 17 00:00:00 2001
+From b6b2ad094aba092aadda307c4d786a541d878211 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Wed, 15 Sep 2021 14:30:19 +0200
 Subject: [PATCH 8/9] networkctl: allow format LLDP capabilities string without
@@ -11,10 +11,10 @@ representing "not enabled" (just omit them).
  1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/src/network/networkctl.c b/src/network/networkctl.c
-index f98779da7e..89abaf26da 100644
+index a10f3f3fc7..9fbeed6908 100644
 --- a/src/network/networkctl.c
 +++ b/src/network/networkctl.c
-@@ -2433,21 +2433,24 @@ static int link_status(int argc, char *argv[], void *userdata) {
+@@ -2431,21 +2431,24 @@ static int link_status(int argc, char *argv[], void *userdata) {
          return 0;
  }
  
@@ -44,7 +44,7 @@ index f98779da7e..89abaf26da 100644
          return ret;
  }
  
-@@ -2534,7 +2537,7 @@ static int lldp_neighbours_varlink_reply(Varlink *link, JsonVariant *parameters,
+@@ -2537,7 +2540,7 @@ static int lldp_neighbors_varlink_reply(Varlink *link, JsonVariant *parameters,
                  return r;
  
          if (udata->table) {
@@ -54,5 +54,5 @@ index f98779da7e..89abaf26da 100644
                  r = table_add_many(udata->table,
                                  TABLE_STRING, udata->link_name,
 -- 
-2.33.0
+2.34.1
 
