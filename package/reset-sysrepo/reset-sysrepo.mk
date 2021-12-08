@@ -3,7 +3,7 @@ RESET_SYSREPO_INSTALL_TARGET = YES
 define RESET_SYSREPO_PATCH_DEV_SHM
         sed -i \
                 's|^#define SR_SHM_DIR .*|#define SR_SHM_DIR "/run/sysrepo"|' \
-                $(@D)/src/common.h.in
+                $(@D)/src/config.h.in
 endef
 
 SYSREPO_PRE_PATCH_HOOKS += RESET_SYSREPO_PATCH_DEV_SHM

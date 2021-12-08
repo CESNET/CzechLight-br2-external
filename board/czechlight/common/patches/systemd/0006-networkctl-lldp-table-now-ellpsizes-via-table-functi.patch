@@ -1,4 +1,4 @@
-From 03305bb0f181446ae4f1698c14e72470ae642bbb Mon Sep 17 00:00:00 2001
+From 90271bd69a7488714a51173dcec3f349459761c9 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Thu, 7 Oct 2021 14:16:53 +0200
 Subject: [PATCH 6/9] networkctl: lldp table now ellpsizes via table functions
@@ -14,10 +14,10 @@ maximum widths for the columns in the output.
  1 file changed, 7 insertions(+), 25 deletions(-)
 
 diff --git a/src/network/networkctl.c b/src/network/networkctl.c
-index 235731079d..a1d42cbe92 100644
+index 30cd75eec0..46c08b5549 100644
 --- a/src/network/networkctl.c
 +++ b/src/network/networkctl.c
-@@ -2515,21 +2515,27 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
+@@ -2513,21 +2513,27 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
  
          assert_se(cell = table_get_cell(table, 0, 0));
          table_set_minimum_width(table, cell, 16);
@@ -45,7 +45,7 @@ index 235731079d..a1d42cbe92 100644
  
          if (table_set_empty_string(table, "n/a") < 0)
                  return log_oom();
-@@ -2546,7 +2552,7 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
+@@ -2544,7 +2550,7 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
                  }
  
                  for (;;) {
@@ -54,7 +54,7 @@ index 235731079d..a1d42cbe92 100644
                          const char *chassis_id = NULL, *port_id = NULL, *system_name = NULL, *port_description = NULL;
                          _cleanup_(sd_lldp_neighbor_unrefp) sd_lldp_neighbor *n = NULL;
                          uint16_t cc;
-@@ -2564,30 +2570,6 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
+@@ -2562,30 +2568,6 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
                          (void) sd_lldp_neighbor_get_system_name(n, &system_name);
                          (void) sd_lldp_neighbor_get_port_description(n, &port_description);
  
@@ -86,5 +86,5 @@ index 235731079d..a1d42cbe92 100644
                                  capabilities = lldp_capabilities_to_string(cc);
                                  all |= cc;
 -- 
-2.33.0
+2.34.1
 
