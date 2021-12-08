@@ -1,4 +1,4 @@
-From 3ee0693ac819543610120542f8e60fb95fe6f0d4 Mon Sep 17 00:00:00 2001
+From 04fa6f4d5d019900b084787b9ca2d4439f26d302 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Wed, 1 Sep 2021 08:30:20 +0200
 Subject: [PATCH 3/9] network: Add LLDP neighbors method to varlink server
@@ -12,7 +12,7 @@ neighbors as discovered by the LLDP protocol.
  1 file changed, 77 insertions(+)
 
 diff --git a/src/network/networkd-varlink.c b/src/network/networkd-varlink.c
-index 57d8acb967..f86be4e903 100644
+index 57d8acb967..5bc65c39b7 100644
 --- a/src/network/networkd-varlink.c
 +++ b/src/network/networkd-varlink.c
 @@ -1,6 +1,76 @@
@@ -63,7 +63,7 @@ index 57d8acb967..f86be4e903 100644
 +        if (r < 0)
 +                return varlink_error_invalid_parameter(link, JSON_VARIANT_STRING_CONST("ifindex"));
 +
-+        r = sd_lldp_get_neighbors_json(l->lldp, &neighbors);
++        r = sd_lldp_rx_get_neighbors_json(l->lldp_rx, &neighbors);
 +        if (r < 0)
 +                return r;
 +        if (r == 0)
@@ -114,5 +114,5 @@ index 57d8acb967..f86be4e903 100644
  }
  
 -- 
-2.33.0
+2.34.1
 
