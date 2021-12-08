@@ -15,7 +15,7 @@ endif
 define CZECHLIGHT_CFG_FS_BUILD_CMDS
 	$(TARGET_CC) $(CZECHLIGHT_CFG_FS_PKGDIR)/czechlight-random-seed.c -o $(@D)/czechlight-random-seed
 
-	$(HOST_DIR)/usr/bin/yanglint -t config --strict \
+	$(HOST_DIR)/usr/bin/yanglint -t config \
 		$(TARGET_DIR)/usr/share/yang/modules/netopeer2/ietf-netconf-acm@2018-02-14.yang \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm.json
 endef
