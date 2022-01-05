@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if git rev-parse &> /dev/null; then
-  echo "Error: run this from a new build directory, not from within a git repo"
+if [[ "$(git rev-parse --show-toplevel)" = "$(dirname -- "${BASH_SOURCE[0]}")" ]]; then
+  echo "Error: run this from a new build directory, not from within the br2-external git repo"
   exit 1
 fi
 
