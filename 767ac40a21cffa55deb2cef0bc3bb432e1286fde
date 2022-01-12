@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4a62307_3b5b58e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-12T10:33:14Z",
+      "side": 1,
+      "message": "you might want to add a Fixes: footer to point to the commit which removed this",
+      "revId": "767ac40a21cffa55deb2cef0bc3bb432e1286fde",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
