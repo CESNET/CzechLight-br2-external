@@ -16,6 +16,24 @@
       "message": "fans won\u0027t work",
       "revId": "61a42d5c9d1ee18930e94adcec9a4c217e4c8b43",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30c06f78_74a0cad3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-13T18:29:17Z",
+      "side": 1,
+      "message": "× max31780-fans.service - Enable fans\n     Loaded: loaded (/usr/lib/systemd/system/max31780-fans.service; static)\n     Active: failed (Result: exit-code) since Thu 2022-01-13 18:10:54 UTC; 1min 14s ago\n    Process: 195 ExecStart\u003d/bin/bash -c for FAN in /sys/bus/i2c/devices/1-0020/hwmon/hwmon*/fan{1,2,3,4}_enable; do echo 1 \u003e \"$FAN\"; done (code\u003dexited, status\u003d1/FAILURE)\n   Main PID: 195 (code\u003dexited, status\u003d1/FAILURE)\n \nJan 13 18:10:54 add-drop-DQ000VOT systemd[1]: Starting Enable fans...\nJan 13 18:10:54 add-drop-DQ000VOT bash[195]: /bin/bash: line 1: /sys/bus/i2c/devices/1-0020/hwmon/hwmon*/fan1_enable: No such file or directory\nJan 13 18:10:54 add-drop-DQ000VOT bash[195]: /bin/bash: line 1: /sys/bus/i2c/devices/1-0020/hwmon/hwmon*/fan2_enable: No such file or directory\nJan 13 18:10:54 add-drop-DQ000VOT bash[195]: /bin/bash: line 1: /sys/bus/i2c/devices/1-0020/hwmon/hwmon*/fan3_enable: No such file or directory\nJan 13 18:10:54 add-drop-DQ000VOT bash[195]: /bin/bash: line 1: /sys/bus/i2c/devices/1-0020/hwmon/hwmon*/fan4_enable: No such file or directory\nJan 13 18:10:54 add-drop-DQ000VOT systemd[1]: max31780-fans.service: Main process exited, code\u003dexited, status\u003d1/FAILURE\nJan 13 18:10:54 add-drop-DQ000VOT systemd[1]: max31780-fans.service: Failed with result \u0027exit-code\u0027.\nJan 13 18:10:54 add-drop-DQ000VOT systemd[1]: Failed to start Enable fans.\n\nKernel code is at https://gerrit.cesnet.cz/plugins/gitiles/github/torvalds/linux/+log/refs/heads/cesnet/2022-01-13, obviously I\u0027m missing the bits for fan enabling.",
+      "parentUuid": "fc6a71e8_3f54e264",
+      "revId": "61a42d5c9d1ee18930e94adcec9a4c217e4c8b43",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
