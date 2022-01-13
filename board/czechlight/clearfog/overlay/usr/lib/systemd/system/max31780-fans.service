@@ -10,4 +10,6 @@ ConditionKernelCommandLine=|czechlight=sdn-roadm-hires-add-drop-g2
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/bash -c 'for FAN in /sys/bus/i2c/devices/1-0020/hwmon/hwmon*/fan{1,2,3,4}_enable; do echo 1 > "$FAN"; done'
+# The driver only supports enabling RPM input when setting RPM mode. It also does not reset the RPM input when switching back to PWM mode.
+# So, we first enable RPM mode (2), this sets the TACH_ENABLE bit and then set PWM mode, because RPM mode doesn't work anyway.
+ExecStart=/bin/bash -c 'for FAN in /sys/bus/i2c/devices/1-0020/hwmon/hwmon*/pwm{1,2,3,4}_enable; do echo 2 > "$FAN"; echo 1 > "$FAN"; done'
