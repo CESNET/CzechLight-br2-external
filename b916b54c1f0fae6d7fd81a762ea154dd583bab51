@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a32ae7aa_ea55ff3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-14T11:32:27Z",
+      "side": 1,
+      "message": "on the other hand I think \"broken config\" might result in users not being able to SSH back in, so let\u0027s keep rejecting config like this going forward",
+      "revId": "b916b54c1f0fae6d7fd81a762ea154dd583bab51",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
