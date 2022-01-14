@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bc21e87_71fbd2a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-14T11:31:26Z",
+      "side": 1,
+      "message": "A toolchain update which brings in:\n\n- binutils 2.37\n- gcc 11.2.0\n- gdb 11.1\n- glibc 2.34-9-g9acab0b...\n- linux-headers 5.4.163",
+      "revId": "5480024038d59b49303fca2652d710b1226f152a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
