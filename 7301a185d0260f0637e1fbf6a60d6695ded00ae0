@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3344294_e225382f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-17T23:53:36Z",
+      "side": 1,
+      "message": "needs fixing",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "7301a185d0260f0637e1fbf6a60d6695ded00ae0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2326cde1_ffdfc123",
+        "filename": "submodules/netconf-cli",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-17T23:53:36Z",
+      "side": 1,
+      "message": "(Just so that I don\u0027t forget: these all need updating)",
+      "revId": "7301a185d0260f0637e1fbf6a60d6695ded00ae0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b3e86e3_397d2de1",
+        "filename": "submodules/rousette",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-02-17T23:53:36Z",
+      "side": 1,
+      "message": "this doesn\u0027t seem to work, the HTTP responses are 0 bytes",
+      "revId": "7301a185d0260f0637e1fbf6a60d6695ded00ae0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
