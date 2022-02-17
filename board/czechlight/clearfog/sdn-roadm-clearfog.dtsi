@@ -46,11 +46,6 @@
 		marvell,pins = "mpp24", "mpp25";
 		marvell,function = "gpio";
 	};
-
-	clearfog_i2c1_recovery_pins: clearfog-i2c1-recovery-pins {
-		marvell,pins = "mpp26", "mpp27";
-		marvell,function = "gpio";
-	};
 };
 
 &mikro_uart_pins {
@@ -229,12 +224,6 @@
 };
 
 &i2c1 {
-	pinctrl-names = "default", "gpio";
-	pinctrl-1 = <&clearfog_i2c1_recovery_pins>;
-	single-master;
-	scl-gpios = <&gpio0 26 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-	sda-gpios = <&gpio0 27 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-
 #ifdef CLEARFOG_REV1
 	eeprom@53 {
 		compatible = "atmel,24c128";

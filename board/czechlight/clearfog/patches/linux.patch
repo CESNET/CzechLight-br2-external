@@ -41,6 +41,35 @@ index 2fa5edac7a35..4906544628ec 100644
 +		gpio-line-names = ...
 +	};
 +};
+diff --git a/arch/arm/boot/dts/armada-388-clearfog.dtsi b/arch/arm/boot/dts/armada-388-clearfog.dtsi
+index f8a06ae4a3c9..8f32e05b6d87 100644
+--- a/arch/arm/boot/dts/armada-388-clearfog.dtsi
++++ b/arch/arm/boot/dts/armada-388-clearfog.dtsi
+@@ -196,8 +196,12 @@ &i2c1 {
+ 	 */
+ 	clock-frequency = <100000>;
+ 	pinctrl-0 = <&clearfog_i2c1_pins>;
+-	pinctrl-names = "default";
++	pinctrl-1 = <&clearfog_i2c1_recovery_pins>;
++	pinctrl-names = "default", "gpio";
+ 	status = "okay";
++	single-master;
++	scl-gpios = <&gpio0 26 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
++	sda-gpios = <&gpio0 27 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+ };
+ 
+ &pinctrl {
+@@ -206,6 +210,10 @@ clearfog_i2c1_pins: i2c1-pins {
+ 		marvell,pins = "mpp26", "mpp27";
+ 		marvell,function = "i2c1";
+ 	};
++	clearfog_i2c1_recovery_pins: i2c1-recovery-pins {
++		marvell,pins = "mpp26", "mpp27";
++		marvell,function = "gpio";
++	};
+ 	clearfog_sdhci_cd_pins: clearfog-sdhci-cd-pins {
+ 		marvell,pins = "mpp20";
+ 		marvell,function = "gpio";
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
 index cb7bd1353f9f..85865f1628d7 100644
 --- a/drivers/leds/leds-tlc591xx.c
