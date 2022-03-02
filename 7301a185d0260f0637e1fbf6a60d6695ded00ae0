@@ -24,6 +24,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b27ba646_17b13d29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-03-02T00:40:09Z",
+      "side": 1,
+      "message": "fixed upstream",
+      "parentUuid": "b3344294_e225382f",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "7301a185d0260f0637e1fbf6a60d6695ded00ae0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2326cde1_ffdfc123",
@@ -41,6 +65,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc5835ce_0ee67fcf",
+        "filename": "submodules/netconf-cli",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-03-02T00:40:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2326cde1_ffdfc123",
+      "revId": "7301a185d0260f0637e1fbf6a60d6695ded00ae0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b3e86e3_397d2de1",
@@ -54,6 +96,24 @@
       "writtenOn": "2022-02-17T23:53:36Z",
       "side": 1,
       "message": "this doesn\u0027t seem to work, the HTTP responses are 0 bytes",
+      "revId": "7301a185d0260f0637e1fbf6a60d6695ded00ae0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2918e82c_29162503",
+        "filename": "submodules/rousette",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-03-02T00:40:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b3e86e3_397d2de1",
       "revId": "7301a185d0260f0637e1fbf6a60d6695ded00ae0",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
