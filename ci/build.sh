@@ -76,10 +76,18 @@ if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
     done
 
     # Is there a change ahead which updates CzechLight/dependencies? If so, make sure these will get rebuilt
-    # This is (still) not foolproof. It will use a wrong version of dependencies if that change has been already merged, but br2-external doesn't have it merged
+    # This is (still) not foolproof. It will use a wrong version of dependencies if that change has been already merged, but br2-external doesn't have it merged.
+    # Also, we cannot remove all "leaf projects" like cla-sysrepo, netconf-cli, velia, etc. When there's a backwards-incompatible change,
+    # this project will get one rebuild per each "leaf" update. The resulting image might not even boot (think the update to libyang v2),
+    # but it's still important to check whether a given project at least *builds* for ARM. After a "big" update there should always be a
+    # standalone sync to `br2-external` as the very last step anyway.
     HAS_CHANGE_OF_DEPENDENCIES=$(jq < ~/zuul-env.json -r '[.items[]? | select(.project.name == "CzechLight/dependencies")][-1]?.project.src_dir + ""')
     if [[ ! -z "${HAS_CHANGE_OF_DEPENDENCIES}" ]]; then
-        for PROJECT in libyang sysrepo libnetconf2 netopeer2; do
+        for PROJECT in
+		libyang sysrepo libnetconf2 netopeer2
+		libyang-cpp sysrepo-cpp
+		docopt-cpp replxx cppcodec sdbus-cpp
+		; do
             rm -rf build/{,host-}${PROJECT}-custom/ per-package/{,host-}${PROJECT}/
         done
     fi
