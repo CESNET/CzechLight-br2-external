@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adafef22_4297beaa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-03-21T22:07:24Z",
+      "side": 1,
+      "message": "verified via https://gerrit.cesnet.cz/c/CzechLight/cla-sysrepo/+/5568/4",
+      "revId": "bd710dccc19a50b84e835db2ea86ff7014d37e61",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
