@@ -24,23 +24,6 @@ else
 fi
 BR2_EXTERNAL_COMMIT=$(git --git-dir ${ZUUL_PROJECT_SRC_DIR}/.git rev-parse HEAD)
 
-# If we're being triggered via a change against another repo, use speculatively merged stuff from Zuul, not our submodules
-if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
-    # C++ dependencies can be provided either via cla-sysrepo, or via netconf-cli.
-    # Whatever is the latest change in the queue wins.
-    USE_DEPENDENCIES_VIA=$(jq < ~/zuul-env.json -r '[.items[]? | select(.project.name == "CzechLight/cla-sysrepo" or .project.name == "CzechLight/netconf-cli")][-1]?.project.src_dir + ""')
-    if [[ ! -z "${USE_DEPENDENCIES_VIA}" ]]; then
-        sed -i "s|${ZUUL_PROJECT_SRC_DIR}/submodules/cla-sysrepo/submodules/dependencies/|${HOME}/${USE_DEPENDENCIES_VIA}/submodules/dependencies/|g" local.mk
-        # Our Zuul playbook only prepares submodules within CzechLight/br2-external, not submodules of other projects
-        pushd ${HOME}/${USE_DEPENDENCIES_VIA}
-        # ...and before we check out, make sure that relative URLs work, i.e,. no file:///dev/null
-        git config remote.origin.url $(pwd)
-        git submodule update --init --recursive
-        git config remote.origin.url file:///dev/null
-        popd
-    fi
-fi
-
 if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
     make czechlight_clearfog_defconfig
 elif [[ "${ZUUL_JOB_NAME}" =~ beagleboneblack ]]; then
@@ -74,23 +57,24 @@ if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
             rm -rf build/${PROJECT}-custom/ per-package/${PROJECT}/
         fi
     done
+fi
 
-    # Is there a change ahead which updates CzechLight/dependencies? If so, make sure these will get rebuilt
-    # This is (still) not foolproof. It will use a wrong version of dependencies if that change has been already merged, but br2-external doesn't have it merged.
-    # Also, we cannot remove all "leaf projects" like cla-sysrepo, netconf-cli, velia, etc. When there's a backwards-incompatible change,
-    # this project will get one rebuild per each "leaf" update. The resulting image might not even boot (think the update to libyang v2),
-    # but it's still important to check whether a given project at least *builds* for ARM. After a "big" update there should always be a
-    # standalone sync to `br2-external` as the very last step anyway.
-    HAS_CHANGE_OF_DEPENDENCIES=$(jq < ~/zuul-env.json -r '[.items[]? | select(.project.name == "CzechLight/dependencies")][-1]?.project.src_dir + ""')
-    if [[ ! -z "${HAS_CHANGE_OF_DEPENDENCIES}" ]]; then
-        for PROJECT in \
-		libyang sysrepo libnetconf2 netopeer2 \
-		libyang-cpp sysrepo-cpp \
-		docopt-cpp replxx cppcodec sdbus-cpp \
-		; do
-            rm -rf build/{,host-}${PROJECT}-custom/ per-package/{,host-}${PROJECT}/
-        done
-    fi
+# Is there a change ahead which updates CzechLight/dependencies? If so, make sure these will get rebuilt.
+# This is fragile; if we're triggered via an external module (e.g., `netconf-cli`) and its corresponding change
+# depends on a backwards-incompatible update in the NETCONF stack, and the other projects (e.g., `velia`) have not
+# been updated yet, this will result in a potentially broken result of the build.
+# We cannot simply rebuild all C++ leaf projects either, because we're being triggered one-at-a-time. Since Zuul
+# requires (some) build job ordering, there will always be at least one repo which is "too new" for the rest of the leaf projects.
+# After a "big" update there should always be a standalone sync to `br2-external` as the very last step anyway.
+HAS_CHANGE_OF_DEPENDENCIES=$(jq < ~/zuul-env.json -r '[.items[]? | select(.project.name == "CzechLight/dependencies")][-1]?.project.src_dir + ""')
+if [[ ! -z "${HAS_CHANGE_OF_DEPENDENCIES}" ]]; then
+for PROJECT in \
+	libyang sysrepo libnetconf2 netopeer2 \
+	libyang-cpp sysrepo-cpp \
+	docopt-cpp replxx cppcodec sdbus-cpp \
+	; do
+    rm -rf build/{,host-}${PROJECT}-custom/ per-package/{,host-}${PROJECT}/
+done
 fi
 
 make source -j${CI_PARALLEL_JOBS} --output-sync=target

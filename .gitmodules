@@ -1,6 +1,9 @@
 [submodule "submodules/buildroot"]
 	path = submodules/buildroot
 	url = ../../github/buildroot/buildroot
+[submodule "submodules/dependencies"]
+	path = submodules/dependencies
+	url = ../dependencies
 [submodule "submodules/cla-sysrepo"]
 	path = submodules/cla-sysrepo
 	url = ../../CzechLight/cla-sysrepo
