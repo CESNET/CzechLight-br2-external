@@ -54,6 +54,7 @@ if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
 
             # `make ${pkg}-reconfigure` is *not* enough with BR2_PER_PACKAGE_DIRECTORIES=y
             # Even this is possibly fragile if these packages were not the "leaf" ones (in terms of BR-level dependencies).
+            # But any change to CzechLight/dependencies is handled explicitly below.
             rm -rf build/${PROJECT}-custom/ per-package/${PROJECT}/
         fi
     done
@@ -68,13 +69,17 @@ fi
 # After a "big" update there should always be a standalone sync to `br2-external` as the very last step anyway.
 HAS_CHANGE_OF_DEPENDENCIES=$(jq < ~/zuul-env.json -r '[.items[]? | select(.project.name == "CzechLight/dependencies")][-1]?.project.src_dir + ""')
 if [[ ! -z "${HAS_CHANGE_OF_DEPENDENCIES}" ]]; then
-for PROJECT in \
-	libyang sysrepo libnetconf2 netopeer2 \
-	libyang-cpp sysrepo-cpp \
-	docopt-cpp replxx cppcodec sdbus-cpp \
-	; do
-    rm -rf build/{,host-}${PROJECT}-custom/ per-package/{,host-}${PROJECT}/
-done
+    # redirect BR packages to a Zuul-injected dependency
+    sed -i "s|${ZUUL_PROJECT_SRC_DIR}/submodules/dependencies|${HOME}/${HAS_CHANGE_OF_DEPENDENCIES}|g" local.mk
+
+    # persuade BR to rebuild them
+    for PROJECT in \
+            libyang sysrepo libnetconf2 netopeer2 \
+            libyang-cpp sysrepo-cpp \
+            docopt-cpp replxx cppcodec sdbus-cpp \
+            ; do
+        rm -rf build/{,host-}${PROJECT}-custom/ per-package/{,host-}${PROJECT}/
+    done
 fi
 
 make source -j${CI_PARALLEL_JOBS} --output-sync=target

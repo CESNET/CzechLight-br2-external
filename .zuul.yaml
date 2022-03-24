@@ -5,7 +5,7 @@
     post-timeout: 600
     vars:
       prepare_git_submodules: true
-      zuul_work_dir: "{{ zuul.projects[zuul.project.canonical_hostname + '/CzechLight/br2-external'].src_dir }}"
+      git_submodule_dirs: "{{ zuul.projects[zuul.project.canonical_hostname + '/CzechLight/br2-external'].src_dir }}:{{ zuul.projects[zuul.project.canonical_hostname + '/CzechLight/dependencies'].src_dir }}"
     required-projects: &projects
       - github/buildroot/buildroot
       - CzechLight/dependencies
