@@ -17,6 +17,7 @@
       - CzechLight/rousette
       - CzechLight/libyang-cpp
       - CzechLight/sysrepo-cpp
+      - CzechLight/libnetconf2-cpp
       - github/CESNET/libyang
       - github/sysrepo/sysrepo
       - github/CESNET/libnetconf2
