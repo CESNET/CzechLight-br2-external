@@ -8,7 +8,7 @@ ConditionKernelCommandLine=czechlight
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/veliad-firewall
+ExecStart=/usr/bin/veliad-firewall --nftables-include-file=/usr/lib/reject_nonroot_localhost_3000.nft
 PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes
