@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ea54c6b_342cf5aa",
+        "filename": "board/czechlight/common/overlay/usr/lib/reject_nonroot_localhost_3000.nft",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-03-29T08:53:38Z",
+      "side": 1,
+      "message": "- the name should be more descriptive, e.g., rousette-backend.nft\n- let\u0027s put it below /usr/share/rousette, please\n- consider installing it from rousette\u0027s cmake because I think all users of rousette will want something like this one (and its docs should explain why it\u0027s needed)",
+      "revId": "1a45239972e68c782ef0bcbb3f4accac35992e03",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
