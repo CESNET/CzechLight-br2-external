@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d4073d_c5b0cf68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-04-22T11:46:45Z",
+      "side": 1,
+      "message": "Tested again, the smoke appears to raise just fine. There was one transient error in rousette:\n \nApr 22 11:42:17 hr-add-drop-qp0e systemd[1]: Started RESTCONFish server.\nApr 22 11:42:17 hr-add-drop-qp0e rousette[525]: Listening for module czechlight-roadm-device\nApr 22 11:42:17 hr-add-drop-qp0e rousette[525]: terminate called after throwing an instance of \u0027sysrepo::ErrorWithCode\u0027\nApr 22 11:42:17 hr-add-drop-qp0e rousette[525]:   what():  Session::getData: Couldn\u0027t get \u0027/czechlight-roadm-device:*\u0027: SR_ERR_SYS\nApr 22 11:42:18 hr-add-drop-qp0e systemd[1]: rousette.service: Main process exited, code\u003ddumped, status\u003d6/ABRT\nApr 22 11:42:18 hr-add-drop-qp0e systemd[1]: rousette.service: Failed with result \u0027core-dump\u0027.\n\nHere\u0027s the backtrace:\n \nThread 2 (Thread 0xb6452300 (LWP 540)):\n#0  0xb6838678 in __select64 () from /lib/libc.so.6\n#1  0xb6838750 in select () from /lib/libc.so.6\n#2  0xb667c244 in sr_shmsub_listen_thread (arg\u003d0x11c1358) at /home/ci/build/build/sysrepo-custom/src/shm_sub.c:3798\n#3  0xb67c9b0c in ?? () from /lib/libc.so.6\nBacktrace stopped: previous frame identical to this frame (corrupt stack?)\n \nThread 1 (Thread 0xb6fcd010 (LWP 525)):\n#0  0xb67cb830 in ?? () from /lib/libc.so.6\n#1  0xb6787f74 in raise () from /lib/libc.so.6\n#2  0xb6772434 in abort () from /lib/libc.so.6\n#3  0xb6982f3c in __gnu_cxx::__verbose_terminate_handler() () from /lib/libstdc++.so.6\n#4  0xb6980f50 in ?? () from /lib/libstdc++.so.6\n#5  0xb6980fd4 in std::terminate() () from /lib/libstdc++.so.6\n#6  0xb69813a8 in __cxa_rethrow () from /lib/libstdc++.so.6\n#7  0x004a33a4 in rousette::sr::OpticalEvents::OpticalEvents (this\u003dthis@entry\u003d0x10c1218, session\u003d\u003cerror reading variable: Cannot access memory at address 0x0\u003e) at /home/ci/build/build/rousette-custom/src/sr/OpticalEvents.cpp:46\n#8  0x00482c88 in std::make_unique\u003crousette::sr::OpticalEvents, sysrepo::Session\u003e () at /home/ci/build/per-package/rousette/host/opt/ext-toolchain/arm-buildroot-linux-gnueabihf/include/c++/11.2.0/bits/unique_ptr.h:962\n#9  rousette::restconf::Server::Server (this\u003dthis@entry\u003d0xbef8cbf8, conn\u003d...) at /home/ci/build/build/rousette-custom/src/restconf/Server.cpp:92\n#10 0x0047f990 in main (argc\u003d\u003coptimized out\u003e, argv\u003d\u003coptimized out\u003e) at /home/ci/build/build/rousette-custom/src/restconf/main.cpp:67\n\nThe system has apparently recovered, so let\u0027s get this thing merged.",
+      "revId": "e30adf9fb9796d45980b4d558bb3804c05ee067e",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
