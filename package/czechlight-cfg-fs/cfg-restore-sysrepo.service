@@ -10,6 +10,7 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/sysrepocfg -d startup -f json --import=/cfg/sysrepo/startup.json
 ExecStart=/bin/sysrepocfg -C startup
+Group=sysrepo
 StandardOutput=journal+console
 
 [Install]

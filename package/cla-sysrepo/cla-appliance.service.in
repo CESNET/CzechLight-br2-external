@@ -11,6 +11,7 @@ ConditionKernelCommandLine=|czechlight=__MODEL__-g2
 [Service]
 Type=notify
 ExecStart=/usr/bin/cla-sysrepod --io-log-level=5 --properties-log-level=5 --sr-bridge-log-level=5 --sysrepo-log-level=3 --appliance=__MODEL__
+Group=sysrepo
 PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes

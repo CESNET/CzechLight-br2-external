@@ -9,6 +9,7 @@ ConditionKernelCommandLine=czechlight
 [Service]
 Type=simple
 ExecStart=/usr/bin/veliad-system
+Group=sysrepo
 PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes
