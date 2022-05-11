@@ -7,6 +7,8 @@ Requires=czechlight-install-yang.service cfg-restore-sysrepo.service nacm-restor
 [Service]
 Type=simple
 ExecStart=/usr/bin/rousette
+User=yangnobody
+Group=sysrepo
 PrivateTmp=yes
 PrivateDevices=yes
 ProtectSystem=yes
@@ -16,8 +18,6 @@ RestartSec=10s
 LogRateLimitIntervalSec=10
 LogRateLimitBurst=30000
 SyslogLevel=alert
-User=yangnobody
-Group=yangnobody
 
 [Install]
 WantedBy=multi-user.target
