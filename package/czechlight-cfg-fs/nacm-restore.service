@@ -9,6 +9,7 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/sysrepocfg -d startup -m ietf-netconf-acm -f json --import=/usr/share/yang-data/nacm.json
 ExecStart=/bin/sysrepocfg -C startup
+Group=sysrepo
 
 [Install]
 WantedBy=multi-user.target

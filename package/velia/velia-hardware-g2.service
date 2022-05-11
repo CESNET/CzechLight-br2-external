@@ -13,6 +13,7 @@ ConditionKernelCommandLine=|czechlight=sdn-roadm-line-g2
 [Service]
 Type=simple
 ExecStart=/usr/bin/veliad-hardware --appliance=czechlight-clearfog-g2
+Group=sysrepo
 PrivateTmp=yes
 PrivateDevices=no
 ProtectSystem=yes

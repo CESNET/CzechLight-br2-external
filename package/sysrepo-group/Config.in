@@ -1,0 +1,6 @@
+config BR2_PACKAGE_SYSREPO_GROUP
+	bool "Override group for processes running sysrepo"
+	help
+	  If enabled, configure sysrepo to use /run/sysrepo instead of
+	  /dev/shm, and reinitialize that filesystem with a fresh tmpfs upon
+	  restart of any sysrepo-using service.

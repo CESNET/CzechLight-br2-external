@@ -57,27 +57,26 @@ if [[ ${YANG_ROADM} == 1 ]]; then
             FEATURE_ARGS="${FEATURE_ARGS} --enable-feature ${FEATURE}"
         done
     fi
-    sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang ${FEATURE_ARGS}
-    sysrepoctl --change czechlight-roadm-device --group optics --permissions 0664
+    sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang ${FEATURE_ARGS} --permissions 0644
     sysrepocfg --datastore=startup --format=json --module=czechlight-roadm-device --import="${CLA_YANG}/${INITIAL_DATA}.json"
 fi
 
 if [[ ${YANG_COHERENT} == 1 ]]; then
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-coherent-add-drop@2021-03-05.yang
     sysrepocfg --datastore=startup --format=json --module=czechlight-coherent-add-drop --new-data="${CLA_YANG}/${INITIAL_DATA}.json"
-    sysrepoctl --change czechlight-coherent-add-drop --group optics --permissions 0664
+    sysrepoctl --change czechlight-coherent-add-drop --permissions 0664
 fi
 
 if [[ ${YANG_INLINE} == 1 ]]; then
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-inline-amp@2021-03-05.yang
     sysrepocfg --datastore=startup --format=json --module=czechlight-inline-amp --import="${CLA_YANG}/${INITIAL_DATA}.json"
-    sysrepoctl --change czechlight-inline-amp --group optics --permissions 0664
+    sysrepoctl --change czechlight-inline-amp --permissions 0664
 fi
 
 if [[ ${YANG_CALIBRATION} == 1 ]]; then
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-calibration-device@2019-06-25.yang
     sysrepocfg --datastore=startup --format=json --module=czechlight-calibration-device --import="${CLA_YANG}/${INITIAL_DATA}.json"
-    sysrepoctl --change czechlight-calibration-device --group optics --permissions 0664
+    sysrepoctl --change czechlight-calibration-device --permissions 0664
 fi
 
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-system@2014-08-06.yang
