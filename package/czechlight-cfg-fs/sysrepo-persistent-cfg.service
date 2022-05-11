@@ -7,3 +7,4 @@ Requires=netopeer2.service cfg.mount
 Type=simple
 UMask=0077
 ExecStart=/bin/sh -c 'while true; do inotifywait -e CLOSE_WRITE /etc/sysrepo/data/*.startup && mkdir -p /cfg/sysrepo/ && sysrepocfg -d startup -f json -X > /cfg/sysrepo/startup.json; done'
+Group=sysrepo
