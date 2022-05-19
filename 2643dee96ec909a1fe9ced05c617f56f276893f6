@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b58091a_cd124399",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-05-19T06:20:03Z",
+      "side": 1,
+      "message": "This needs to describe what happened to optics group and sysrepo changes",
+      "revId": "2643dee96ec909a1fe9ced05c617f56f276893f6",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f39cf43_e204760a",
+        "filename": "package/sysrepo-group/Config.in",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-05-19T06:20:03Z",
+      "side": 1,
+      "message": "Remove sysrepo-group and create a patch for Netopeer in our buildroot",
+      "revId": "2643dee96ec909a1fe9ced05c617f56f276893f6",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7004cbf_343760c7",
+        "filename": "submodules/velia",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-05-19T06:20:03Z",
+      "side": 1,
+      "message": "Let\u0027s update all leaf projects",
+      "revId": "2643dee96ec909a1fe9ced05c617f56f276893f6",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
