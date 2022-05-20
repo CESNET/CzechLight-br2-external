@@ -1,4 +1,4 @@
-From 04fa6f4d5d019900b084787b9ca2d4439f26d302 Mon Sep 17 00:00:00 2001
+From 2196678308d40ac4bb236776f5d9c23b87480759 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Wed, 1 Sep 2021 08:30:20 +0200
 Subject: [PATCH 3/9] network: Add LLDP neighbors method to varlink server
@@ -114,5 +114,5 @@ index 57d8acb967..5bc65c39b7 100644
  }
  
 -- 
-2.34.1
+2.35.1
 

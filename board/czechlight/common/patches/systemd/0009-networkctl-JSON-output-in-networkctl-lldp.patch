@@ -1,4 +1,4 @@
-From f681abcf74f1a03f64fbcec15c33aae026dcdf51 Mon Sep 17 00:00:00 2001
+From 2fda28e34623cd24752ecad2dcea14f7ab46cb02 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Wed, 6 Oct 2021 10:11:31 +0200
 Subject: [PATCH 9/9] networkctl: JSON output in networkctl lldp
@@ -6,8 +6,8 @@ Subject: [PATCH 9/9] networkctl: JSON output in networkctl lldp
 `networkctl lldp` now outputs also in JSON format when `--json=*`
 argument passed. The LLDP neighbors are listed in per interface lists.
 ---
- src/network/networkctl.c | 136 +++++++++++++++++++++++++--------------
- 1 file changed, 88 insertions(+), 48 deletions(-)
+ src/network/networkctl.c | 118 ++++++++++++++++++++++++++-------------
+ 1 file changed, 79 insertions(+), 39 deletions(-)
 
 diff --git a/src/network/networkctl.c b/src/network/networkctl.c
 index 9fbeed6908..0f48aa4bf7 100644
@@ -75,47 +75,6 @@ index 9fbeed6908..0f48aa4bf7 100644
                  return c;
  
          pager_open(arg_pager_flags);
--
--        udata.table = table_new("link",
--                                "chassis id",
--                                "system name",
--                                "caps",
--                                "port id",
--                                "port description");
--        if (!udata.table)
--                return log_oom();
--
--        if (arg_full)
--                table_set_width(udata.table, 0);
--
--        table_set_header(udata.table, arg_legend);
--
--        assert_se(cell = table_get_cell(udata.table, 0, 0));
--        table_set_minimum_width(udata.table, cell, 16);
--        table_set_maximum_width(udata.table, cell, 16);
--
--        assert_se(cell = table_get_cell(udata.table, 0, 1));
--        table_set_minimum_width(udata.table, cell, 17);
--        table_set_maximum_width(udata.table, cell, 17);
--
--        assert_se(cell = table_get_cell(udata.table, 0, 2));
--        table_set_minimum_width(udata.table, cell, 16);
--        table_set_maximum_width(udata.table, cell, 16);
--
--        assert_se(cell = table_get_cell(udata.table, 0, 3));
--        table_set_minimum_width(udata.table, cell, 11);
--        table_set_maximum_width(udata.table, cell, 11);
--
--        assert_se(cell = table_get_cell(udata.table, 0, 4));
--        table_set_minimum_width(udata.table, cell, 17);
--        table_set_maximum_width(udata.table, cell, 17);
--
--        assert_se(cell = table_get_cell(udata.table, 0, 5));
--        table_set_minimum_width(udata.table, cell, 16);
--        table_set_maximum_width(udata.table, cell, 16);
--
--        if (table_set_empty_string(udata.table, "n/a") < 0)
--                return log_oom();
 +        if (arg_json_format_flags == JSON_FORMAT_OFF) {
 +                TableCell *cell;
 +
@@ -127,36 +86,68 @@ index 9fbeed6908..0f48aa4bf7 100644
 +                                        "port description");
 +                if (!udata.table)
 +                        return log_oom();
-+
+ 
+-        udata.table = table_new("link",
+-                                "chassis id",
+-                                "system name",
+-                                "caps",
+-                                "port id",
+-                                "port description");
+-        if (!udata.table)
+-                return log_oom();
+-
+-        if (arg_full)
+-                table_set_width(udata.table, 0);
 +                if (arg_full)
 +                        table_set_width(udata.table, 0);
-+
+ 
+-        table_set_header(udata.table, arg_legend);
 +                table_set_header(udata.table, arg_legend);
-+
+ 
+-        assert_se(cell = table_get_cell(udata.table, 0, 0));
+-        table_set_minimum_width(udata.table, cell, 16);
+-        table_set_maximum_width(udata.table, cell, 16);
 +                assert_se(cell = table_get_cell(udata.table, 0, 0));
 +                table_set_minimum_width(udata.table, cell, 16);
 +                table_set_maximum_width(udata.table, cell, 16);
-+
+ 
+-        assert_se(cell = table_get_cell(udata.table, 0, 1));
+-        table_set_minimum_width(udata.table, cell, 17);
+-        table_set_maximum_width(udata.table, cell, 17);
 +                assert_se(cell = table_get_cell(udata.table, 0, 1));
 +                table_set_minimum_width(udata.table, cell, 17);
 +                table_set_maximum_width(udata.table, cell, 17);
-+
+ 
+-        assert_se(cell = table_get_cell(udata.table, 0, 2));
+-        table_set_minimum_width(udata.table, cell, 16);
+-        table_set_maximum_width(udata.table, cell, 16);
 +                assert_se(cell = table_get_cell(udata.table, 0, 2));
 +                table_set_minimum_width(udata.table, cell, 16);
 +                table_set_maximum_width(udata.table, cell, 16);
-+
+ 
+-        assert_se(cell = table_get_cell(udata.table, 0, 3));
+-        table_set_minimum_width(udata.table, cell, 11);
+-        table_set_maximum_width(udata.table, cell, 11);
 +                assert_se(cell = table_get_cell(udata.table, 0, 3));
 +                table_set_minimum_width(udata.table, cell, 11);
 +                table_set_maximum_width(udata.table, cell, 11);
-+
+ 
+-        assert_se(cell = table_get_cell(udata.table, 0, 4));
+-        table_set_minimum_width(udata.table, cell, 17);
+-        table_set_maximum_width(udata.table, cell, 17);
 +                assert_se(cell = table_get_cell(udata.table, 0, 4));
 +                table_set_minimum_width(udata.table, cell, 17);
 +                table_set_maximum_width(udata.table, cell, 17);
-+
+ 
+-        assert_se(cell = table_get_cell(udata.table, 0, 5));
+-        table_set_minimum_width(udata.table, cell, 16);
+-        table_set_maximum_width(udata.table, cell, 16);
 +                assert_se(cell = table_get_cell(udata.table, 0, 5));
 +                table_set_minimum_width(udata.table, cell, 16);
 +                table_set_maximum_width(udata.table, cell, 16);
-+
+ 
+-        if (table_set_empty_string(udata.table, "n/a") < 0)
+-                return log_oom();
 +                if (table_set_empty_string(udata.table, "n/a") < 0)
 +                        return log_oom();
 +        } else {
@@ -192,5 +183,5 @@ index 9fbeed6908..0f48aa4bf7 100644
  
          return 0;
 -- 
-2.34.1
+2.35.1
 

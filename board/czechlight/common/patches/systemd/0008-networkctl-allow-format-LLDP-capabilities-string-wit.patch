@@ -1,4 +1,4 @@
-From b6b2ad094aba092aadda307c4d786a541d878211 Mon Sep 17 00:00:00 2001
+From de6ad887e413ee3e66e368f707e08ea84aa72a91 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Wed, 15 Sep 2021 14:30:19 +0200
 Subject: [PATCH 8/9] networkctl: allow format LLDP capabilities string without
@@ -54,5 +54,5 @@ index a10f3f3fc7..9fbeed6908 100644
                  r = table_add_many(udata->table,
                                  TABLE_STRING, udata->link_name,
 -- 
-2.34.1
+2.35.1
 
