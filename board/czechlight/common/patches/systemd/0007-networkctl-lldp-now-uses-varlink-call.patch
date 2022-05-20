@@ -1,4 +1,4 @@
-From ffcce15c1f130f8a52ab050d009946a50472dfbc Mon Sep 17 00:00:00 2001
+From 1e805d15da85b85dfd54684557da1415b0294903 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Wed, 15 Sep 2021 14:42:34 +0200
 Subject: [PATCH 7/9] networkctl: lldp now uses varlink call
@@ -209,11 +209,9 @@ index 46c08b5549..a10f3f3fc7 100644
 +        if (table_set_empty_string(udata.table, "n/a") < 0)
                  return log_oom();
  
-+        varlink_set_userdata(link, &udata);
-+
-         for (int i = 0; i < c; i++) {
+-        for (int i = 0; i < c; i++) {
 -                _cleanup_fclose_ FILE *f = NULL;
-+                _cleanup_(json_variant_unrefp) JsonVariant *cparams = NULL;
++        varlink_set_userdata(link, &udata);
  
 -                r = open_lldp_neighbors(links[i].ifindex, &f);
 -                if (r == -ENOENT)
@@ -222,18 +220,13 @@ index 46c08b5549..a10f3f3fc7 100644
 -                        log_warning_errno(r, "Failed to open LLDP data for %i, ignoring: %m", links[i].ifindex);
 -                        continue;
 -                }
-+                udata.link_name = links[i].name;
- 
+-
 -                for (;;) {
 -                        _cleanup_free_ char *capabilities = NULL;
 -                        const char *chassis_id = NULL, *port_id = NULL, *system_name = NULL, *port_description = NULL;
 -                        _cleanup_(sd_lldp_neighbor_unrefp) sd_lldp_neighbor *n = NULL;
 -                        uint16_t cc;
-+                r = json_build(&cparams, JSON_BUILD_OBJECT(
-+                                        JSON_BUILD_PAIR("ifindex", JSON_BUILD_UNSIGNED(links[i].ifindex))));
-+                if (r < 0)
-+                        return r;
- 
+-
 -                        r = next_lldp_neighbor(f, &n);
 -                        if (r < 0) {
 -                                log_warning_errno(r, "Failed to read neighbor data: %m");
@@ -241,20 +234,24 @@ index 46c08b5549..a10f3f3fc7 100644
 -                        }
 -                        if (r == 0)
 -                                break;
-+                r = varlink_observe(link, method, cparams);
-+                if (r < 0)
-+                        return log_error_errno(r, "Failed to execute varlink call: %m");
++        for (int i = 0; i < c; i++) {
++                _cleanup_(json_variant_unrefp) JsonVariant *cparams = NULL;
  
 -                        (void) sd_lldp_neighbor_get_chassis_id_as_string(n, &chassis_id);
 -                        (void) sd_lldp_neighbor_get_port_id_as_string(n, &port_id);
 -                        (void) sd_lldp_neighbor_get_system_name(n, &system_name);
 -                        (void) sd_lldp_neighbor_get_port_description(n, &port_description);
--
++                udata.link_name = links[i].name;
+ 
 -                        if (sd_lldp_neighbor_get_enabled_capabilities(n, &cc) >= 0) {
 -                                capabilities = lldp_capabilities_to_string(cc);
 -                                all |= cc;
 -                        }
--
++                r = json_build(&cparams, JSON_BUILD_OBJECT(
++                                        JSON_BUILD_PAIR("ifindex", JSON_BUILD_UNSIGNED(links[i].ifindex))));
++                if (r < 0)
++                        return r;
+ 
 -                        r = table_add_many(table,
 -                                           TABLE_STRING, links[i].name,
 -                                           TABLE_STRING, chassis_id,
@@ -264,7 +261,10 @@ index 46c08b5549..a10f3f3fc7 100644
 -                                           TABLE_STRING, port_description);
 -                        if (r < 0)
 -                                return table_log_add_error(r);
--
++                r = varlink_observe(link, method, cparams);
++                if (r < 0)
++                        return log_error_errno(r, "Failed to execute varlink call: %m");
+ 
 -                        m++;
 -                }
 +                r = varlink_observe_complete(link);
@@ -286,5 +286,5 @@ index 46c08b5549..a10f3f3fc7 100644
  
          return 0;
 -- 
-2.34.1
+2.35.1
 
