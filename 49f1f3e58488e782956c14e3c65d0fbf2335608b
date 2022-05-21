@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5c03f56_0b6307f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-05-21T09:46:09Z",
+      "side": 1,
+      "message": "There was a syntax error in one of the Config.in files, so I took the liberty to refactor that custom group handling to make it unconditional -- and also to reshuffle and squash our custom Buildroot patches (now under the cesnet/2022-05-21 branch)",
+      "revId": "49f1f3e58488e782956c14e3c65d0fbf2335608b",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
