@@ -1,0 +1,8 @@
+config BR2_PACKAGE_CZECHLIGHT_INSTALL_YANG
+	bool "Install YANG files required by CzechLight SW into sysrepo"
+	depends on BR2_INIT_SYSTEMD
+	depends on BR2_PACKAGE_NETOPEER2
+	depends on BR2_PACKAGE_CZECHLIGHT_CFG_FS
+	help
+	  This takes care of installing YANG files used by czechlight daemons
+	  into sysrepo.
