@@ -1,6 +1,7 @@
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/cla-sysrepo/Config.in"
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/czechlight-cfg-fs/Config.in"
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/czechlight-clearfog-leds/Config.in"
+source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/czechlight-install-yang/Config.in"
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/czechlight-rauc/Config.in"
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/czechlight-separate-boot/Config.in"
 source "$BR2_EXTERNAL_CZECHLIGHT_PATH/package/gammarus/Config.in"
