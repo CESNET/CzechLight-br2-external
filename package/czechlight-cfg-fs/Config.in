@@ -1,11 +1,15 @@
 config BR2_PACKAGE_CZECHLIGHT_CFG_FS
-	bool "Prepare persistent /cfg partition and /etc overlay"
+	bool "Prepare persistent /cfg partition and /etc overlay. Install required YANG models."
 	depends on BR2_INIT_SYSTEMD
+	depends on BR2_PACKAGE_NETOPEER2
+	depends on BR2_PACKAGE_CZECHLIGHT_CFG_FS
 	help
 	  This is required for RAUC to work properly.  It creates a blank FS
 	  image, configures systemd to mount it, and ensures that its contents
 	  get restored to /etc at boot.  The /etc is set up as a RW overlay on
 	  top of a read-only rootfs.
+	  This takes care of installing YANG files used by czechlight system
+	  daemons into sysrepo.
 
 if BR2_PACKAGE_CZECHLIGHT_CFG_FS
 
