@@ -1,5 +1,5 @@
 CZECHLIGHT_CFG_FS_INSTALL_IMAGES = YES
-CZECHLIGHT_CFG_FS_DEPENDENCIES = host-e2fsprogs host-libyang netopeer2
+CZECHLIGHT_CFG_FS_DEPENDENCIES = host-e2fsprogs host-libyang netopeer2 systemd
 
 CZECHLIGHT_CFG_FS_LOCATION = $(BINARIES_DIR)/cfg.ext4
 
@@ -25,6 +25,10 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/init-czechlight.sh \
 		$(TARGET_DIR)/sbin/init-czechlight.sh
 	$(INSTALL) -D -m 0755 $(@D)/czechlight-random-seed $(TARGET_DIR)/sbin/czechlight-random-seed
+	$(INSTALL) -m 0755 -t $(TARGET_DIR)/usr/bin/ \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-install-yang.sh
+	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-install-yang.service
 	mkdir -p $(TARGET_DIR)/cfg
 	$(INSTALL) -D -m 0644 \
 	    --target-directory $(TARGET_DIR)/usr/lib/systemd/system/ \
