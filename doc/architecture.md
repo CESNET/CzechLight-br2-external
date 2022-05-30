@@ -30,7 +30,7 @@ The system always boots with an empty sysrepo database -- no YANG modules, and n
 The required modules (and configuration) is added in several steps:
 
 - the YANG modules for `netopeer2-server` are added via `netopeer2-install-yang.service` (via our Buildroot patches),
-- CzechLight-specific YANG modules and their initial data are added via [`czechlight-install-yang.service`](../package/cla-sysrepo/czechlight-install-yang.service),
+- CzechLight-specific YANG modules and their initial data are added via [`czechlight-install-yang.service`](../package/czechlight-cfg-fs/czechlight-install-yang.service),
 - system configuration is restored from the persistent location in `/cfg` via [`cfg-restore-sysrepo.service`](../package/czechlight-cfg-fs/cfg-restore-sysrepo.service),
 - configuration of the Netopeer server gets re-checked via `netopeer2-setup.service` (once again in our Buildroot patches); this is needed especially during the first boot with no previous configuration to restore,
 - configuration of NACM is applied via [`nacm-restore.service`](../package/czechlight-cfg-fs/nacm-restore.service),
