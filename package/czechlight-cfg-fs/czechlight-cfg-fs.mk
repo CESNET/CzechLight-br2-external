@@ -25,7 +25,7 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/init-czechlight.sh \
 		$(TARGET_DIR)/sbin/init-czechlight.sh
 	$(INSTALL) -D -m 0755 $(@D)/czechlight-random-seed $(TARGET_DIR)/sbin/czechlight-random-seed
-	$(INSTALL) -m 0755 -t $(TARGET_DIR)/usr/bin/ \
+	$(INSTALL) -D -m 0755 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs/ \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-install-yang.sh
 	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-install-yang.service
