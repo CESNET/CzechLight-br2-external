@@ -9,7 +9,6 @@ YANG_CALIBRATION=0
 
 CLA_YANG=/usr/share/cla-sysrepo/yang
 VELIA_YANG=/usr/share/velia/yang
-REPO=/etc/sysrepo/yang
 
 for ARG in $(cat /proc/cmdline); do
     case "${ARG}" in
