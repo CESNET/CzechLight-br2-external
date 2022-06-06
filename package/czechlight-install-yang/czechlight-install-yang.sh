@@ -7,10 +7,11 @@ YANG_COHERENT=0
 YANG_INLINE=0
 YANG_CALIBRATION=0
 
-CLA_YANG=/usr/share/cla-sysrepo/yang
-VELIA_YANG=/usr/share/velia/yang
+CLA_YANG="${CLA_YANG:-/usr/share/cla-sysrepo/yang}"
+VELIA_YANG="${VELIA_YANG:-/usr/share/velia/yang}"
+PROC_CMDLINE="${PROC_CMDLINE:-/proc/cmdline}"
 
-for ARG in $(cat /proc/cmdline); do
+for ARG in $(cat "$PROC_CMDLINE"); do
     case "${ARG}" in
         czechlight=*)
             CZECHLIGHT="${ARG:11}"
