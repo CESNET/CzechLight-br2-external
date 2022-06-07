@@ -1,0 +1,14 @@
+[Unit]
+Description=Migrate CzechLight YANG models startup data
+After=netopeer2-install-yang.service czechlight-install-yang.service cfg-restore-sysrepo.service cfg.mount
+Requires=netopeer2-install-yang.service czechlight-install-yang.service cfg-restore-sysrepo.service cfg.mount
+Before=netopeer2-setup.service netopeer2.service sysrepo-persistent-cfg.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash /usr/libexec/czechlight-cfg-fs/czechlight-migrate.sh
+Group=sysrepo
+
+[Install]
+WantedBy=multi-user.target
