@@ -2,7 +2,7 @@
 Description=Install CzechLight YANG models
 After=netopeer2-install-yang.service cfg.mount
 Requires=netopeer2-install-yang.service cfg.mount
-Before=netopeer2.service cfg-restore-sysrepo.service
+Before=netopeer2.service cfg-restore-sysrepo.service czechlight-migrate.service
 
 [Service]
 Type=oneshot

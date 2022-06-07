@@ -1,0 +1,11 @@
+{
+  "czechlight-roadm-device:channel-plan": {
+    "channel": [
+      {
+        "name": "haha",
+        "lower-frequency": "195325000",
+        "upper-frequency": "195425000"
+      }
+    ]
+  }
+}
