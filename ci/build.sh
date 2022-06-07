@@ -82,6 +82,7 @@ if [[ ! -z "${HAS_CHANGE_OF_DEPENDENCIES}" ]]; then
     done
 fi
 
+pytest -vv tests/czechlight-cfg-fs/migrations.py
 make source -j${CI_PARALLEL_JOBS} --output-sync=target
 
 make -j${CI_PARALLEL_JOBS} --output-sync=target rootfs-czechlight-rauc
