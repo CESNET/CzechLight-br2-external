@@ -87,6 +87,8 @@ make source -j${CI_PARALLEL_JOBS} --output-sync=target
 make -j${CI_PARALLEL_JOBS} --output-sync=target rootfs-czechlight-rauc
 mv images/update.raucb ~/zuul-output/artifacts/
 
+PATH="$PATH:$(pwd)/host/bin/" pytest -vv tests/czechlight-cfg-fs/migrations.py
+
 if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
     if [[ ${TRIGGERED_VIA_DEP} != 1 ]]; then
         # store a cached tarball as an artifact
