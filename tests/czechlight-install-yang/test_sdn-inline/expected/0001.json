@@ -1,0 +1,126 @@
+{
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "br0",
+        "type": "iana-if-type:bridge",
+        "ietf-ip:ipv4": {
+          "czechlight-network:dhcp-client": true
+        },
+        "ietf-ip:ipv6": {
+          "enabled": true,
+          "autoconf": {
+            "create-global-addresses": true
+          }
+        }
+      },
+      {
+        "name": "eth1",
+        "type": "iana-if-type:ethernetCsmacd",
+        "czechlight-network:bridge": "br0"
+      },
+      {
+        "name": "eth0",
+        "type": "iana-if-type:ethernetCsmacd",
+        "czechlight-network:bridge": "br0"
+      },
+      {
+        "name": "oscE",
+        "type": "iana-if-type:ethernetCsmacd",
+        "czechlight-network:bridge": "br0"
+      },
+      {
+        "name": "oscW",
+        "type": "iana-if-type:ethernetCsmacd",
+        "czechlight-network:bridge": "br0"
+      }
+    ]
+  },
+  "ietf-keystore:keystore": {
+    "asymmetric-keys": {
+      "asymmetric-key": [
+        {
+          "name": "genkey",
+          "algorithm": "rsa2048",
+          "public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAun9p8Iz2a9Ud4LaHqhqS0XKD972IRUZpuXpkzsjqPIEMZC/ktsNi0c169BtpM0FVfBesZIlUt1aLKvm2gpg0B6uCfhzlKiJLpE/ebFsetimIew6n6kFvRml28dcS+pLA1anqSsix+hW10FkbMdzZlHRVwJihJQDIsSyl4QmfD0PM4J2WdNV03i7/DC0y//hn3bdtJVDofKzFW/inZpAk4/W+JpRYyN5MpOZYE9SkqaUj/6jwJQukjB5nUa5ygoAgwVHyUjXcePQAT+vRQ4GuKxW8txR04i53vjN7TtA7zXgDPl2EYhR8m8JqfOHaDzliCpfbD1oiHaX0SNmdPPUCCwIDAQAB",
+          "private-key": "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6f2nwjPZr1R3gtoeqGpLRcoP3vYhFRmm5emTOyOo8gQxkL+S2w2LRzXr0G2kzQVV8F6xkiVS3Vosq+baCmDQHq4J+HOUqIkukT95sWx62KYh7DqfqQW9GaXbx1xL6ksDVqepKyLH6FbXQWRsx3NmUdFXAmKElAMixLKXhCZ8PQ8zgnZZ01XTeLv8MLTL/+Gfdt20lUOh8rMVb+KdmkCTj9b4mlFjI3kyk5lgT1KSppSP/qPAlC6SMHmdRrnKCgCDBUfJSNdx49ABP69FDga4rFby3FHTiLne+M3tO0DvNeAM+XYRiFHybwmp84doPOWIKl9sPWiIdpfRI2Z089QILAgMBAAECggEBAJUvYUZ87I5776eXO9TV5wZGrcxawAxydBZcExHbZIy7ynbGXRXaHE2qKqXk23WV2NUods4BkVQLlc3t7ZJwQIa2Ku/JG4Rl5M5u2YUiKuIbPUL7CVV5vJK9wNlaa6MoC7ufbX0fKEfeYA9niDqN6Ts5CHPFZHqeMuyPw63NrYBeJXYtQEzXPiRozlBtyzr47XJDAyXCGfpBo6kPr+VeJlxV9Ufrwk+7Rv/CIXFqGAPr/JpnpTzCLawrLyhxiJE0CBV8jypIcUOV3F8RtfGelrQ7C49OG1lcMGmVU6csITxh79Moq+DwU3nT6CL7sYZsXKx8wP0C9qKNmBRPXIkZqlECgYEA33Ag2K30lrJBXom3pOv4dPkY4VH2nqrg9byMXhFkqq4GystwQIbHvz7+1fkY/q1hsM5IYWi+/iI3FWKF3kNKGVBopfFRtAnfmmFsZfnxM+oWzUe0ENDrImCaOAJiCPP4K8qib6vb38H1Puu0x92QwyYZ46zM884MKYSgaSVd/ZMCgYEA1a0kecsAhAewxPnXopLsG0BhrO9A/q40YSq/b+3RQKBCBmBlJGyzW2Tuk/viJ6mmah94Kh7tddvRnN+DrKx+TuxXCNmV40xDGJomgF8K9d9D73owghx8nnZ9TPv8ejqu7dEGsRFcDD1tClPyZbhQAqCH67mg214qhqlUZ0o2dKkCgYBgVndDFZXs18TJnzV4PWnt/W0V0YI1HVZLfdVDxdoSoWA6Vgb7O2Gqet3jojh9roH9eqPIpCIdbuEzLjyr/XVYfsvwKKFisBMh/DmBqoeuK5NTRURFL98B/obf+V8Nnyt0rjTlU0NFMdqtG3Hh7w04pxfoi5v+zut9hzqmuz7QUwKBgH7f+iKfWUUMU/gB6fpMhwl/ZwAKaGtRASUY/ub1LSTUg5/JqQTBzpXcDpWsIJMwdvHYkb9g8drjlUkyprrnCXDPgLZujEOUytpW3bmntZhc47fUs+zuAUkOTkRh836YTbpEPVbyWdeiuZZCVlHz6P5GV66uYEchWNrwvH9AX6lRAoGADWqVqAmBUbjnjaL6K+13QDjFZoy5UmeLf5Mp4wRYtqMwjJn73QJBuxD7jQFQVaKjkeGNYquP0izyF8cJrLAhfkPVklVh21jTw9fdECS7tlDEdlCoIVnH+vm1G+GlXKhfVhNPQCJyZS5r3D1Qm5DPk/0f8SPBP9GtcO9dun3hJm4="
+        }
+      ]
+    }
+  },
+  "ietf-netconf-acm:nacm": {
+    "rule-list": [
+      {
+        "name": "Allow DWDM control to the optics group",
+        "group": [
+          "optics"
+        ],
+        "rule": [
+          {
+            "name": "czechlight-roadm-device",
+            "module-name": "czechlight-roadm-device",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-inline-amp",
+            "module-name": "czechlight-inline-amp",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-coherent-add-drop",
+            "module-name": "czechlight-coherent-add-drop",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-calibration-device",
+            "module-name": "czechlight-calibration-device",
+            "action": "permit"
+          }
+        ]
+      }
+    ]
+  },
+  "ietf-netconf-server:netconf-server": {
+    "listen": {
+      "endpoint": [
+        {
+          "name": "default-ssh",
+          "ssh": {
+            "tcp-server-parameters": {
+              "local-address": "::",
+              "keepalives": {
+                "idle-time": 1,
+                "max-probes": 10,
+                "probe-interval": 5
+              }
+            },
+            "ssh-server-parameters": {
+              "server-identity": {
+                "host-key": [
+                  {
+                    "name": "default-key",
+                    "public-key": {
+                      "keystore-reference": "genkey"
+                    }
+                  }
+                ]
+              },
+              "client-authentication": {
+                "supported-authentication-methods": {
+                  "publickey": [null],
+                  "passsword": [null],
+                  "other": [
+                    "interactive"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "ietf-system:system": {
+    "hostname": "bidi-cplus1572-DQ0011H0"
+  }
+}
