@@ -1,10 +1,11 @@
 [Unit]
 Description=Persisting persistent sysrepo datastores to /cfg
-After=netopeer2.service cfg.mount
-Requires=netopeer2.service cfg.mount
+After=netopeer2.service cfg.mount czechlight-migrate.service
+Requires=netopeer2.service cfg.mount czechlight-migrate.service
 
 [Service]
 Type=simple
 UMask=0077
-ExecStart=/bin/sh -c 'while true; do inotifywait -e CLOSE_WRITE /etc/sysrepo/data/*.startup && mkdir -p /cfg/sysrepo/ && sysrepocfg -d startup -f json -X > /cfg/sysrepo/startup.json; done'
+ExecStartPre=/bin/sh -c 'mkdir -p /cfg/sysrepo/ && sysrepocfg -d startup -f json -X > /cfg/sysrepo/startup.json'
+ExecStart=/bin/sh -c 'while true; do inotifywait -e CLOSE_WRITE /etc/sysrepo/data/*.startup && sysrepocfg -d startup -f json -X > /cfg/sysrepo/startup.json; done'
 Group=sysrepo

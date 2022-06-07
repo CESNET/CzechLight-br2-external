@@ -58,23 +58,19 @@ if [[ ${YANG_ROADM} == 1 ]]; then
         done
     fi
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang ${FEATURE_ARGS} --permissions 0660
-    sysrepocfg --datastore=startup --format=json --module=czechlight-roadm-device --import="${CLA_YANG}/${INITIAL_DATA}.json"
 fi
 
 if [[ ${YANG_COHERENT} == 1 ]]; then
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-coherent-add-drop@2021-03-05.yang --permissions 0660
-    sysrepocfg --datastore=startup --format=json --module=czechlight-coherent-add-drop --new-data="${CLA_YANG}/${INITIAL_DATA}.json"
     sysrepoctl --change czechlight-coherent-add-drop --permissions 0660
 fi
 
 if [[ ${YANG_INLINE} == 1 ]]; then
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-inline-amp@2021-03-05.yang --permissions 0660
-    sysrepocfg --datastore=startup --format=json --module=czechlight-inline-amp --import="${CLA_YANG}/${INITIAL_DATA}.json"
 fi
 
 if [[ ${YANG_CALIBRATION} == 1 ]]; then
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-calibration-device@2019-06-25.yang --permissions 0660
-    sysrepocfg --datastore=startup --format=json --module=czechlight-calibration-device --import="${CLA_YANG}/${INITIAL_DATA}.json"
 fi
 
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-system@2014-08-06.yang --permissions 0660
@@ -93,6 +89,3 @@ sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-networ
 
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-firewall@2021-01-25.yang --permissions 0600
 sysrepoctl --change ietf-access-control-list --enable-feature match-on-eth --enable-feature eth --enable-feature match-on-ipv4 --enable-feature ipv4 --enable-feature match-on-ipv6 --enable-feature ipv6 --enable-feature mixed-eth-ipv4-ipv6
-
-# If not do not copy here from startup -> running, running might be stale.
-sysrepocfg -C startup

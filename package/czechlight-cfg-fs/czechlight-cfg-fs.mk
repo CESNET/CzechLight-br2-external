@@ -61,6 +61,16 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 			$(TARGET_DIR)/usr/lib/systemd/system/
 		ln -sf ../cfg-restore-systemd-network.service $(TARGET_DIR)/usr/lib/systemd/system/network-pre.target.wants/
 	$(endif)
+
+	$(INSTALL) -D -m 0755 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-migrate.sh \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-migration-list.sh
+
+	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs/migrations \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/migrations/*
+
+	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-migrate.service
 endef
 
 # Configure OpenSSH to look for *user* keys in the /cfg

@@ -1,7 +1,7 @@
 [Unit]
 Description=Restore NACM rules
-After=netopeer2-install-yang.service czechlight-install-yang.service cfg.mount
-Requires=netopeer2-install-yang.service czechlight-install-yang.service cfg.mount
+After=netopeer2-install-yang.service czechlight-migrate.service cfg.mount
+Requires=netopeer2-install-yang.service czechlight-migrate.service cfg.mount
 Before=netopeer2-setup.service netopeer2.service sysrepo-persistent-cfg.service
 
 [Service]
