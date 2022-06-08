@@ -1,4 +1,4 @@
-From a98772047310c422872163a54ddf17a9669929e0 Mon Sep 17 00:00:00 2001
+From 8d3bd15463b31c5b3347239317fcf1f41d467838 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Thu, 7 Oct 2021 11:16:57 +0200
 Subject: [PATCH 1/9] network: Serialize LLDP neighbor to JSON format
@@ -142,5 +142,5 @@ index bfeac14ce3..8a538b2444 100644
  /* Access to LLDP frame metadata */
  int sd_lldp_neighbor_get_source_address(sd_lldp_neighbor *n, struct ether_addr* address);
 -- 
-2.34.1
+2.35.1
 

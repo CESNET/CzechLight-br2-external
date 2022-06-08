@@ -1,4 +1,4 @@
-From 3f997c34cdaef7a66fdb1d0bc10a1bafd4f7e656 Mon Sep 17 00:00:00 2001
+From d17ff9b2b0f3f0d2bfb54f9e3e965874e6df1974 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Thu, 7 Oct 2021 14:11:45 +0200
 Subject: [PATCH 5/9] networkctl: lldp uses table_empty_string instead of strna
@@ -39,5 +39,5 @@ index 68dd4b185c..30cd75eec0 100644
                                  return table_log_add_error(r);
  
 -- 
-2.34.1
+2.35.1
 

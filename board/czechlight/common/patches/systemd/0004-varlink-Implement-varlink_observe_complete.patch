@@ -1,4 +1,4 @@
-From 4e7bdd09a12d9ed1695980d8edf94841a5c11cd8 Mon Sep 17 00:00:00 2001
+From 072ebba1de115cb31a71f6398c17a1bfdb383ee8 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Thu, 9 Sep 2021 09:19:05 +0200
 Subject: [PATCH 4/9] varlink: Implement varlink_observe_complete
@@ -70,5 +70,5 @@ index 66a1ff630e..9bc836e1f9 100644
  /* Enqueue a final reply */
  int varlink_reply(Varlink *v, JsonVariant *parameters);
 -- 
-2.34.1
+2.35.1
 

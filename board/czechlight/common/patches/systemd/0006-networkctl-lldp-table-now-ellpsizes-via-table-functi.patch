@@ -1,4 +1,4 @@
-From 90271bd69a7488714a51173dcec3f349459761c9 Mon Sep 17 00:00:00 2001
+From 5aa44bfdab3215cf495442fb931a23f88a66d1c7 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Thu, 7 Oct 2021 14:16:53 +0200
 Subject: [PATCH 6/9] networkctl: lldp table now ellpsizes via table functions
@@ -86,5 +86,5 @@ index 30cd75eec0..46c08b5549 100644
                                  capabilities = lldp_capabilities_to_string(cc);
                                  all |= cc;
 -- 
-2.34.1
+2.35.1
 
