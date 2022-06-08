@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f40cdf1_a4de099f",
+        "filename": "package/czechlight-cfg-fs/cfg-restore-systemd-networkd.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-08T09:00:02Z",
+      "side": 1,
+      "message": "Previously, this would copy either the config file which was generated during the last boot, or, if no such file exist, it would take the system default file. This new line won\u0027t copy the system default. I think that this means that velia\u0027s operation will be different. When velia processes the YANG data, it will check if the .network file to be written out is different from the current one in /run. Now it will be different during the first boot, and that means that there will be one extra restart of systemd-networkd. No big deal I guess, right?",
+      "revId": "0a6e3997d101ad2c84b54a6adadd77130504e21c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
