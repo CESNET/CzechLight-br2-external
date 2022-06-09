@@ -1,9 +1,9 @@
 [Unit]
 Description=Tracking hardware metrics
-After=syslog.target network.target czechlight-install-yang.service cfg-restore-sysrepo.service nacm-restore.service
+After=syslog.target network.target czechlight-install-yang.service cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service
 Before=rauc-mark-good.service
 PartOf=netopeer2.service
-Requires=czechlight-install-yang.service cfg-restore-sysrepo.service nacm-restore.service
+Requires=czechlight-install-yang.service cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service
 ConditionKernelCommandLine=|czechlight=sdn-inline
 ConditionKernelCommandLine=|czechlight=sdn-roadm-add-drop
 ConditionKernelCommandLine=|czechlight=sdn-roadm-coherent-a-d

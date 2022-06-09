@@ -1,7 +1,7 @@
 [Unit]
 Description=Persisting persistent sysrepo datastores to /cfg
-After=netopeer2.service cfg.mount
-Requires=netopeer2.service cfg.mount
+After=netopeer2.service cfg.mount czechlight-migrate.service
+Requires=netopeer2.service cfg.mount czechlight-migrate.service
 
 [Service]
 Type=simple
