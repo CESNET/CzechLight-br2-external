@@ -1,8 +1,8 @@
 [Unit]
 Description=RESTCONFish server
-After=syslog.target network.target czechlight-install-yang.service cfg-restore-sysrepo.service nacm-restore.service
+After=syslog.target network.target czechlight-install-yang.service cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service
 PartOf=netopeer2.service
-Requires=czechlight-install-yang.service cfg-restore-sysrepo.service nacm-restore.service
+Requires=czechlight-install-yang.service cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service
 
 [Service]
 Type=simple
