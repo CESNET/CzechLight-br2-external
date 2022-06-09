@@ -7,7 +7,7 @@ Before=netopeer2.service cfg-restore-sysrepo.service czechlight-migrate.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/bash /usr/libexec/czechlight-cfg-fs/czechlight-install-yang.sh
+ExecStart=/bin/bash /usr/libexec/czechlight/czechlight-install-yang.sh
 Group=sysrepo
 
 [Install]
