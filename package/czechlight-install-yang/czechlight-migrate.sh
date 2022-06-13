@@ -15,6 +15,7 @@ PROC_CMDLINE="${PROC_CMDLINE:-/proc/cmdline}"
 
 MIGRATION_FILES=(
 	'0001_initial-data.sh'
+	'0002_default_startup_configuration_for_ietf-interfaces.sh'
 )
 
 for ARG in $(cat "$PROC_CMDLINE"); do
