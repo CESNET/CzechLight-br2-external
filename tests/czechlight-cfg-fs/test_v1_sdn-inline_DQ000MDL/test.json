@@ -1,0 +1,5 @@
+{
+	"version": 1,
+	"czechlight": "sdn-inline",
+	"xpath": "/ietf-interfaces:interfaces"
+}
