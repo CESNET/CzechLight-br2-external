@@ -3,7 +3,7 @@
 set -x
 
 SCRIPT_ROOT=$(dirname $(realpath -s $0))
-MIGRATIONS_DIRECTORY=${SCRIPT_ROOT}/migrations
+export MIGRATIONS_DIRECTORY=${SCRIPT_ROOT}/migrations
 CFG_VERSION_FILE="${CFG_VERSION_FILE:-/cfg/sysrepo/version}"
 CFG_STARTUP_FILE="${CFG_STARTUP_FILE:-/cfg/sysrepo/startup.json}"
 PROC_CMDLINE="${PROC_CMDLINE:-/proc/cmdline}"
@@ -13,6 +13,7 @@ export VELIA_YANG="${VELIA_YANG:-/usr/share/velia/yang}"
 
 MIGRATION_FILES=(
 	'0001_initial-data.sh'
+	'0002_default_startup_configuration_for_ietf-interfaces.sh'
 )
 
 for ARG in $(cat "$PROC_CMDLINE"); do
