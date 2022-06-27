@@ -16,6 +16,344 @@
       "message": "TODO: install pytest and run the test",
       "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a12a8cf_140118d4",
+        "filename": "package/czechlight-cfg-fs/czechlight-migrate.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "nit: `set -ex` works just as well",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 6
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18c6aa34_e5955801",
+        "filename": "package/czechlight-cfg-fs/czechlight-migrate.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "nit: what about just \"MIGRATIONS\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c62c8a0_19fcd01b",
+        "filename": "package/czechlight-cfg-fs/czechlight-migration-list.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "this belongs to a subsequent commit I guess",
+      "range": {
+        "startLine": 3,
+        "startChar": 4,
+        "endLine": 3,
+        "endChar": 63
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7bb5428_666c6326",
+        "filename": "package/czechlight-cfg-fs/migrations/0001_initial-data.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "nit: please replace these tabs with spaces for consistency",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4e1021a_dcef0bea",
+        "filename": "package/czechlight-install-yang/czechlight-install-yang.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "this must be done as the very last step after all the migrations, otherwise we might end up with `running` DS which contains some random crap",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 21
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42871984_8047da65",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "The CI doesn\u0027t execute these tests.",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "814877ff_2a41bf00",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "shutil.copy_file",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f7da79d_7998df16",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "if that `path` is a pathlib.Path, then there\u0027s path.read_text()",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a16d8206_d1297c81",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "this is superfluous because Path.is_file returns False if that thing doesn\u0027t exist, which means that you can probably remove this helper and just do this directly:\n assert path.is_file()",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc46a974_8a4970ff",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "nit: looks like this is only used inside the constructor, so no need to store it to a \"private\" member",
+      "range": {
+        "startLine": 51,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 28
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea199fbb_56e48117",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "this is a test suite, you have 100% control of how you init this fixture, and there\u0027s no point in making it generic. There should be no need for a conditional here.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 83
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32cee798_00287000",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "it\u0027s accessed from outside of this class, so it\u0027s by definition not an internal thingy, so please don\u0027t use the underscore prefix here",
+      "range": {
+        "startLine": 86,
+        "startChar": 17,
+        "endLine": 86,
+        "endChar": 30
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e595ce86_85c2a4a8",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "I would much prefer two plaintext files, one called `version` (storing a single number), and one `cmdline` (storing the \"czechlight\u003dfoobar\" string). Instead of that, we have a JSON file and 21 lines of code; I don\u0027t think that\u0027s any simpler. If we ever need some sub-XPaths in future, it\u0027s easy to add one more file IMHO.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 46
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad5c6072_4c789157",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "I think there\u0027s no point in doing encapsulation in a test fixture. Just stick with a member variable and don\u0027t bother with getters.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 33
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11fd80ff_6f2d948b",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "what\u0027s the reason for the conditional? If it\u0027s because stderr might be inherited from the invoking context and could be closed (is that so?), then just instantiate Popen with stderr\u003dsubprocess.PIPE. Or is there some other reason?",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71b381d7_e7dc76cd",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:06:28Z",
+      "side": 1,
+      "message": "please use an f-string for this",
+      "range": {
+        "startLine": 172,
+        "startChar": 10,
+        "endLine": 172,
+        "endChar": 58
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
