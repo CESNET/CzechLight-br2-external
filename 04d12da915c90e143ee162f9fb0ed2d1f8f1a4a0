@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5a81675_b69d6f42",
+        "filename": "package/czechlight-cfg-fs/sysrepo-persistent-cfg.service",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T22:19:39Z",
+      "side": 1,
+      "message": "looks like a job for ExecStartPre",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 108
+      },
+      "revId": "04d12da915c90e143ee162f9fb0ed2d1f8f1a4a0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65da957f_394e3cbd",
+        "filename": "package/rousette/rousette.service",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T22:19:39Z",
+      "side": 1,
+      "message": "these are already in After\u003d and Requires\u003d if czechlight-migrate.service; perhaps this can be simplified? Also same in all other files.",
+      "range": {
+        "startLine": 3,
+        "startChar": 35,
+        "endLine": 3,
+        "endChar": 94
+      },
+      "revId": "04d12da915c90e143ee162f9fb0ed2d1f8f1a4a0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
