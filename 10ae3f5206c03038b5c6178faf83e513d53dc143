@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6ddabba_dd2ca5ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T19:40:13Z",
+      "side": 1,
+      "message": "I think it\u0027s better to use czechlight-cfg-fs for this; after all, it\u0027s needed because of that separate /cfg and read-only /etc.",
+      "revId": "10ae3f5206c03038b5c6178faf83e513d53dc143",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
