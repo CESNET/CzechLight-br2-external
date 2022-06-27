@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d0bbd26_3205b3dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T19:50:05Z",
+      "side": 1,
+      "message": "let\u0027s use /usr/libexec/czechlight-cfg-fs to match the proposed package name from the previous change",
+      "revId": "c76886a0742554772e6c89b20e82872f0a294e48",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
