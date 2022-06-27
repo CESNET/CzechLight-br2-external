@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0012c7ab_f12b2912",
+        "filename": "package/czechlight-cfg-fs/migrations/0002_default_startup_configuration_for_ietf-interfaces.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:30:14Z",
+      "side": 1,
+      "message": "nit: spaces, not tabs, please",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c47d9df6_fc84ebfb",
+        "filename": "package/czechlight-cfg-fs/migrations/0002_default_startup_configuration_for_ietf-interfaces.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:30:14Z",
+      "side": 1,
+      "message": "this should be either *not* commented out, or removed. If it is needed, make this script *log* what it has done (\"Previous network config found, not importing default bridge settings\").",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 4
+      },
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "681b5464_8219cea7",
+        "filename": "tests/czechlight-cfg-fs/test_v0_sdn-inline_DQ000MDL/expected.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:30:14Z",
+      "side": 1,
+      "message": "I don\u0027t like that reordering; can you please make that thing preserve the ordering?",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8cc76f3_aae070cc",
+        "filename": "tests/czechlight-cfg-fs/test_v0_sdn-inline_empty/expected.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:30:14Z",
+      "side": 1,
+      "message": "nit: These files are below tests/something, there\u0027s no need to prefix them with test_ once again",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bffac50b_f9bbda94",
+        "filename": "tests/czechlight-cfg-fs/test_v1_sdn-inline_DQ000MDL/startup.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:30:14Z",
+      "side": 1,
+      "message": "Instead of \"test_v1_sdn-inline_DQ000MDL\", let\u0027s call this \"v1_inline_eth0_explicit_ip\" so that we know what that test is testing.",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d228ab38_fb1c355f",
+        "filename": "tests/czechlight-cfg-fs/test_v1_sdn-roadm-line/startup.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:30:14Z",
+      "side": 1,
+      "message": "I think that it\u0027s perhaps too verbose to test the same thing for both inline amp and a ROADM Line Degree. Let\u0027s keep just one example of a config with some IP address being already set, no matter the difference in number of recognized interfaces (and therefore the default setting file).",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "300ad97e_f6d66f14",
+        "filename": "tests/czechlight-cfg-fs/test_v1_sdn-roadm-line_empty/startup.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-27T21:30:14Z",
+      "side": 1,
+      "message": "I thought this was wrong, having an empty state and version\u003d1, but you\u0027re right, someone might have deleted the DS content by choice. Good catch!",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
