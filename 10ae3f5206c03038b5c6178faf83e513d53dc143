@@ -16,6 +16,24 @@
       "message": "I think it\u0027s better to use czechlight-cfg-fs for this; after all, it\u0027s needed because of that separate /cfg and read-only /etc.",
       "revId": "10ae3f5206c03038b5c6178faf83e513d53dc143",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d798dd27_2beb0fdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T08:35:55Z",
+      "side": 1,
+      "message": "Do we really want to move sysrepo-specific stuff that only prepares YANG modules for sysrepo (i.e. modifying /run/sysrepo) into a package handling /cfg changes?",
+      "parentUuid": "d6ddabba_dd2ca5ab",
+      "revId": "10ae3f5206c03038b5c6178faf83e513d53dc143",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
