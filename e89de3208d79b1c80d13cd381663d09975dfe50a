@@ -18,6 +18,42 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79951be8_3e4d121a",
+        "filename": "package/czechlight-cfg-fs/migrations/0002_default_startup_configuration_for_ietf-interfaces.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0012c7ab_f12b2912",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eb2df94_e560394e",
+        "filename": "package/czechlight-cfg-fs/migrations/0002_default_startup_configuration_for_ietf-interfaces.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0012c7ab_f12b2912",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c47d9df6_fc84ebfb",
@@ -31,6 +67,30 @@
       "writtenOn": "2022-06-27T21:30:14Z",
       "side": 1,
       "message": "this should be either *not* commented out, or removed. If it is needed, make this script *log* what it has done (\"Previous network config found, not importing default bridge settings\").",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 4
+      },
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "611d5060_d59b0bc5",
+        "filename": "package/czechlight-cfg-fs/migrations/0002_default_startup_configuration_for_ietf-interfaces.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Removed the comment. I think we agreed on always rewrite for this revision. We can change if you wish.",
+      "parentUuid": "c47d9df6_fc84ebfb",
       "range": {
         "startLine": 8,
         "startChar": 0,
@@ -58,6 +118,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5086d30c_b44c2425",
+        "filename": "tests/czechlight-cfg-fs/test_v0_sdn-inline_DQ000MDL/expected.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "681b5464_8219cea7",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8cc76f3_aae070cc",
@@ -71,6 +149,24 @@
       "writtenOn": "2022-06-27T21:30:14Z",
       "side": 1,
       "message": "nit: These files are below tests/something, there\u0027s no need to prefix them with test_ once again",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dc1617e_deaf1e28",
+        "filename": "tests/czechlight-cfg-fs/test_v0_sdn-inline_empty/expected.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Nice idea but the tests/czechlight-cfg-fs directory can contain other dirs (.pytest, __pycache__, etc). So I have to filter those somehow (test_ prefix). We can consider only directories containing all required files and then the test_ prefix can be removed.",
+      "parentUuid": "e8cc76f3_aae070cc",
       "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
@@ -92,6 +188,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d7ff492_ba5387fb",
+        "filename": "tests/czechlight-cfg-fs/test_v1_sdn-inline_DQ000MDL/startup.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bffac50b_f9bbda94",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d228ab38_fb1c355f",
@@ -105,6 +219,24 @@
       "writtenOn": "2022-06-27T21:30:14Z",
       "side": 1,
       "message": "I think that it\u0027s perhaps too verbose to test the same thing for both inline amp and a ROADM Line Degree. Let\u0027s keep just one example of a config with some IP address being already set, no matter the difference in number of recognized interfaces (and therefore the default setting file).",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae43dc4_908eb0ef",
+        "filename": "tests/czechlight-cfg-fs/test_v1_sdn-roadm-line/startup.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d228ab38_fb1c355f",
       "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
