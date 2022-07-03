@@ -41,6 +41,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4edf66d6_8ce67ce6",
+        "filename": "package/czechlight-cfg-fs/czechlight-migrate.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0a12a8cf_140118d4",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 6
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18c6aa34_e5955801",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-06-27T21:06:28Z",
       "side": 1,
       "message": "nit: what about just \"MIGRATIONS\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e99141f_b90c93f0",
+        "filename": "package/czechlight-cfg-fs/czechlight-migrate.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18c6aa34_e5955801",
       "range": {
         "startLine": 7,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ae1aeed_42ac295b",
+        "filename": "package/czechlight-cfg-fs/czechlight-migration-list.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c62c8a0_19fcd01b",
+      "range": {
+        "startLine": 3,
+        "startChar": 4,
+        "endLine": 3,
+        "endChar": 63
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7bb5428_666c6326",
@@ -104,6 +176,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7759da46_de7e2f37",
+        "filename": "package/czechlight-cfg-fs/migrations/0001_initial-data.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7bb5428_666c6326",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4e1021a_dcef0bea",
@@ -117,6 +207,30 @@
       "writtenOn": "2022-06-27T21:06:28Z",
       "side": 1,
       "message": "this must be done as the very last step after all the migrations, otherwise we might end up with `running` DS which contains some random crap",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 21
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1407dde_5e1b6fcb",
+        "filename": "package/czechlight-install-yang/czechlight-install-yang.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4e1021a_dcef0bea",
       "range": {
         "startLine": 93,
         "startChar": 0,
@@ -146,6 +260,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f51831c_342b1901",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Yes, it is in TODO here. I need help with this.",
+      "parentUuid": "42871984_8047da65",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "814877ff_2a41bf00",
         "filename": "tests/czechlight-cfg-fs/test.py",
         "patchSetId": 9
@@ -157,6 +289,24 @@
       "writtenOn": "2022-06-27T21:06:28Z",
       "side": 1,
       "message": "shutil.copy_file",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e6faf70_8864d717",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "814877ff_2a41bf00",
       "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
@@ -184,6 +334,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40f51f17_1595cfca",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f7da79d_7998df16",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a16d8206_d1297c81",
@@ -201,6 +375,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47dfdec7_f03eca15",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a16d8206_d1297c81",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc46a974_8a4970ff",
@@ -214,6 +406,30 @@
       "writtenOn": "2022-06-27T21:06:28Z",
       "side": 1,
       "message": "nit: looks like this is only used inside the constructor, so no need to store it to a \"private\" member",
+      "range": {
+        "startLine": 51,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 28
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b327a6d_570fa51b",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc46a974_8a4970ff",
       "range": {
         "startLine": 51,
         "startChar": 8,
@@ -247,6 +463,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05d88d42_60014fcf",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea199fbb_56e48117",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 83
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32cee798_00287000",
@@ -260,6 +500,30 @@
       "writtenOn": "2022-06-27T21:06:28Z",
       "side": 1,
       "message": "it\u0027s accessed from outside of this class, so it\u0027s by definition not an internal thingy, so please don\u0027t use the underscore prefix here",
+      "range": {
+        "startLine": 86,
+        "startChar": 17,
+        "endLine": 86,
+        "endChar": 30
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3310c92_bc730677",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "It is called 4 lines above from ctor and nowhere else so I think it is internal method.\nHowever, this part was nuked anyway because of the changes in the comment below.",
+      "parentUuid": "32cee798_00287000",
       "range": {
         "startLine": 86,
         "startChar": 17,
@@ -293,6 +557,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a8da651_45702272",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e595ce86_85c2a4a8",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 46
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad5c6072_4c789157",
@@ -306,6 +594,30 @@
       "writtenOn": "2022-06-27T21:06:28Z",
       "side": 1,
       "message": "I think there\u0027s no point in doing encapsulation in a test fixture. Just stick with a member variable and don\u0027t bother with getters.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 33
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a59945d2_060a40ab",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad5c6072_4c789157",
       "range": {
         "startLine": 97,
         "startChar": 0,
@@ -333,6 +645,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "223ea71d_37d11765",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11fd80ff_6f2d948b",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71b381d7_e7dc76cd",
@@ -346,6 +676,30 @@
       "writtenOn": "2022-06-27T21:06:28Z",
       "side": 1,
       "message": "please use an f-string for this",
+      "range": {
+        "startLine": 172,
+        "startChar": 10,
+        "endLine": 172,
+        "endChar": 58
+      },
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8942028c_70a57c8d",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-03T12:36:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71b381d7_e7dc76cd",
       "range": {
         "startLine": 172,
         "startChar": 10,
