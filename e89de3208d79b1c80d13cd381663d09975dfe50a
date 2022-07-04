@@ -101,6 +101,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7957ff95_b753716a",
+        "filename": "package/czechlight-cfg-fs/migrations/0002_default_startup_configuration_for_ietf-interfaces.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-04T15:04:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "611d5060_d59b0bc5",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 4
+      },
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "681b5464_8219cea7",
@@ -167,6 +191,24 @@
       "side": 1,
       "message": "Nice idea but the tests/czechlight-cfg-fs directory can contain other dirs (.pytest, __pycache__, etc). So I have to filter those somehow (test_ prefix). We can consider only directories containing all required files and then the test_ prefix can be removed.",
       "parentUuid": "e8cc76f3_aae070cc",
+      "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75200688_302d996d",
+        "filename": "tests/czechlight-cfg-fs/test_v0_sdn-inline_empty/expected.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-04T15:04:15Z",
+      "side": 1,
+      "message": "The test directories wre moved to a separate directory where no .pytest or __pycache__ should appear.",
+      "parentUuid": "0dc1617e_deaf1e28",
       "revId": "e89de3208d79b1c80d13cd381663d09975dfe50a",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
