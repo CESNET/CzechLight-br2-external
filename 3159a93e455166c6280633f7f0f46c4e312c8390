@@ -16,6 +16,40 @@
       "message": "merge blocker",
       "revId": "3159a93e455166c6280633f7f0f46c4e312c8390",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d432e782_c1cc24c8",
+        "filename": "package/czechlight-cfg-fs/Config.in",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-04T15:53:10Z",
+      "side": 1,
+      "message": "now I see why you haven\u0027t liked my suggestion :)",
+      "revId": "3159a93e455166c6280633f7f0f46c4e312c8390",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de8d4b4d_349f81fd",
+        "filename": "package/czechlight-cfg-fs/czechlight-cfg-fs.mk",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-04T15:53:10Z",
+      "side": 1,
+      "message": "also enable it via the symlink in multi-user.target.wants",
+      "revId": "3159a93e455166c6280633f7f0f46c4e312c8390",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
