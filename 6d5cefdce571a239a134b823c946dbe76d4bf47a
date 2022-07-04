@@ -312,6 +312,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "521e46b1_b17f82c7",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-04T16:06:48Z",
+      "side": 1,
+      "message": "Thanks for a heads-up about the slowdown.\n\nThey all can run in parallel (assuming we set up separate SR_* variables), so I don\u0027t think this is a problem. Anyway, the point was that it\u0027s better to spend a minute in this job instead of waiting two minutes for the VM launch overhead *and* having to modify all the other repos.",
+      "parentUuid": "f1fd3434_4c5e646a",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "814877ff_2a41bf00",
