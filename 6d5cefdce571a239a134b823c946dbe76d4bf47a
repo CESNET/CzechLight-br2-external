@@ -278,6 +278,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f6a68691_ae002b03",
+        "filename": "tests/czechlight-cfg-fs/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-04T10:02:13Z",
+      "side": 1,
+      "message": "Just launch them via ci/build.sh, no need to integrate with buildroot\u0027s test suite or to introduce new Zuul jobs. The tests are going to take a few seconds tops, and there\u0027s no need to spin up a new VM for that, and to modify all the other CI settings for other packages to launch a new job.",
+      "parentUuid": "4f51831c_342b1901",
+      "revId": "6d5cefdce571a239a134b823c946dbe76d4bf47a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "814877ff_2a41bf00",
         "filename": "tests/czechlight-cfg-fs/test.py",
         "patchSetId": 9
