@@ -18,6 +18,23 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b9c53c6_5c393cbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-06T20:34:34Z",
+      "side": 1,
+      "message": "please also adjust doc/architecture.md which is only changed in I96191630fd6b3a1ffbc5ba9f62c4a6c14ab5ed92",
+      "revId": "27242c4e53695848c77019ce53c1e19c37307c75",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "76764c39_5d23cc06",
