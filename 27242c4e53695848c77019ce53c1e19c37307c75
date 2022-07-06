@@ -16,6 +16,29 @@
       "message": "recheck",
       "revId": "27242c4e53695848c77019ce53c1e19c37307c75",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76764c39_5d23cc06",
+        "filename": "package/czechlight-cfg-fs/Config.in",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-06T20:23:10Z",
+      "side": 1,
+      "message": "I would have expected a `select` here, but it doesn\u0027t really matter that much",
+      "range": {
+        "startLine": 4,
+        "startChar": 1,
+        "endLine": 4,
+        "endChar": 8
+      },
+      "revId": "27242c4e53695848c77019ce53c1e19c37307c75",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
