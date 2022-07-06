@@ -58,6 +58,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1469e568_68c4338c",
+        "filename": "package/czechlight-cfg-fs/Config.in",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-06T16:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99c6ace8_aa6c83a4",
+      "range": {
+        "startLine": 5,
+        "startChar": 1,
+        "endLine": 5,
+        "endChar": 41
+      },
+      "revId": "3159a93e455166c6280633f7f0f46c4e312c8390",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de8d4b4d_349f81fd",
@@ -71,6 +95,24 @@
       "writtenOn": "2022-07-04T15:53:10Z",
       "side": 1,
       "message": "also enable it via the symlink in multi-user.target.wants",
+      "revId": "3159a93e455166c6280633f7f0f46c4e312c8390",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58e11ba7_734bd081",
+        "filename": "package/czechlight-cfg-fs/czechlight-cfg-fs.mk",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-06T16:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de8d4b4d_349f81fd",
       "revId": "3159a93e455166c6280633f7f0f46c4e312c8390",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
