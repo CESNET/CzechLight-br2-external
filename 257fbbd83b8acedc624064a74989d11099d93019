@@ -1,6 +1,98 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5e28fe5_b96af91f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-06T20:58:13Z",
+      "side": 1,
+      "message": "it\u0027s being executed now",
+      "range": {
+        "startLine": 11,
+        "startChar": 59,
+        "endLine": 12,
+        "endChar": 4
+      },
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30a5973a_6994a734",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-06T20:58:13Z",
+      "side": 1,
+      "message": "This is confusing, because \"it versions ... startup datastore\" sounds like it is somehow tracking commits of DS, and assigning revisions to that. What about:\n\nThe persistent /cfg now stores not just the data, but also the system SW version which produced the stored configuration. Upon boot, the current system looks at the previous config and its associated system version, and if any changes need to happen, they are automatically applied.",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 64
+      },
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbe937fe_610a389d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-06T20:58:13Z",
+      "side": 1,
+      "message": "\"This initial content makes sure that there\u0027s something (like a default channel plan, or some mandatory YANG data nodes) when booting from factory defaults (or from a pre-versioning SW release). Since this is a one-shot operation, the operator is free to overwrite the data (e.g., rewrite the channel plan), and the system will happily accept the new data as long as they pass the YANG validation. This is different from the previous behavior of the SW stack which would apply the defaults during each boot, even when the configuration was restored.\"",
+      "range": {
+        "startLine": 16,
+        "startChar": 40,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd6430db_462041f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-06T20:58:13Z",
+      "side": 1,
+      "message": "nit: this sounds like something related to systemd to me, would be awesome to rephrase -- what about \"control files\"?",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d4a2cfab_5fad5256",
@@ -14,6 +106,63 @@
       "writtenOn": "2022-07-06T20:23:54Z",
       "side": 1,
       "message": "recheck",
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df3940a8_668108c7",
+        "filename": "doc/architecture.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-06T20:58:13Z",
+      "side": 1,
+      "message": "When I look at all the .service units of all the sysrepo-using applications, I\u0027m not happy because the Requires\u003d and After\u003d stanzas are, IMHO, horrible. Conceptually, they should depend on a single thing for \"make sure all YANG models and data are ready and at their expected content\". Is that better via a systemd target, or via a single service?\n\nI was wondering if it makes sense to merge all of this into a single `prepare-yang.service` (perhaps with multiple ExecStart\u003d to make stuff sane, but then I think some of these files could be merged just as well).",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 115
+      },
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53ae7c9b_ff09726b",
+        "filename": "package/czechlight-install-yang/czechlight-install-yang.service",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-06T20:58:13Z",
+      "side": 1,
+      "message": "this file is no longer needed",
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b9404a0_38ece2cc",
+        "filename": "tests/czechlight-cfg-fs/migrations.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-06T20:58:13Z",
+      "side": 1,
+      "message": "this is redundant because pytest shows that (-vv)",
       "revId": "257fbbd83b8acedc624064a74989d11099d93019",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
