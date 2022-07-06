@@ -18,6 +18,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81693083_3f13191c",
+        "filename": "ci/build.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-06T10:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "190b5fff_bc293a32",
+      "revId": "0e5d243643b269e590e66475d625dcbc069bfce4",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48e66bb7_5c9e3e39",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-04T16:06:48Z",
       "side": 1,
       "message": "I have to keep reminding myself that this script only runs when:\n\n- there\u0027s no previous config data at all (i.e., booting in factory defaults)\n- or when upgrading from \"legacy pre-2022-July\" version of CzechLight\n\nI agree that it\u0027s OK to hard-import these settings, but I would appreciate a brief comment explaining that to a future reader, *and* to explain that it\u0027s by design that the user can remove, say, half of the channel plan of these ROADMs (/czechlight-roadm-device:channel-plan), and that these won\u0027t be getting restored after this change.",
+      "revId": "0e5d243643b269e590e66475d625dcbc069bfce4",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d69dfb06_39c90640",
+        "filename": "package/czechlight-cfg-fs/migrations/0001_initial-data.sh",
+        "patchSetId": 14
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-06T10:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48e66bb7_5c9e3e39",
       "revId": "0e5d243643b269e590e66475d625dcbc069bfce4",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
@@ -58,6 +94,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e22f0c7_1cc83b9b",
+        "filename": "tests/czechlight-cfg-fs/migrations.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-06T10:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69f50a7d_f3e6750a",
+      "range": {
+        "startLine": 29,
+        "startChar": 40,
+        "endLine": 29,
+        "endChar": 57
+      },
+      "revId": "0e5d243643b269e590e66475d625dcbc069bfce4",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4569263_a7ac9c77",
@@ -71,6 +131,30 @@
       "writtenOn": "2022-07-04T16:06:48Z",
       "side": 1,
       "message": "if these are swapped, the error message will be reported, not just a wrong error code",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 44
+      },
+      "revId": "0e5d243643b269e590e66475d625dcbc069bfce4",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "019511c9_0835c31a",
+        "filename": "tests/czechlight-cfg-fs/migrations.py",
+        "patchSetId": 14
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-06T10:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4569263_a7ac9c77",
       "range": {
         "startLine": 91,
         "startChar": 0,
