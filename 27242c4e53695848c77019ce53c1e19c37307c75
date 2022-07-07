@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e45f4646_71e81f29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-07T04:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b9c53c6_5c393cbf",
+      "revId": "27242c4e53695848c77019ce53c1e19c37307c75",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "76764c39_5d23cc06",
         "filename": "package/czechlight-cfg-fs/Config.in",
         "patchSetId": 7
