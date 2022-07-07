@@ -229,6 +229,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7021d96c_9be7c3b0",
+        "filename": "doc/architecture.md",
+        "patchSetId": 19
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-07T11:05:19Z",
+      "side": 1,
+      "message": "We discussed this on the call. \nThis will be implemented by some other patch.",
+      "parentUuid": "df3940a8_668108c7",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 115
+      },
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53ae7c9b_ff09726b",
