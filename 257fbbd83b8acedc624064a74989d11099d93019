@@ -24,6 +24,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed6192f5_00962d07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-07T04:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5e28fe5_b96af91f",
+      "range": {
+        "startLine": 11,
+        "startChar": 59,
+        "endLine": 12,
+        "endChar": 4
+      },
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30a5973a_6994a734",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-06T20:58:13Z",
       "side": 1,
       "message": "This is confusing, because \"it versions ... startup datastore\" sounds like it is somehow tracking commits of DS, and assigning revisions to that. What about:\n\nThe persistent /cfg now stores not just the data, but also the system SW version which produced the stored configuration. Upon boot, the current system looks at the previous config and its associated system version, and if any changes need to happen, they are automatically applied.",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 64
+      },
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f035477_98ecc359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-07T04:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30a5973a_6994a734",
       "range": {
         "startLine": 12,
         "startChar": 30,
@@ -70,6 +118,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "058c5540_331c5b9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-07T04:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbe937fe_610a389d",
+      "range": {
+        "startLine": 16,
+        "startChar": 40,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd6430db_462041f7",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-07-06T20:58:13Z",
       "side": 1,
       "message": "nit: this sounds like something related to systemd to me, would be awesome to rephrase -- what about \"control files\"?",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7e0af2f_9022c24d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-07T04:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd6430db_462041f7",
       "range": {
         "startLine": 26,
         "startChar": 10,
@@ -150,6 +246,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5db66a2_43e0742a",
+        "filename": "package/czechlight-install-yang/czechlight-install-yang.service",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-07T04:25:55Z",
+      "side": 1,
+      "message": "sorry bad rebase",
+      "parentUuid": "53ae7c9b_ff09726b",
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b9404a0_38ece2cc",
@@ -163,6 +277,24 @@
       "writtenOn": "2022-07-06T20:58:13Z",
       "side": 1,
       "message": "this is redundant because pytest shows that (-vv)",
+      "revId": "257fbbd83b8acedc624064a74989d11099d93019",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5099e180_da1d5606",
+        "filename": "tests/czechlight-cfg-fs/migrations.py",
+        "patchSetId": 19
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-07-07T04:25:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b9404a0_38ece2cc",
       "revId": "257fbbd83b8acedc624064a74989d11099d93019",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
