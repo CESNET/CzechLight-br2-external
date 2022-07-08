@@ -2,7 +2,7 @@
 Description=Restore NACM rules
 After=netopeer2-install-yang.service czechlight-migrate.service cfg.mount
 Requires=netopeer2-install-yang.service czechlight-migrate.service cfg.mount
-Before=netopeer2-setup.service netopeer2.service sysrepo-persistent-cfg.service
+Before=netopeer2-setup.service sysrepo-persistent-cfg.service
 
 [Service]
 Type=oneshot
@@ -12,4 +12,4 @@ ExecStart=/bin/sysrepocfg -C startup
 Group=sysrepo
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=yang-startup.target

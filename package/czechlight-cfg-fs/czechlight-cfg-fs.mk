@@ -42,7 +42,8 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER = \
 		czechlight-install-yang.service \
 		czechlight-migrate.service \
-		nacm-restore.service
+		nacm-restore.service \
+		yang-startup.target
 
 	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
 		CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER = ${CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER} \
