@@ -21,58 +21,46 @@ define CZECHLIGHT_CFG_FS_BUILD_CMDS
 endef
 
 define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
-	$(INSTALL) -D -m 0755 \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/init-czechlight.sh \
-		$(TARGET_DIR)/sbin/init-czechlight.sh
-	$(INSTALL) -D -m 0755 $(@D)/czechlight-random-seed $(TARGET_DIR)/sbin/czechlight-random-seed
-	$(INSTALL) -D -m 0755 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs/ \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-install-yang.sh
-	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-install-yang.service
-	ln -sf ../czechlight-install-yang.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 	mkdir -p $(TARGET_DIR)/cfg
-	$(INSTALL) -D -m 0644 \
-	    --target-directory $(TARGET_DIR)/usr/lib/systemd/system/ \
-	    $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm-restore.service
-	$(INSTALL) -D -m 0644 \
-	    --target-directory $(TARGET_DIR)/usr/share/yang-data/ \
-	    $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm.json
-	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
-		mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
-		$(INSTALL) -D -m 0644 \
-			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/sysrepo-persistent-cfg.service \
-			$(TARGET_DIR)/usr/lib/systemd/system/
-		ln -sf ../sysrepo-persistent-cfg.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
-		$(INSTALL) -D -m 0644 \
-			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-restore-sysrepo.service \
-			$(TARGET_DIR)/usr/lib/systemd/system/
-		ln -sf ../cfg-restore-sysrepo.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
-	$(endif)
-	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_KEYS),y))
-		mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
-		$(INSTALL) -D -m 0644 \
-			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/openssh-persistent-keys.service \
-			$(TARGET_DIR)/usr/lib/systemd/system/
-		ln -sf ../openssh-persistent-keys.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
-	$(endif)
-	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_NETWORK),y))
-		mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/network-pre.target.wants/
-		$(INSTALL) -D -m 0644 \
-			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-restore-systemd-networkd.service \
-			$(TARGET_DIR)/usr/lib/systemd/system/
-		ln -sf ../cfg-restore-systemd-network.service $(TARGET_DIR)/usr/lib/systemd/system/network-pre.target.wants/
-	$(endif)
+	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
+
+	$(INSTALL) -D -m 0755 -t $(TARGET_DIR)/sbin \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/init-czechlight.sh \
+		$(@D)/czechlight-random-seed
+
+	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/share/yang-data/ \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm.json
 
 	$(INSTALL) -D -m 0755 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-install-yang.sh \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-migrate.sh \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-migration-list.sh
 
 	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs/migrations \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/migrations/*
 
-	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-migrate.service
-	ln -sf ../czechlight-migrate.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
+	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER="
+		czechlight-install-yang.service
+		czechlight-migrate.service
+		nacm-restore.service
+		"
+
+	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
+		CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER+=sysrepo-persistent-cfg.service
+		CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER+=cfg-restore-sysrepo.service
+	$(endif)
+	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_KEYS),y))
+		CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER+=openssh-persistent-keys.service
+	$(endif)
+	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_NETWORK),y))
+		CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER+=cfg-restore-systemd-networkd.service
+	$(endif)
+
+	for UNIT in $${CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER}; do
+		$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
+			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/$${UNIT}
+		ln -sf ../${{UNIT}} $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
+	done
 endef
 
 # Configure OpenSSH to look for *user* keys in the /cfg
