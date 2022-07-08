@@ -23,7 +23,8 @@ endef
 CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER = \
 	czechlight-install-yang.service \
 	czechlight-migrate.service \
-	nacm-restore.service
+	nacm-restore.service \
+	yang-startup.target
 
 $(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
 	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER += \
@@ -55,7 +56,6 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 
 	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs/migrations \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/migrations/*
-
 
 	for UNIT in $(CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER); do \
 		$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
