@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1ae0b26_e9d00842",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-08T16:00:01Z",
+      "side": 1,
+      "message": "Tested on 10.0.254.56, it boots.",
+      "revId": "e40feebe94354fedcfa9fdf27afc8067ea8861fe",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
