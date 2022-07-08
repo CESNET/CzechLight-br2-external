@@ -20,21 +20,21 @@ define CZECHLIGHT_CFG_FS_BUILD_CMDS
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm.json
 endef
 
-CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER = \
+CZECHLIGHT_CFG_FS_SYSTEMD_FOR_YANG_STARTUP = \
 	czechlight-install-yang.service \
 	czechlight-migrate.service \
 	nacm-restore.service
 
 $(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
-	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER += \
+	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_YANG_STARTUP += \
 		sysrepo-persistent-cfg.service \
 		cfg-restore-sysrepo.service
 $(endif)
 $(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_KEYS),y))
-	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER += openssh-persistent-keys.service
+	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_YANG_STARTUP += openssh-persistent-keys.service
 $(endif)
 $(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_NETWORK),y))
-	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER += cfg-restore-systemd-networkd.service
+	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_YANG_STARTUP += cfg-restore-systemd-networkd.service
 $(endif)
 
 define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
@@ -56,12 +56,15 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs/migrations \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/migrations/*
 
-
-	for UNIT in $(CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER); do \
+	for UNIT in $(CZECHLIGHT_CFG_FS_SYSTEMD_FOR_YANG_STARTUP); do \
 		$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
 			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/$${UNIT}; \
-		ln -sf ../$${UNIT} $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/ ;\
+		ln -sf ../$${UNIT} $(TARGET_DIR)/usr/lib/systemd/system/yang-startup.target.wants/ ;\
 	done
+
+	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/yang-startup.target
+	ln -sf ../yang-startup.target $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 endef
 
 # Configure OpenSSH to look for *user* keys in the /cfg
