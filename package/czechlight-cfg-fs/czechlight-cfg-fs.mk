@@ -43,6 +43,7 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		czechlight-install-yang.service
 		czechlight-migrate.service
 		nacm-restore.service
+		yang-startup.target
 		"
 
 	$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
