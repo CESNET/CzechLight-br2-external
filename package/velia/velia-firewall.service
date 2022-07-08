@@ -1,9 +1,9 @@
 [Unit]
 Description=Firewall management via sysrepo
-After=syslog.target network.target cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service
+After=syslog.target network.target yang-startup.target
 Before=rauc-mark-good.service
 PartOf=netopeer2.service
-Requires=cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service
+Requires=yang-startup.target
 ConditionKernelCommandLine=czechlight
 
 [Service]
