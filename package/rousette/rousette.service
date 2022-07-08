@@ -1,8 +1,8 @@
 [Unit]
 Description=RESTCONFish server
-After=syslog.target network.target cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service
+After=syslog.target network.target yang-startup.target
 PartOf=netopeer2.service
-Requires=cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service
+Requires=yang-startup.target
 
 [Service]
 Type=simple

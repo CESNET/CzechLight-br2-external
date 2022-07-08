@@ -24,6 +24,7 @@ define CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER
 	czechlight-install-yang.service
 	czechlight-migrate.service
 	nacm-restore.service
+	yang-startup.target
 endef
 
 $(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))

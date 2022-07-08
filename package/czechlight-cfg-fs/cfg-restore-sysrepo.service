@@ -2,7 +2,7 @@
 Description=Restore sysrepo startup datastore from /cfg
 After=netopeer2-install-yang.service czechlight-install-yang.service cfg.mount
 Requires=netopeer2-install-yang.service czechlight-install-yang.service cfg.mount
-Before=netopeer2-setup.service netopeer2.service sysrepo-persistent-cfg.service
+Before=netopeer2-setup.service sysrepo-persistent-cfg.service
 ConditionPathExists=/cfg/sysrepo/startup.json
 
 [Service]
@@ -14,4 +14,4 @@ Group=sysrepo
 StandardOutput=journal+console
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=yang-startup.target
