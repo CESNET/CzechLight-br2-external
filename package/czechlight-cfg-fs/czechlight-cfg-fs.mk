@@ -24,6 +24,7 @@ define CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER
 	czechlight-install-yang.service
 	czechlight-migrate.service
 	nacm-restore.service
+	yang-startup.target
 endef
 
 define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS

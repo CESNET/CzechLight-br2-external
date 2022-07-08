@@ -27,7 +27,7 @@ Of course there are still (Q2 2020) exceptions:
 ### YANG
 
 The system always boots with an empty sysrepo database -- no YANG modules, and no configuration is installed.
-The required modules (and configuration) is added in several steps:
+The required modules (and configuration) is added via units assigned to `yang-startup.target` in several steps:
 
 - the YANG modules for `netopeer2-server` are added via `netopeer2-install-yang.service` (via our Buildroot patches),
 - CzechLight-specific YANG modules are added via [`czechlight-install-yang.service`](../package/czechlight-cfg-fs/czechlight-install-yang.service),
