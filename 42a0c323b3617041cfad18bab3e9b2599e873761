@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34e11136_5be04463",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-08T20:49:13Z",
+      "side": 1,
+      "message": "hmm, auto-restart-when-any-sysrepo-consumer-fails doesn\u0027t work, and I\u0027m feeling like rewriting this more",
+      "revId": "42a0c323b3617041cfad18bab3e9b2599e873761",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
