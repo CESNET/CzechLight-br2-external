@@ -1,0 +1,12 @@
+config BR2_PACKAGE_SYSREPO_IETF_ALARMS
+	bool "sysrepo-ietf-alarms"
+	select BR2_PACKAGE_DOCOPT_CPP
+	select BR2_PACKAGE_SPDLOG
+	select BR2_PACKAGE_SYSTEMD
+	select BR2_PACKAGE_SYSREPO
+	select BR2_PACKAGE_SYSREPO_CPP
+	select BR2_PACKAGE_CZECHLIGHT_CFG_FS
+	help
+	  Alarm management: `ietf-alarms` YANG module for sysrepo
+
+	  https://gerrit.cesnet.cz/q/project:CzechLight/sysrepo-ietf-alarms

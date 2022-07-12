@@ -1,0 +1,21 @@
+[Unit]
+Description=Alarm management: ietf-alarms YANG module for sysrepo
+Requires=multi-user.target
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/sysrepo-ietf-alarmsd
+Group=sysrepo
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=yes
+ProtectHome=yes
+Restart=always
+RestartSec=10s
+LogRateLimitIntervalSec=10
+LogRateLimitBurst=30000
+SyslogLevel=alert
+
+[Install]
+WantedBy=multi-user.target

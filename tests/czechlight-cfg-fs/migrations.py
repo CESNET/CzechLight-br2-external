@@ -21,6 +21,7 @@ NETOPEER_SCRIPT_PATH = BR2_ROOT / 'submodules/buildroot/package/netopeer2/setup.
 
 CLA_SYSREPO_PATH = BR2_ROOT / 'submodules/cla-sysrepo'
 VELIA_PATH = BR2_ROOT / 'submodules/velia'
+SYSREPO_IETF_ALARMS = BR2_ROOT / 'submodules/sysrepo-ietf-alarms'
 NETOPEER2_PATH = BR2_ROOT / 'submodules/dependencies/Netopeer2'
 
 
@@ -68,6 +69,7 @@ class SysrepoFixture:
         res['SYSREPO_REPOSITORY_PATH'] = self._running_directory / 'sysrepo_repository'
         res['CLA_YANG'] = CLA_SYSREPO_PATH / 'yang'
         res['VELIA_YANG'] = VELIA_PATH / 'yang'
+        res['SYSREPO_IETF_ALARMS'] = SYSREPO_IETF_ALARMS_PATH / 'yang'
         res['PROC_CMDLINE'] = self.proc_cmdline
         res['CFG_VERSION_FILE'] = self.version_file
         res['CFG_STARTUP_FILE'] = self.startup_file

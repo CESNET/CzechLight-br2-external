@@ -9,6 +9,7 @@ YANG_CALIBRATION=0
 
 CLA_YANG="${CLA_YANG:-/usr/share/cla-sysrepo/yang}"
 VELIA_YANG="${VELIA_YANG:-/usr/share/velia/yang}"
+SYSREPO_IETF_ALARMS_YANG="${SYSREPO_IETF_ALARMS_YANG:-/usr/share/sysrepo-ietf-alarms/yang}"
 PROC_CMDLINE="${PROC_CMDLINE:-/proc/cmdline}"
 
 for ARG in $(cat "$PROC_CMDLINE"); do
@@ -73,6 +74,9 @@ if [[ ${YANG_CALIBRATION} == 1 ]]; then
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-calibration-device@2019-06-25.yang --permissions 0660
 fi
 
+sysrepoctl --search-dirs ${SYSREPO_IETF_ALARMS_YANG} --install ${SYSREPO_IETF_ALARMS_YANG}/ietf-alarms@2019-09-11.yang --permissions 0660
+sysrepoctl --search-dirs ${SYSREPO_IETF_ALARMS_YANG} --install ${SYSREPO_IETF_ALARMS_YANG}/sysrepo-ietf-alarms@2022-02-17.yang --permissions 0660
+
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-system@2014-08-06.yang --permissions 0660
 
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-lldp@2020-11-04.yang --permissions 0660
@@ -86,6 +90,7 @@ sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-routing@2018
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-ipv4-unicast-routing@2018-03-13.yang --permissions 0660
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-ipv6-unicast-routing@2018-03-13.yang --permissions 0660
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-network@2021-02-22.yang --permissions 0660
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-alarms@2022-07-12.yang --permissions 0660
 
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-firewall@2021-01-25.yang --permissions 0600
 sysrepoctl --change ietf-access-control-list --enable-feature match-on-eth --enable-feature eth --enable-feature match-on-ipv4 --enable-feature ipv4 --enable-feature match-on-ipv6 --enable-feature ipv6 --enable-feature mixed-eth-ipv4-ipv6
