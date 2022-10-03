@@ -19,3 +19,6 @@
 [submodule "submodules/rousette"]
 	path = submodules/rousette
 	url = ../rousette
+[submodule "submodules/sysrepo-ietf-alarms"]
+	path = submodules/sysrepo-ietf-alarms
+	url = ../sysrepo-ietf-alarms

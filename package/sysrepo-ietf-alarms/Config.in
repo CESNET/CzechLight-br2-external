@@ -1,0 +1,12 @@
+config BR2_PACKAGE_SYSREPO_IETF_ALARMS
+	bool "velia"
+	select BR2_PACKAGE_DOCOPT_CPP
+	select BR2_PACKAGE_SPDLOG
+	select BR2_PACKAGE_SYSREPO
+	select BR2_PACKAGE_SYSREPO_CPP
+	select BR2_PACKAGE_CZECHLIGHT_CFG_FS
+	select BR2_PACKAGE_DATE
+	help
+	  Implementing the `ietf-alarms` YANG module for sysrepo.
+
+	  https://gerrit.cesnet.cz/q/project:CzechLight/sysrepo-ietf-alarms
