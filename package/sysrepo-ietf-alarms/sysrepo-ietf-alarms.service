@@ -1,0 +1,25 @@
+[Unit]
+Description=IETF-alarms management via sysrepo
+After=syslog.target network.target cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service
+Before=rauc-mark-good.service
+PartOf=netopeer2.service
+Requires=cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service
+RequiredBy=velia-health.service
+ConditionKernelCommandLine=czechlight
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/sysrepo-ietf-alarmsd
+Group=sysrepo
+PrivateTmp=yes
+PrivateDevices=no
+ProtectSystem=yes
+ProtectHome=yes
+Restart=always
+RestartSec=10s
+LogRateLimitIntervalSec=10
+LogRateLimitBurst=30000
+SyslogLevel=alert
+
+[Install]
+WantedBy=multi-user.target
