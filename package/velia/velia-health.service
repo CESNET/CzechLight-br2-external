@@ -7,7 +7,7 @@ ConditionKernelCommandLine=czechlight
 [Service]
 Type=simple
 ExecStartPre=/bin/sh -c 'for COLOUR in red green blue; do echo none > /sys/class/leds/status:$${COLOUR}/trigger; echo 0 > /sys/class/leds/status:green/brightness; done'
-ExecStart=/usr/bin/veliad-health --appliance=czechlight-clearfog --systemd-ignore-unit=systemd-journal-upload.service
+ExecStart=/usr/bin/veliad-health --appliance=czechlight-clearfog
 ExecStopPost=/bin/sh -c 'for COLOUR in red green blue; do echo 0 > /sys/class/leds/status:$$COLOUR/brightness; done; [[ "$EXIT_CODE" == "exited" ]] && COLOUR="green" || COLOUR="red"; echo timer > /sys/class/leds/status:$$COLOUR/trigger; echo 256 > /sys/class/leds/status:$$COLOUR/brightness'
 Group=sysrepo
 PrivateTmp=yes
