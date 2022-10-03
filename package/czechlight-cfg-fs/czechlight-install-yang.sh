@@ -9,6 +9,7 @@ YANG_CALIBRATION=0
 
 CLA_YANG="${CLA_YANG:-/usr/share/cla-sysrepo/yang}"
 VELIA_YANG="${VELIA_YANG:-/usr/share/velia/yang}"
+ALARMS_YANG="${ALARMS_YANG:-/usr/share/sysrepo-ietf-alarms/yang}"
 PROC_CMDLINE="${PROC_CMDLINE:-/proc/cmdline}"
 
 for ARG in $(cat "$PROC_CMDLINE"); do
@@ -89,3 +90,6 @@ sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-networ
 
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-firewall@2021-01-25.yang --permissions 0600
 sysrepoctl --change ietf-access-control-list --enable-feature match-on-eth --enable-feature eth --enable-feature match-on-ipv4 --enable-feature ipv4 --enable-feature match-on-ipv6 --enable-feature ipv6 --enable-feature mixed-eth-ipv4-ipv6
+
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${ALARMS_YANG}/ietf-alarms@2019-09-11.yang --permissions 0660 --enable-feature alarm-shelving --enable-feature alarm-summary
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${ALARMS_YANG}/sysrepo-ietf-alarms@2022-02-17.yang --permissions 0660
