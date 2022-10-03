@@ -1,0 +1,23 @@
+{
+  "ietf-alarms:alarms": {
+    "control": {
+      "alarm-shelving": {
+        "shelf": [
+          {
+            "name": "systemd journal upload",
+            "resource": [
+              "systemd-journal-upload.service"
+            ],
+            "alarm-type": [
+              {
+                "alarm-type-id": "velia-alarms:systemd-unit-failure",
+                "alarm-type-qualifier-match": ""
+              }
+            ],
+            "description": "Ignore systemd-journal-upload.service failures"
+          }
+        ]
+      }
+    }
+  }
+}
