@@ -1,0 +1,16 @@
+{
+  "ietf-alarms:alarms": {
+    "control": {
+      "alarm-shelving": {
+        "shelf": [
+          {
+            "name": "systemd journal upload",
+            "resource": [],
+            "alarm-type": [],
+            "description": "Something something something"
+          }
+        ]
+      }
+    }
+  }
+}
