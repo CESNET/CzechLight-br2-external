@@ -93,3 +93,5 @@ sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-networ
 
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-firewall@2021-01-25.yang --permissions 0600
 sysrepoctl --change ietf-access-control-list --enable-feature match-on-eth --enable-feature eth --enable-feature match-on-ipv4 --enable-feature ipv4 --enable-feature match-on-ipv6 --enable-feature ipv6 --enable-feature mixed-eth-ipv4-ipv6
+
+sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/velia-alarms@2022-07-12.yang --permissions 0660
