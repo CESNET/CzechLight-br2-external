@@ -11,6 +11,7 @@ PROC_CMDLINE="${PROC_CMDLINE:-/proc/cmdline}"
 
 export CLA_YANG="${CLA_YANG:-/usr/share/cla-sysrepo/yang}"
 export VELIA_YANG="${VELIA_YANG:-/usr/share/velia/yang}"
+export ALARMS_YANG="${ALARMS_YANG:-/usr/share/sysrepo-ietf-alarms/yang}"
 
 # load migrations and perform a sanity check (filename's numerical prefix corresponds to the order in the MIGRATIONS array)
 source $MIGRATIONS

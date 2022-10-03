@@ -36,7 +36,7 @@ fi
 echo BR2_PRIMARY_SITE=\"https://object-store.cloud.muni.cz/swift/v1/ci-artifacts-public/mirror/buildroot\" >> .config
 
 if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
-    for PROJECT in cla-sysrepo netconf-cli gammarus velia rousette; do
+    for PROJECT in cla-sysrepo netconf-cli gammarus velia rousette sysrepo-ietf-alarms; do
         # If there's a change for ${PROJECT} queued ahead, ensure it gets used.
         # This means that if our submodules still pin, say, `cla-sysrepo` to some ancient version and we're testing a `netconf-cli` change,
         # then we will keep using that ancient `cla-sysrepo`. Hopefully this reduces the number of false alerts.

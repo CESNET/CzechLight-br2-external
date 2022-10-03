@@ -9,6 +9,7 @@ YANG_CALIBRATION=0
 
 CLA_YANG="${CLA_YANG:-/usr/share/cla-sysrepo/yang}"
 VELIA_YANG="${VELIA_YANG:-/usr/share/velia/yang}"
+ALARMS_YANG="${ALARMS_YANG:-/usr/share/sysrepo-ietf-alarms/yang}"
 PROC_CMDLINE="${PROC_CMDLINE:-/proc/cmdline}"
 
 for ARG in $(cat "$PROC_CMDLINE"); do
@@ -72,6 +73,9 @@ fi
 if [[ ${YANG_CALIBRATION} == 1 ]]; then
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-calibration-device@2019-06-25.yang --permissions 0660
 fi
+
+sysrepoctl --search-dirs ${ALARMS_YANG} --install ${ALARMS_YANG}/ietf-alarms@2019-09-11.yang --permissions 0660 --enable-feature alarm-shelving --enable-feature alarm-summary
+sysrepoctl --search-dirs ${ALARMS_YANG} --install ${ALARMS_YANG}/sysrepo-ietf-alarms@2022-02-17.yang --permissions 0660
 
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/ietf-system@2014-08-06.yang --permissions 0660
 
