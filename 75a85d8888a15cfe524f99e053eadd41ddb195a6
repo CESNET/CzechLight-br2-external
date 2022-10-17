@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fccc7a5c_b38d07d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-10-17T09:59:54Z",
+      "side": 1,
+      "message": "q7js (.254.79) boots\nbuildroot @ cesnet/2022-10-03",
+      "revId": "75a85d8888a15cfe524f99e053eadd41ddb195a6",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
