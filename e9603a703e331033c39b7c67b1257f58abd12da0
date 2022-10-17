@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65948ad2_bfa732cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2022-10-17T20:21:38Z",
+      "side": 1,
+      "message": "Now it runs. Let\u0027s see if velia can make use of that in the next patch (5910).\n\nAlso, I had to add `date` package to buildroot and patch it because it could not find TZ data... More info in the submodules/buildroot commit.",
+      "revId": "e9603a703e331033c39b7c67b1257f58abd12da0",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
