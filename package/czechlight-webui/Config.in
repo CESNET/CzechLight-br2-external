@@ -1,0 +1,7 @@
+config BR2_PACKAGE_CZECHLIGHT_WEBUI
+	bool "Czechlight web interface"
+	select BR2_PACKAGE_NGHTTP2
+	help
+	  Client-side JS app for monitoring CzechLight devices.
+
+	  https://gitlab.cesnet.cz/705/czl-sdn/czl-sdn-web-ui

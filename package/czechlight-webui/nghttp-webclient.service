@@ -1,0 +1,12 @@
+[Unit]
+Description=nghttpd static file serving
+Documentation=man:nghttpd
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/nghttpd --no-tls --address=::1 --htdocs=/usr/share/czechlight/webclient 82
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=full
+Restart=always
