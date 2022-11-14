@@ -22,3 +22,6 @@
 [submodule "submodules/sysrepo-ietf-alarms"]
 	path = submodules/sysrepo-ietf-alarms
 	url = ../sysrepo-ietf-alarms
+[submodule "submodules/czl-sdn-web-ui"]
+	path = submodules/czl-sdn-web-ui
+	url = git@gitlab.cesnet.cz:705/czl-sdn/czl-sdn-web-ui.git
