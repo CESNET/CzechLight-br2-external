@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91abafa7_88e027e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-01-14T00:34:09Z",
+      "side": 1,
+      "message": "sometimes I get an error when retrieving data via NETCONF: https://github.com/sysrepo/sysrepo/issues/2984",
+      "revId": "ceb8c6f4e7cb3fc0d0fc892ac57753c1f000879f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
