@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c74de63e_f9b86029",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-02-01T15:02:03Z",
+      "side": 1,
+      "message": "Installed on 10.0.154.97. It boots and runs, netconf seems to respond correctly.",
+      "revId": "8cc2f6fb4e0c9f163d018a9aa5b41900d61e5751",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
