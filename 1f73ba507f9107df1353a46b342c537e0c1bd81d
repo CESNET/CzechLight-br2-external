@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdf872c3_7b183b0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-02-02T00:22:35Z",
+      "side": 1,
+      "message": "tested on a line degree, it boots, the telemetry runs OK, and it\u0027s possible to read some data via a local NETCONF socket",
+      "revId": "1f73ba507f9107df1353a46b342c537e0c1bd81d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
