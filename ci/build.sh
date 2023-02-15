@@ -76,7 +76,7 @@ if [[ ! -z "${HAS_CHANGE_OF_DEPENDENCIES}" ]]; then
     for PROJECT in \
             libyang sysrepo libnetconf2 netopeer2 \
             libyang-cpp sysrepo-cpp \
-            replxx cppcodec sdbus-cpp \
+            replxx sdbus-cpp \
             ; do
         rm -rf build/{,host-}${PROJECT}-custom/ per-package/{,host-}${PROJECT}/
     done

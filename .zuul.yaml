@@ -24,7 +24,6 @@
       - github/CESNET/Netopeer2
       - github/onqtam/doctest
       - github/rollbear/trompeloeil
-      - github/tplgy/cppcodec
       - github/AmokHuginnsson/replxx
       - github/Kistler-Group/sdbus-cpp
 
