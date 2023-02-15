@@ -23,7 +23,6 @@
       - github/CESNET/libnetconf2
       - github/CESNET/Netopeer2
       - github/onqtam/doctest
-      - github/docopt/docopt.cpp
       - github/rollbear/trompeloeil
       - github/tplgy/cppcodec
       - github/AmokHuginnsson/replxx
