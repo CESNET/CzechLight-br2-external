@@ -16,6 +16,23 @@
       "message": "sorry that +2 was premature",
       "revId": "feb153e2a82aceee102e4503a5d934a3d38f7b40",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33ab4164_c853a604",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-02-16T19:09:02Z",
+      "side": 1,
+      "message": "Installed on 10.0.154.97 (ROADM-LINE-SDN-ID210516), OK (tested netconf, systemd services OK, telemetry via gammarus running, quick glance through journal seems OK)",
+      "revId": "feb153e2a82aceee102e4503a5d934a3d38f7b40",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
