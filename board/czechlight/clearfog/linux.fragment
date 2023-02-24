@@ -51,4 +51,7 @@ CONFIG_MV643XX_ETH=n
 CONFIG_KEYBOARD_ATKBD=N
 CONFIG_INPUT_MOUSE=N
 
+# our funky SFP cards are fragile when combined with mvebu
+CONFIG_PCIEASPM=n
+
 CONFIG_LOCALVERSION="-6-gfc198736eda4"
