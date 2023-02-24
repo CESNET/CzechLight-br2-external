@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e5e67e1_ba2497a2",
+        "filename": "package/velia/velia-health.service",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-02-24T14:24:26Z",
+      "side": 0,
+      "message": "this needs a migration script to push an ignore rule",
+      "range": {
+        "startLine": 10,
+        "startChar": 65,
+        "endLine": 10,
+        "endChar": 117
+      },
+      "revId": "39936b1bef3ccd37bf69699985b4ed201e5ce04c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
