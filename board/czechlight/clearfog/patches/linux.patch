@@ -267,10 +267,10 @@ index 565cd4c48d7b..cb252d98184c 100644
  		dev_info(&pdev->dev, "CS%d configured for direct access\n", cs);
  	}
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index dde0824b2fa5..bdfcd01401dd 100644
+index fbf6e2b3161c..eca377a784a0 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
-@@ -235,6 +235,10 @@
+@@ -237,6 +237,10 @@
  #define MAX310x_REV_MASK		(0xf8)
  #define MAX310X_WRITE_BIT		0x80
  
@@ -281,7 +281,7 @@ index dde0824b2fa5..bdfcd01401dd 100644
  /* MAX3107 specific */
  #define MAX3107_REV_ID			(0xa0)
  
-@@ -610,11 +614,14 @@ static u32 max310x_set_ref_clk(struct device *dev, struct max310x_port *s,
+@@ -636,11 +640,14 @@ static u32 max310x_set_ref_clk(struct device *dev, struct max310x_port *s,
  
  	/* Wait for crystal */
  	if (xtal) {
@@ -300,7 +300,7 @@ index dde0824b2fa5..bdfcd01401dd 100644
  		}
  	}
  
-@@ -1335,6 +1342,10 @@ static int max310x_probe(struct device *dev, const struct max310x_devtype *devty
+@@ -1347,6 +1354,10 @@ static int max310x_probe(struct device *dev, const struct max310x_devtype *devty
  	}
  
  	uartclk = max310x_set_ref_clk(dev, s, freq, xtal);
