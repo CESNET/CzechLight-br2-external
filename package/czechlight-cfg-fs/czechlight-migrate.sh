@@ -79,6 +79,7 @@ while [[ $CURRENT_VERSION -lt ${#MIGRATION_FILES[@]} ]]; do
 done
 
 # store current version and save startup.json
+mkdir -p $(dirname ${CFG_STARTUP_FILE}) $(dirname ${CFG_VERSION_FILE})
 sysrepocfg -d startup -f json -X > "$CFG_STARTUP_FILE"
 echo "$CURRENT_VERSION" > "$CFG_VERSION_FILE"
 
