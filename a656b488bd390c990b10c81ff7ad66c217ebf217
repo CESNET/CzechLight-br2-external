@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "183478c8_bc86186c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-02-27T09:39:10Z",
+      "side": 1,
+      "message": "OK I admit I have no idea what this patch does so I +1 only.",
+      "revId": "a656b488bd390c990b10c81ff7ad66c217ebf217",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
