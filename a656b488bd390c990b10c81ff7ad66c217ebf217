@@ -16,6 +16,24 @@
       "message": "OK I admit I have no idea what this patch does so I +1 only.",
       "revId": "a656b488bd390c990b10c81ff7ad66c217ebf217",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1af2f9d0_aca42153",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-02-27T12:46:44Z",
+      "side": 1,
+      "message": "Don\u0027t worry, neither do I. PCIe ASPM is some adaptive power management of the PCIe link (AFAIK), and it\u0027s \"sometimes broken\". I remember messing with it on one of the previous laptops I used to own.\n\nAnyway, one thing which this patch does not do is fixing my original problem :). It\u0027s a kernel regression which is fixed in a newer kernel, though, so we won\u0027t need this.",
+      "parentUuid": "183478c8_bc86186c",
+      "revId": "a656b488bd390c990b10c81ff7ad66c217ebf217",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
