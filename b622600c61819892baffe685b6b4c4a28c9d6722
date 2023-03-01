@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46f5b883_e08f055c",
+        "filename": "board/czechlight/clearfog/linux.fragment",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-03-01T08:25:26Z",
+      "side": 1,
+      "message": "I googled what this option does but I don\u0027t understand why the option is defined twice.",
+      "revId": "b622600c61819892baffe685b6b4c4a28c9d6722",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
