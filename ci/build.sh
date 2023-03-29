@@ -36,14 +36,6 @@ fi
 echo BR2_PRIMARY_SITE=\"https://object-store.cloud.muni.cz/swift/v1/ci-artifacts-public/mirror/buildroot\" >> .config
 
 if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
-    ARTIFACT_URL=$(jq < ~/zuul-env.json -r '[.artifacts[]? | select(.name == "br2-work-dir") | select(.project == "CzechLight/br2-external")][-1]?.url + ""')
-    if [[ -z "${ARTIFACT_URL}" ]]; then
-        # no job ahead, try to use git commit ID
-        ARTIFACT_URL="https://object-store.cloud.muni.cz/swift/v1/ci-artifacts-${ZUUL_TENANT}/${ZUUL_GERRIT_HOSTNAME}/CzechLight/br2-external/${ZUUL_JOB_NAME}/br2-work-dir-${BR2_EXTERNAL_COMMIT}.tar.zst"
-    fi
-    # We don't use gating, so there's a risk that there's no prebuilt artifact, so don't die if we cannot download that file
-    curl ${ARTIFACT_URL} | unzstd --stdout | tar -xf - || echo "No Buildroot prebuilt tarball found, will build from scratch"
-
     for PROJECT in cla-sysrepo netconf-cli gammarus velia rousette; do
         # If there's a change for ${PROJECT} queued ahead, ensure it gets used.
         # This means that if our submodules still pin, say, `cla-sysrepo` to some ancient version and we're testing a `netconf-cli` change,
@@ -51,11 +43,6 @@ if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
         DEPSRCDIR=$(jq < ~/zuul-env.json -r "[.items[]? | select(.project.name == \"CzechLight/${PROJECT}\")][-1]?.project.src_dir + \"\"")
         if [[ ! -z "${DEPSRCDIR}" ]]; then
             sed -i "s|${ZUUL_PROJECT_SRC_DIR}/submodules/${PROJECT}|${HOME}/${DEPSRCDIR}|g" local.mk
-
-            # `make ${pkg}-reconfigure` is *not* enough with BR2_PER_PACKAGE_DIRECTORIES=y
-            # Even this is possibly fragile if these packages were not the "leaf" ones (in terms of BR-level dependencies).
-            # But any change to CzechLight/dependencies is handled explicitly below.
-            rm -rf build/${PROJECT}-custom/ per-package/${PROJECT}/
         fi
     done
 fi
@@ -71,14 +58,37 @@ HAS_CHANGE_OF_DEPENDENCIES=$(jq < ~/zuul-env.json -r '[.items[]? | select(.proje
 if [[ ! -z "${HAS_CHANGE_OF_DEPENDENCIES}" ]]; then
     # redirect BR packages to a Zuul-injected dependency
     sed -i "s|${ZUUL_PROJECT_SRC_DIR}/submodules/dependencies|${HOME}/${HAS_CHANGE_OF_DEPENDENCIES}|g" local.mk
+fi
 
-    # persuade BR to rebuild them
-    for PROJECT in \
-            libyang sysrepo libnetconf2 netopeer2 \
-            libyang-cpp sysrepo-cpp libnetconf2-cpp \
-            replxx sdbus-cpp \
-            ; do
-        rm -rf build/{,host-}${PROJECT}-custom/ per-package/{,host-}${PROJECT}/
+# Show exact git versions of what we're going to build
+bash <<EOF
+    # Extract variables from Makefile into the env
+    eval \$(make -E "all:" -pn -f local.mk | grep _OVERRIDE_SRCDIR | sed -E "s/^(.*) = /export \\1=/")
+    for PROJ in {libyang,sysrepo,libnetconf2}{,-cpp} netopeer2 cla-sysrepo netconf-cli gammarus velia rousette; do
+        # indirect substitution involves the usual joy in bash
+        export PROJ_UCASE=\${PROJ@U}
+        export PROJ_DIR=\${PROJ_UCASE//-/_}_OVERRIDE_SRCDIR
+        cd \${!PROJ_DIR}
+        echo \${PROJ}: \$(git describe --dirty --long --always --tags)
+    done
+EOF
+
+if [[ ${TRIGGERED_VIA_DEP} == 0 ]]; then
+    # Zuul is building a direct change to br2-external. This is by definition the "last change" in the current CI job.
+    # There might be other changes for subsequent jobs, but that doesn't matter right now.
+    # Ensure that the submodules are already pinned to whatever was provided to Zuul through the `Depends-on` commit footers.
+    # In other words, it's an error if we push a change to br2-external which `Depends-on` on a change of some other repo,
+    # but that other repo is not explicitly synced in that change to br2-external.
+    for PROJECT in dependencies cla-sysrepo netconf-cli gammarus velia rousette; do
+        DEPSRCDIR=$(jq < ~/zuul-env.json -r "[.items[]? | select(.project.name == \"CzechLight/${PROJECT}\")][-1]?.project.src_dir + \"\"")
+        if [[ ! -z "${DEPSRCDIR}" ]]; then
+            COMMIT_IN_BR2_EXT=$(cd ${ZUUL_PROJECT_SRC_DIR}/submodules/${PROJECT}; git rev-parse HEAD)
+            COMMIT_VIA_ZUUL=$(cd ${HOME}/${DEPSRCDIR}; git rev-parse HEAD)
+            if [[ ${COMMIT_IN_BR2_EXT} != ${COMMIT_VIA_ZUUL} ]]; then
+                echo "br2-external says submodules/${PROJECT} is ${COMMIT_IN_BR2_EXT}, but Zuul prepared ${COMMIT_VIA_ZUUL} instead"
+                exit 1
+            fi
+        fi
     done
 fi
 

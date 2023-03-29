@@ -30,15 +30,7 @@
 - project:
     check:
       jobs:
-        - czechlight-clearfog:
-            provides: CzechLight-br2-build-clearfog
-            vars:
-              artifacts:
-                name: br2-work-dir
-                glob: 'br2-work-dir-*.tar.zst'
-            post-run: ci/post.yaml
-            roles:
-              - zuul: return-built-artifact
+        - czechlight-clearfog
 
     promote:
       jobs:
