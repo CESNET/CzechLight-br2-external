@@ -14,7 +14,7 @@ BUILD_DIR=~/build
 mkdir ${BUILD_DIR}
 cd ${BUILD_DIR}
 
-# Dependencies are normally specified via the cla-sysrepo.git repo
+# Dependencies are normally specified via the submodules/dependencies.git repo
 ${ZUUL_PROJECT_SRC_DIR}/dev-setup-git.sh
 
 if [[ $(jq < ~/zuul-env.json -r '.project.name') != 'CzechLight/br2-external' ]]; then
