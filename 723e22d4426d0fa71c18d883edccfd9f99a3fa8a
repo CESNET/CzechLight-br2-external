@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9555adcc_14f67254",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-03-29T14:00:44Z",
+      "side": 1,
+      "message": "tested on a ROADM, it boots and some basic smoke tests are OK",
+      "revId": "723e22d4426d0fa71c18d883edccfd9f99a3fa8a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
