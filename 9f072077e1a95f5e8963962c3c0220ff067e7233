@@ -16,6 +16,29 @@
       "message": "this appears to do the job, yay",
       "revId": "9f072077e1a95f5e8963962c3c0220ff067e7233",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c9028b6_97e47719",
+        "filename": "ci/build.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-03-30T15:32:28Z",
+      "side": 1,
+      "message": "nice.",
+      "range": {
+        "startLine": 81,
+        "startChar": 10,
+        "endLine": 81,
+        "endChar": 81
+      },
+      "revId": "9f072077e1a95f5e8963962c3c0220ff067e7233",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
