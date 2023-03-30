@@ -16,6 +16,23 @@
       "message": "Picking systemd failures and publishing them as alarms seem to be working\n\n  /\u003e get /ietf-alarms:alarms/shelved-alarms/\n  /ietf-alarms:alarms/shelved-alarms/number-of-shelved-alarms \u003d 1\n  /ietf-alarms:alarms/shelved-alarms/shelved-alarms-last-changed \u003d 2023-03-29T12:38:58.079689974+00:00\n  /ietf-alarms:alarms/shelved-alarms/shelved-alarm[resource\u003d\u0027systemd-journal-upload.service\u0027][alarm-type-id\u003d\u0027velia-alarms:systemd-unit-failure\u0027][alarm-type-qualifier\u003d\u0027\u0027] \u003d (list)\n  /ietf-alarms:alarms/shelved-alarms/shelved-alarm[resource\u003d\u0027systemd-journal-upload.service\u0027][alarm-type-id\u003d\u0027velia-alarms:systemd-unit-failure\u0027][alarm-type-qualifier\u003d\u0027\u0027]/resource \u003d systemd-journal-upload.service\n  /ietf-alarms:alarms/shelved-alarms/shelved-alarm[resource\u003d\u0027systemd-journal-upload.service\u0027][alarm-type-id\u003d\u0027velia-alarms:systemd-unit-failure\u0027][alarm-type-qualifier\u003d\u0027\u0027]/alarm-type-id \u003d velia-alarms:systemd-unit-failure\n  /ietf-alarms:alarms/shelved-alarms/shelved-alarm[resource\u003d\u0027systemd-journal-upload.service\u0027][alarm-type-id\u003d\u0027velia-alarms:systemd-unit-failure\u0027][alarm-type-qualifier\u003d\u0027\u0027]/alarm-type-qualifier \u003d \n  /ietf-alarms:alarms/shelved-alarms/shelved-alarm[resource\u003d\u0027systemd-journal-upload.service\u0027][alarm-type-id\u003d\u0027velia-alarms:systemd-unit-failure\u0027][alarm-type-qualifier\u003d\u0027\u0027]/shelf-name \u003d systemd journal upload\n  /ietf-alarms:alarms/shelved-alarms/shelved-alarm[resource\u003d\u0027systemd-journal-upload.service\u0027][alarm-type-id\u003d\u0027velia-alarms:systemd-unit-failure\u0027][alarm-type-qualifier\u003d\u0027\u0027]/is-cleared \u003d false\n  /ietf-alarms:alarms/shelved-alarms/shelved-alarm[resource\u003d\u0027systemd-journal-upload.service\u0027][alarm-type-id\u003d\u0027velia-alarms:systemd-unit-failure\u0027][alarm-type-qualifier\u003d\u0027\u0027]/last-raised \u003d 2023-03-29T12:38:58.079689974+00:00\n  /ietf-alarms:alarms/shelved-alarms/shelved-alarm[resource\u003d\u0027systemd-journal-upload.service\u0027][alarm-type-id\u003d\u0027velia-alarms:systemd-unit-failure\u0027][alarm-type-qualifier\u003d\u0027\u0027]/last-changed \u003d 2023-03-29T12:38:58.079689974+00:00\n  /ietf-alarms:alarms/shelved-alarms/shelved-alarm[resource\u003d\u0027systemd-journal-upload.service\u0027][alarm-type-id\u003d\u0027velia-alarms:systemd-unit-failure\u0027][alarm-type-qualifier\u003d\u0027\u0027]/perceived-severity \u003d critical\n  /ietf-alarms:alarms/shelved-alarms/shelved-alarm[resource\u003d\u0027systemd-journal-upload.service\u0027][alarm-type-id\u003d\u0027velia-alarms:systemd-unit-failure\u0027][alarm-type-qualifier\u003d\u0027\u0027]/alarm-text \u003d systemd unit state: (activating, auto-restart)\n",
       "revId": "ab88f92452e66523bb390f507b644780f8c3be43",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4a5c1fb_ed1bbefa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-03-30T15:53:47Z",
+      "side": 1,
+      "message": "(just recording the status in gerrit:) it turned out that velia won\u0027t mark units which have been stopped manually as `is-cleared \u003d 1`, so this needs a fix in velia",
+      "revId": "ab88f92452e66523bb390f507b644780f8c3be43",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
