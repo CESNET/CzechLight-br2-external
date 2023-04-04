@@ -33,6 +33,24 @@
       "message": "(just recording the status in gerrit:) it turned out that velia won\u0027t mark units which have been stopped manually as `is-cleared \u003d 1`, so this needs a fix in velia",
       "revId": "ab88f92452e66523bb390f507b644780f8c3be43",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af976219_ddb868e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-04-04T11:22:04Z",
+      "side": 1,
+      "message": "Systemd\u0027s behaviour is that a failed unit has state\u003dfailed. Even manual invocation of `systemctl stop` does not change the state then, the unit is still considered \nfailed.\n\nTo reset the fail state (so the unit is in state inactive/dead) one must use `systemctl reset-failed\". Velia then picks the state change and sets is-cleared\u003dtrue",
+      "parentUuid": "d4a5c1fb_ed1bbefa",
+      "revId": "ab88f92452e66523bb390f507b644780f8c3be43",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
