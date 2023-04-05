@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "451b4b37_50403b8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-04-05T08:09:49Z",
+      "side": 1,
+      "message": "TODO: fix velia commits, add commit msg in parent (why buildroot is updated), let CI build and test then",
+      "revId": "53d29d1889447f2d845aa5370cf1b99990954574",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
