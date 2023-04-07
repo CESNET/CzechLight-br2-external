@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0deafeca_aa0215b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-04-07T08:30:13Z",
+      "side": 1,
+      "message": "good job with bisecting\n\nLooks good to me but was this tested live? On ROADM-LINE-SDN-ID210515 I see kernel 6.2.9-bsct-79db8e82aadb-00672-gddbbed25309f",
+      "revId": "277991e59e534908cf1202b4e75f2a52331012e8",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
