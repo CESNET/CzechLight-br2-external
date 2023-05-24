@@ -49,7 +49,7 @@ esac
 
 sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/iana-hardware@2018-03-13.yang
 sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/ietf-hardware@2018-03-13.yang
-sysrepoctl --change ietf-hardware --permissions 0660 --enable-feature hardware-sensor
+sysrepoctl --change ietf-hardware --permissions 0660 --enable-feature hardware-sensor --enable-feature hardware-state
 
 if [[ ${YANG_ROADM} == 1 ]]; then
     FEATURE_ARGS=""
