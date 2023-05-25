@@ -1,6 +1,6 @@
 - job:
     name: czechlight-clearfog
-    parent: run-ci-build-sh-f34
+    parent: run-ci-build-sh-f38
     timeout: 3600
     post-timeout: 600
     vars:
