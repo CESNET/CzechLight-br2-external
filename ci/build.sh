@@ -99,26 +99,5 @@ mv images/update.raucb ~/zuul-output/artifacts/
 
 PATH="$PATH:$(pwd)/host/bin/" pytest -vv ${ZUUL_PROJECT_SRC_DIR}/tests/czechlight-cfg-fs/migrations.py
 
-if [[ "${ZUUL_JOB_NAME}" =~ clearfog ]]; then
-    if [[ ${TRIGGERED_VIA_DEP} != 1 ]]; then
-        # store a cached tarball as an artifact
-        ARTIFACT=br2-work-dir-${BR2_EXTERNAL_COMMIT}.tar.zst
-        # everything but local.mk which we might have adjusted in job prologue, so let's not overwrite that
-        tar --totals -c \
-            --exclude='images/rootfs.*' \
-            --exclude='images/sdcard.*' \
-            --exclude='images/usb-flash.*' \
-            .br* \
-            build \
-            .config \
-            host \
-            images \
-            Makefile \
-            per-package \
-            target \
-            | zstd -T0 > ~/zuul-output/artifacts/${ARTIFACT}
-    fi
-fi
-
 # TODO: USB image as well? (`fallocate -d` to make it sparse)
 # TODO: make legal-info
