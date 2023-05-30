@@ -25,6 +25,7 @@ define RESET_SYSREPO_INSTALL_TARGET_CMDS
 		sysrepo-plugind.service \
 		nacm-restore.service \
 		velia-firewall.service \
+		velia-health.service \
 		velia-system.service \
 		velia-hardware-g1.service \
 		velia-hardware-g2.service \
