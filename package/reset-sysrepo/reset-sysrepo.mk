@@ -21,6 +21,7 @@ define RESET_SYSREPO_INSTALL_TARGET_CMDS
 		cla-sdn-roadm-hires-drop.service \
 		cla-sdn-roadm-line.service \
 		netopeer2.service \
+		sysrepo-ietf-alarms.service \
 		sysrepo-persistent-cfg.service \
 		sysrepo-plugind.service \
 		nacm-restore.service \
