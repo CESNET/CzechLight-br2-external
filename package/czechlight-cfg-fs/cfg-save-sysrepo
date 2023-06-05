@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec flock --wait 10 /cfg/sysrepo/startup.json.2 /sbin/impl-cfg-save-sysrepo

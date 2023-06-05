@@ -6,6 +6,6 @@ Requires=netopeer2.service cfg.mount czechlight-migrate.service
 [Service]
 Type=simple
 UMask=0077
-ExecStartPre=/bin/sh -c 'mkdir -p /cfg/sysrepo/ && sysrepocfg -d startup -f json -X > /cfg/sysrepo/startup.json'
-ExecStart=/bin/sh -c 'while true; do inotifywait -e CLOSE_WRITE /etc/sysrepo/data/*.startup && sysrepocfg -d startup -f json -X > /cfg/sysrepo/startup.json; done'
+ExecStartPre=/bin/sh -c 'mkdir -p /cfg/sysrepo/ && cfg-save-sysrepo'
+ExecStart=/bin/sh -c 'while true; do inotifywait -e CLOSE_WRITE /etc/sysrepo/data/*.startup && cfg-save-sysrepo; done'
 Group=sysrepo

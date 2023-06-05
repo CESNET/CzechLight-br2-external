@@ -1,0 +1,13 @@
+#!/bin/bash
+
+CONFIG_FILE=/cfg/sysrepo/startup.json
+NEW_COPY=/cfg/sysrepo/startup.json.2
+
+sysrepocfg -d startup -f json -X > ${NEW_COPY}
+if [ ! -s ${NEW_COPY} ]; then
+    logger -p user.emerg "Corrupted sysrepo configuration dump"
+    exit 1
+fi
+sync ${NEW_COPY}
+mv ${NEW_COPY} ${CONFIG_FILE}
+sync ${CONFIG_FILE}
