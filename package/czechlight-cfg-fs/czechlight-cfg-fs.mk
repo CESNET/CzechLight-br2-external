@@ -43,6 +43,7 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 
 	$(INSTALL) -D -m 0755 -t $(TARGET_DIR)/sbin \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/init-czechlight.sh \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-save-sysrepo \
 		$(@D)/czechlight-random-seed
 
 	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/share/yang-data/ \
