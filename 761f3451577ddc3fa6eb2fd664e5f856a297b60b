@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b480a1c_803176b4",
+        "filename": "package/czechlight-cfg-fs/sysrepo-persistent-cfg.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-06-06T07:54:48Z",
+      "side": 1,
+      "message": "Just thinking: If somebody writes to *.startup files then sysrepocfg (or cfg-save-sysrepo) is run. During the execution of sysrepocfg somebody might write to startup files again (or perhaps right after but before the inotifywait is executed again) which means we might lose some *.startup file update. Or not? (I know, this is probably a different race than the one you are trying to fix).\n\nTLDR: Aren\u0027t we missing ExecPost?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 118
+      },
+      "revId": "761f3451577ddc3fa6eb2fd664e5f856a297b60b",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
