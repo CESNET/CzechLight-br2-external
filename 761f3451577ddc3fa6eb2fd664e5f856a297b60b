@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2f046ea_545ebb79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-06-06T08:54:44Z",
+      "side": 1,
+      "message": "I\u0027m giving +2 so we can merge but the [comment](https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/6304/comment/1b480a1c_803176b4/) will need some attention in the future",
+      "revId": "761f3451577ddc3fa6eb2fd664e5f856a297b60b",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b480a1c_803176b4",
@@ -38,6 +55,30 @@
       "side": 1,
       "message": "agreed, this needs some locking",
       "parentUuid": "1b480a1c_803176b4",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 118
+      },
+      "revId": "761f3451577ddc3fa6eb2fd664e5f856a297b60b",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afedb496_1c2a828f",
+        "filename": "package/czechlight-cfg-fs/sysrepo-persistent-cfg.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-06-06T08:54:44Z",
+      "side": 1,
+      "message": "So let\u0027s add a FIXME and merge this?",
+      "parentUuid": "dfc7b37c_acc85499",
       "range": {
         "startLine": 10,
         "startChar": 0,
