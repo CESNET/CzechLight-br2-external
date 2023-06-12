@@ -1,25 +1,25 @@
-From 210ae903e7f5e4813feaea9bbac1f03fa3be42cc Mon Sep 17 00:00:00 2001
+From 00b203ad445b40faf5836a3ca9a6c1ec89165c23 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Tue, 24 Aug 2021 14:59:40 +0200
-Subject: [PATCH 2/9] network: Add varlink server
+Subject: [PATCH 2/7] network: Add varlink server
 
 Add a varlink server. In the next commits, we will implement a method
 that queries the LLDP neighbors.
 ---
  src/network/meson.build        |  2 ++
  src/network/networkd-manager.c |  7 +++++++
- src/network/networkd-manager.h |  3 +++
+ src/network/networkd-manager.h | 11 +++++++----
  src/network/networkd-varlink.c | 34 ++++++++++++++++++++++++++++++++++
  src/network/networkd-varlink.h |  7 +++++++
- 5 files changed, 53 insertions(+)
+ 5 files changed, 57 insertions(+), 4 deletions(-)
  create mode 100644 src/network/networkd-varlink.c
  create mode 100644 src/network/networkd-varlink.h
 
 diff --git a/src/network/meson.build b/src/network/meson.build
-index 48d185195c..d93e815fdf 100644
+index b09c18dbbd..90ae4ed238 100644
 --- a/src/network/meson.build
 +++ b/src/network/meson.build
-@@ -137,6 +137,8 @@ sources = files(
+@@ -145,6 +145,8 @@ sources = files(
          'networkd-sysctl.h',
          'networkd-util.c',
          'networkd-util.h',
@@ -27,20 +27,20 @@ index 48d185195c..d93e815fdf 100644
 +        'networkd-varlink.h',
          'networkd-wifi.c',
          'networkd-wifi.h',
-         'tc/cake.c',
+         'networkd-wiphy.c',
 diff --git a/src/network/networkd-manager.c b/src/network/networkd-manager.c
-index 9d790224cc..5e4c5e38b4 100644
+index cdfd29bc0e..9f859408a1 100644
 --- a/src/network/networkd-manager.c
 +++ b/src/network/networkd-manager.c
-@@ -41,6 +41,7 @@
+@@ -44,6 +44,7 @@
  #include "networkd-routing-policy-rule.h"
  #include "networkd-speed-meter.h"
  #include "networkd-state-file.h"
 +#include "networkd-varlink.h"
  #include "networkd-wifi.h"
+ #include "networkd-wiphy.h"
  #include "ordered-set.h"
- #include "path-lookup.h"
-@@ -544,6 +545,8 @@ Manager* manager_free(Manager *m) {
+@@ -667,6 +668,8 @@ Manager* manager_free(Manager *m) {
  
          m->fw_ctx = fw_ctx_free(m->fw_ctx);
  
@@ -49,7 +49,7 @@ index 9d790224cc..5e4c5e38b4 100644
          return mfree(m);
  }
  
-@@ -553,6 +556,10 @@ int manager_start(Manager *m) {
+@@ -676,6 +679,10 @@ int manager_start(Manager *m) {
  
          assert(m);
  
@@ -61,7 +61,7 @@ index 9d790224cc..5e4c5e38b4 100644
          if (r < 0)
                  return log_error_errno(r, "Failed to initialize speed meter: %m");
 diff --git a/src/network/networkd-manager.h b/src/network/networkd-manager.h
-index 36313589a3..a0c0336ce5 100644
+index 40e6092f85..dfdd44baf8 100644
 --- a/src/network/networkd-manager.h
 +++ b/src/network/networkd-manager.h
 @@ -16,6 +16,7 @@
@@ -72,15 +72,37 @@ index 36313589a3..a0c0336ce5 100644
  
  struct Manager {
          sd_netlink *rtnl;
-@@ -95,6 +96,8 @@ struct Manager {
-         FirewallContext *fw_ctx;
+@@ -62,8 +63,8 @@ struct Manager {
+         bool has_product_uuid;
+         bool product_uuid_requested;
  
+-        char* dynamic_hostname;
+-        char* dynamic_timezone;
++        char *dynamic_hostname;
++        char *dynamic_timezone;
+ 
+         Set *rules;
+ 
+@@ -100,10 +101,12 @@ struct Manager {
          OrderedSet *request_queue;
+ 
+         Hashmap *tuntap_fds_by_name;
 +
 +        VarlinkServer *varlink_server;
  };
  
  int manager_new(Manager **ret, bool test_mode);
+-Manager* manager_free(Manager *m);
++Manager *manager_free(Manager *m);
+ 
+ int manager_setup(Manager *m);
+ int manager_start(Manager *m);
+@@ -115,4 +118,4 @@ int manager_enumerate(Manager *m);
+ int manager_set_hostname(Manager *m, const char *hostname);
+ int manager_set_timezone(Manager *m, const char *timezone);
+ 
+-DEFINE_TRIVIAL_CLEANUP_FUNC(Manager*, manager_free);
++DEFINE_TRIVIAL_CLEANUP_FUNC(Manager *, manager_free);
 diff --git a/src/network/networkd-varlink.c b/src/network/networkd-varlink.c
 new file mode 100644
 index 0000000000..57d8acb967
@@ -135,5 +157,5 @@ index 0000000000..657e054a51
 +int manager_varlink_init(Manager *m);
 +void manager_varlink_done(Manager *m);
 -- 
-2.35.1
+2.41.0
 

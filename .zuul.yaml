@@ -1,6 +1,7 @@
 - job:
     name: czechlight-clearfog
     parent: run-ci-build-sh-f38
+    pre-run: ci/pre.yaml
     timeout: 3600
     post-timeout: 600
     vars:
