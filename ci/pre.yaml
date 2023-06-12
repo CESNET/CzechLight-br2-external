@@ -1,0 +1,7 @@
+- hosts: all
+  tasks:
+    - name: install perl-English
+      package:
+        name: perl-English
+        state: present
+      become: true
