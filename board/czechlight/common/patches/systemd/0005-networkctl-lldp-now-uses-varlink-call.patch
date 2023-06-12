@@ -1,16 +1,16 @@
-From 1e805d15da85b85dfd54684557da1415b0294903 Mon Sep 17 00:00:00 2001
+From ed72d91efb80888846267f72e9214470eaca4ce6 Mon Sep 17 00:00:00 2001
 From: Tomas Pecka <peckato1@users.noreply.github.com>
 Date: Wed, 15 Sep 2021 14:42:34 +0200
-Subject: [PATCH 7/9] networkctl: lldp now uses varlink call
+Subject: [PATCH 5/7] networkctl: lldp now uses varlink call
 
 `networkctl lldp` now uses varlink call to the networkd to query LLDP
 neighbor data.
 ---
- src/network/networkctl.c | 215 +++++++++++++++++++++++++--------------
- 1 file changed, 139 insertions(+), 76 deletions(-)
+ src/network/networkctl.c | 183 ++++++++++++++++++++++++++-------------
+ 1 file changed, 123 insertions(+), 60 deletions(-)
 
 diff --git a/src/network/networkctl.c b/src/network/networkctl.c
-index 46c08b5549..a10f3f3fc7 100644
+index a2e216e779..bab6cf5433 100644
 --- a/src/network/networkctl.c
 +++ b/src/network/networkctl.c
 @@ -36,6 +36,7 @@
@@ -29,7 +29,7 @@ index 46c08b5549..a10f3f3fc7 100644
  #include "verbs.h"
  #include "wifi-util.h"
  
-@@ -2479,14 +2481,103 @@ static void lldp_capabilities_legend(uint16_t x) {
+@@ -2439,14 +2441,103 @@ static void lldp_capabilities_legend(uint16_t x) {
          puts("");
  }
  
@@ -136,23 +136,23 @@ index 46c08b5549..a10f3f3fc7 100644
          r = sd_netlink_open(&rtnl);
          if (r < 0)
                  return log_error_errno(r, "Failed to connect to netlink: %m");
-@@ -2497,103 +2588,75 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
+@@ -2457,80 +2548,52 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
  
          pager_open(arg_pager_flags);
  
 -        table = table_new("link",
--                          "chassis id",
--                          "system name",
+-                          "chassis-id",
+-                          "system-name",
 -                          "caps",
--                          "port id",
--                          "port description");
+-                          "port-id",
+-                          "port-description");
 -        if (!table)
 +        udata.table = table_new("link",
-+                                "chassis id",
-+                                "system name",
++                                "chassis-id",
++                                "system-name",
 +                                "caps",
-+                                "port id",
-+                                "port description");
++                                "port-id",
++                                "port-description");
 +        if (!udata.table)
                  return log_oom();
  
@@ -161,58 +161,15 @@ index 46c08b5549..a10f3f3fc7 100644
 +                table_set_width(udata.table, 0);
  
 -        table_set_header(table, arg_legend);
-+        table_set_header(udata.table, arg_legend);
- 
--        assert_se(cell = table_get_cell(table, 0, 0));
--        table_set_minimum_width(table, cell, 16);
--        table_set_maximum_width(table, cell, 16);
-+        assert_se(cell = table_get_cell(udata.table, 0, 0));
-+        table_set_minimum_width(udata.table, cell, 16);
-+        table_set_maximum_width(udata.table, cell, 16);
- 
--        assert_se(cell = table_get_cell(table, 0, 1));
--        table_set_minimum_width(table, cell, 17);
--        table_set_maximum_width(table, cell, 17);
-+        assert_se(cell = table_get_cell(udata.table, 0, 1));
-+        table_set_minimum_width(udata.table, cell, 17);
-+        table_set_maximum_width(udata.table, cell, 17);
- 
--        assert_se(cell = table_get_cell(table, 0, 2));
--        table_set_minimum_width(table, cell, 16);
--        table_set_maximum_width(table, cell, 16);
-+        assert_se(cell = table_get_cell(udata.table, 0, 2));
-+        table_set_minimum_width(udata.table, cell, 16);
-+        table_set_maximum_width(udata.table, cell, 16);
- 
+-
 -        assert_se(cell = table_get_cell(table, 0, 3));
 -        table_set_minimum_width(table, cell, 11);
--        table_set_maximum_width(table, cell, 11);
-+        assert_se(cell = table_get_cell(udata.table, 0, 3));
-+        table_set_minimum_width(udata.table, cell, 11);
-+        table_set_maximum_width(udata.table, cell, 11);
- 
--        assert_se(cell = table_get_cell(table, 0, 4));
--        table_set_minimum_width(table, cell, 17);
--        table_set_maximum_width(table, cell, 17);
-+        assert_se(cell = table_get_cell(udata.table, 0, 4));
-+        table_set_minimum_width(udata.table, cell, 17);
-+        table_set_maximum_width(udata.table, cell, 17);
- 
--        assert_se(cell = table_get_cell(table, 0, 5));
--        table_set_minimum_width(table, cell, 16);
--        table_set_maximum_width(table, cell, 16);
-+        assert_se(cell = table_get_cell(udata.table, 0, 5));
-+        table_set_minimum_width(udata.table, cell, 16);
-+        table_set_maximum_width(udata.table, cell, 16);
- 
--        if (table_set_empty_string(table, "n/a") < 0)
-+        if (table_set_empty_string(udata.table, "n/a") < 0)
-                 return log_oom();
+-        table_set_ersatz_string(table, TABLE_ERSATZ_DASH);
++        table_set_header(udata.table, arg_legend);
  
 -        for (int i = 0; i < c; i++) {
 -                _cleanup_fclose_ FILE *f = NULL;
-+        varlink_set_userdata(link, &udata);
- 
+-
 -                r = open_lldp_neighbors(links[i].ifindex, &f);
 -                if (r == -ENOENT)
 -                        continue;
@@ -220,13 +177,17 @@ index 46c08b5549..a10f3f3fc7 100644
 -                        log_warning_errno(r, "Failed to open LLDP data for %i, ignoring: %m", links[i].ifindex);
 -                        continue;
 -                }
--
++        assert_se(cell = table_get_cell(udata.table, 0, 3));
++        table_set_minimum_width(udata.table, cell, 11);
++        table_set_ersatz_string(udata.table, TABLE_ERSATZ_DASH);
+ 
 -                for (;;) {
--                        _cleanup_free_ char *capabilities = NULL;
 -                        const char *chassis_id = NULL, *port_id = NULL, *system_name = NULL, *port_description = NULL;
 -                        _cleanup_(sd_lldp_neighbor_unrefp) sd_lldp_neighbor *n = NULL;
+-                        _cleanup_free_ char *capabilities = NULL;
 -                        uint16_t cc;
--
++        varlink_set_userdata(link, &udata);
+ 
 -                        r = next_lldp_neighbor(f, &n);
 -                        if (r < 0) {
 -                                log_warning_errno(r, "Failed to read neighbor data: %m");
@@ -286,5 +247,5 @@ index 46c08b5549..a10f3f3fc7 100644
  
          return 0;
 -- 
-2.35.1
+2.41.0
 
