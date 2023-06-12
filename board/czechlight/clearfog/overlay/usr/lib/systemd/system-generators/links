@@ -4,6 +4,21 @@ set -e
 
 mkdir -p /run/systemd/network
 
+# custom names for ethernet ports (bypassing systemd's predictive naming)
+cat > /run/systemd/network/30-eth0.link <<EOF
+[Match]
+Path=platform-f1070000.ethernet
+[Link]
+Name=eth0
+EOF
+
+cat > /run/systemd/network/30-eth1.link <<EOF
+[Match]
+Path=platform-f1030000.ethernet
+[Link]
+Name=eth1
+EOF
+
 # custom names for OSC channels
 if grep -q '\<czechlight=sdn-roadm-line.*\>' /proc/cmdline; then
 	ETH2_NAME=osc
