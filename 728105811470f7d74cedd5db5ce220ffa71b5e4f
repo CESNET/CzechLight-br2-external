@@ -16,6 +16,24 @@
       "message": "this needs a change in .zuul.yaml to list it as a pre-run playbook as well",
       "revId": "728105811470f7d74cedd5db5ce220ffa71b5e4f",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac44b95b_f99c094b",
+        "filename": "ci/pre.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-06-13T11:23:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "638783a3_e64daeea",
+      "revId": "728105811470f7d74cedd5db5ce220ffa71b5e4f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
