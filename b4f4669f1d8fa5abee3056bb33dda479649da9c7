@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4af62731_bb8aaab2",
+        "filename": "package/velia/velia-health.service",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-06-15T12:28:05Z",
+      "side": 1,
+      "message": "At first I wanted to suggest removing this one (velia-system can already pick any changes to the running/failed/whatever units, so it should be OK to start early), but then I realized that we only want the solid green LED to appear after everything else is up \u0026 runnning.",
+      "range": {
+        "startLine": 3,
+        "startChar": 9,
+        "endLine": 3,
+        "endChar": 26
+      },
+      "revId": "b4f4669f1d8fa5abee3056bb33dda479649da9c7",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
