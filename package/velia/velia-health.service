@@ -1,7 +1,7 @@
 [Unit]
 Description=Health tracking of the whole system
-Requires=multi-user.target
-After=multi-user.target
+Requires=multi-user.target cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service sysrepo-ietf-alarms.service
+After=multi-user.target cfg-restore-sysrepo.service czechlight-migrate.service nacm-restore.service sysrepo-ietf-alarms.service
 ConditionKernelCommandLine=czechlight
 
 [Service]
