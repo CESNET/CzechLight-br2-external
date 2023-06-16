@@ -34,6 +34,24 @@
       "parentUuid": "7f009f66_4e2a81e0",
       "revId": "97a3fc28410bdc3f9e4b57d306dc957d55e1d848",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce24ba15_ccd8b513",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-06-16T08:34:25Z",
+      "side": 1,
+      "message": "Thanks, that makes sense. They say that as of v252, they started using interface indexes from the device tree (https://www.freedesktop.org/software/systemd/man/systemd.net-naming-scheme.html), which explains this.\n\nThe proper fix will be to persuade udev to keep the eth0/eth1 names because that\u0027s what is printed on the front of the box.",
+      "parentUuid": "8a1be4f2_ca99e637",
+      "revId": "97a3fc28410bdc3f9e4b57d306dc957d55e1d848",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
