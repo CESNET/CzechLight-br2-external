@@ -16,6 +16,24 @@
       "message": "PS 5 installed at 10.0.154.97 (ROADM-LINE-SDN-ID210516) and the machine did not boot (and didn!t even reboot back, perhaps network issue?)",
       "revId": "97a3fc28410bdc3f9e4b57d306dc957d55e1d848",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a1be4f2_ca99e637",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-06-16T07:47:29Z",
+      "side": 1,
+      "message": "The machine booted with interfaces end{1,2} instead of eth{1,2} which broke our network setup. This is probably a consequence of systemd update.",
+      "parentUuid": "7f009f66_4e2a81e0",
+      "revId": "97a3fc28410bdc3f9e4b57d306dc957d55e1d848",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
