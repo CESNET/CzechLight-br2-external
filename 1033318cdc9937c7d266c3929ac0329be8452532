@@ -16,6 +16,23 @@
       "message": "running",
       "revId": "1033318cdc9937c7d266c3929ac0329be8452532",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f3aee24_2bdb3331",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-06-19T15:07:38Z",
+      "side": 1,
+      "message": "I forgot about add/drop devices where eth2 is no longer eth2.",
+      "revId": "1033318cdc9937c7d266c3929ac0329be8452532",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
