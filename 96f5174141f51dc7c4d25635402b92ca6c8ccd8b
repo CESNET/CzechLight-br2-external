@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cf61871_e8bb9011",
+        "filename": "package/czechlight-cfg-fs/cfg-save-sysrepo",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-06-21T22:43:45Z",
+      "side": 1,
+      "message": "this was not supported on the `flock` from busybox, fixed",
+      "range": {
+        "startLine": 3,
+        "startChar": 11,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "96f5174141f51dc7c4d25635402b92ca6c8ccd8b",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
