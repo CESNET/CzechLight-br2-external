@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7745f7f5_dae89da4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-12T19:15:37Z",
+      "side": 1,
+      "message": "retested after that sysrepo-ietf-alarms rebase, it works",
+      "revId": "8e8c9f65ceb9015faa174a3aeaebe8ebaf069742",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
