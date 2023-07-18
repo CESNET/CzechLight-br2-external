@@ -3,4 +3,5 @@ MIGRATION_FILES=(
     '0002_default_startup_configuration_for_ietf-interfaces.sh'
     '0003_shelve_alarms.sh'
     '0004_nacm.sh'
+    '0005_nacm_anonymous_user.sh'
 )

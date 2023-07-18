@@ -78,6 +78,14 @@
                 ]
             },
             {
+                "name": "Some rule list",
+                "group": ["optics"]
+            },
+            {
+                "name": "Another rule list",
+                "group": ["optics"]
+            },
+            {
                 "name": "Allow DWDM control to the optics group",
                 "group": ["optics"],
                 "rule": [
@@ -102,6 +110,10 @@
                         "action": "permit"
                     }
                 ]
+            },
+            {
+                "name": "Yet another rule list (YARL)",
+                "group": ["optics"]
             }
         ]
     }
