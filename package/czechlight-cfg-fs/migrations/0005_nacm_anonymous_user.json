@@ -1,65 +1,10 @@
 {
-  "ietf-alarms:alarms": {
-    "control": {
-      "alarm-shelving": {
-        "shelf": [
-          {
-            "name": "systemd journal upload",
-            "resource": [
-              "systemd-journal-upload.service"
-            ],
-            "alarm-type": [
-              {
-                "alarm-type-id": "velia-alarms:systemd-unit-failure",
-                "alarm-type-qualifier-match": ""
-              }
-            ],
-            "description": "Ignore systemd-journal-upload.service failures"
-          }
-        ]
-      }
-    }
-  },
-  "ietf-interfaces:interfaces": {
-    "interface": [
-      {
-        "ietf-ip:ipv4": {
-          "czechlight-network:dhcp-client": true
-        },
-        "ietf-ip:ipv6": {
-          "autoconf": {
-            "create-global-addresses": true
-          },
-          "enabled": true
-        },
-        "name": "br0",
-        "type": "iana-if-type:bridge"
-      },
-      {
-        "czechlight-network:bridge": "br0",
-        "name": "eth1",
-        "type": "iana-if-type:ethernetCsmacd"
-      },
-      {
-        "czechlight-network:bridge": "br0",
-        "name": "eth0",
-        "type": "iana-if-type:ethernetCsmacd"
-      },
-      {
-        "czechlight-network:bridge": "br0",
-        "name": "oscE",
-        "type": "iana-if-type:ethernetCsmacd"
-      },
-      {
-        "czechlight-network:bridge": "br0",
-        "name": "oscW",
-        "type": "iana-if-type:ethernetCsmacd"
-      }
-    ]
-  },
   "ietf-netconf-acm:nacm": {
     "rule-list": [
       {
+        "@": {
+          "yang:insert": "first"
+        },
         "name": "Permit yangnobody user/group to read only some modules",
         "group": [
           "yangnobody"
@@ -132,34 +77,6 @@
             "module-name": "*",
             "action": "deny",
             "access-operations": "*"
-          }
-        ]
-      },
-      {
-        "name": "Allow DWDM control to the optics group",
-        "group": [
-          "optics"
-        ],
-        "rule": [
-          {
-            "name": "czechlight-roadm-device",
-            "module-name": "czechlight-roadm-device",
-            "action": "permit"
-          },
-          {
-            "name": "czechlight-inline-amp",
-            "module-name": "czechlight-inline-amp",
-            "action": "permit"
-          },
-          {
-            "name": "czechlight-coherent-add-drop",
-            "module-name": "czechlight-coherent-add-drop",
-            "action": "permit"
-          },
-          {
-            "name": "czechlight-calibration-device",
-            "module-name": "czechlight-calibration-device",
-            "action": "permit"
           }
         ]
       }
