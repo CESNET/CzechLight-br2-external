@@ -1,0 +1,149 @@
+{
+    "ietf-netconf-acm:nacm": {
+        "rule-list": [
+            {
+                "name": "Permit yangnobody user/group to read only some modules",
+                "group": [
+                    "yangnobody"
+                ],
+                "rule": [
+                    {
+                        "name": "czechlight-roadm-device",
+                        "module-name": "czechlight-roadm-device",
+                        "action": "permit",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "czechlight-inline-amp",
+                        "module-name": "czechlight-inline-amp",
+                        "action": "permit",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "czechlight-coherent-add-drop",
+                        "module-name": "czechlight-coherent-add-drop",
+                        "action": "permit",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "ietf-yang-library",
+                        "module-name": "ietf-yang-library",
+                        "action": "permit",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "ietf-hardware",
+                        "module-name": "ietf-hardware",
+                        "action": "permit",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "ietf-interfaces",
+                        "module-name": "ietf-interfaces",
+                        "action": "permit",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "ietf-system: contact",
+                        "module-name": "ietf-system",
+                        "action": "permit",
+                        "path": "/ietf-system:system/contact",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "ietf-system: hostname",
+                        "module-name": "ietf-system",
+                        "action": "permit",
+                        "path": "/ietf-system:system/hostname",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "ietf-system: location",
+                        "module-name": "ietf-system",
+                        "action": "permit",
+                        "path": "/ietf-system:system/location",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "ietf-system: clock",
+                        "module-name": "ietf-system",
+                        "action": "permit",
+                        "path": "/ietf-system:system/clock",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "ietf-system: system-state",
+                        "module-name": "ietf-system",
+                        "action": "permit",
+                        "path": "/ietf-system:system-state",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "czechlight-lldp",
+                        "module-name": "czechlight-lldp",
+                        "action": "permit",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "czechlight-system:firmware",
+                        "module-name": "czechlight-system",
+                        "path": "/czechlight-system:firmware",
+                        "action": "permit",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "czechlight-system:leds",
+                        "module-name": "czechlight-system",
+                        "path": "/czechlight-system:leds",
+                        "action": "permit",
+                        "access-operations": "read"
+                    },
+                    {
+                        "name": "wildcard-deny",
+                        "module-name": "*",
+                        "action": "deny",
+                        "access-operations": "*"
+                    }
+                ]
+            },
+            {
+                "name": "Some rule list",
+                "group": ["optics"]
+            },
+            {
+                "name": "Another rule list",
+                "group": ["optics"]
+            },
+            {
+                "name": "Allow DWDM control to the optics group",
+                "group": ["optics"],
+                "rule": [
+                    {
+                        "name": "czechlight-roadm-device",
+                        "module-name": "czechlight-roadm-device",
+                        "action": "permit"
+                    },
+                    {
+                        "name": "czechlight-inline-amp",
+                        "module-name": "czechlight-inline-amp",
+                        "action": "permit"
+                    },
+                    {
+                        "name": "czechlight-coherent-add-drop",
+                        "module-name": "czechlight-coherent-add-drop",
+                        "action": "permit"
+                    },
+                    {
+                        "name": "czechlight-calibration-device",
+                        "module-name": "czechlight-calibration-device",
+                        "action": "permit"
+                    }
+                ]
+            },
+            {
+                "name": "Yet another rule list (YARL)",
+                "group": ["optics"]
+            }
+        ]
+    }
+}
