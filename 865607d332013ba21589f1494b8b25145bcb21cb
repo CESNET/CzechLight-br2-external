@@ -36,6 +36,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03911200_f676b7a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-07-19T11:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5cc2f36_cdeadd37",
+      "revId": "865607d332013ba21589f1494b8b25145bcb21cb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "194e340b_ab0c2f59",
@@ -59,6 +77,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78515aa4_d757dd4b",
+        "filename": "package/czechlight-cfg-fs/migrations/0004_nacm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-07-19T11:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "194e340b_ab0c2f59",
+      "range": {
+        "startLine": 3,
+        "startChar": 9,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "865607d332013ba21589f1494b8b25145bcb21cb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27fe8a65_0b8049ba",
@@ -72,6 +114,30 @@
       "writtenOn": "2023-07-19T11:05:30Z",
       "side": 1,
       "message": "What about:\n\n # Before this we restored NACM rules from our \"factory-default\" on every boot, overwriting whatever was in the NACM module.\n # Since config v4, the users are free to modify NACM rules as they wish.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 66
+      },
+      "revId": "865607d332013ba21589f1494b8b25145bcb21cb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "993fbde1_28cd9d51",
+        "filename": "package/czechlight-cfg-fs/migrations/0004_nacm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-07-19T11:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27fe8a65_0b8049ba",
       "range": {
         "startLine": 5,
         "startChar": 0,
