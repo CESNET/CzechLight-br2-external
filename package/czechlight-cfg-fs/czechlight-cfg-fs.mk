@@ -14,16 +14,11 @@ endif
 
 define CZECHLIGHT_CFG_FS_BUILD_CMDS
 	$(TARGET_CC) $(CZECHLIGHT_CFG_FS_PKGDIR)/czechlight-random-seed.c -o $(@D)/czechlight-random-seed
-
-	$(HOST_DIR)/usr/bin/yanglint -t config \
-		$(TARGET_DIR)/usr/share/yang/modules/netopeer2/ietf-netconf-acm@2018-02-14.yang \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm.json
 endef
 
 CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER = \
 	czechlight-install-yang.service \
-	czechlight-migrate.service \
-	nacm-restore.service
+	czechlight-migrate.service
 
 $(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
 	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER += \
@@ -46,9 +41,6 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-save-sysrepo \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/impl-cfg-save-sysrepo \
 		$(@D)/czechlight-random-seed
-
-	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/share/yang-data/ \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/nacm.json
 
 	$(INSTALL) -D -m 0755 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-install-yang.sh \

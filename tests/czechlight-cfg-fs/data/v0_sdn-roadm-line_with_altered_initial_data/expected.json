@@ -781,5 +781,35 @@
       "channel": "C-band",
       "description": "Whole-band overview"
     }
-  ]
+  ],
+  "ietf-netconf-acm:nacm": {
+      "rule-list": [
+          {
+              "name": "Allow DWDM control to the optics group",
+              "group": ["optics"],
+              "rule": [
+                  {
+                      "name": "czechlight-roadm-device",
+                      "module-name": "czechlight-roadm-device",
+                      "action": "permit"
+                  },
+                  {
+                      "name": "czechlight-inline-amp",
+                      "module-name": "czechlight-inline-amp",
+                      "action": "permit"
+                  },
+                  {
+                      "name": "czechlight-coherent-add-drop",
+                      "module-name": "czechlight-coherent-add-drop",
+                      "action": "permit"
+                  },
+                  {
+                      "name": "czechlight-calibration-device",
+                      "module-name": "czechlight-calibration-device",
+                      "action": "permit"
+                  }
+              ]
+          }
+      ]
+  }
 }
