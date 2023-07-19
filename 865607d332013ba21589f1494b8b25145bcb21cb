@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5cc2f36_cdeadd37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-07-19T11:15:52Z",
+      "side": 1,
+      "message": "I tried to reword some parts of the commit message.",
+      "parentUuid": "7b815434_24f8e01b",
+      "revId": "865607d332013ba21589f1494b8b25145bcb21cb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "194e340b_ab0c2f59",
         "filename": "package/czechlight-cfg-fs/migrations/0004_nacm.sh",
         "patchSetId": 1
