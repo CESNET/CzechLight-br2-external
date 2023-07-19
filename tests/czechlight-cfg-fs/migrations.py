@@ -130,7 +130,7 @@ def test(sysrepo_fixture, max_version):
 
     with open(sysrepo_fixture.export_file, 'r') as fp_actual:
         with open(sysrepo_fixture.expected_file, 'r') as fp_expected:
-            print(f'migration: comparing files {sysrepo_fixture.startup_file.name} and {sysrepo_fixture.expected_file.name}')
+            print(f'migration: comparing files {sysrepo_fixture.export_file.name} and {sysrepo_fixture.expected_file.name}')
 
             actual = json.load(fp_actual)
             expected = json.load(fp_expected)
