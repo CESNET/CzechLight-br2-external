@@ -24,7 +24,6 @@ define RESET_SYSREPO_INSTALL_TARGET_CMDS
 		sysrepo-ietf-alarms.service \
 		sysrepo-persistent-cfg.service \
 		sysrepo-plugind.service \
-		nacm-restore.service \
 		velia-firewall.service \
 		velia-health.service \
 		velia-system.service \
