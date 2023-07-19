@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b815434_24f8e01b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-19T11:05:30Z",
+      "side": 1,
+      "message": "Also please say that these rules are hard-imported (overwriting any exitsing NACM data) when migrating from pre-v4 configs, and starting with v4, users will be free to delete/adjust/whatever these data as they see fit.\n\nI know that\u0027s how the migrations work, but I had to remind myself about that when I saw the `v3_sdn-roadm-line_multiple_nacm_rules` directory. Let\u0027s repeat that in the commit message, please.",
+      "revId": "865607d332013ba21589f1494b8b25145bcb21cb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "194e340b_ab0c2f59",
+        "filename": "package/czechlight-cfg-fs/migrations/0004_nacm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-19T11:05:30Z",
+      "side": 1,
+      "message": "let\u0027s call this \"CzechLight-specific NACM rules for DWDM modules\", please",
+      "range": {
+        "startLine": 3,
+        "startChar": 9,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "865607d332013ba21589f1494b8b25145bcb21cb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27fe8a65_0b8049ba",
+        "filename": "package/czechlight-cfg-fs/migrations/0004_nacm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-19T11:05:30Z",
+      "side": 1,
+      "message": "What about:\n\n # Before this we restored NACM rules from our \"factory-default\" on every boot, overwriting whatever was in the NACM module.\n # Since config v4, the users are free to modify NACM rules as they wish.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 66
+      },
+      "revId": "865607d332013ba21589f1494b8b25145bcb21cb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
