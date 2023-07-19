@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1dc053e_7bc817d5",
+        "filename": "package/czechlight-cfg-fs/migrations/0005_nacm_anonymous_user.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-07-19T13:46:52Z",
+      "side": 1,
+      "message": "This has to be filtered because this rule has precedence over the nacm:deny-* annotaions.",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "ba6c309892c4bb8c266de462b9bb2bcebe4f80e9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63877d3a_f6907150",
+        "filename": "tests/czechlight-cfg-fs/__pycache__/migrations.cpython-311-pytest-7.4.0.pyc",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-07-19T13:46:52Z",
+      "side": 1,
+      "message": ":-) This should not be here",
+      "revId": "ba6c309892c4bb8c266de462b9bb2bcebe4f80e9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
