@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8967d485_44866e3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-20T08:44:32Z",
+      "side": 1,
+      "message": "it boots (with the usual caveat of a kernel GPIO problem, aaargh)",
+      "revId": "d90803b5821cd4b6b11b60b7e22819e437f3645b",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
