@@ -69,6 +69,8 @@ CONFIG_LEDS_TRIGGER_PANIC=y
 CONFIG_LED_TRIGGER_PHY=y
 CONFIG_LEDS_TRIGGER_TRANSIENT=y
 CONFIG_LEDS_TRIGGER_NETDEV=y
+# https://lore.kernel.org/all/20230314210059.419159-1-linus.walleij@linaro.org/
+CONFIG_BROKEN=y
 CONFIG_LEDS_TRIGGER_GPIO=y
 
 # this is used for EDFA GPIO mapping for LED triggers (I know, I know), bot just general debugging
