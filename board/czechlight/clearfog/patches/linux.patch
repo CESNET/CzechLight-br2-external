@@ -41,10 +41,10 @@ index 2fa5edac7a35..4906544628ec 100644
 +		gpio-line-names = ...
 +	};
 +};
-diff --git a/arch/arm/boot/dts/armada-388-clearfog.dtsi b/arch/arm/boot/dts/armada-388-clearfog.dtsi
+diff --git a/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi b/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
 index f8a06ae4a3c9..8f32e05b6d87 100644
---- a/arch/arm/boot/dts/armada-388-clearfog.dtsi
-+++ b/arch/arm/boot/dts/armada-388-clearfog.dtsi
+--- a/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
++++ b/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
 @@ -196,8 +196,12 @@ &i2c1 {
  	 */
  	clock-frequency = <100000>;
@@ -71,7 +71,7 @@ index f8a06ae4a3c9..8f32e05b6d87 100644
  		marvell,pins = "mpp20";
  		marvell,function = "gpio";
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index cb7bd1353f9f..85865f1628d7 100644
+index dfc6fb2b3e52..07be0741f873 100644
 --- a/drivers/leds/leds-tlc591xx.c
 +++ b/drivers/leds/leds-tlc591xx.c
 @@ -40,6 +40,9 @@
@@ -110,7 +110,7 @@ index cb7bd1353f9f..85865f1628d7 100644
  };
  
  static int
-@@ -180,6 +187,18 @@ tlc591xx_probe(struct i2c_client *client,
+@@ -179,6 +186,18 @@ tlc591xx_probe(struct i2c_client *client)
  
  	i2c_set_clientdata(client, priv);
  
@@ -129,8 +129,20 @@ index cb7bd1353f9f..85865f1628d7 100644
  	err = tlc591xx_set_mode(priv->regmap, MODE2_DIM);
  	if (err < 0)
  		return err;
+diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
+index 2a57328eca20..dc6816d36d06 100644
+--- a/drivers/leds/trigger/Kconfig
++++ b/drivers/leds/trigger/Kconfig
+@@ -83,7 +83,6 @@ config LEDS_TRIGGER_ACTIVITY
+ config LEDS_TRIGGER_GPIO
+ 	tristate "LED GPIO Trigger"
+ 	depends on GPIOLIB || COMPILE_TEST
+-	depends on BROKEN
+ 	help
+ 	  This allows LEDs to be controlled by gpio events. It's good
+ 	  when using gpios as switches and triggering the needed LEDs
 diff --git a/drivers/pinctrl/pinctrl-mcp23s08_spi.c b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
-index 9ae10318f6f3..d378369bbeca 100644
+index ea059b9c5542..d58c6e631942 100644
 --- a/drivers/pinctrl/pinctrl-mcp23s08_spi.c
 +++ b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
 @@ -8,6 +8,7 @@
@@ -141,7 +153,7 @@ index 9ae10318f6f3..d378369bbeca 100644
  
  #define MCP_MAX_DEV_PER_CS	8
  
-@@ -143,6 +144,10 @@ static int mcp23s08_probe(struct spi_device *spi)
+@@ -153,6 +154,10 @@ static int mcp23s08_probe(struct spi_device *spi)
  	int type;
  	int ret;
  	u32 v;
@@ -152,7 +164,7 @@ index 9ae10318f6f3..d378369bbeca 100644
  
  	match = device_get_match_data(dev);
  	if (match)
-@@ -192,6 +197,43 @@ static int mcp23s08_probe(struct spi_device *spi)
+@@ -202,6 +207,43 @@ static int mcp23s08_probe(struct spi_device *spi)
  			return ret;
  
  		ngpio += data->mcp[addr]->chip.ngpio;
@@ -197,11 +209,11 @@ index 9ae10318f6f3..d378369bbeca 100644
  	data->ngpio = ngpio;
  
 diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index 565cd4c48d7b..3298f6d17f4a 100644
+index ad9e83e34297..dc5c60182ea5 100644
 --- a/drivers/spi/spi-orion.c
 +++ b/drivers/spi/spi-orion.c
 @@ -473,7 +473,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
- 	int cs = spi->chip_select;
+ 	int cs = spi_get_chipselect(spi, 0);
  	void __iomem *vaddr;
  
 -	word_len = spi->bits_per_word;
@@ -210,7 +222,7 @@ index 565cd4c48d7b..3298f6d17f4a 100644
  
  	orion_spi = spi_master_get_devdata(spi->master);
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index 4eb24e3407f8..7e71b36a16ab 100644
+index 997e39449766..ccbb5b1bb0f4 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
 @@ -237,6 +237,10 @@
@@ -224,19 +236,7 @@ index 4eb24e3407f8..7e71b36a16ab 100644
  /* MAX3107 specific */
  #define MAX3107_REV_ID			(0xa0)
  
-@@ -525,6 +529,11 @@ static bool max310x_reg_precious(struct device *dev, unsigned int reg)
- 	return false;
- }
- 
-+static bool max310x_reg_noinc(struct device *dev, unsigned int reg)
-+{
-+	return reg == MAX310X_RHR_REG;
-+}
-+
- static int max310x_set_baud(struct uart_port *port, int baud)
- {
- 	unsigned int mode = 0, div = 0, frac = 0, c = 0, F = 0;
-@@ -636,11 +645,14 @@ static u32 max310x_set_ref_clk(struct device *dev, struct max310x_port *s,
+@@ -641,11 +645,14 @@ static u32 max310x_set_ref_clk(struct device *dev, struct max310x_port *s,
  
  	/* Wait for crystal */
  	if (xtal) {
@@ -255,24 +255,7 @@ index 4eb24e3407f8..7e71b36a16ab 100644
  		}
  	}
  
-@@ -651,14 +663,14 @@ static void max310x_batch_write(struct uart_port *port, u8 *txbuf, unsigned int
- {
- 	struct max310x_one *one = to_max310x_port(port);
- 
--	regmap_raw_write(one->regmap, MAX310X_THR_REG, txbuf, len);
-+	regmap_noinc_write(one->regmap, MAX310X_THR_REG, txbuf, len);
- }
- 
- static void max310x_batch_read(struct uart_port *port, u8 *rxbuf, unsigned int len)
- {
- 	struct max310x_one *one = to_max310x_port(port);
- 
--	regmap_raw_read(one->regmap, MAX310X_RHR_REG, rxbuf, len);
-+	regmap_noinc_read(one->regmap, MAX310X_RHR_REG, rxbuf, len);
- }
- 
- static void max310x_handle_rx(struct uart_port *port, unsigned int rxlen)
-@@ -1344,6 +1356,10 @@ static int max310x_probe(struct device *dev, const struct max310x_devtype *devty
+@@ -1348,6 +1355,10 @@ static int max310x_probe(struct device *dev, const struct max310x_devtype *devty
  	}
  
  	uartclk = max310x_set_ref_clk(dev, s, freq, xtal);
@@ -283,14 +266,11 @@ index 4eb24e3407f8..7e71b36a16ab 100644
  	dev_dbg(dev, "Reference clock set to %i Hz\n", uartclk);
  
  	for (i = 0; i < devtype->nr; i++) {
-@@ -1469,6 +1485,10 @@ static struct regmap_config regcfg = {
- 	.writeable_reg = max310x_reg_writeable,
- 	.volatile_reg = max310x_reg_volatile,
- 	.precious_reg = max310x_reg_precious,
-+	.writeable_noinc_reg = max310x_reg_noinc,
-+	.readable_noinc_reg = max310x_reg_noinc,
-+	.max_raw_read = MAX310X_FIFO_SIZE,
-+	.max_raw_write = MAX310X_FIFO_SIZE,
- };
+@@ -1516,6 +1527,7 @@ static int max310x_spi_probe(struct spi_device *spi)
+ 		u8 port_mask = i * 0x20;
+ 		regcfg.read_flag_mask = port_mask;
+ 		regcfg.write_flag_mask = port_mask | MAX310X_WRITE_BIT;
++		regcfg.name = kasprintf(GFP_KERNEL, "port-%d", i);
+ 		regmaps[i] = devm_regmap_init_spi(spi, &regcfg);
+ 	}
  
- #ifdef CONFIG_SPI_MASTER
