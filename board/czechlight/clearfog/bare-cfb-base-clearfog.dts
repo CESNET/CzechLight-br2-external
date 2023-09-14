@@ -1,4 +1,9 @@
+#include "../../../include/generated/uapi/linux/version.h"
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(6, 5, 0))
 #include "armada-388-clearfog-base.dts"
+#else
+#include "marvell/armada-388-clearfog-base.dts"
+#endif
 
 &w25q32 {
 	status = "okay";
