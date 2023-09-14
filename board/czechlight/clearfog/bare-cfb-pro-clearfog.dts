@@ -1,4 +1,4 @@
-#include "armada-388-clearfog-pro.dts"
+#include "marvell/armada-388-clearfog-pro.dts"
 
 &w25q32 {
 	status = "okay";
