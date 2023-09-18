@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51ca060f_47efeae1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-09-18T11:41:00Z",
+      "side": 1,
+      "message": "looks good. Was it tested? Does it solve the hw communication problem?",
+      "revId": "d9b7d9859b5fe28a35f77f0895e0076f5ffab561",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
