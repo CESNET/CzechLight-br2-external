@@ -5,3 +5,12 @@
         name: perl-English
         state: present
       become: true
+
+    - name: install Ruby for nghttp2's mruby
+      package:
+        name: '{{ item }}'
+        state: present
+      become: true
+      loop:
+        - ruby
+        - ruby-devel
