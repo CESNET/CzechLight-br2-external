@@ -32,10 +32,10 @@ mkdir build-clearfog
 cd build-clearfog
 ../czechlight/dev-setup-git.sh
 make czechlight_clearfog_defconfig
-make
+make -j8
 ```
 
-A full rebuild takes between 30 and 45 minutes on a T460s laptop.
+A full rebuild takes about half an hour on a modern laptop.
 
 WARNING: Buildroot is fragile.
 It is *not* safe to perform incremental builds after changing an "important" setting.
