@@ -16,6 +16,24 @@
       "message": "looks good. Was it tested? Does it solve the hw communication problem?",
       "revId": "d9b7d9859b5fe28a35f77f0895e0076f5ffab561",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95f768b_771bc7fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-11-13T21:46:02Z",
+      "side": 1,
+      "message": "tested via ROADM-LINE-SDN-ID210515, it boots (I won\u0027t claim it solves the SPI/MAX310x problem for real, though)",
+      "parentUuid": "51ca060f_47efeae1",
+      "revId": "d9b7d9859b5fe28a35f77f0895e0076f5ffab561",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
