@@ -62,12 +62,9 @@ rauc install http://somewhere.example.org/update.raucb
 reboot
 ```
 
-Because `/cfg` is preserved, it can happen that there are data, which are incompatible with the version you are
-uploading. The reason could be that a YANG model got downgraded to an older one (example: cla-sysrepo downgrade). This
-is signalled by the failure of the [`cfg-restore-sysrepo.service`](package/czechlight-cfg-fs/cfg-restore-sysrepo.service) service.
-In this case, one needs to edit the `/cfg/sysrepo/startup.json` file and remove the offending content. The exact errors
-will be shown in the systemd journal and also in the console.
-
+Once the updated FW slot boots, the configuration in `/cfg` will be automatically upgraded (["migrated"](doc/architecture.md#yang)) to the newest layout.
+A downgrade to an incompatible OS version might therefore fail during the next reboot.
+Completely removing all data in the newly updated slot's `cfg` partition will restore functionality, but it is effectively a factory reset.
 
 ### Initial installation
 
