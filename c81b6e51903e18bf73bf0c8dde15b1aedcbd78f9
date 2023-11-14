@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c91529a2_f1ba884b",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-11-14T13:47:08Z",
+      "side": 1,
+      "message": "Should we say how to find and mount newly updated slot\u0027s `cfg` partition?\n\nIt\u0027s up to you, it\u0027s just something that might be good to add (after today\u0027s discussion on the call).",
+      "range": {
+        "startLine": 67,
+        "startChar": 36,
+        "endLine": 67,
+        "endChar": 72
+      },
+      "revId": "c81b6e51903e18bf73bf0c8dde15b1aedcbd78f9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
