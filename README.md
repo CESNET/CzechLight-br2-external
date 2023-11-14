@@ -80,7 +80,9 @@ Ensure that the jumpers are set to `0 1 0 0 1` (default for eMMC boot is `0 0 1 
 ```sh
 ./host/bin/kwboot -b ./u-boot-spl.kwb -t -p /dev/ttyUSB0
 ```
-Once in U-Boot, plug a USB flash disk which contains `images/usb-flash.img` and execute:
+Prepare a USB flash disk with a raw bootable image, `images/usb-flash.img`.
+Use a tool such as `dd` to overwrite the raw block device, do not copy the image file.
+Once in U-Boot, plug the USB flash disk and execute:
 
 ```sh
 usb start; fatload usb 0:1 00800000 boot.scr; source 00800000
