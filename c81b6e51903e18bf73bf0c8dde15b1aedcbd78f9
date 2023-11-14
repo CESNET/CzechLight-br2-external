@@ -22,6 +22,30 @@
       },
       "revId": "c81b6e51903e18bf73bf0c8dde15b1aedcbd78f9",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6868e6b_e6c6b0a2",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-11-14T13:55:52Z",
+      "side": 1,
+      "message": "Yeah, I was also thinking about that, but IMHO that\u0027s too deep for a README which should, IMHO, only guide through the most common tasks. I cannot explain that in less that one paragraph, and I think that the doc is already too long.",
+      "parentUuid": "c91529a2_f1ba884b",
+      "range": {
+        "startLine": 67,
+        "startChar": 36,
+        "endLine": 67,
+        "endChar": 72
+      },
+      "revId": "c81b6e51903e18bf73bf0c8dde15b1aedcbd78f9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
