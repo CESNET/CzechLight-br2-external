@@ -10,6 +10,7 @@ YANG_CALIBRATION=0
 CLA_YANG="${CLA_YANG:-/usr/share/cla-sysrepo/yang}"
 VELIA_YANG="${VELIA_YANG:-/usr/share/velia/yang}"
 ALARMS_YANG="${ALARMS_YANG:-/usr/share/sysrepo-ietf-alarms/yang}"
+ROUSETTE_YANG="${ROUSETTE_YANG:-/usr/share/rousette/yang}"
 PROC_CMDLINE="${PROC_CMDLINE:-/proc/cmdline}"
 
 for ARG in $(cat "$PROC_CMDLINE"); do
@@ -95,3 +96,4 @@ sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/czechlight-firewa
 sysrepoctl --change ietf-access-control-list --enable-feature match-on-eth --enable-feature eth --enable-feature match-on-ipv4 --enable-feature ipv4 --enable-feature match-on-ipv6 --enable-feature ipv6 --enable-feature mixed-eth-ipv4-ipv6
 
 sysrepoctl --search-dirs ${VELIA_YANG} --install ${VELIA_YANG}/velia-alarms@2022-07-12.yang --permissions 0660
+sysrepoctl --search-dirs ${ROUSETTE_YANG} --install ${ROUSETTE_YANG}/ietf-restconf@2017-01-26.yang
