@@ -1,0 +1,6 @@
+#include "sdn-roadm-clearfog.dtsi"
+#include "clearfog-output-voa.dtsi"
+
+&lumentum_ocm {
+	status = "disabled";
+};
