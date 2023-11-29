@@ -7,8 +7,6 @@ Requires=cfg-restore-sysrepo.service czechlight-migrate.service
 [Service]
 Type=simple
 ExecStart=/usr/bin/rousette
-User=yangnobody
-Group=yangnobody
 SupplementaryGroups=sysrepo optics
 PrivateTmp=yes
 PrivateDevices=yes
