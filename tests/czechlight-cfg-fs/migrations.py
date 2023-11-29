@@ -21,6 +21,7 @@ NETOPEER_SCRIPT_PATH = BR2_ROOT / 'submodules/buildroot/package/netopeer2/setup.
 
 CLA_SYSREPO_PATH = BR2_ROOT / 'submodules/cla-sysrepo'
 VELIA_PATH = BR2_ROOT / 'submodules/velia'
+ROUSETTE_PATH = BR2_ROOT / 'submodules/rousette'
 ALARMS_PATH = BR2_ROOT / 'submodules/sysrepo-ietf-alarms'
 NETOPEER2_PATH = BR2_ROOT / 'submodules/dependencies/Netopeer2'
 
