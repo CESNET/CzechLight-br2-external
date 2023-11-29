@@ -16,6 +16,24 @@
       "message": "This build failure is caused by the migrations; they expect this rousette-specific YANG file in velia\u0027s sources. I wrote it that way because rousette currently installs this file into velia\u0027s /usr/share thing. So this needs fixing in rousette and in the script here, yay.",
       "revId": "f421346737b0338946a4851f1acc56d67cccd5b7",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7b5947a_fe167810",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-11-29T17:51:45Z",
+      "side": 1,
+      "message": "(unresolving)",
+      "parentUuid": "dbb16ec4_3b9cd13c",
+      "revId": "f421346737b0338946a4851f1acc56d67cccd5b7",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
