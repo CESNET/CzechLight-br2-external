@@ -71,10 +71,10 @@ index f8a06ae4a3c9..8f32e05b6d87 100644
  		marvell,pins = "mpp20";
  		marvell,function = "gpio";
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index dfc6fb2b3e52..07be0741f873 100644
+index 945e831ef4ac..682ad60970d0 100644
 --- a/drivers/leds/leds-tlc591xx.c
 +++ b/drivers/leds/leds-tlc591xx.c
-@@ -40,6 +40,9 @@
+@@ -39,6 +39,9 @@
  
  #define ldev_to_led(c)		container_of(c, struct tlc591xx_led, ldev)
  
@@ -84,7 +84,7 @@ index dfc6fb2b3e52..07be0741f873 100644
  struct tlc591xx_led {
  	bool active;
  	unsigned int led_no;
-@@ -51,21 +54,25 @@ struct tlc591xx_priv {
+@@ -50,21 +53,25 @@ struct tlc591xx_priv {
  	struct tlc591xx_led leds[TLC591XX_MAX_LEDS];
  	struct regmap *regmap;
  	unsigned int reg_ledout_offset;
@@ -110,7 +110,7 @@ index dfc6fb2b3e52..07be0741f873 100644
  };
  
  static int
-@@ -179,6 +186,18 @@ tlc591xx_probe(struct i2c_client *client)
+@@ -178,6 +185,18 @@ tlc591xx_probe(struct i2c_client *client)
  
  	i2c_set_clientdata(client, priv);
  
@@ -208,24 +208,23 @@ index ea059b9c5542..d58c6e631942 100644
  	}
  	data->ngpio = ngpio;
  
-diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index ad9e83e34297..dc5c60182ea5 100644
---- a/drivers/spi/spi-orion.c
-+++ b/drivers/spi/spi-orion.c
-@@ -473,7 +473,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
- 	int cs = spi_get_chipselect(spi, 0);
- 	void __iomem *vaddr;
- 
--	word_len = spi->bits_per_word;
-+	word_len = xfer->bits_per_word;
- 	count = xfer->len;
- 
- 	orion_spi = spi_master_get_devdata(spi->master);
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index 997e39449766..ccbb5b1bb0f4 100644
+index db3204d2a305..79797b573723 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
-@@ -237,6 +237,10 @@
+@@ -27,9 +27,11 @@
+ #include <linux/uaccess.h>
+ 
+ #define MAX310X_NAME			"max310x"
++#define MAX310X_PORT_NAME_SUFFIX	"port"
+ #define MAX310X_MAJOR			204
+ #define MAX310X_MINOR			209
+ #define MAX310X_UART_NRMAX		16
++#define MAX310X_MAX_PORTS		4 /* Maximum number of UART ports per IC. */
+ 
+ /* MAX310X register definitions */
+ #define MAX310X_RHR_REG			(0x00) /* RX FIFO */
+@@ -237,6 +239,10 @@
  #define MAX310x_REV_MASK		(0xf8)
  #define MAX310X_WRITE_BIT		0x80
  
@@ -236,7 +235,7 @@ index 997e39449766..ccbb5b1bb0f4 100644
  /* MAX3107 specific */
  #define MAX3107_REV_ID			(0xa0)
  
-@@ -641,11 +645,14 @@ static u32 max310x_set_ref_clk(struct device *dev, struct max310x_port *s,
+@@ -641,11 +647,14 @@ static u32 max310x_set_ref_clk(struct device *dev, struct max310x_port *s,
  
  	/* Wait for crystal */
  	if (xtal) {
@@ -255,7 +254,57 @@ index 997e39449766..ccbb5b1bb0f4 100644
  		}
  	}
  
-@@ -1348,6 +1355,10 @@ static int max310x_probe(struct device *dev, const struct max310x_devtype *devty
+@@ -654,16 +663,34 @@ static u32 max310x_set_ref_clk(struct device *dev, struct max310x_port *s,
+ 
+ static void max310x_batch_write(struct uart_port *port, u8 *txbuf, unsigned int len)
+ {
+-	struct max310x_one *one = to_max310x_port(port);
+-
+-	regmap_noinc_write(one->regmap, MAX310X_THR_REG, txbuf, len);
++	const u8 header = (port->iobase * 0x20 + MAX310X_THR_REG) | MAX310X_WRITE_BIT;
++	struct spi_transfer xfer[] = {
++		{
++			.tx_buf = &header,
++			.len = 1,
++		},
++		{
++			.tx_buf = txbuf,
++			.len = len,
++		},
++	};
++	spi_sync_transfer(to_spi_device(port->dev), xfer, ARRAY_SIZE(xfer));
+ }
+ 
+ static void max310x_batch_read(struct uart_port *port, u8 *rxbuf, unsigned int len)
+ {
+-	struct max310x_one *one = to_max310x_port(port);
+-
+-	regmap_noinc_read(one->regmap, MAX310X_RHR_REG, rxbuf, len);
++	const u8 header = port->iobase * 0x20 + MAX310X_RHR_REG;
++	struct spi_transfer xfer[] = {
++		{
++			.tx_buf = &header,
++			.len = 1,
++		},
++		{
++			.rx_buf = rxbuf,
++			.len = len,
++		},
++	};
++	spi_sync_transfer(to_spi_device(port->dev), xfer, ARRAY_SIZE(xfer));
+ }
+ 
+ static void max310x_handle_rx(struct uart_port *port, unsigned int rxlen)
+@@ -780,7 +807,7 @@ static void max310x_handle_tx(struct uart_port *port)
+ 	to_send = uart_circ_chars_pending(xmit);
+ 	until_end = CIRC_CNT_TO_END(xmit->head, xmit->tail, UART_XMIT_SIZE);
+ 	if (likely(to_send)) {
+-		/* Limit to size of TX FIFO */
++		/* Limit to space available in TX FIFO */
+ 		txlen = max310x_port_read(port, MAX310X_TXFIFOLVL_REG);
+ 		txlen = port->fifosize - txlen;
+ 		to_send = (to_send > txlen) ? txlen : to_send;
+@@ -1349,6 +1376,10 @@ static int max310x_probe(struct device *dev, const struct max310x_devtype *devty
  	}
  
  	uartclk = max310x_set_ref_clk(dev, s, freq, xtal);
@@ -266,11 +315,62 @@ index 997e39449766..ccbb5b1bb0f4 100644
  	dev_dbg(dev, "Reference clock set to %i Hz\n", uartclk);
  
  	for (i = 0; i < devtype->nr; i++) {
-@@ -1516,6 +1527,7 @@ static int max310x_spi_probe(struct spi_device *spi)
+@@ -1485,6 +1516,15 @@ static struct regmap_config regcfg = {
+ 	.max_raw_write = MAX310X_FIFO_SIZE,
+ };
+ 
++static const char *max310x_regmap_name(unsigned int port_id)
++{
++	static char buf[sizeof(MAX310X_PORT_NAME_SUFFIX __stringify(MAX310X_MAX_PORTS))];
++
++	snprintf(buf, sizeof(buf), MAX310X_PORT_NAME_SUFFIX "%u", port_id);
++
++	return buf;
++}
++
+ #ifdef CONFIG_SPI_MASTER
+ static int max310x_spi_extended_reg_enable(struct device *dev, bool enable)
+ {
+@@ -1502,7 +1542,7 @@ static const struct max310x_if_cfg __maybe_unused max310x_spi_if_cfg = {
+ static int max310x_spi_probe(struct spi_device *spi)
+ {
+ 	const struct max310x_devtype *devtype;
+-	struct regmap *regmaps[4];
++	struct regmap *regmaps[MAX310X_MAX_PORTS];
+ 	unsigned int i;
+ 	int ret;
+ 
+@@ -1520,6 +1560,8 @@ static int max310x_spi_probe(struct spi_device *spi)
+ 
+ 	for (i = 0; i < devtype->nr; i++) {
  		u8 port_mask = i * 0x20;
++
++		regcfg.name = max310x_regmap_name(i);
  		regcfg.read_flag_mask = port_mask;
  		regcfg.write_flag_mask = port_mask | MAX310X_WRITE_BIT;
-+		regcfg.name = kasprintf(GFP_KERNEL, "port-%d", i);
  		regmaps[i] = devm_regmap_init_spi(spi, &regcfg);
+@@ -1605,7 +1647,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+ 	const struct max310x_devtype *devtype =
+ 			device_get_match_data(&client->dev);
+ 	struct i2c_client *port_client;
+-	struct regmap *regmaps[4];
++	struct regmap *regmaps[MAX310X_MAX_PORTS];
+ 	unsigned int i;
+ 	u8 port_addr;
+ 
+@@ -1616,6 +1658,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+ 				     client->addr, devtype->slave_addr.min,
+ 				     devtype->slave_addr.max);
+ 
++	regcfg_i2c.name = max310x_regmap_name(0);
+ 	regmaps[0] = devm_regmap_init_i2c(client, &regcfg_i2c);
+ 
+ 	for (i = 1; i < devtype->nr; i++) {
+@@ -1624,6 +1667,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+ 							client->adapter,
+ 							port_addr);
+ 
++		regcfg_i2c.name = max310x_regmap_name(i);
+ 		regmaps[i] = devm_regmap_init_i2c(port_client, &regcfg_i2c);
  	}
  
