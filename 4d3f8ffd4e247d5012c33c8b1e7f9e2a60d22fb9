@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e30620e4_d096813e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-12T12:55:48Z",
+      "side": 1,
+      "message": "the full error message is preserved here:\n\nhttps://gerrit.cesnet.cz/c/CzechLight/velia/+/6701/2#message-950831c8442074bf2531cee7e4e32a22e6fe6fe5",
+      "revId": "4d3f8ffd4e247d5012c33c8b1e7f9e2a60d22fb9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
