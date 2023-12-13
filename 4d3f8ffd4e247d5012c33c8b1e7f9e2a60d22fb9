@@ -16,6 +16,24 @@
       "message": "the full error message is preserved here:\n\nhttps://gerrit.cesnet.cz/c/CzechLight/velia/+/6701/2#message-950831c8442074bf2531cee7e4e32a22e6fe6fe5",
       "revId": "4d3f8ffd4e247d5012c33c8b1e7f9e2a60d22fb9",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62983823_b9fbcdcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2023-12-13T08:42:18Z",
+      "side": 1,
+      "message": "I have added the logs to commit message. For some reason I wrote that the input power is 39kW, idk why. So I changed that and added the logs.",
+      "parentUuid": "e30620e4_d096813e",
+      "revId": "4d3f8ffd4e247d5012c33c8b1e7f9e2a60d22fb9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
