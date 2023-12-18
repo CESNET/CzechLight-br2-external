@@ -16,6 +16,23 @@
       "message": "I rebased this because the version number that\u0027s indicated in /etc/os-release was actually \"wrong\". Here, master has moved to v4-310-something, yet the latest build (which was based on a parent two commits behind) is marked as v4-309-g3038a7a. The comments in board/czechlight/common/os-release.sh say that this is a known issue because these merges done by Zuul are private, or transient; the actual merge commit that\u0027s built is not visible outside of the Zuul infrastructure.",
       "revId": "69ecf7e7527c8b392f6334c7a507b6acc77fc965",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09602687_5ff3cac5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-12-18T13:05:09Z",
+      "side": 1,
+      "message": "it boots",
+      "revId": "69ecf7e7527c8b392f6334c7a507b6acc77fc965",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
