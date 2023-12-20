@@ -9,7 +9,7 @@ i2c mw 0x60 0x0b 0x80
 i2c mw 0x60 0x0c 0x80
 # reset fan controller
 i2c mw 0x20 0x00 0x40
-setenv bootargs root=/dev/mmcblk0p${rauc_part} init=/sbin/init-czechlight.sh rauc.slot=${rauc_slot} czechlight=${czechlight} systemd.machine_id=${machineid} panic=10 oops=panic spidev.bufsiz=131072 schedstats=enable
+setenv bootargs root=/dev/mmcblk0p${rauc_part} init=/sbin/init-czechlight.sh rauc.slot=${rauc_slot} czechlight=${czechlight} systemd.machine_id=${machineid} panic=10 oops=panic spidev.bufsiz=131072 schedstats=enable i2c_algo_bit.bit_test=2
 if test -n ${czechlight} && load mmc 0:${rauc_part} ${fdt_addr_r} /boot/${czechlight}-clearfog.dtb; then
   echo "DTS: ${czechlight}-clearfog"
 else
