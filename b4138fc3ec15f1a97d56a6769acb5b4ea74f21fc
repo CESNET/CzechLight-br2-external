@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9f9c462_d7c64976",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-03T14:15:28Z",
+      "side": 1,
+      "message": "so, this did the trick on line-M0N:\n \nline-M0N ~ # dmesg | grep -i i2c\n[    0.000000] Kernel command line: root\u003d/dev/mmcblk0p3 init\u003d/sbin/init-czechlight.sh rauc.slot\u003dB czechlight\u003dsdn-roadm-line-g2 systemd.machine_id\u003d88cf425f75b84e5da8717aa71b769733 panic\u003d10 oops\u003dpanic spidev.bufsiz\u003d131072 schedstats\u003denable i2c_algo_bit.bit_test\u003d1\n[    1.674356] i2c_dev: i2c /dev entries driver\n[    1.678943] i2c i2c-0: using pinctrl states for GPIO recovery\n[    1.684755] i2c i2c-0: using generic GPIOs for recovery\n[    1.696672] i2c i2c-0: mv64xxx_i2c_fsm: Ctlr Error -- state: 0x2, status: 0x0, addr: 0x53, flags: 0x0\n[    1.765593] i2c i2c-1: using pinctrl states for GPIO recovery\n[    1.771392] i2c i2c-1: using generic GPIOs for recovery\n[    2.000360] gpio_i2c: bus seems to be busy (scl\u003d0, sda\u003d1)\n[   12.672108] i2c-gpio gpio_i2c: using lines 25 (SDA) and 24 (SCL)\nline-M0N ~ # grep -e sda -e scl /sys/kernel/debug/gpio \n gpio-2   (scl                 ) in  hi (act hi) - IRQ disabled\n gpio-3   (sda                 ) in  hi (act hi) - IRQ disabled\n gpio-24  (scl                 ) in  lo (act hi) - IRQ disabled\n gpio-25  (sda                 ) in  hi (act hi) - IRQ disabled\n gpio-26  (scl                 ) in  hi (act hi) - IRQ disabled\n gpio-27  (sda                 ) in  hi (act hi) - IRQ disabled\nline-M0N ~ # i2cdetect -y 0\n     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f\n00:                         -- -- -- -- -- -- -- -- \n10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- \n20: UU -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- \n30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- \n40: -- -- -- -- -- -- -- -- -- -- -- -- UU -- -- -- \n50: -- -- -- UU -- -- -- -- -- -- -- -- -- -- -- -- \n60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- \n70: -- -- -- -- -- -- -- --",
+      "revId": "b4138fc3ec15f1a97d56a6769acb5b4ea74f21fc",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
