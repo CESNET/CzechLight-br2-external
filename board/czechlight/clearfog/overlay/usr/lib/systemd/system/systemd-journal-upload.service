@@ -1,7 +1,7 @@
 # CzechLight-specific configuration:
 #
 # - do not record a failed unit when that thing dies (likely due to a network issue)
-# - only start when a custom config file exists
+# - only start when at least one of the custom config file exists
 # - do not bring in a network-online.target because that might trigger
 #   extra failure reports (and a watchdog action)
 # - keep retrying upon failure(s)
@@ -31,8 +31,10 @@ LimitNOFILE=524288
 
 # - ignore failures
 # - read (one) location from the env file
+# - /run has priority
 ExecStart=-/usr/lib/systemd/systemd-journal-upload --save-state --url=${DESTINATION}
 EnvironmentFile=-/cfg/journald-remote
+EnvironmentFile=-/run/journald-remote
 
 # run forever and ignore any network issues
 Restart=always
@@ -40,4 +42,6 @@ RestartSec=5
 
 [Unit]
 # shared as an env file
-ConditionFileNotEmpty=/cfg/journald-remote
+# at least one of these files must exist
+ConditionFileNotEmpty=|/cfg/journald-remote
+ConditionFileNotEmpty=|/run/journald-remote
