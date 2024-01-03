@@ -33,6 +33,7 @@ LimitNOFILE=524288
 # - read (one) location from the env file
 ExecStart=-/usr/lib/systemd/systemd-journal-upload --save-state --url=${DESTINATION}
 EnvironmentFile=-/cfg/journald-remote
+EnvironmentFile=-/run/journald-remote
 
 # run forever and ignore any network issues
 Restart=always
