@@ -30,9 +30,10 @@ WatchdogSec=3min
 LimitNOFILE=524288
 
 # - ignore failures
-# - read (one) location from the env file
+# - read (one) location from the env file, /run has priority
 ExecStart=-/usr/lib/systemd/systemd-journal-upload --save-state --url=${DESTINATION}
 EnvironmentFile=-/cfg/journald-remote
+EnvironmentFile=-/run/journald-remote
 
 # run forever and ignore any network issues
 Restart=always
@@ -40,4 +41,5 @@ RestartSec=5
 
 [Unit]
 # shared as an env file
-ConditionFileNotEmpty=/cfg/journald-remote
+ConditionFileNotEmpty=| /cfg/journald-remote
+ConditionFileNotEmpty=| /run/journald-remote
