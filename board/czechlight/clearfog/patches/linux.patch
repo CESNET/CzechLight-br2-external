@@ -42,10 +42,23 @@ index 2fa5edac7a35..4906544628ec 100644
 +	};
 +};
 diff --git a/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi b/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
-index f8a06ae4a3c9..8f32e05b6d87 100644
+index f8a06ae4a3c9..e14020e653a1 100644
 --- a/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
 +++ b/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
-@@ -196,8 +196,12 @@ &i2c1 {
+@@ -111,6 +111,12 @@ &eth2 {
+ };
+ 
+ &i2c0 {
++	pinctrl-0 = <&clearfog_i2c0_pins>;
++	pinctrl-1 = <&clearfog_i2c0_recovery_pins>;
++	pinctrl-names = "default", "gpio";
++	scl-gpios = <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
++	sda-gpios = <&gpio0 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
++
+ 	/*
+ 	 * PCA9655 GPIO expander, up to 1MHz clock.
+ 	 *  0-CON3 CLKREQ#
+@@ -196,16 +202,32 @@ &i2c1 {
  	 */
  	clock-frequency = <100000>;
  	pinctrl-0 = <&clearfog_i2c1_pins>;
@@ -59,7 +72,16 @@ index f8a06ae4a3c9..8f32e05b6d87 100644
  };
  
  &pinctrl {
-@@ -206,6 +210,10 @@ clearfog_i2c1_pins: i2c1-pins {
++	clearfog_i2c0_pins: i2c0-pins {
++		marvell,pins = "mpp2", "mpp3";
++		marvell,function = "i2c0";
++	};
++	clearfog_i2c0_recovery_pins: i2c0-recovery-pins {
++		marvell,pins = "mpp2", "mpp3";
++		marvell,function = "gpio";
++	};
+ 	clearfog_i2c1_pins: i2c1-pins {
+ 		/* SFP, PCIe, mSATA, mikrobus */
  		marvell,pins = "mpp26", "mpp27";
  		marvell,function = "i2c1";
  	};
