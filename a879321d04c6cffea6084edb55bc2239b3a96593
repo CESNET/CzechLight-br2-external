@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "402085c4_8df66745",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-01-12T06:46:44Z",
+      "side": 1,
+      "message": "Please pick the updated service file from https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/6763 and also maybe append the commit message from 6763 here.",
+      "revId": "a879321d04c6cffea6084edb55bc2239b3a96593",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
