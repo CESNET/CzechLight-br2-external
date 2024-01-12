@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c4d2d0_ac3cad17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-01-12T07:18:24Z",
+      "side": 1,
+      "message": "I don\u0027t know what these `-fl` options are for. based on the changes in the systemd [Mount] file I assume they are for the umount command?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "4a1c6679f24fce87cdddd6bafc0b7c63ec0c3700",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
