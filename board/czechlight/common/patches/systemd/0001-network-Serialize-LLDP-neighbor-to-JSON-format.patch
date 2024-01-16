@@ -1,5 +1,5 @@
-From dadca2c91fa18a18445659b41f182b0793dce566 Mon Sep 17 00:00:00 2001
-From: Tomas Pecka <peckato1@users.noreply.github.com>
+From 5959725d8c73f682b7369e3458c172c29074d0ed Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Pecka?= <tomas.pecka@cesnet.cz>
 Date: Thu, 7 Oct 2021 11:16:57 +0200
 Subject: [PATCH 1/7] network: Serialize LLDP neighbor to JSON format
 
@@ -9,13 +9,13 @@ The entry contains a chassis id, system name and port id of the remote
 neighbor. Also it possibly contains an integer coding the enabled system
 capabilities and port description.
 ---
- src/libsystemd-network/lldp-neighbor.c | 22 ++++++++++++
- src/libsystemd-network/sd-lldp-rx.c    | 46 +++++++++++++++++++++++++-
+ src/libsystemd-network/lldp-neighbor.c | 21 +++++++++++
+ src/libsystemd-network/sd-lldp-rx.c    | 48 +++++++++++++++++++++++++-
  src/systemd/sd-lldp-rx.h               |  4 +++
- 3 files changed, 71 insertions(+), 1 deletion(-)
+ 3 files changed, 72 insertions(+), 1 deletion(-)
 
 diff --git a/src/libsystemd-network/lldp-neighbor.c b/src/libsystemd-network/lldp-neighbor.c
-index 6672409d75..5fb7669e09 100644
+index af61c9b096..893cf64286 100644
 --- a/src/libsystemd-network/lldp-neighbor.c
 +++ b/src/libsystemd-network/lldp-neighbor.c
 @@ -5,6 +5,7 @@
@@ -26,7 +26,7 @@ index 6672409d75..5fb7669e09 100644
  #include "lldp-neighbor.h"
  #include "memory-util.h"
  #include "missing_network.h"
-@@ -794,3 +795,24 @@ int sd_lldp_neighbor_get_timestamp(sd_lldp_neighbor *n, clockid_t clock, uint64_
+@@ -793,3 +794,23 @@ int sd_lldp_neighbor_get_timestamp(sd_lldp_neighbor *n, clockid_t clock, uint64_
          *ret = triple_timestamp_by_clock(&n->timestamp, clock);
          return 0;
  }
@@ -44,15 +44,14 @@ index 6672409d75..5fb7669e09 100644
 +        valid_cc = sd_lldp_neighbor_get_enabled_capabilities(n, &cc) >= 0;
 +
 +        return json_build(ret, JSON_BUILD_OBJECT(
-+                                JSON_BUILD_PAIR("neighbor", JSON_BUILD_OBJECT(
-+                                                JSON_BUILD_PAIR("chassisId", JSON_BUILD_STRING(chassis_id)),
-+                                                JSON_BUILD_PAIR("systemName", JSON_BUILD_STRING(system_name)),
-+                                                JSON_BUILD_PAIR_CONDITION(valid_cc, "enabledCapabilities", JSON_BUILD_UNSIGNED(cc)),
-+                                                JSON_BUILD_PAIR("portId", JSON_BUILD_STRING(port_id)),
-+                                                JSON_BUILD_PAIR_CONDITION(port_description, "portDescription", JSON_BUILD_STRING(port_description))))));
++                                JSON_BUILD_PAIR("chassisId", JSON_BUILD_STRING(chassis_id)),
++                                JSON_BUILD_PAIR("systemName", JSON_BUILD_STRING(system_name)),
++                                JSON_BUILD_PAIR_CONDITION(valid_cc, "enabledCapabilities", JSON_BUILD_UNSIGNED(cc)),
++                                JSON_BUILD_PAIR("portId", JSON_BUILD_STRING(port_id)),
++                                JSON_BUILD_PAIR_CONDITION(port_description, "portDescription", JSON_BUILD_STRING(port_description))));
 +}
 diff --git a/src/libsystemd-network/sd-lldp-rx.c b/src/libsystemd-network/sd-lldp-rx.c
-index 0479cff5f5..ec1a0bae54 100644
+index 03e8986049..32bc658eaa 100644
 --- a/src/libsystemd-network/sd-lldp-rx.c
 +++ b/src/libsystemd-network/sd-lldp-rx.c
 @@ -10,6 +10,7 @@
@@ -63,15 +62,16 @@ index 0479cff5f5..ec1a0bae54 100644
  #include "lldp-neighbor.h"
  #include "lldp-network.h"
  #include "lldp-rx-internal.h"
-@@ -491,7 +492,50 @@ int sd_lldp_rx_get_neighbors(sd_lldp_rx *lldp_rx, sd_lldp_neighbor ***ret) {
+@@ -491,7 +492,52 @@ int sd_lldp_rx_get_neighbors(sd_lldp_rx *lldp_rx, sd_lldp_neighbor ***ret) {
          return k;
  }
  
 -int sd_lldp_rx_set_neighbors_max(sd_lldp_rx *lldp_rx, uint64_t m) {
 +_public_ int sd_lldp_rx_get_neighbors_json(sd_lldp_rx *lldp, JsonVariant ***ret) {
-+        int i, j, r, n = 0;
++        int r;
 +        _cleanup_free_ sd_lldp_neighbor **l = NULL;
 +        JsonVariant **v = NULL;
++        size_t i, j, n;
 +
 +        assert_return(lldp, -EINVAL);
 +        assert_return(ret, -EINVAL);
@@ -79,6 +79,10 @@ index 0479cff5f5..ec1a0bae54 100644
 +        r = sd_lldp_rx_get_neighbors(lldp, &l);
 +        if (r < 0)
 +                return r;
++        if (r == 0) {
++                *ret = NULL;
++                return 0;
++        }
 +
 +        n = r;
 +
@@ -90,14 +94,11 @@ index 0479cff5f5..ec1a0bae54 100644
 +                r = sd_lldp_neighbor_build_json(l[i], v + i);
 +                if (r < 0)
 +                        goto clear;
-+                else
-+                        sd_lldp_neighbor_unref(l[i]);
++
++                sd_lldp_neighbor_unref(l[i]);
 +        }
 +
 +        *ret = v;
-+
-+        for (i = 0; i < n; j++)
-+
 +        return n;
 +
 +clear:
@@ -106,8 +107,8 @@ index 0479cff5f5..ec1a0bae54 100644
 +
 +        for (j = 0; j < i; j++)
 +                json_variant_unrefp(v + j);
-+
 +        free(v);
++
 +        return r;
 +}
 +
@@ -142,5 +143,5 @@ index 504d7f59c1..ec9b8edf76 100644
  /* Access to LLDP frame metadata */
  int sd_lldp_neighbor_get_source_address(sd_lldp_neighbor *n, struct ether_addr* address);
 -- 
-2.41.0
+2.42.0
 

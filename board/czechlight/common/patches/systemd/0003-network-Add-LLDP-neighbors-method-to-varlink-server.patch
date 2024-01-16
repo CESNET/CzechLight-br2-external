@@ -1,5 +1,5 @@
-From a4a99d8b33b07401f5f5098b668398dddb5321d3 Mon Sep 17 00:00:00 2001
-From: Tomas Pecka <peckato1@users.noreply.github.com>
+From 06880365be24c093a3704c2eb525762f71f8d332 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Pecka?= <tomas.pecka@cesnet.cz>
 Date: Wed, 1 Sep 2021 08:30:20 +0200
 Subject: [PATCH 3/7] network: Add LLDP neighbors method to varlink server
 
@@ -8,14 +8,14 @@ LLDP neighbors on a particular link. The method's argument is the ifindex
 of a link. The method then streams the JSONs representing individual
 neighbors as discovered by the LLDP protocol.
 ---
- src/network/networkd-varlink.c | 77 ++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+ src/network/networkd-varlink.c | 74 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 74 insertions(+)
 
 diff --git a/src/network/networkd-varlink.c b/src/network/networkd-varlink.c
-index 57d8acb967..5bc65c39b7 100644
+index 57d8acb967..30a1705b5e 100644
 --- a/src/network/networkd-varlink.c
 +++ b/src/network/networkd-varlink.c
-@@ -1,6 +1,76 @@
+@@ -1,6 +1,73 @@
  /* SPDX-License-Identifier: LGPL-2.1-or-later */
  
 +#include "alloc-util.h"
@@ -35,11 +35,12 @@ index 57d8acb967..5bc65c39b7 100644
 +                {}
 +        };
 +
-+        int r, i, n;
++        int r;
++        size_t i, n = 0;
 +        Manager *m;
 +        Link *l;
 +        LookupParameters p;
-+        JsonVariant **neighbors;
++        JsonVariant **neighbors = NULL;
 +
 +        assert(link);
 +
@@ -52,6 +53,8 @@ index 57d8acb967..5bc65c39b7 100644
 +        if (!FLAGS_SET(flags, VARLINK_METHOD_MORE))
 +                return -EINVAL;
 +
++        CLEANUP_ARRAY(neighbors, n, json_variant_unref_many);
++
 +        r = json_dispatch(parameters, dispatch_table, NULL, 0, &p);
 +        if (r < 0)
 +                return r;
@@ -60,39 +63,33 @@ index 57d8acb967..5bc65c39b7 100644
 +                return varlink_error_invalid_parameter(link, JSON_VARIANT_STRING_CONST("ifindex"));
 +
 +        r = link_get_by_index(m, p.ifindex, &l);
-+        if (r < 0)
++        if (r < 0 || l->lldp_rx == NULL)
 +                return varlink_error_invalid_parameter(link, JSON_VARIANT_STRING_CONST("ifindex"));
 +
 +        r = sd_lldp_rx_get_neighbors_json(l->lldp_rx, &neighbors);
 +        if (r < 0)
 +                return r;
 +        if (r == 0)
-+                return varlink_error(link, "io.systemd.Network.NoNeighborFound", NULL);
++                return varlink_error(link, "io.systemd.Network.NoRecordFound", NULL);
 +
 +        n = r;
++
 +        for (i = 0; i < n - 1; i++) {
 +                r = varlink_notify(link, neighbors[i]);
 +                if (r < 0)
-+                        goto clear;
++                        return r;
 +        }
 +
 +        r = varlink_reply(link, neighbors[i]);
 +        if (r < 0)
-+                goto clear;
++                return r;
 +
-+        r = 0;
-+
-+clear:
-+        for (i = 0; i < n; i++)
-+                json_variant_unref(neighbors[i]);
-+        free(neighbors);
-+
-+        return r;
++        return 0;
 +}
  
  int manager_varlink_init(Manager *m) {
          _cleanup_(varlink_server_unrefp) VarlinkServer *s = NULL;
-@@ -15,6 +85,10 @@ int manager_varlink_init(Manager *m) {
+@@ -15,6 +82,10 @@ int manager_varlink_init(Manager *m) {
          if (r < 0)
                  return log_error_errno(r, "Failed to allocate varlink server object: %m");
  
@@ -103,7 +100,7 @@ index 57d8acb967..5bc65c39b7 100644
          r = varlink_server_listen_address(s, "/run/systemd/netif/io.systemd.Network", 0666);
          if (r < 0)
                  return log_error_errno(r, "Failed to bind to varlink socket: %m");
-@@ -24,6 +98,9 @@ int manager_varlink_init(Manager *m) {
+@@ -24,6 +95,9 @@ int manager_varlink_init(Manager *m) {
                  return log_error_errno(r, "Failed to attach varlink connection to event loop: %m");
  
          m->varlink_server = TAKE_PTR(s);
@@ -114,5 +111,5 @@ index 57d8acb967..5bc65c39b7 100644
  }
  
 -- 
-2.41.0
+2.42.0
 
