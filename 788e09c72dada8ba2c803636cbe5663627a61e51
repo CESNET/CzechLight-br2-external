@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85573c3e_21627ec3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-16T10:00:01Z",
+      "side": 1,
+      "message": "it boots (checked through https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/6803/2 )",
+      "revId": "788e09c72dada8ba2c803636cbe5663627a61e51",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
