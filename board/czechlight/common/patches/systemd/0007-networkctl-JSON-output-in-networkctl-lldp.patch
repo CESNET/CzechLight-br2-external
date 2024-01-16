@@ -1,19 +1,19 @@
-From 49cc847aeedacaabdb285b7cdea0e6ccede6042e Mon Sep 17 00:00:00 2001
-From: Tomas Pecka <peckato1@users.noreply.github.com>
+From c458a7d3bf3463d236a10c0d945e30e7011c64fd Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Pecka?= <tomas.pecka@cesnet.cz>
 Date: Wed, 6 Oct 2021 10:11:31 +0200
 Subject: [PATCH 7/7] networkctl: JSON output in networkctl lldp
 
 `networkctl lldp` now outputs also in JSON format when `--json=*`
 argument passed. The LLDP neighbors are listed in per interface lists.
 ---
- src/network/networkctl.c | 84 +++++++++++++++++++++++++++++-----------
- 1 file changed, 62 insertions(+), 22 deletions(-)
+ src/network/networkctl.c | 83 ++++++++++++++++++++++++++++------------
+ 1 file changed, 59 insertions(+), 24 deletions(-)
 
 diff --git a/src/network/networkctl.c b/src/network/networkctl.c
-index 04a89e015f..2eb21ad4ff 100644
+index 1e5481c4d1..7842972d4e 100644
 --- a/src/network/networkctl.c
 +++ b/src/network/networkctl.c
-@@ -2467,12 +2467,14 @@ typedef struct LLDPUserdata {
+@@ -2628,12 +2628,14 @@ typedef struct LLDPUserdata {
          uint16_t capabilities_all;
  
          Table *table;
@@ -28,7 +28,16 @@ index 04a89e015f..2eb21ad4ff 100644
  }
  
  static int lldp_neighbors_varlink_reply(Varlink *link, JsonVariant *parameters, const char *error_id, VarlinkReplyFlags flags, void *userdata) {
-@@ -2516,6 +2518,34 @@ static int lldp_neighbors_varlink_reply(Varlink *link, JsonVariant *parameters,
+@@ -2664,7 +2666,7 @@ static int lldp_neighbors_varlink_reply(Varlink *link, JsonVariant *parameters,
+                 return r;
+ 
+         if (udata->table) {
+-                capabilities = lldp_capabilities_to_string(entry.capabilities, true);
++                capabilities = lldp_capabilities_to_string(entry.capabilities, /* dots= */ true);
+ 
+                 r = table_add_many(udata->table,
+                                 TABLE_STRING, udata->link_name,
+@@ -2680,6 +2682,30 @@ static int lldp_neighbors_varlink_reply(Varlink *link, JsonVariant *parameters,
          udata->neighbors_count += 1;
          udata->capabilities_all |= entry.capabilities;
  
@@ -36,18 +45,14 @@ index 04a89e015f..2eb21ad4ff 100644
 +                _cleanup_(json_variant_unrefp) JsonVariant *v = NULL;
 +                _cleanup_(json_variant_unrefp) JsonVariant *neighbors = NULL;
 +
-+                capabilities = lldp_capabilities_to_string(entry.capabilities, false);
++                capabilities = lldp_capabilities_to_string(entry.capabilities, /* dots= */ false);
 +
 +                r = json_build(&v, JSON_BUILD_OBJECT(
-+                                        JSON_BUILD_PAIR("neighbor", JSON_BUILD_OBJECT(
 +                                        JSON_BUILD_PAIR_CONDITION(entry.chassis_id, "chassisId", JSON_BUILD_STRING(entry.chassis_id)),
 +                                        JSON_BUILD_PAIR_CONDITION(entry.port_id, "portId", JSON_BUILD_STRING(entry.port_id)),
 +                                        JSON_BUILD_PAIR_CONDITION(entry.system_name, "systemName", JSON_BUILD_STRING(entry.system_name)),
 +                                        JSON_BUILD_PAIR_CONDITION(entry.port_description, "portDescription", JSON_BUILD_STRING(entry.port_description)),
-+                                        JSON_BUILD_PAIR_CONDITION(entry.capabilities, "enabledCapabilities", JSON_BUILD_STRING(capabilities))))));
-+                if (r < 0)
-+                        return r;
-+
++                                        JSON_BUILD_PAIR_CONDITION(entry.capabilities, "enabledCapabilities", JSON_BUILD_STRING(capabilities))));
 +
 +                neighbors = json_variant_ref(json_variant_by_key(udata->json, udata->link_name));
 +
@@ -63,15 +68,15 @@ index 04a89e015f..2eb21ad4ff 100644
          return 0;
  }
  
-@@ -2528,7 +2558,6 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
+@@ -2692,7 +2718,6 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
          _cleanup_(sd_netlink_unrefp) sd_netlink *rtnl = NULL;
          _cleanup_(link_info_array_freep) LinkInfo *links = NULL;
          _cleanup_(lldp_userdata_freep) LLDPUserdata udata = {};
 -        TableCell *cell;
  
-         r = varlink_connect_address(&link, address);
+         r = varlink_connect_address(&vlink, address);
          if (r < 0)
-@@ -2550,24 +2579,31 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
+@@ -2713,24 +2738,31 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
                  return c;
  
          pager_open(arg_pager_flags);
@@ -95,15 +100,15 @@ index 04a89e015f..2eb21ad4ff 100644
 -                                "port-description");
 -        if (!udata.table)
 -                return log_oom();
+-
+-        if (arg_full)
+-                table_set_width(udata.table, 0);
 +                if (arg_full)
 +                        table_set_width(udata.table, 0);
  
--        if (arg_full)
--                table_set_width(udata.table, 0);
+-        table_set_header(udata.table, arg_legend);
 +                table_set_header(udata.table, arg_legend);
  
--        table_set_header(udata.table, arg_legend);
--
 -        assert_se(cell = table_get_cell(udata.table, 0, 3));
 -        table_set_minimum_width(udata.table, cell, 11);
 -        table_set_ersatz_string(udata.table, TABLE_ERSATZ_DASH);
@@ -111,14 +116,14 @@ index 04a89e015f..2eb21ad4ff 100644
 +                table_set_minimum_width(udata.table, cell, 11);
 +                table_set_ersatz_string(udata.table, TABLE_ERSATZ_DASH);
 +        } else {
-+                r = json_build(&udata.json, JSON_BUILD_EMPTY_OBJECT);
++                r = json_variant_new_object(&udata.json, NULL, 0);
 +                if (r < 0)
 +                        return r;
 +        }
  
-         varlink_set_userdata(link, &udata);
+         varlink_set_userdata(vlink, &udata);
  
-@@ -2590,13 +2626,17 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
+@@ -2753,14 +2785,17 @@ static int link_lldp_status(int argc, char *argv[], void *userdata) {
                          return r;
          }
  
@@ -133,15 +138,16 @@ index 04a89e015f..2eb21ad4ff 100644
 -        if (arg_legend) {
 -                lldp_capabilities_legend(udata.capabilities_all);
 -                printf("\n%i neighbors listed.\n", udata.neighbors_count);
+-        }
 +                if (arg_legend) {
 +                        lldp_capabilities_legend(udata.capabilities_all);
 +                        printf("\n%i neighbors listed.\n", udata.neighbors_count);
 +                }
-+        } else {
++        } else
 +                json_variant_dump(udata.json, arg_json_format_flags, NULL, NULL);
-         }
  
          return 0;
+ }
 -- 
-2.41.0
+2.42.0
 
