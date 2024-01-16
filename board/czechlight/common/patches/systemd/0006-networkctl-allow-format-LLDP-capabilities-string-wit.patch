@@ -1,5 +1,5 @@
-From a36487ec3e3a5d1bbfb11747bf48354c962a097a Mon Sep 17 00:00:00 2001
-From: Tomas Pecka <peckato1@users.noreply.github.com>
+From 3f21bc6e454283e65e6175cae9156737cea2bf73 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Tom=C3=A1=C5=A1=20Pecka?= <tomas.pecka@cesnet.cz>
 Date: Wed, 15 Sep 2021 14:30:19 +0200
 Subject: [PATCH 6/7] networkctl: allow format LLDP capabilities string without
  dots
@@ -11,10 +11,10 @@ representing "not enabled" (just omit them).
  1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/src/network/networkctl.c b/src/network/networkctl.c
-index bab6cf5433..04a89e015f 100644
+index 1d365f135b..1e5481c4d1 100644
 --- a/src/network/networkctl.c
 +++ b/src/network/networkctl.c
-@@ -2391,21 +2391,24 @@ static int link_status(int argc, char *argv[], void *userdata) {
+@@ -2562,21 +2562,24 @@ static int link_status(int argc, char *argv[], void *userdata) {
          return 0;
  }
  
@@ -25,7 +25,7 @@ index bab6cf5433..04a89e015f 100644
          };
          char *ret;
 -        unsigned i;
-+        unsigned i, j;
++        size_t i, j;
  
          ret = new(char, ELEMENTSOF(characters) + 1);
          if (!ret)
@@ -44,7 +44,7 @@ index bab6cf5433..04a89e015f 100644
          return ret;
  }
  
-@@ -2497,7 +2500,7 @@ static int lldp_neighbors_varlink_reply(Varlink *link, JsonVariant *parameters,
+@@ -2661,7 +2664,7 @@ static int lldp_neighbors_varlink_reply(Varlink *link, JsonVariant *parameters,
                  return r;
  
          if (udata->table) {
@@ -54,5 +54,5 @@ index bab6cf5433..04a89e015f 100644
                  r = table_add_many(udata->table,
                                  TABLE_STRING, udata->link_name,
 -- 
-2.41.0
+2.42.0
 
