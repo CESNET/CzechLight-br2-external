@@ -1,7 +1,10 @@
 - hosts: all
   tasks:
-    - name: install perl-English
+    - name: install required packages
       package:
-        name: perl-English
+        name: "{{ item }}"
         state: present
       become: true
+      with_items:
+        - perl-English
+        - perl-IPC-Cmd
