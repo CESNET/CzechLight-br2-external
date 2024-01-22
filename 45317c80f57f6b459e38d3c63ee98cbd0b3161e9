@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41148b0d_04104dde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-01-22T12:15:11Z",
+      "side": 1,
+      "message": "Michal H. confirmed that this boots, yay!",
+      "revId": "45317c80f57f6b459e38d3c63ee98cbd0b3161e9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
