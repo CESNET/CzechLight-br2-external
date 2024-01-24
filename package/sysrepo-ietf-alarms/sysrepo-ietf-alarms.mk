@@ -2,7 +2,7 @@ SYSREPO_IETF_ALARMS_VERSION = master
 SYSREPO_IETF_ALARMS_SITE = https://gerrit.cesnet.cz/CzechLight/sysrepo-ietf-alarms
 SYSREPO_IETF_ALARMS_SITE_METHOD = git
 SYSREPO_IETF_ALARMS_INSTALL_STAGING = NO
-SYSREPO_IETF_ALARMS_DEPENDENCIES = docopt-cpp spdlog date sysrepo sysrepo-cpp
+SYSREPO_IETF_ALARMS_DEPENDENCIES = docopt-cpp spdlog date sysrepo sysrepo-cpp boost
 SYSREPO_IETF_ALARMS_LICENSE = Apache-2.0
 SYSREPO_IETF_ALARMS_LICENSE_FILES = LICENSE.md
 
