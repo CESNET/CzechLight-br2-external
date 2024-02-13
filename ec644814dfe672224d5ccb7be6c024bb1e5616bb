@@ -16,6 +16,23 @@
       "message": "The commit looks good (+1). Let!s see what happens on real device.",
       "revId": "ec644814dfe672224d5ccb7be6c024bb1e5616bb",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f9c622d_86cc51fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-02-13T18:22:35Z",
+      "side": 1,
+      "message": "it boots and it works, yay",
+      "revId": "ec644814dfe672224d5ccb7be6c024bb1e5616bb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
