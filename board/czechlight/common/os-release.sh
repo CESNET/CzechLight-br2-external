@@ -14,6 +14,7 @@ NETCONF_CLI_REV=$(czechlight_describe_git $(czechlight_query_local_make_var NETC
 GAMMARUS_REV=$(czechlight_describe_git $(czechlight_query_local_make_var GAMMARUS_OVERRIDE_SRCDIR))
 VELIA_REV=$(czechlight_describe_git $(czechlight_query_local_make_var VELIA_OVERRIDE_SRCDIR))
 ROUSETTE_REV=$(czechlight_describe_git $(czechlight_query_local_make_var ROUSETTE_OVERRIDE_SRCDIR))
+SYSREPO_IETF_ALARMS_REV=$(czechlight_describe_git $(czechlight_query_local_make_var SYSREPO_IETF_ALARMS_OVERRIDE_SRCDIR))
 
 # CzechLight/dependencies might come either from a git submodule, or from a Zuul change enqueued before this one
 CLA_CPP_DEPENDENCIES_REV=$(czechlight_describe_git $(czechlight_query_local_make_var LIBYANG_OVERRIDE_SRCDIR)/..)
@@ -38,4 +39,5 @@ CPP_DEPENDENCIES_VERSION=${CLA_CPP_DEPENDENCIES_REV}
 GAMMARUS_VERSION=${GAMMARUS_REV}
 VELIA_VERSION=${VELIA_REV}
 ROUSETTE_VERSION=${ROUSETTE_REV}
+SYSREPO_IETF_ALARMS_VERSION=${SYSREPO_IETF_ALARMS_REV}
 EOF
