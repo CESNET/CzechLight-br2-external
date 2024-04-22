@@ -97,7 +97,7 @@ make source -j${CI_PARALLEL_JOBS} --output-sync=target
 make -j${CI_PARALLEL_JOBS} --output-sync=target rootfs-czechlight-rauc
 mv images/update.raucb ~/zuul-output/artifacts/
 
-PATH="$PATH:$(pwd)/host/bin/" pytest -vv ${ZUUL_PROJECT_SRC_DIR}/tests/czechlight-cfg-fs/migrations.py
+make czechlight-cfg-fs-test-migrations
 
 # TODO: USB image as well? (`fallocate -d` to make it sparse)
 # TODO: make legal-info
