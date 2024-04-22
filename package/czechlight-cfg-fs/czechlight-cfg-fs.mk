@@ -1,5 +1,13 @@
 CZECHLIGHT_CFG_FS_INSTALL_IMAGES = YES
-CZECHLIGHT_CFG_FS_DEPENDENCIES = host-e2fsprogs host-libyang netopeer2 systemd
+CZECHLIGHT_CFG_FS_DEPENDENCIES = \
+	host-e2fsprogs \
+	host-sysrepo \
+	systemd \
+	netopeer2 \
+	rousette \
+	sysrepo-ietf-alarms \
+	velia \
+	cla-sysrepo
 
 CZECHLIGHT_CFG_FS_LOCATION = $(BINARIES_DIR)/cfg.ext4
 
@@ -67,5 +75,17 @@ OPENSSH_POST_INSTALL_TARGET_HOOKS += CZECHLIGHT_CFG_FS_OPENSSH_AUTH_PATH_PATCH
 NETOPEER2_CONF_OPTS += \
 		      -DNP2SRV_SSH_AUTHORIZED_KEYS_PATTERN="/cfg/ssh-user-auth/%s" \
 		      -DNP2SRV_SSH_AUTHORIZED_KEYS_ARG_IS_USERNAME=ON
+
+.PHONY: czechlight-cfg-fs-test-migrations
+czechlight-cfg-fs-test-migrations: PKG=czechlight-cfg-fs
+czechlight-cfg-fs-test-migrations: $(PKG)_NAME=czechlight-cfg-fs
+czechlight-cfg-fs-test-migrations: $(BUILD_DIR)/czechlight-cfg-fs/.stamp_configured
+	PATH=$(BR_PATH) \
+		CLA_SYSREPO_SRCDIR=$(CLA_SYSREPO_SRCDIR) \
+		VELIA_SRCDIR=$(VELIA_SRCDIR) \
+		SYSREPO_IETF_ALARMS_SRCDIR=$(SYSREPO_IETF_ALARMS_SRCDIR) \
+		ROUSETTE_SRCDIR=$(ROUSETTE_SRCDIR) \
+		NETOPEER2_SRCDIR=$(NETOPEER2_SRCDIR) \
+		pytest -vv $(BR2_EXTERNAL_CZECHLIGHT_PATH)/tests/czechlight-cfg-fs/migrations.py
 
 $(eval $(generic-package))

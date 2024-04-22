@@ -19,12 +19,6 @@ MIGRATE_SCRIPT_PATH = BR2_ROOT / 'package/czechlight-cfg-fs/czechlight-migrate.s
 MIGRATE_DEFINITIONS_PATH = BR2_ROOT / 'package/czechlight-cfg-fs/czechlight-migration-list.sh'
 NETOPEER_SCRIPT_PATH = BR2_ROOT / 'submodules/buildroot/package/netopeer2/setup.sh'
 
-CLA_SYSREPO_PATH = BR2_ROOT / 'submodules/cla-sysrepo'
-VELIA_PATH = BR2_ROOT / 'submodules/velia'
-ROUSETTE_PATH = BR2_ROOT / 'submodules/rousette'
-ALARMS_PATH = BR2_ROOT / 'submodules/sysrepo-ietf-alarms'
-NETOPEER2_PATH = BR2_ROOT / 'submodules/dependencies/Netopeer2'
-
 
 def run_and_wait(ctx, desc, command_args):
     print(f'executing {desc}')
@@ -68,14 +62,14 @@ class SysrepoFixture:
         res = os.environ.copy()
         res['SYSREPO_SHM_PREFIX'] = self.test_name
         res['SYSREPO_REPOSITORY_PATH'] = self._running_directory / 'sysrepo_repository'
-        res['CLA_YANG'] = CLA_SYSREPO_PATH / 'yang'
-        res['VELIA_YANG'] = VELIA_PATH / 'yang'
-        res['ROUSETTE_YANG'] = ROUSETTE_PATH / 'yang'
-        res['ALARMS_YANG'] = ALARMS_PATH / 'yang'
+        res['CLA_YANG'] = pathlib.Path(os.environ['CLA_SYSREPO_SRCDIR']) / 'yang'
+        res['VELIA_YANG'] = pathlib.Path(os.environ['VELIA_SRCDIR']) / 'yang'
+        res['ROUSETTE_YANG'] = pathlib.Path(os.environ['ROUSETTE_SRCDIR']) / 'yang'
+        res['ALARMS_YANG'] = pathlib.Path(os.environ['SYSREPO_IETF_ALARMS_SRCDIR']) / 'yang'
         res['PROC_CMDLINE'] = self.proc_cmdline
         res['CFG_VERSION_FILE'] = self.version_file
         res['CFG_STARTUP_FILE'] = self.startup_file
-        res['NP2_MODULE_DIR'] = NETOPEER2_PATH / 'modules'
+        res['NP2_MODULE_DIR'] = pathlib.Path(os.environ['NETOPEER2_SRCDIR']) / 'modules'
         res['NP2_MODULE_PERMS'] = '0600'
         res['USER'] = os.getlogin()
         return res
