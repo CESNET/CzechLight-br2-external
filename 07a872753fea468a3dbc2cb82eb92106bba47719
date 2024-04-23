@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "234c4579_5d5a3a34",
+        "filename": "package/czechlight-cfg-fs/czechlight-cfg-fs.mk",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-04-23T19:19:19Z",
+      "side": 1,
+      "message": "wow",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 83
+      },
+      "revId": "07a872753fea468a3dbc2cb82eb92106bba47719",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
