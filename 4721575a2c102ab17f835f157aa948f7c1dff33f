@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf89b327_a87eb3f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-04-25T05:38:50Z",
+      "side": 1,
+      "message": "Looks ok. \nI am only thinking about the possibility of generating the list of all the variables from project names. If one adds a new project there it has to be added to several places of the file (_REV, _VERSION and into CACHED_LOCAL_VARS). But it is probably not worth it.",
+      "revId": "4721575a2c102ab17f835f157aa948f7c1dff33f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
