@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "339c6391_80a6b16d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-04-30T12:58:54Z",
+      "side": 1,
+      "message": "This needs the netconf stack to upgrade to v3 first.",
+      "revId": "4d708d55d7a7967bc61157e2a2b6f0d543931cbe",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
