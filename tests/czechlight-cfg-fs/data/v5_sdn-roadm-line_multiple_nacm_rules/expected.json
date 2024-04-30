@@ -51,6 +51,20 @@
                         "path": "/czechlight-system:authentication/users[name=$USER]"
                     }
                 ]
+            },
+            {
+                "name": "Permit yangnobody user/group to read only some modules",
+                "group": [
+                    "yangnobody"
+                ],
+                "rule": [
+                    {
+                        "name": "ietf-restconf-monitoring",
+                        "module-name": "ietf-restconf-monitoring",
+                        "action": "permit",
+                        "access-operations": "read"
+                    }
+                ]
             }
         ]
     }
