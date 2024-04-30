@@ -5,4 +5,5 @@ MIGRATION_FILES=(
     '0004_nacm.sh'
     '0005_nacm_anonymous_user.sh'
     '0006_nacm_authentication_rpcs.sh'
+    '0007_nacm_anonymous_user_monitoring.sh'
 )
