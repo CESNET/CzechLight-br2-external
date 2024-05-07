@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import glob
 import json
 import re
 import os
@@ -58,9 +59,12 @@ class SysrepoFixture:
         self.version_file = self._running_directory / 'version'
         shutil.copy(version_file, self.version_file)
 
+        # all tests must run with clean sysrepo state
+        self._shm_prefix = 'br2-migr-' + self.test_name
+
     def get_env(self):
         res = os.environ.copy()
-        res['SYSREPO_SHM_PREFIX'] = self.test_name
+        res['SYSREPO_SHM_PREFIX'] = self._shm_prefix
         res['SYSREPO_REPOSITORY_PATH'] = self._running_directory / 'sysrepo_repository'
         res['CLA_YANG'] = pathlib.Path(os.environ['CLA_SYSREPO_SRCDIR']) / 'yang'
         res['VELIA_YANG'] = pathlib.Path(os.environ['VELIA_SRCDIR']) / 'yang'
@@ -103,6 +107,9 @@ def find_test_directories():
 
 @pytest.mark.parametrize("sysrepo_fixture", find_test_directories(), indirect=True)
 def test(sysrepo_fixture, max_version):
+    # clean SHM state
+    for f in glob.glob(f'/dev/shm/{sysrepo_fixture._shm_prefix}*'):
+        os.remove(f)
     # prepare sysrepo
     run_and_wait(sysrepo_fixture, 'netopeer2 setup.sh', [NETOPEER_SCRIPT_PATH])
     run_and_wait(sysrepo_fixture, 'czechlight-install-yang.sh', [INSTALL_SCRIPT_PATH])
