@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc0decb8_f751b927",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-05-07T20:05:24Z",
+      "side": 1,
+      "message": "Well it looks good on gerrit. Does it boot does the NACM behave as expected?",
+      "revId": "09402a29f12239a3f5cec6ed035f22b15d408ead",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
