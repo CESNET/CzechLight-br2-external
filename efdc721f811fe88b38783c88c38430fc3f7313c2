@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db497d55_cad0417f",
+        "filename": "package/czechlight-cfg-fs/czechlight-install-yang.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-05-07T19:23:29Z",
+      "side": 1,
+      "message": "Watch out, wild tabs appeared :)",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 1
+      },
+      "revId": "efdc721f811fe88b38783c88c38430fc3f7313c2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
