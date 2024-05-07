@@ -34,6 +34,24 @@
       "parentUuid": "9abdf581_301e1aed",
       "revId": "f5b0d19a155070bc9fee57c2deb736b0a023604f",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e9b0d8d_680c86c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-07T11:51:02Z",
+      "side": 1,
+      "message": "It\u0027s a string with no cross-references. For example, all these devices already refer to YANG models for all of the ROADM/amp/coherent-AD/... boxes, and it works just fine.",
+      "parentUuid": "9ea4dd67_2076a166",
+      "revId": "f5b0d19a155070bc9fee57c2deb736b0a023604f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
