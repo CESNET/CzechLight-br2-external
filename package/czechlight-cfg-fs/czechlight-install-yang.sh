@@ -6,6 +6,7 @@ YANG_ROADM=0
 YANG_COHERENT=0
 YANG_INLINE=0
 YANG_CALIBRATION=0
+YANG_BIDI=0
 
 CLA_YANG="${CLA_YANG:-/usr/share/cla-sysrepo/yang}"
 VELIA_YANG="${VELIA_YANG:-/usr/share/velia/yang}"
@@ -46,6 +47,15 @@ case "${CZECHLIGHT}" in
     calibration-box)
         YANG_CALIBRATION=1
         ;;
+    sdn-bidi-cplus1572-g2)
+        YANG_BIDI=1
+        BIDI_FEATURES="dualband-c-plus-1572"
+        ;;
+    sdn-bidi-cplus1572-ocm-g2)
+        YANG_BIDI=1
+        BIDI_FEATURES="dualband-c-plus-1572 c-band-ocm"
+        INITIAL_DATA=sdn-bidi-cplus1572
+        ;;
 esac
 
 sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/iana-hardware@2018-03-13.yang
@@ -73,6 +83,14 @@ fi
 
 if [[ ${YANG_CALIBRATION} == 1 ]]; then
     sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-calibration-device@2019-06-25.yang --permissions 0660
+fi
+
+if [[ ${YANG_BIDI} == 1 ]]; then
+    FEATURE_ARGS=""
+    for FEATURE in ${BIDI_FEATURES}; do
+        FEATURE_ARGS="${FEATURE_ARGS} --enable-feature ${FEATURE}"
+    done
+    sysrepoctl --search-dirs ${CLA_YANG} --install ${CLA_YANG}/czechlight-bidi-amp@2022-03-22.yang ${FEATURE_ARGS} --permissions 0660
 fi
 
 sysrepoctl --search-dirs ${ALARMS_YANG} --install ${ALARMS_YANG}/ietf-alarms@2019-09-11.yang --permissions 0660 --enable-feature alarm-shelving --enable-feature alarm-summary
