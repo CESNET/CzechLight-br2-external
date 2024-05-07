@@ -16,6 +16,24 @@
       "message": "I\u0027m going to change this so that the repo is not updated, and only the NACM data are tweaked. That one can get in, and then the clearfog builds which are done though rousette\u0027s changes should hopefully start working.",
       "revId": "f5b0d19a155070bc9fee57c2deb736b0a023604f",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ea4dd67_2076a166",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-05-07T11:45:24Z",
+      "side": 1,
+      "message": "Will this work? The ietf-restconf-monitoring module is not installed (my bad) and I think this should fail when the NACM module\u0027s datastore starts refering to ietf-restconf-monitoring.",
+      "parentUuid": "9abdf581_301e1aed",
+      "revId": "f5b0d19a155070bc9fee57c2deb736b0a023604f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
