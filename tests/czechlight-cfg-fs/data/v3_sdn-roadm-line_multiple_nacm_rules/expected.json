@@ -20,6 +20,12 @@
             "access-operations": "read"
           },
           {
+            "name": "czechlight-bidi-amp",
+            "module-name": "czechlight-bidi-amp",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
             "name": "czechlight-coherent-add-drop",
             "module-name": "czechlight-coherent-add-drop",
             "action": "permit",
@@ -124,6 +130,11 @@
           {
             "name": "czechlight-inline-amp",
             "module-name": "czechlight-inline-amp",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-bidi-amp",
+            "module-name": "czechlight-bidi-amp",
             "action": "permit"
           },
           {

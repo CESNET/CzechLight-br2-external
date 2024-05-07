@@ -24,6 +24,8 @@ define CLA_SYSREPO_INSTALL_INIT_SYSTEMD
 	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-roadm-coherent-a-d)
 	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-inline)
 	$(call CLA_SYSREPO_PREPARE_SERVICE,calibration-box)
+	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-bidi-cplus1572)
+	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-bidi-cplus1572-ocm)
 endef
 
 # FIXME: calibration-box really needs a drop-in file with increased timeout...
