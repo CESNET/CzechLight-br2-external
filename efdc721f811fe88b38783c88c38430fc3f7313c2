@@ -22,6 +22,30 @@
       },
       "revId": "efdc721f811fe88b38783c88c38430fc3f7313c2",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16e3934c_ce6fdd91",
+        "filename": "package/czechlight-cfg-fs/czechlight-install-yang.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-05-07T19:45:20Z",
+      "side": 1,
+      "message": "all wild tabs have been exterminated",
+      "parentUuid": "db497d55_cad0417f",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 1
+      },
+      "revId": "efdc721f811fe88b38783c88c38430fc3f7313c2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
