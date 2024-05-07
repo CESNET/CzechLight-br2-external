@@ -20,6 +20,8 @@ define RESET_SYSREPO_INSTALL_TARGET_CMDS
 		cla-sdn-roadm-coherent-a-d.service \
 		cla-sdn-roadm-hires-drop.service \
 		cla-sdn-roadm-line.service \
+		cla-sdn-bidi-cplus1572.service \
+		cla-sdn-bidi-cplus1572-ocm.service \
 		netopeer2.service \
 		sysrepo-ietf-alarms.service \
 		sysrepo-persistent-cfg.service \

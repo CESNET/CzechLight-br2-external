@@ -24,6 +24,11 @@
                         "action": "permit"
                     },
                     {
+                        "name": "czechlight-bidi-amp",
+                        "module-name": "czechlight-bidi-amp",
+                        "action": "permit"
+                    },
+                    {
                         "name": "czechlight-coherent-add-drop",
                         "module-name": "czechlight-coherent-add-drop",
                         "action": "permit"
