@@ -244,7 +244,7 @@ index 1f10f5c8e34d..25bde84af1cc 100644
  
  	orion_spi = spi_controller_get_devdata(spi->controller);
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index db3204d2a305..698567890e7b 100644
+index e339abff926d..2a74aab60d79 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
 @@ -27,9 +27,11 @@
@@ -259,48 +259,7 @@ index db3204d2a305..698567890e7b 100644
  
  /* MAX310X register definitions */
  #define MAX310X_RHR_REG			(0x00) /* RX FIFO */
-@@ -237,6 +239,10 @@
- #define MAX310x_REV_MASK		(0xf8)
- #define MAX310X_WRITE_BIT		0x80
- 
-+/* Timeout for external crystal stability */
-+#define MAX310X_XTAL_WAIT_RETRIES	20
-+#define MAX310X_XTAL_WAIT_DELAY_MS	10
-+
- /* MAX3107 specific */
- #define MAX3107_REV_ID			(0xa0)
- 
-@@ -641,11 +647,14 @@ static u32 max310x_set_ref_clk(struct device *dev, struct max310x_port *s,
- 
- 	/* Wait for crystal */
- 	if (xtal) {
--		unsigned int val;
--		msleep(10);
--		regmap_read(s->regmap, MAX310X_STS_IRQSTS_REG, &val);
-+		unsigned int val = 0, i;
-+		for (i = 0; i < MAX310X_XTAL_WAIT_RETRIES && !(val & MAX310X_STS_CLKREADY_BIT); ++i) {
-+			msleep(MAX310X_XTAL_WAIT_DELAY_MS);
-+			regmap_read(s->regmap, MAX310X_STS_IRQSTS_REG, &val);
-+		}
- 		if (!(val & MAX310X_STS_CLKREADY_BIT)) {
--			dev_warn(dev, "clock is not stable yet\n");
-+			dev_err(dev, "clock is not stable\n");
-+			return -EAGAIN;
- 		}
- 	}
- 
-@@ -1349,6 +1358,10 @@ static int max310x_probe(struct device *dev, const struct max310x_devtype *devty
- 	}
- 
- 	uartclk = max310x_set_ref_clk(dev, s, freq, xtal);
-+	if (uartclk < 0) {
-+		ret = uartclk;
-+		goto out_uart;
-+	}
- 	dev_dbg(dev, "Reference clock set to %i Hz\n", uartclk);
- 
- 	for (i = 0; i < devtype->nr; i++) {
-@@ -1485,6 +1498,15 @@ static struct regmap_config regcfg = {
+@@ -1518,6 +1520,15 @@ static struct regmap_config regcfg = {
  	.max_raw_write = MAX310X_FIFO_SIZE,
  };
  
@@ -316,7 +275,7 @@ index db3204d2a305..698567890e7b 100644
  #ifdef CONFIG_SPI_MASTER
  static int max310x_spi_extended_reg_enable(struct device *dev, bool enable)
  {
-@@ -1502,7 +1524,7 @@ static const struct max310x_if_cfg __maybe_unused max310x_spi_if_cfg = {
+@@ -1535,7 +1546,7 @@ static const struct max310x_if_cfg __maybe_unused max310x_spi_if_cfg = {
  static int max310x_spi_probe(struct spi_device *spi)
  {
  	const struct max310x_devtype *devtype;
@@ -325,7 +284,7 @@ index db3204d2a305..698567890e7b 100644
  	unsigned int i;
  	int ret;
  
-@@ -1520,6 +1542,8 @@ static int max310x_spi_probe(struct spi_device *spi)
+@@ -1553,6 +1564,8 @@ static int max310x_spi_probe(struct spi_device *spi)
  
  	for (i = 0; i < devtype->nr; i++) {
  		u8 port_mask = i * 0x20;
@@ -334,16 +293,16 @@ index db3204d2a305..698567890e7b 100644
  		regcfg.read_flag_mask = port_mask;
  		regcfg.write_flag_mask = port_mask | MAX310X_WRITE_BIT;
  		regmaps[i] = devm_regmap_init_spi(spi, &regcfg);
-@@ -1605,7 +1629,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
- 	const struct max310x_devtype *devtype =
- 			device_get_match_data(&client->dev);
+@@ -1637,7 +1650,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+ {
+ 	const struct max310x_devtype *devtype;
  	struct i2c_client *port_client;
 -	struct regmap *regmaps[4];
 +	struct regmap *regmaps[MAX310X_MAX_PORTS];
  	unsigned int i;
  	u8 port_addr;
  
-@@ -1616,6 +1640,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+@@ -1652,6 +1665,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
  				     client->addr, devtype->slave_addr.min,
  				     devtype->slave_addr.max);
  
@@ -351,7 +310,7 @@ index db3204d2a305..698567890e7b 100644
  	regmaps[0] = devm_regmap_init_i2c(client, &regcfg_i2c);
  
  	for (i = 1; i < devtype->nr; i++) {
-@@ -1624,6 +1649,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+@@ -1660,6 +1674,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
  							client->adapter,
  							port_addr);
  
@@ -360,7 +319,7 @@ index db3204d2a305..698567890e7b 100644
  	}
  
 diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-index 86569f230e60..b69ab2ae77c6 100644
+index b97224a8a65b..00f43dd9edaf 100644
 --- a/tools/perf/Makefile.perf
 +++ b/tools/perf/Makefile.perf
 @@ -188,7 +188,7 @@ HOSTLD  ?= ld
