@@ -1,0 +1,23 @@
+{
+  "ietf-netconf-acm:nacm": {
+    "rule-list": [
+      {
+        "name": "Allow DWDM control to the optics group",
+        "group": [
+          "optics"
+        ],
+        "rule": [
+          {
+            "@": {
+              "yang:insert": "after",
+              "yang:key": "[name='czechlight-inline-amp']"
+            },
+            "name": "czechlight-bidi-amp",
+            "module-name": "czechlight-bidi-amp",
+            "action": "permit"
+          }
+        ]
+      }
+    ]
+  }
+}
