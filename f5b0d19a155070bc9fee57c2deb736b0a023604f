@@ -52,6 +52,24 @@
       "parentUuid": "9ea4dd67_2076a166",
       "revId": "f5b0d19a155070bc9fee57c2deb736b0a023604f",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c028f4b_a82be3f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-05-07T17:59:23Z",
+      "side": 1,
+      "message": "Of course, it is the path leaf must contain a valid path. Sorry for confusion.",
+      "parentUuid": "4e9b0d8d_680c86c0",
+      "revId": "f5b0d19a155070bc9fee57c2deb736b0a023604f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
