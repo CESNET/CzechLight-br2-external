@@ -35,13 +35,11 @@ if [[ -f /lib/libsysrepo.so.0.7 ]]; then
   rm -rf ${RAUC_SLOT_MOUNT_POINT}/etc/sysrepo
   # No more netopeer2-keystored, different config
   rm -rf ${RAUC_SLOT_MOUNT_POINT}/etc/keystored
-  echo "sysrepo configuration not preserved"
+  echo "sysrepo configuration not preserved (incompatible layout, too old version, standalone keystored)"
 elif [[ -d /cfg/etc/sysrepo ]]; then
   # switch from "persisting whole /etc/sysrepo" to "exporting config via JSON"
   rm -rf ${RAUC_SLOT_MOUNT_POINT}/etc/sysrepo
-  umask 0077
-  mkdir ${RAUC_SLOT_MOUNT_POINT}/sysrepo
-  sysrepocfg -d startup -f json -X > ${RAUC_SLOT_MOUNT_POINT}/sysrepo/startup.json
+  echo "sysrepo configuration not preserved (copy of the whole /etc/sysrepo)"
 fi
 
 exit 0
