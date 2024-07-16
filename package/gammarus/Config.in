@@ -1,6 +1,5 @@
 config BR2_PACKAGE_GAMMARUS
 	bool "gammarus"
-	select BR2_PACKAGE_SOCAT
 	select BR2_PACKAGE_NGHTTP2_APPS
 	help
 	  Web dashboard for CzechLight devices
