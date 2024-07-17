@@ -22,6 +22,30 @@
       },
       "revId": "da1efbc8026ba3c807c92e3bf3cdfb3d656a3ab2",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "069c17b8_16b2629e",
+        "filename": "package/czechlight-rauc/rauc-hook.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-07-17T11:36:36Z",
+      "side": 1,
+      "message": "many, many winters ago, it was a standalone thingy for key management, https://github.com/CESNET/netopeer2/tree/legacy/keystored . We got rid of that at the end of 2020 via https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/3126",
+      "parentUuid": "8de5650c_3f6ac1bb",
+      "range": {
+        "startLine": 38,
+        "startChar": 83,
+        "endLine": 38,
+        "endChar": 103
+      },
+      "revId": "da1efbc8026ba3c807c92e3bf3cdfb3d656a3ab2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
