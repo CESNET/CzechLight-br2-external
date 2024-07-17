@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8de5650c_3f6ac1bb",
+        "filename": "package/czechlight-rauc/rauc-hook.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-07-17T07:49:18Z",
+      "side": 1,
+      "message": "What does this mean?",
+      "range": {
+        "startLine": 38,
+        "startChar": 83,
+        "endLine": 38,
+        "endChar": 103
+      },
+      "revId": "da1efbc8026ba3c807c92e3bf3cdfb3d656a3ab2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
