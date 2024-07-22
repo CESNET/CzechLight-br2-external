@@ -85,6 +85,7 @@ czechlight-cfg-fs-test-migrations: $(BUILD_DIR)/czechlight-cfg-fs/.stamp_configu
 		VELIA_SRCDIR=$(VELIA_SRCDIR) \
 		SYSREPO_IETF_ALARMS_SRCDIR=$(SYSREPO_IETF_ALARMS_SRCDIR) \
 		ROUSETTE_SRCDIR=$(ROUSETTE_SRCDIR) \
+		LIBNETCONF2_SRCDIR=$(LIBNETCONF2_SRCDIR) \
 		NETOPEER2_SRCDIR=$(NETOPEER2_SRCDIR) \
 		pytest -vv $(BR2_EXTERNAL_CZECHLIGHT_PATH)/tests/czechlight-cfg-fs/migrations.py
 
