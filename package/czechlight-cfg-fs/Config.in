@@ -2,6 +2,8 @@ config BR2_PACKAGE_CZECHLIGHT_CFG_FS
 	bool "Prepare persistent /cfg partition and /etc overlay. Install required YANG models."
 	depends on BR2_INIT_SYSTEMD
 	depends on BR2_PACKAGE_NETOPEER2
+	select BR2_PACKAGE_HOST_JQ
+	select BR2_PACKAGE_JQ
 	help
 	  This is required for RAUC to work properly.  It creates a blank FS
 	  image, configures systemd to mount it, and ensures that its contents

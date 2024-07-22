@@ -18,13 +18,20 @@ done
 
 case "${CZECHLIGHT}" in
     sdn-roadm-line*)
-        DEVICE_YANG="--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang --enable-feature hw-line-9"
+        DEVICE_YANG="\
+            --install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang \
+                --enable-feature hw-line-9"
         ;;
     sdn-roadm-add-drop*)
-        DEVICE_YANG="--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang --enable-feature hw-add-drop-20"
+        DEVICE_YANG="\
+            --install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang \
+                --enable-feature hw-add-drop-20"
         ;;
     sdn-roadm-hires-add-drop*)
-        DEVICE_YANG="--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang --enable-feature hw-add-drop-20 --enable-feature pre-wss-ocm"
+        DEVICE_YANG="\
+            --install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang \
+                --enable-feature hw-add-drop-20 \
+                --enable-feature pre-wss-ocm"
         ;;
     sdn-roadm-coherent-a-d*)
         DEVICE_YANG="--install ${CLA_YANG}/czechlight-coherent-add-drop@2021-03-05.yang"
@@ -36,10 +43,15 @@ case "${CZECHLIGHT}" in
         DEVICE_YANG="--install ${CLA_YANG}/czechlight-calibration-device@2019-06-25.yang"
         ;;
     sdn-bidi-cplus1572-g2)
-        DEVICE_YANG="--install ${CLA_YANG}/czechlight-bidi-amp@2022-03-22.yang --enable-feature dualband-c-plus-1572"
+        DEVICE_YANG="\
+            --install ${CLA_YANG}/czechlight-bidi-amp@2022-03-22.yang \
+                --enable-feature dualband-c-plus-1572"
         ;;
     sdn-bidi-cplus1572-ocm-g2)
-        DEVICE_YANG="--install ${CLA_YANG}/czechlight-bidi-amp@2022-03-22.yang --enable-feature dualband-c-plus-1572 --enable-feature c-band-ocm"
+        DEVICE_YANG="\
+            --install ${CLA_YANG}/czechlight-bidi-amp@2022-03-22.yang \
+                --enable-feature dualband-c-plus-1572 \
+                --enable-feature c-band-ocm"
         ;;
 esac
 
