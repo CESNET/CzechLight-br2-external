@@ -25,20 +25,11 @@ define CZECHLIGHT_CFG_FS_BUILD_CMDS
 endef
 
 CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER = \
-	czechlight-install-yang.service \
-	czechlight-migrate.service
-
-$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_SYSREPO),y))
-	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER += \
-		sysrepo-persistent-cfg.service \
-		cfg-restore-sysrepo.service
-$(endif)
-$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_KEYS),y))
-	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER += openssh-persistent-keys.service
-$(endif)
-$(ifeq ($(CZECHLIGHT_CFG_FS_PERSIST_NETWORK),y))
-	CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER += cfg-restore-systemd-networkd.service
-$(endif)
+	cfg-yang.service \
+	cfg-migrate.service \
+	sysrepo-persistent-cfg.service \
+	openssh-persistent-keys.service \
+	cfg-restore-systemd-networkd.service
 
 define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/cfg
@@ -51,12 +42,16 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		$(@D)/czechlight-random-seed
 
 	$(INSTALL) -D -m 0755 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-install-yang.sh \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-migrate.sh \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/czechlight-migration-list.sh
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-yang.sh \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/cfg-migrate.sh \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/meld.jq
 
-	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/libexec/czechlight-cfg-fs/migrations \
-		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/migrations/*
+	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/share/yang/static-data/czechlight-cfg-fs \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/static-data/*.json \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/static-data/*.json.in
+
+	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/share/yang/modules/czechlight-cfg-fs \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/yang/*.yang
 
 
 	for UNIT in $(CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER); do \
@@ -76,6 +71,15 @@ NETOPEER2_CONF_OPTS += \
 		      -DNP2SRV_SSH_AUTHORIZED_KEYS_PATTERN="/cfg/ssh-user-auth/%s" \
 		      -DNP2SRV_SSH_AUTHORIZED_KEYS_ARG_IS_USERNAME=ON
 
+# Do not use buildroot's stock installation scripts
+define CZECHLIGHT_CFG_FS_OVERRIDE_NETOPEER_UNITS
+	$(RM) \
+		$(TARGET_DIR)/usr/lib/systemd/system/netopeer2-install-yang.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/netopeer2-setup.service
+	$(SED) 's|netopeer2-setup.service|cfg-yang.service|g' $(TARGET_DIR)/usr/lib/systemd/system/netopeer2.service
+endef
+NETOPEER2_POST_INSTALL_TARGET_HOOKS += CZECHLIGHT_CFG_FS_OVERRIDE_NETOPEER_UNITS
+
 .PHONY: czechlight-cfg-fs-test-migrations
 czechlight-cfg-fs-test-migrations: PKG=czechlight-cfg-fs
 czechlight-cfg-fs-test-migrations: $(PKG)_NAME=czechlight-cfg-fs
@@ -85,6 +89,7 @@ czechlight-cfg-fs-test-migrations: $(BUILD_DIR)/czechlight-cfg-fs/.stamp_configu
 		VELIA_SRCDIR=$(VELIA_SRCDIR) \
 		SYSREPO_IETF_ALARMS_SRCDIR=$(SYSREPO_IETF_ALARMS_SRCDIR) \
 		ROUSETTE_SRCDIR=$(ROUSETTE_SRCDIR) \
+		LIBNETCONF2_SRCDIR=$(LIBNETCONF2_SRCDIR) \
 		NETOPEER2_SRCDIR=$(NETOPEER2_SRCDIR) \
 		pytest -vv $(BR2_EXTERNAL_CZECHLIGHT_PATH)/tests/czechlight-cfg-fs/migrations.py
 
