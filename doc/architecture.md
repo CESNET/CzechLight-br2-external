@@ -26,14 +26,18 @@ Of course there are still (Q2 2020) exceptions:
 
 ### YANG
 
-The system always boots with an empty sysrepo database -- no YANG modules, and no configuration is installed.
-The required modules (and configuration) is added in several steps:
+The system always boots with an empty state -- the sysrepo database is completely empty, with no YANG modules, and no data.
+Transforming that into a working system involves installation of several YANG modules.
+Some of those modules are device-specific, and some modules might require non-empty default configuration as the *initial data*.
+Also, the on-disk configuration that is preserved from the last reboot might need updates in order to apply to the current revisions of YANG modules.
+That's why the data preparation/upgrading works purely at the JSON level, with no associated YANG-based tools.
 
-- the YANG modules for `netopeer2-server` are added via `netopeer2-install-yang.service` (via our Buildroot patches),
-- CzechLight-specific YANG modules are added via [`czechlight-install-yang.service`](../package/czechlight-cfg-fs/czechlight-install-yang.service),
-- system configuration is restored from the persistent location in `/cfg` via [`cfg-restore-sysrepo.service`](../package/czechlight-cfg-fs/cfg-restore-sysrepo.service),
-- migrations to system configuration are applied via [`czechlight-migrate.service`](../package/czechlight-cfg-fs/czechlight-migrate.service),
-- configuration of the Netopeer server gets re-checked via `netopeer2-setup.service` (once again in our Buildroot patches); this is needed especially during the first boot with no previous configuration to restore,
+If there is no previous snapshot, or if it comes from an unsupported version (pre-v9), it is discarded and considered to be an empty JSON object.
+Then, a series of transformations ("migrations") is applied to the JSON, bumping the "data version" for each of these migrations.
+Once done, the resulting JSON is loaded into sysrepo as the initial data.
+
+- the JSON data are migrated by [`cfg-migrate.service`](../package/czechlight-cfg-fs/cfg-migrate.service),
+- YANG modules are installed and the data are loaded via [`cfg-yang.service`](../package/czechlight-cfg-fs/cfg-yang.service),
 - finally, any daemons that use sysrepo are started.
 
 We are also [using a `tmpfs` mount at `/run/sysrepo`](../package/reset-sysrepo/run-sysrepo.mount) that [gets wiped out whenever a sysrepo service fails](../package/reset-sysrepo/reset-sysrepo.mk).

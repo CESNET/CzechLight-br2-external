@@ -1,0 +1,14 @@
+[Unit]
+Description=Install YANG modules and restore data
+After=cfg-migrate.service run-sysrepo.mount
+Requires=cfg-migrate.service run-sysrepo.mount
+Before=netopeer2.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash /usr/libexec/czechlight-cfg-fs/cfg-yang.sh
+Group=sysrepo
+
+[Install]
+WantedBy=multi-user.target

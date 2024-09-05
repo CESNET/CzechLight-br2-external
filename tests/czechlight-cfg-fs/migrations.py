@@ -74,8 +74,7 @@ class SysrepoFixture:
         res['CFG_VERSION_FILE'] = self.version_file
         res['CFG_STARTUP_FILE'] = self.startup_file
         res['NP2_MODULE_DIR'] = pathlib.Path(os.environ['NETOPEER2_SRCDIR']) / 'modules'
-        res['NP2_MODULE_PERMS'] = '0600'
-        res['USER'] = os.getlogin()
+        res['LN2_MODULE_DIR'] = pathlib.Path(os.environ['LIBNETCONF2_SRCDIR']) / 'modules'
         return res
 
 
