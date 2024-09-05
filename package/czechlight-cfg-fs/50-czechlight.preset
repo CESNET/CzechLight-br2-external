@@ -1,1 +1,5 @@
 enable systemd-journal-upload.service
+
+# this is managed by cfg-yang.service
+disable netopeer2-install-yang.service
+disable netopeer2-setup.service
