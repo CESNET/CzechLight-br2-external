@@ -5,3 +5,6 @@ Description=Save the machine-id into U-Boot environment if not set
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/bin/sh -c 'fw_printenv machineid &>/dev/null || fw_setenv machineid $(cat /etc/machine-id)'
+
+[Install]
+WantedBy=multi-user.target

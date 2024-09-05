@@ -41,3 +41,6 @@ RestartSec=5
 [Unit]
 # shared as an env file
 ConditionFileNotEmpty=/cfg/journald-remote
+
+[Install]
+WantedBy=multi-user.target
