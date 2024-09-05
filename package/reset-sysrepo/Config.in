@@ -1,6 +1,0 @@
-config BR2_PACKAGE_RESET_SYSREPO
-	bool "Override and re-init sysrepo's /dev/shm"
-	help
-	  If enabled, configure sysrepo to use /run/sysrepo instead of
-	  /dev/shm, and reinitialize that filesystem with a fresh tmpfs upon
-	  restart of any sysrepo-using service.

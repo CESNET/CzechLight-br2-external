@@ -1,0 +1,13 @@
+[Unit]
+Description=Prepare initial sysrepo configuration
+After=cfg.mount
+Requires=cfg.mount
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash /usr/libexec/czechlight-cfg-fs/cfg-migrate.sh
+Group=sysrepo
+
+[Install]
+WantedBy=multi-user.target
