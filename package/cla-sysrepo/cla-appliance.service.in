@@ -1,9 +1,8 @@
 [Unit]
 Description=CzechLight __MODEL__ driver
-After=syslog.target network.target cfg-restore-sysrepo.service czechlight-migrate.service
+After=syslog.target network.target cfg-yang.service
 Before=rauc-mark-good.service velia-hardware-g1.service velia-hardware-g2.service
-PartOf=netopeer2.service
-Requires=cfg-restore-sysrepo.service czechlight-migrate.service
+Requires=cfg-yang.service
 StartLimitIntervalSec=0
 ConditionKernelCommandLine=|czechlight=__MODEL__
 ConditionKernelCommandLine=|czechlight=__MODEL__-g2

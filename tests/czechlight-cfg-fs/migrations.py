@@ -5,24 +5,18 @@ import json
 import re
 import os
 import pathlib
+import pytest
 import shutil
 import subprocess
 import sys
 
-import pytest
-
 
 SCRIPT_ROOT = pathlib.Path(__file__).resolve().parent
-BR2_ROOT = (SCRIPT_ROOT / '../../').resolve()
+BR2_EXT_ROOT = (SCRIPT_ROOT / '../../').resolve()
+CFG_FS_SCRIPTS_PATH = BR2_EXT_ROOT / 'package' / 'czechlight-cfg-fs'
 
-INSTALL_SCRIPT_PATH = BR2_ROOT / 'package/czechlight-cfg-fs/czechlight-install-yang.sh'
-MIGRATE_SCRIPT_PATH = BR2_ROOT / 'package/czechlight-cfg-fs/czechlight-migrate.sh'
-MIGRATE_DEFINITIONS_PATH = BR2_ROOT / 'package/czechlight-cfg-fs/czechlight-migration-list.sh'
-NETOPEER_SCRIPT_PATH = BR2_ROOT / 'submodules/buildroot/package/netopeer2/setup.sh'
-
-
-def run_and_wait(ctx, desc, command_args):
-    print(f'executing {desc}')
+def run_and_wait(ctx, command_args):
+    print(f'RUN {command_args}')
     with subprocess.Popen(command_args, stdout=sys.stdout, stderr=sys.stderr, env=ctx.get_env()) as proc:
         proc.wait()
         assert proc.returncode == 0
@@ -30,70 +24,53 @@ def run_and_wait(ctx, desc, command_args):
 
 class SysrepoFixture:
     def __init__(self, test_directory, tmp_path):
-        test_directory = SCRIPT_ROOT / test_directory
-        self.test_name = test_directory.name
+        self.test_directory = SCRIPT_ROOT / test_directory
+        test_name = self.test_directory.name
+        self.running_directory = tmp_path / test_name
+        self.running_directory.mkdir()
 
-        self.expected_file = test_directory / 'expected.json'
-        assert self.expected_file.is_file()
+        for fn in ('startup.json', 'version'):
+            try:
+                shutil.copy(self.test_directory / fn, self.running_directory)
+            except FileNotFoundError:
+                pass
 
-        startup = test_directory / 'startup.json'
-        assert startup.is_file()
-
-        self.proc_cmdline = test_directory / 'cmdline'
-        assert self.proc_cmdline.is_file()
-
-        version_file = test_directory / 'version'
-        assert version_file.is_file()
-
-        tested_xpath_file = test_directory / 'xpath'
-        self.tested_xpath = tested_xpath_file.read_text() if tested_xpath_file.is_file() else None
-
-        self._running_directory = tmp_path / self.test_name
-        self._running_directory.mkdir()
-
-        self.startup_file = self._running_directory / 'startup.json'
-        shutil.copyfile(startup, self.startup_file)
-
-        self.export_file = self._running_directory / 'export.json'
-
-        self.version_file = self._running_directory / 'version'
-        shutil.copy(version_file, self.version_file)
+        query_file = self.test_directory / 'query'
+        self.query = query_file.read_text() if query_file.is_file() \
+            else 'del(."ietf-keystore:keystore"."asymmetric-keys"."asymmetric-key"[0]."cleartext-private-key")'
 
         # all tests must run with clean sysrepo state
-        self._shm_prefix = 'br2-migr-' + self.test_name
+        self._shm_prefix = 'br2-migr-' + test_name
+        self._repo_path = self.running_directory / 'sysrepo_repository'
 
     def get_env(self):
         res = os.environ.copy()
         res['SYSREPO_SHM_PREFIX'] = self._shm_prefix
-        res['SYSREPO_REPOSITORY_PATH'] = self._running_directory / 'sysrepo_repository'
+        res['SYSREPO_REPOSITORY_PATH'] = self._repo_path
+        res['LN2_MODULE_DIR'] = pathlib.Path(os.environ['LIBNETCONF2_SRCDIR']) / 'modules'
+        res['NP2_MODULE_DIR'] = pathlib.Path(os.environ['NETOPEER2_SRCDIR']) / 'modules'
+        res['NETOPEER2_SETUP_DIR'] = BR2_EXT_ROOT / 'submodules' / 'buildroot' / 'package' / 'netopeer2'
         res['CLA_YANG'] = pathlib.Path(os.environ['CLA_SYSREPO_SRCDIR']) / 'yang'
         res['VELIA_YANG'] = pathlib.Path(os.environ['VELIA_SRCDIR']) / 'yang'
-        res['ROUSETTE_YANG'] = pathlib.Path(os.environ['ROUSETTE_SRCDIR']) / 'yang'
         res['ALARMS_YANG'] = pathlib.Path(os.environ['SYSREPO_IETF_ALARMS_SRCDIR']) / 'yang'
-        res['PROC_CMDLINE'] = self.proc_cmdline
-        res['CFG_VERSION_FILE'] = self.version_file
-        res['CFG_STARTUP_FILE'] = self.startup_file
-        res['NP2_MODULE_DIR'] = pathlib.Path(os.environ['NETOPEER2_SRCDIR']) / 'modules'
-        res['NP2_MODULE_PERMS'] = '0600'
-        res['USER'] = os.getlogin()
+        res['ROUSETTE_YANG'] = pathlib.Path(os.environ['ROUSETTE_SRCDIR']) / 'yang'
+        res['CFG_FS_YANG'] = CFG_FS_SCRIPTS_PATH / 'yang'
+        res['CFG_STATIC_DATA'] = CFG_FS_SCRIPTS_PATH / 'static-data'
+        res['VELIA_STATIC_DATA'] = pathlib.Path(os.environ['VELIA_SRCDIR']) / 'yang'
+        res['CLA_STATIC_DATA'] = pathlib.Path(os.environ['CLA_SYSREPO_SRCDIR']) / 'yang'
+        res['PROC_CMDLINE'] = self.test_directory / 'cmdline'
+        res['CFG_SYSREPO_DIR'] = self.running_directory
+        res['CURRENT_VERSION_FILE'] = CFG_FS_SCRIPTS_PATH / 'CURRENT_CONFIG_VERSION'
         return res
+
+    def nuke_shm(self):
+        for f in glob.glob(f'/dev/shm/{self._shm_prefix}*'):
+            os.remove(f)
 
 
 @pytest.fixture(scope='session')
 def max_version():
-    """
-    Fetches last version from czechlight-migrate script by sourcing the
-    migration definitions file and verifying the length of the migration
-    files array.
-    """
-    args = ["/bin/bash", "-c", "source " + str(MIGRATE_DEFINITIONS_PATH) + " && echo ${#MIGRATION_FILES[@]}"]
-    with subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as proc:
-        proc.wait()
-        stdout, stderr = proc.communicate()
-        assert stderr.decode().strip() == ''
-        assert proc.returncode == 0
-
-    return int(stdout.decode().strip())
+    return (CFG_FS_SCRIPTS_PATH / 'CURRENT_CONFIG_VERSION').read_text()
 
 
 @pytest.fixture
@@ -107,34 +84,23 @@ def find_test_directories():
 
 @pytest.mark.parametrize("sysrepo_fixture", find_test_directories(), indirect=True)
 def test(sysrepo_fixture, max_version):
-    # clean SHM state
-    for f in glob.glob(f'/dev/shm/{sysrepo_fixture._shm_prefix}*'):
-        os.remove(f)
-    # prepare sysrepo
-    run_and_wait(sysrepo_fixture, 'netopeer2 setup.sh', [NETOPEER_SCRIPT_PATH])
-    run_and_wait(sysrepo_fixture, 'czechlight-install-yang.sh', [INSTALL_SCRIPT_PATH])
-    run_and_wait(sysrepo_fixture, 'restoring startup.json to sysrepo', ['sysrepocfg', '--datastore', 'startup', '--format', 'json', f'--import={sysrepo_fixture.startup_file}'])
+    # prevent running with a stale SHM state
+    sysrepo_fixture.nuke_shm()
 
-    current_version = int(sysrepo_fixture.version_file.read_text())
+    print(f'SYSREPO_SHM_PREFIX={sysrepo_fixture.get_env()["SYSREPO_SHM_PREFIX"]}')
+    print(f'SYSREPO_REPOSITORY_PATH={sysrepo_fixture.get_env()["SYSREPO_REPOSITORY_PATH"]}')
 
-    # perform the actual migration
-    print(f'migration: current version is {current_version}')
-    print('migration: applying migration script')
-    run_and_wait(sysrepo_fixture, 'migration', [MIGRATE_SCRIPT_PATH])
+    run_and_wait(sysrepo_fixture, [CFG_FS_SCRIPTS_PATH / "cfg-migrate.sh"])
 
-    after_migration_version = int(sysrepo_fixture.version_file.read_text())
-    assert after_migration_version == max_version
+    run_and_wait(sysrepo_fixture, [CFG_FS_SCRIPTS_PATH / "cfg-yang.sh"])
 
-    print('migration: checking datastore contents')
-    export_args = ['sysrepocfg', '--datastore', 'startup', '-f', 'json', f'--export={sysrepo_fixture.export_file}']
-    if sysrepo_fixture.tested_xpath:
-        export_args += ['-x', sysrepo_fixture.tested_xpath]
-    run_and_wait(sysrepo_fixture, 'export', export_args)
+    assert (sysrepo_fixture.running_directory / 'version').read_text() == max_version
 
-    with open(sysrepo_fixture.export_file, 'r') as fp_actual:
-        with open(sysrepo_fixture.expected_file, 'r') as fp_expected:
-            print(f'migration: comparing files {sysrepo_fixture.export_file.name} and {sysrepo_fixture.expected_file.name}')
+    dump = subprocess.run(['sysrepocfg', '-f', 'json', '-d', 'startup', '-X'], check=True, capture_output=True, env=sysrepo_fixture.get_env())
+    jq = subprocess.run(['jq', sysrepo_fixture.query], input=dump.stdout, check=True, capture_output=True)
+    actual = json.loads(jq.stdout.decode('utf-8'))
+    with open(sysrepo_fixture.test_directory / 'expected.json', 'r') as fp_expected:
+        expected = json.load(fp_expected)
+        assert actual == expected
 
-            actual = json.load(fp_actual)
-            expected = json.load(fp_expected)
-            assert actual == expected
+    sysrepo_fixture.nuke_shm()
