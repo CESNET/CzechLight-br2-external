@@ -9,3 +9,6 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStartPre=/bin/sh -c '[ "$(/bin/systemctl list-units --failed --all --no-legend --no-pager)" == "" ]'
 ExecStart=/usr/bin/rauc status mark-good
+
+[Install]
+WantedBy=multi-user.target

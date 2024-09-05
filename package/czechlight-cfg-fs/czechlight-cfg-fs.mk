@@ -42,7 +42,6 @@ $(endif)
 
 define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/cfg
-	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 
 	$(INSTALL) -D -m 0755 -t $(TARGET_DIR)/sbin \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/init-czechlight.sh \
@@ -62,7 +61,6 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 	for UNIT in $(CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER); do \
 		$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
 			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/czechlight-cfg-fs/$${UNIT}; \
-		ln -sf ../$${UNIT} $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/ ;\
 	done
 endef
 

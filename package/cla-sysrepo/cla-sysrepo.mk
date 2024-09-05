@@ -11,13 +11,9 @@ define CLA_SYSREPO_PREPARE_SERVICE
 		-e "s/__MODEL__/$1/g" \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/cla-sysrepo/cla-appliance.service.in \
 		> $(TARGET_DIR)/usr/lib/systemd/system/cla-$1.service
-	ln -sf ../cla-$1.service \
-		$(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 endef
 
 define CLA_SYSREPO_INSTALL_INIT_SYSTEMD
-	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants
-
 	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-roadm-add-drop)
 	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-roadm-hires-add-drop)
 	$(call CLA_SYSREPO_PREPARE_SERVICE,sdn-roadm-line)

@@ -45,3 +45,6 @@ RestartSec=5
 # at least one of these files must exist
 ConditionFileNotEmpty=|/cfg/journald-remote
 ConditionFileNotEmpty=|/run/journald-remote
+
+[Install]
+WantedBy=multi-user.target
