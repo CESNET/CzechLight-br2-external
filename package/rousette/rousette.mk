@@ -10,11 +10,9 @@ ROUSETTE_CONF_OPTS = \
 	-DTHREADS_PTHREAD_ARG:STRING=-pthread
 
 define ROUSETTE_INSTALL_INIT_SYSTEMD
-	mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 	$(INSTALL) -D -m 0644 \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/rousette/rousette.service \
 		$(TARGET_DIR)/usr/lib/systemd/system/
-	ln -sf ../rousette.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
 endef
 
 define ROUSETTE_USERS

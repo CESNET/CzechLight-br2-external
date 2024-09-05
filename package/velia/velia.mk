@@ -18,24 +18,17 @@ VELIA_CONF_OPTS = \
 	-DNETWORKCTL_EXECUTABLE=/usr/bin/networkctl \
 	-DHOSTNAMECTL_EXECUTABLE=/usr/bin/hostnamectl
 
-define VELIA_PREPARE_SERVICE
-    $(INSTALL) -D -m 0644 \
-            $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/$1.service \
-            $(TARGET_DIR)/usr/lib/systemd/system/
-    ln -sf ../$1.service $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
-endef
-
 define VELIA_INSTALL_INIT_SYSTEMD
-        mkdir -p $(TARGET_DIR)/usr/lib/systemd/system/multi-user.target.wants/
-        $(INSTALL) -D -m 0644 \
-                $(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/max_match_rules.conf \
-                $(TARGET_DIR)/usr/share/dbus-1/system.d/
+	$(INSTALL) -D -m 0644 \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/max_match_rules.conf \
+		$(TARGET_DIR)/usr/share/dbus-1/system.d/
 
-        $(call VELIA_PREPARE_SERVICE,velia-health)
-        $(call VELIA_PREPARE_SERVICE,velia-hardware-g1)
-        $(call VELIA_PREPARE_SERVICE,velia-hardware-g2)
-        $(call VELIA_PREPARE_SERVICE,velia-system)
-        $(call VELIA_PREPARE_SERVICE,velia-firewall)
+	$(INSTALL) -D -m 0644 -t $(TARGET_DIR)/usr/lib/systemd/system/ \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/velia-health.service \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/velia-hardware-g1.service \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/velia-hardware-g2.service \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/velia-system.service \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/velia-firewall.service
 endef
 
 $(eval $(cmake-package))

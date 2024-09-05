@@ -8,3 +8,6 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStartPre=/bin/sh -c '[ "$(/bin/systemctl list-units --failed --all --no-legend --no-pager)" == "" ]'
 ExecStart=/bin/busctl set-property org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager RuntimeWatchdogUSec t 30000000
+
+[Install]
+WantedBy=multi-user.target

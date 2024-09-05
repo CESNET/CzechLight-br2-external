@@ -6,3 +6,6 @@ Type=oneshot
 RemainAfterExit=yes
 ExecStart=/usr/bin/init-leds-edfa.sh
 ExecStart=/usr/bin/init-leds-sfp.sh
+
+[Install]
+WantedBy=multi-user.target
