@@ -1,6 +1,5 @@
 [Unit]
 Description=Prepare a fake /dev/shm for sysrepo
-Before=netopeer2-install-yang.service czechlight-install-yang.service netopeer2-setup.service
 
 [Mount]
 What=tmpfs

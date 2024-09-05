@@ -2,6 +2,8 @@ config BR2_PACKAGE_CZECHLIGHT_CFG_FS
 	bool "Prepare persistent /cfg partition and /etc overlay. Install required YANG models."
 	depends on BR2_INIT_SYSTEMD
 	depends on BR2_PACKAGE_NETOPEER2
+	select BR2_PACKAGE_HOST_JQ
+	select BR2_PACKAGE_JQ
 	help
 	  This is required for RAUC to work properly.  It creates a blank FS
 	  image, configures systemd to mount it, and ensures that its contents
@@ -19,35 +21,5 @@ config CZECHLIGHT_CFG_FS_SIZE
 	  Size of the /cfg filesystem image.  This must be big enough to
 	  accommodate all configuration, but small enough to fit within the
 	  corresponding partition.
-
-if BR2_PACKAGE_SYSREPO
-
-config CZECHLIGHT_CFG_FS_PERSIST_SYSREPO
-	bool "Persist sysrepo configuration into /cfg"
-	default Y
-	help
-	  Save sysrepo's YANG files into /cfg upon changes
-
-endif # BR2_PACKAGE_SYSREPO
-
-if BR2_PACKAGE_NETOPEER2
-
-config CZECHLIGHT_CFG_FS_PERSIST_KEYS
-	bool "Persist host keys for OpenSSH and Netopeer2"
-	default Y
-	help
-	  Save OpenSSH's key material and netopeer2's SSH keys into /cfg
-
-endif # BR2_PACKAGE_NETOPEER2
-
-if BR2_PACKAGE_SYSTEMD
-
-config CZECHLIGHT_CFG_FS_PERSIST_NETWORK
-	bool "Persist network configuration for eth1"
-	default Y
-	help
-	  Save network configuration file for eth1 into /cfg
-
-endif # BR2_PACKAGE_SYSTEMD
 
 endif # BR2_PACKAGE_CZECHLIGHT_CFG_FS
