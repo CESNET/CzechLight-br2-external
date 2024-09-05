@@ -2,32 +2,11 @@
   "ietf-netconf-acm:nacm": {
     "rule-list": [
       {
-        "@": {
-          "yang:insert": "first"
-        },
         "name": "Permit yangnobody user/group to read only some modules",
         "group": [
           "yangnobody"
         ],
         "rule": [
-          {
-            "name": "czechlight-roadm-device",
-            "module-name": "czechlight-roadm-device",
-            "action": "permit",
-            "access-operations": "read"
-          },
-          {
-            "name": "czechlight-inline-amp",
-            "module-name": "czechlight-inline-amp",
-            "action": "permit",
-            "access-operations": "read"
-          },
-          {
-            "name": "czechlight-coherent-add-drop",
-            "module-name": "czechlight-coherent-add-drop",
-            "action": "permit",
-            "access-operations": "read"
-          },
           {
             "name": "ietf-yang-library",
             "module-name": "ietf-yang-library",
@@ -35,14 +14,8 @@
             "access-operations": "read"
           },
           {
-            "name": "ietf-hardware",
-            "module-name": "ietf-hardware",
-            "action": "permit",
-            "access-operations": "read"
-          },
-          {
-            "name": "ietf-interfaces",
-            "module-name": "ietf-interfaces",
+            "name": "ietf-restconf-monitoring",
+            "module-name": "ietf-restconf-monitoring",
             "action": "permit",
             "access-operations": "read"
           },
@@ -82,6 +55,18 @@
             "access-operations": "read"
           },
           {
+            "name": "ietf-hardware",
+            "module-name": "ietf-hardware",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
+            "name": "ietf-interfaces",
+            "module-name": "ietf-interfaces",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
             "name": "czechlight-lldp",
             "module-name": "czechlight-lldp",
             "action": "permit",
@@ -102,10 +87,73 @@
             "access-operations": "read"
           },
           {
+            "name": "czechlight-roadm-device",
+            "module-name": "czechlight-roadm-device",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
+            "name": "czechlight-inline-amp",
+            "module-name": "czechlight-inline-amp",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
+            "name": "czechlight-bidi-amp",
+            "module-name": "czechlight-bidi-amp",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
+            "name": "czechlight-coherent-add-drop",
+            "module-name": "czechlight-coherent-add-drop",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
+            "name": "czechlight-calibration-device",
+            "module-name": "czechlight-calibration-device",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
             "name": "wildcard-deny",
             "module-name": "*",
             "action": "deny",
             "access-operations": "*"
+          }
+        ]
+      },
+      {
+        "name": "Allow DWDM control to the optics group",
+        "group": [
+          "optics"
+        ],
+        "rule": [
+          {
+            "name": "czechlight-roadm-device",
+            "module-name": "czechlight-roadm-device",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-inline-amp",
+            "module-name": "czechlight-inline-amp",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-bidi-amp",
+            "module-name": "czechlight-bidi-amp",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-coherent-add-drop",
+            "module-name": "czechlight-coherent-add-drop",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-calibration-device",
+            "module-name": "czechlight-calibration-device",
+            "action": "permit"
           }
         ]
       }
