@@ -8,6 +8,8 @@ config BR2_PACKAGE_ROUSETTE
 	select BR2_PACKAGE_SPDLOG
 	select BR2_PACKAGE_SYSTEMD
 	select BR2_PACKAGE_SYSREPO_CPP
+	select BR2_PACKAGE_DATE
+	select BR2_PACKAGE_LINUX_PAM
 	help
 	  RESTCONF-ish server on top of sysrepo
 
