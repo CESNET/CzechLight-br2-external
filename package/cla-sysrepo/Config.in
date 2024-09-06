@@ -9,5 +9,6 @@ config BR2_PACKAGE_CLA_SYSREPO
 	select BR2_PACKAGE_BOOST
 	select BR2_PACKAGE_LIBEV
 	select BR2_PACKAGE_CZECHLIGHT_CFG_FS
+	select BR2_PACKAGE_DATE
 	help
 	  Control CzechLight devices over YANG with sysrepo

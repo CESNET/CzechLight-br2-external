@@ -1,9 +1,8 @@
 [Unit]
 Description=IETF-alarms management via sysrepo
-After=syslog.target network.target cfg-restore-sysrepo.service czechlight-migrate.service
+After=syslog.target network.target cfg-yang.service
 Before=rauc-mark-good.service
-PartOf=netopeer2.service
-Requires=cfg-restore-sysrepo.service czechlight-migrate.service
+Requires=cfg-yang.service
 ConditionKernelCommandLine=czechlight
 
 [Service]
