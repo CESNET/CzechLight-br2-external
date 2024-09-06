@@ -1,0 +1,10 @@
+[Unit]
+Description=Prepare a fake /dev/shm for sysrepo
+
+[Mount]
+What=tmpfs
+Where=/run/sysrepo
+Type=tmpfs
+DirectoryMode=0000
+LazyUnmount=yes
+ForceUnmount=yes
