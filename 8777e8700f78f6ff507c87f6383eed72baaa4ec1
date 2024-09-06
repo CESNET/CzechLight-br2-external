@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0674e70_9a706d3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-06T15:58:35Z",
+      "side": 1,
+      "message": "I tested this (locally built) in the lab, and it seems to work OK.\n\nThe only problem that I saw was a delay in RESTCONF logins -- as if the password was failing. That\u0027s, however, not a regression, but something to be solved anyway.",
+      "revId": "8777e8700f78f6ff507c87f6383eed72baaa4ec1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
