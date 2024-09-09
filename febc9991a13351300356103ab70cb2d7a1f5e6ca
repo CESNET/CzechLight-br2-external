@@ -16,6 +16,24 @@
       "message": "If this boots I am fine with that.",
       "revId": "febc9991a13351300356103ab70cb2d7a1f5e6ca",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6e100fc_7c45ad1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-09T07:23:41Z",
+      "side": 1,
+      "message": "yup, it does",
+      "parentUuid": "af4fc2c6_e35ae4b8",
+      "revId": "febc9991a13351300356103ab70cb2d7a1f5e6ca",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
