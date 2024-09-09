@@ -16,6 +16,92 @@
       "message": "I tested this (locally built) in the lab, and it seems to work OK.\n\nThe only problem that I saw was a delay in RESTCONF logins -- as if the password was failing. That\u0027s, however, not a regression, but something to be solved anyway.",
       "revId": "8777e8700f78f6ff507c87f6383eed72baaa4ec1",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23d380ea_39a7b6be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-09-09T14:48:08Z",
+      "side": 1,
+      "message": "Overall this look good.",
+      "revId": "8777e8700f78f6ff507c87f6383eed72baaa4ec1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96e2a8e3_fdd21041",
+        "filename": "package/czechlight-cfg-fs/cfg-migrate.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-09-09T14:48:08Z",
+      "side": 1,
+      "message": "We talked on the call that maybe PrivateTmp via systemd could be used here.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 2
+      },
+      "revId": "8777e8700f78f6ff507c87f6383eed72baaa4ec1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c595a94b_e1a5b1b5",
+        "filename": "package/czechlight-cfg-fs/cfg-yang.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-09-09T14:48:08Z",
+      "side": 1,
+      "message": "That is because they are already stated in the Netopeer2 array of modules, right? Can you add that to the comment if that is true?",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 35
+      },
+      "revId": "8777e8700f78f6ff507c87f6383eed72baaa4ec1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4ca8770_0cb17f13",
+        "filename": "package/czechlight-cfg-fs/cfg-yang.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-09-09T14:48:08Z",
+      "side": 1,
+      "message": "I think this bashism deserves a comment like \"strip the \u0027czechlight-\u0027 prefix from the kernel parameter\"? It is cool btw, I did not know that bash can strip prefixes like that.\n\nAlso, since you will probably be touching this file, maybe you can add a comment to whole for-loop block? Something like \u0027Determine device model from kernel parameters\u0027 or something like that.",
+      "range": {
+        "startLine": 65,
+        "startChar": 23,
+        "endLine": 65,
+        "endChar": 34
+      },
+      "revId": "8777e8700f78f6ff507c87f6383eed72baaa4ec1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
