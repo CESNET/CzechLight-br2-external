@@ -34,6 +34,23 @@
       "parentUuid": "af4fc2c6_e35ae4b8",
       "revId": "febc9991a13351300356103ab70cb2d7a1f5e6ca",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f903928_c226c0f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-10T22:17:12Z",
+      "side": 1,
+      "message": "(the actual kernel is also available on Gerrit as branch cesnet/2024-09-06, just for the record)",
+      "revId": "febc9991a13351300356103ab70cb2d7a1f5e6ca",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
