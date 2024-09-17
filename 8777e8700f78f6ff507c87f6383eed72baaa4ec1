@@ -35,6 +35,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bd04dfb_13db8343",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-17T17:11:48Z",
+      "side": 1,
+      "message": "This is apparently caused by the interaction with auditd(8), and I\u0027ve opened https://github.com/CESNET/rousette/issues/11 to track that. There\u0027s no issue in this particular patch.",
+      "parentUuid": "a0674e70_9a706d3d",
+      "revId": "8777e8700f78f6ff507c87f6383eed72baaa4ec1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96e2a8e3_fdd21041",
