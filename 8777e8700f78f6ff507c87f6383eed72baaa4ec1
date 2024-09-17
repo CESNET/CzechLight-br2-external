@@ -58,6 +58,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc177465_cf4671c4",
+        "filename": "package/czechlight-cfg-fs/cfg-migrate.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-17T12:05:46Z",
+      "side": 1,
+      "message": "done -- both in the systemd units as well as in the pytest wrapper",
+      "parentUuid": "96e2a8e3_fdd21041",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 2
+      },
+      "revId": "8777e8700f78f6ff507c87f6383eed72baaa4ec1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c595a94b_e1a5b1b5",
@@ -81,6 +105,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f5415e5_c14e8786",
+        "filename": "package/czechlight-cfg-fs/cfg-yang.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-17T12:05:46Z",
+      "side": 1,
+      "message": "OK, I confirmed this with upstream and reworded the comment",
+      "parentUuid": "c595a94b_e1a5b1b5",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 35
+      },
+      "revId": "8777e8700f78f6ff507c87f6383eed72baaa4ec1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4ca8770_0cb17f13",
@@ -94,6 +142,30 @@
       "writtenOn": "2024-09-09T14:48:08Z",
       "side": 1,
       "message": "I think this bashism deserves a comment like \"strip the \u0027czechlight-\u0027 prefix from the kernel parameter\"? It is cool btw, I did not know that bash can strip prefixes like that.\n\nAlso, since you will probably be touching this file, maybe you can add a comment to whole for-loop block? Something like \u0027Determine device model from kernel parameters\u0027 or something like that.",
+      "range": {
+        "startLine": 65,
+        "startChar": 23,
+        "endLine": 65,
+        "endChar": 34
+      },
+      "revId": "8777e8700f78f6ff507c87f6383eed72baaa4ec1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4708516e_55304c8c",
+        "filename": "package/czechlight-cfg-fs/cfg-yang.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-09-17T12:05:46Z",
+      "side": 1,
+      "message": "I ended up using bash\u0027 variable prefix stripping for this, plus an intro comment",
+      "parentUuid": "b4ca8770_0cb17f13",
       "range": {
         "startLine": 65,
         "startChar": 23,
