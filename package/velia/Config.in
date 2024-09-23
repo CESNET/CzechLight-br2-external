@@ -10,6 +10,8 @@ config BR2_PACKAGE_VELIA
 	select BR2_PACKAGE_SYSREPO_CPP
 	select BR2_PACKAGE_JSON_FOR_MODERN_CPP
 	select BR2_PACKAGE_CZECHLIGHT_CFG_FS
+	select BR2_PACKAGE_JQ
+	select BR2_PACKAGE_UTIL_LINUX_BINARIES
 	help
 	  Health tracking for embedded devices running Linux
 
