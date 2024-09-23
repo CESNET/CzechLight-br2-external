@@ -7,6 +7,7 @@ config BR2_PACKAGE_SYSREPO_IETF_ALARMS
 	select BR2_PACKAGE_CZECHLIGHT_CFG_FS
 	select BR2_PACKAGE_DATE
 	select BR2_PACKAGE_BOOST
+    select BR2_PACKAGE_JQ
 	help
 	  Implementing the `ietf-alarms` YANG module for sysrepo.
 

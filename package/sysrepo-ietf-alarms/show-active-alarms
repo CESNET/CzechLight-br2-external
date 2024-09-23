@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+jq -r -f /usr/libexec/sysrepo-ietf-alarms/show-active-alarms.jq
