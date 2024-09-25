@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b48db79_d6d79ce9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-09-25T15:05:22Z",
+      "side": 1,
+      "message": "Tested on roadm-a1 (.149). velia-list-alarms works. (I have restored the original image on the box, because it looks like it is used for something -- it is not flagged as dev machine).",
+      "revId": "ee85169a7292d781802c83bf630276e0fddfe02a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
