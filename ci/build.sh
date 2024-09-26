@@ -64,7 +64,7 @@ fi
 bash <<EOF
     # Extract variables from Makefile into the env
     eval \$(make -E "all:" -pn -f local.mk | grep _OVERRIDE_SRCDIR | sed -E "s/^(.*) = /export \\1=/")
-    for PROJ in {libyang,sysrepo,libnetconf2}{,-cpp} netopeer2 cla-sysrepo netconf-cli gammarus velia rousette; do
+    for PROJ in {libyang,sysrepo,libnetconf2}{,-cpp} netopeer2 cla-sysrepo gammarus netconf-cli rousette sysrepo-ietf-alarms velia; do
         # indirect substitution involves the usual joy in bash
         export PROJ_UCASE=\${PROJ@U}
         export PROJ_DIR=\${PROJ_UCASE//-/_}_OVERRIDE_SRCDIR
@@ -79,7 +79,7 @@ if [[ ${TRIGGERED_VIA_DEP} == 0 ]]; then
     # Ensure that the submodules are already pinned to whatever was provided to Zuul through the `Depends-on` commit footers.
     # In other words, it's an error if we push a change to br2-external which `Depends-on` on a change of some other repo,
     # but that other repo is not explicitly synced in that change to br2-external.
-    for PROJECT in dependencies cla-sysrepo netconf-cli gammarus velia rousette; do
+    for PROJECT in dependencies cla-sysrepo gammarus netconf-cli rousette sysrepo-ietf-alarms velia; do
         DEPSRCDIR=$(jq < ~/zuul-env.json -r "[.items[]? | select(.project.name == \"CzechLight/${PROJECT}\")][-1]?.project.src_dir + \"\"")
         if [[ ! -z "${DEPSRCDIR}" ]]; then
             COMMIT_IN_BR2_EXT=$(cd ${ZUUL_PROJECT_SRC_DIR}/submodules/${PROJECT}; git rev-parse HEAD)
