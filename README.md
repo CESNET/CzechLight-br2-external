@@ -39,7 +39,7 @@ A full rebuild takes about half an hour on a modern laptop.
 
 WARNING: Buildroot is fragile.
 It is *not* safe to perform incremental builds after changing an "important" setting.
-Please check their manual for details.
+Please [check their manual](https://buildroot.org/downloads/manual/manual.html#full-rebuild) for details.
 
 ## Installing
 
@@ -103,12 +103,14 @@ Also set up the system type:
 | Model | `czechlight` variable value |
 |-------|-----------------------------|
 | ROADM Line Degree | `sdn-roadm-line-g2` |
-| WSS Add/Drop | `sdn-roadm-add-drop-g2` |
-| Hi-resolution Add/Drop | `sdn-roadm-hires-add-drop-g2` |
-| Coherent Add/Drop | `sdn-roadm-coherent-a-d-g2` |
-| Inline EDFA Amplifier | `sdn-inline-g2` |
+| ROADM Flex Add/Drop | `sdn-roadm-add-drop-g2` |
+| ROADM Hi-Res Add/Drop | `sdn-roadm-hires-add-drop-g2` |
+| ROADM Coherent Add/Drop | `sdn-roadm-coherent-a-d-g2` |
+| Inline Amplifier | `sdn-inline-g2` |
+| BiDi Amplifier C-Band + 1572nm | `sdn-bidi-cplus1572` |
+| BiDi Amplifier C-Band + 1572nm with OCM | `sdn-bidi-cplus1572-ocm` |
 
-Some prototypes have deprecated PCBs (blue).
+Some ancient prototypes have deprecated PCBs (blue).
 On these, skip the `-g2` suffix.
 All red PCBs are `-g2`.
 
