@@ -100,7 +100,9 @@ mv images/update.raucb ~/zuul-output/artifacts/
 
 make czechlight-cfg-fs-test-migrations
 
-if [[ "${ZUUL_PIPELINE}" == "tag" ]]; then
+# FIXME: artifact handling is FUBAR
+# if [[ "${ZUUL_PIPELINE}" == "tag" ]]; then
+if [[ ${TRIGGERED_VIA_DEP} == 0 ]]; then
     # prepare the USB image for flashing
     make -j${CI_PARALLEL_JOBS} all
     mv images/usb-flash.img ~/zuul-output/artifacts/
