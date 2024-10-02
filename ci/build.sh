@@ -109,7 +109,7 @@ if [[ "${ZUUL_PIPELINE}" == "tag" ]]; then
 
     # info about specific versions of packages, their source(s), license, etc
     make -j${CI_PARALLEL_JOBS} legal-info
-    tar -cJf ~/zuul-output/artifacts/legal-info.tar.xz legal-info/
+    XZ_DEFAULTS="-T${CI_PARALLEL_JOBS}" tar -cJf ~/zuul-output/artifacts/legal-info.tar.xz legal-info/
 
     # for direct boot, aka unbricking the eMMC
     cp host/bin/kwboot ~/zuul-output/artifacts/
