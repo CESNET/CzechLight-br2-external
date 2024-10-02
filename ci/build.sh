@@ -9,6 +9,7 @@ ZUUL_GERRIT_HOSTNAME=$(jq < ~/zuul-env.json -r '.project.canonical_hostname')
 ZUUL_PROJECT_SRC_DIR=$HOME/$(jq < ~/zuul-env.json -r ".projects[\"${ZUUL_GERRIT_HOSTNAME}/CzechLight/br2-external\"].src_dir")
 ZUUL_PROJECT_SHORT_NAME=$(jq < ~/zuul-env.json -r ".projects[\"${ZUUL_GERRIT_HOSTNAME}/CzechLight/br2-external\"].short_name")
 CI_PARALLEL_JOBS=$(awk -vcpu=$(getconf _NPROCESSORS_ONLN) 'BEGIN{printf "%.0f", cpu*1.3+1}')
+ZUUL_PIPELINE=$(jq < ~/zuul-env.json -r '.pipeline')
 
 BUILD_DIR=~/build
 mkdir ${BUILD_DIR}
@@ -99,5 +100,17 @@ mv images/update.raucb ~/zuul-output/artifacts/
 
 make czechlight-cfg-fs-test-migrations
 
-# TODO: USB image as well? (`fallocate -d` to make it sparse)
-# TODO: make legal-info
+if [[ "${ZUUL_PIPELINE}" == "tag" ]]; then
+    # prepare the USB image for flashing
+    make -j${CI_PARALLEL_JOBS} all
+    mv images/usb-flash.img ~/zuul-output/artifacts/
+    # make it sparse in-place
+    fallocate -d ~/zuul-output/artifacts/usb-flash.img
+
+    # info about specific versions of packages, their source(s), license, etc
+    make -j${CI_PARALLEL_JOBS} legal-info
+    tar -cJf ~/zuul-output/artifacts/legal-info.tar.xz legal-info/
+
+    # for direct boot, aka unbricking the eMMC
+    cp host/bin/kwboot ~/zuul-output/artifacts/
+fi

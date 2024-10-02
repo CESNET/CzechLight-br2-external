@@ -14,6 +14,10 @@
           glob: 'update.raucb'
         - name: usb-flash-image
           glob: 'usb-flash.img'
+        - name: 'Source code and legal info'
+          glob: 'legal*'
+        - name: 'kwboot'
+          glob: 'kwboot*'
     required-projects: &projects
       - github/buildroot/buildroot
       - CzechLight/dependencies
@@ -44,3 +48,8 @@
       jobs:
         - promote-artifacts:
             timeout: 600
+
+    tag:
+      jobs:
+        - czechlight-clearfog
+        # FIXME: move artifacts to some persistent location
