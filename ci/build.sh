@@ -87,6 +87,10 @@ if [[ ${TRIGGERED_VIA_DEP} == 0 ]]; then
             COMMIT_VIA_ZUUL=$(cd ${HOME}/${DEPSRCDIR}; git rev-parse HEAD)
             if [[ ${COMMIT_IN_BR2_EXT} != ${COMMIT_VIA_ZUUL} ]]; then
                 echo "br2-external says submodules/${PROJECT} is ${COMMIT_IN_BR2_EXT}, but Zuul prepared ${COMMIT_VIA_ZUUL} instead"
+                echo "Last 5 commits in the tree submodules/${PROJECT}"
+                GIT_DIR="${ZUUL_PROJECT_SRC_DIR}/submodules/${PROJECT}/.git" git log --oneline -n 5
+                echo "Last 5 commits in the tree prepared by Zuul"
+                GIT_DIR="${HOME}/${DEPSRCDIR}/.git" git log --oneline -n 5
                 exit 1
             fi
         fi
