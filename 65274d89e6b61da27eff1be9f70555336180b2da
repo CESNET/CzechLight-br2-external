@@ -34,6 +34,41 @@
       "parentUuid": "ded288b1_8d146f69",
       "revId": "65274d89e6b61da27eff1be9f70555336180b2da",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d550ef4c_472f5c76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-07T07:41:30Z",
+      "side": 1,
+      "message": "If this is good enough for you, feel free to merge; I agree that it\u0027s a nice improvement already, even without --graph",
+      "revId": "65274d89e6b61da27eff1be9f70555336180b2da",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f88bf64_051f64d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-07T07:41:30Z",
+      "side": 1,
+      "message": "\u003e By a graph you mean output similar to yours \u0027git lola\u0027?\n\nyes, that\u0027s what I was thinking",
+      "parentUuid": "fb246ee2_ad714f76",
+      "revId": "65274d89e6b61da27eff1be9f70555336180b2da",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
