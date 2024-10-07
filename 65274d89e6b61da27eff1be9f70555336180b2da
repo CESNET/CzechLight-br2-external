@@ -16,6 +16,24 @@
       "message": "can you perhaps add a depending change which has an old parent to show how this works? Also, I think that a —graph might make this even better.",
       "revId": "65274d89e6b61da27eff1be9f70555336180b2da",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb246ee2_ad714f76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-10-07T06:31:22Z",
+      "side": 1,
+      "message": "You can see it at work here: https://object-store.cloud.muni.cz/swift/v1/ci-logs-public/11/7611/6/check/czechlight-clearfog/3f8555d/job-output.txt around 2024-10-03 05:36:12.591052 timestamp.\n\nBy a graph you mean output similar to yours \u0027git lola\u0027?",
+      "parentUuid": "ded288b1_8d146f69",
+      "revId": "65274d89e6b61da27eff1be9f70555336180b2da",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
