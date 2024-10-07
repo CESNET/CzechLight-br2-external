@@ -1,13 +1,6 @@
 #include <dt-bindings/iio/adi,ad5592r.h>
 
 &i2c1 {
-#ifdef CLEARFOG_REV1
-	eeprom@54 {
-		compatible = "atmel,24c128";
-		reg = <0x54>;
-		pagesize = <64>;
-	};
-#else
 	// 24CSxx is treated as two separate devices
 	eeprom@52 {
 		compatible = "atmel,24c64";
@@ -17,7 +10,6 @@
 		compatible = "atmel,24cs64";
 		reg = <0x5a>;
 	};
-#endif
 
 	ad5593r@11 {
 		#size-cells = <0>;

@@ -83,7 +83,6 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		velia-firewall.service \
 		velia-health.service \
 		velia-system.service \
-		velia-hardware-g1.service \
 		velia-hardware-g2.service \
 		rousette.service \
 	; do \

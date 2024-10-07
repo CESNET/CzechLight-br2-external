@@ -91,18 +91,11 @@
 			"OCM_HS_IN",
 			"OCM_RESET",
 			"WSS_MRST",
-#ifdef CLEARFOG_REV1
-			"I2C_XOR_ENABLE",
-			"I2C_XORH",
-			"I2C_BB_ENABLE",
-			"GPIO_K6",
-#else
 
 			"",
 			"",
 			"",
 			"",
-#endif
 			"",
 			"",
 			"EDFA1_AMP_DISABLE",
@@ -111,29 +104,6 @@
 			"EDFA2_OUT_POWER_MUTE",
 			"EXP_GPIO1"
 			;
-
-#ifdef CLEARFOG_REV1
-		i2c_bitbang_enable {
-			gpio-hog;
-			gpios = <7 GPIO_ACTIVE_HIGH>;
-			output-high;
-			line-name = "I2C bitbang bus";
-		};
-
-		i2c_xor_high {
-			gpio-hog;
-			gpios = <6 GPIO_ACTIVE_HIGH>;
-			output-high; // XOR byte 0b1001111
-			line-name = "I2C XOR high";
-		};
-
-		i2c_xor_enable {
-			gpio-hog;
-			gpios = <5 GPIO_ACTIVE_HIGH>;
-			output-low;
-			line-name = "I2C addr xlate";
-		};
-#endif
 	};
 
 	gpio_spi_chips: gpio@1 {
@@ -157,18 +127,10 @@
 				"EDFA1_RESET",
 				"EDFA2_RESET",
 				"PMB_ALERT",
-#ifdef CLEARFOG_REV1
-				"EXP_GPIO2",
-#else
 				"GND",
-#endif
 				"WSS_SC",
 				"WSS_RST",
-#ifdef CLEARFOG_REV1
-				"I2C_XOR_RDY",
-#else
 				"GND",
-#endif
 				"OCM_HS_OUT",
 
 				"EDFA1_OUT_REFLECT_A",
@@ -184,13 +146,8 @@
 		gpio-bank@2 {
 			address = <2>;
 			gpio-line-names =
-#ifdef CLEARFOG_REV1
-				"GND",
-				"GND",
-#else
 				"OCM_READY",
 				"OCM_ALARM",
-#endif
 				"GND",
 				"GND",
 				"GND",
@@ -207,16 +164,6 @@
 				"EDFA2_ST1_OUT_GAIN_A",
 				"EDFA2_PUMP_TEMP_A";
 		};
-
-#ifdef CLEARFOG_REV1
-		// FIXME: this hogs both .1 and .2 chips' #6 pin...
-		i2c_xor_ready {
-			gpio-hog;
-			gpios = <6 GPIO_ACTIVE_HIGH>;
-			input;
-			line-name = "I2C XOR ready";
-		};
-#endif
 	};
 
 	lumentum_ocm: lumentum-ocm@3 {
@@ -229,18 +176,6 @@
 };
 
 &i2c1 {
-#ifdef CLEARFOG_REV1
-	eeprom@53 {
-		compatible = "atmel,24c128";
-		reg = <0x53>;
-		pagesize = <64>;
-		// There's no read-only parameter because we want to enable flashing the EEPROM by
-		// installing a physical jumper. It doesn't matter that Linux still considers this
-		// device as writable during normal operation because any write fill fail anyway
-		// on the HW level. At least we can install that jumper and make the writes pass
-		// magically without fiddling with the DT and rebooting.
-	};
-#else
 	temperature@48 {
 		compatible = "ti,tmp175";
 		reg = <0x48>;
@@ -255,7 +190,6 @@
 		compatible = "atmel,24cs64";
 		reg = <0x5b>;
 	};
-#endif
 
 	tlc59116@60 {
 		#address-cells = <1>;
@@ -343,9 +277,6 @@
 		};
 	};
 
-#ifdef CLEARFOG_REV1
-	/* ADT7463: it doesn't use the DT */
-#else
 	temperature@49 {
 		compatible = "ti,tmp175";
 		reg = <0x49>;
@@ -365,5 +296,4 @@
 		compatible = "atmel,24cs64";
 		reg = <0x5c>;
 	};
-#endif
 };

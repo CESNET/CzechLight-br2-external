@@ -110,10 +110,6 @@ Also set up the system type:
 | BiDi Amplifier C-Band + 1572nm | `sdn-bidi-cplus1572` |
 | BiDi Amplifier C-Band + 1572nm with OCM | `sdn-bidi-cplus1572-ocm` |
 
-Some ancient prototypes have deprecated PCBs (blue).
-On these, skip the `-g2` suffix.
-All red PCBs are `-g2`.
-
 ```
 => setenv czechlight sdn-roadm-line-g2
 => saveenv
