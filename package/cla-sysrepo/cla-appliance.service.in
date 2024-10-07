@@ -4,7 +4,6 @@ After=syslog.target network.target cfg-yang.service
 Before=rauc-mark-good.service
 Requires=cfg-yang.service
 StartLimitIntervalSec=0
-ConditionKernelCommandLine=|czechlight=__MODEL__
 ConditionKernelCommandLine=|czechlight=__MODEL__-g2
 
 [Service]
