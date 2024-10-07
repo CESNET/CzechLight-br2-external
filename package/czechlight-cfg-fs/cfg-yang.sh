@@ -74,31 +74,31 @@ case "${CZECHLIGHT}" in
     "")
         # no device model set -> do nothing
         ;;
-    sdn-roadm-line*)
+    sdn-roadm-line-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
                 "--enable-feature hw-line-9"
         )
         ;;
-    sdn-roadm-add-drop*)
+    sdn-roadm-add-drop-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
                 "--enable-feature hw-add-drop-20"
         )
         ;;
-    sdn-roadm-hires-add-drop*)
+    sdn-roadm-hires-add-drop-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
                 "--enable-feature hw-add-drop-20"
                 "--enable-feature pre-wss-ocm"
         )
         ;;
-    sdn-roadm-coherent-a-d*)
+    sdn-roadm-coherent-a-d-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-coherent-add-drop@2021-03-05.yang"
         )
         ;;
-    sdn-inline*)
+    sdn-inline-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-inline-amp@2021-03-05.yang"
         )

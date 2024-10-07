@@ -20,9 +20,9 @@ Name=eth1
 EOF
 
 # custom names for OSC channels
-if grep -q '\<czechlight=sdn-roadm-line.*\>' /proc/cmdline; then
+if grep -q '\<czechlight=sdn-roadm-line-g2\>' /proc/cmdline; then
 	ETH2_NAME=osc
-elif grep -q '\<czechlight=sdn-inline.*\>' /proc/cmdline; then
+elif grep -q '\<czechlight=sdn-inline-g2\>' /proc/cmdline; then
 	ETH2_NAME=oscW
 	ETH3_NAME=oscE
 	ETH4_NAME=sfp3
