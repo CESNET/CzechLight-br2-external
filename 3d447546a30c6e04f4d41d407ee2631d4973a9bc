@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbfb37e7_75ed5119",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-10-08T11:10:43Z",
+      "side": 1,
+      "message": "I am not familiar with the hw stuff, hence +1",
+      "revId": "3d447546a30c6e04f4d41d407ee2631d4973a9bc",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
