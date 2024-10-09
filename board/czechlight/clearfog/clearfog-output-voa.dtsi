@@ -2,11 +2,11 @@
 
 &i2c1 {
 	// 24CSxx is treated as two separate devices
-	eeprom@52 {
+	cross_bar_eeprom: eeprom@52 {
 		compatible = "atmel,24c64";
 		reg = <0x52>;
 	};
-	eeprom@5a {
+	cross_bar_serial: eeprom@5a {
 		compatible = "atmel,24cs64";
 		reg = <0x5a>;
 	};
