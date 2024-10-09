@@ -40,10 +40,9 @@
 };
 
 &gpio_i2c {
-	pdu@25 {
-		compatible = "fsp,yh5151e";
-		reg = <0x25>;
-	};
+	// Do not list any devices here. This bus is a bit prone to lockups due to buggy I2C slaves.
+	// When that happens, our code in velia tries to unbind a driver, but doing that on a HW that
+	// was not instantiated from the userspace fails.
 };
 
 &pinctrl {
