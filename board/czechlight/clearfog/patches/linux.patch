@@ -92,6 +92,24 @@ index f8a06ae4a3c91..e14020e653a12 100644
  	clearfog_sdhci_cd_pins: clearfog-sdhci-cd-pins {
  		marvell,pins = "mpp20";
  		marvell,function = "gpio";
+diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
+index 72a7c261ef068..56451c98eba9c 100644
+--- a/drivers/hwmon/pmbus/fsp-3y.c
++++ b/drivers/hwmon/pmbus/fsp-3y.c
+@@ -269,8 +269,12 @@ static int fsp3y_probe(struct i2c_client *client)
+ 		if (rv < 0)
+ 			return rv;
+ 
+-		if (rv == 0xFF)
++		if (rv == 0xFF) {
+ 			data->vout_linear_11 = true;
++			dev_dbg(&client->dev, "VOUT_MODE %02x: Activating quirk for vout_linear_11\n", rv);
++		} else {
++			dev_dbg(&client->dev, "VOUT_MODE %02x: defaulting to linear16\n", rv);
++		}
+ 	}
+ 
+ 	return pmbus_do_probe(client, &data->info);
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
 index 945e831ef4ac4..682ad60970d09 100644
 --- a/drivers/leds/leds-tlc591xx.c
