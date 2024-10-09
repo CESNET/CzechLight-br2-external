@@ -182,11 +182,11 @@
 	};
 
 	// 24CSxx is treated as two separate devices
-	eeprom@53 {
+	main_board_eeprom: eeprom@53 {
 		compatible = "atmel,24c64";
 		reg = <0x53>;
 	};
-	eeprom@5b {
+	main_board_serial: eeprom@5b {
 		compatible = "atmel,24cs64";
 		reg = <0x5b>;
 	};
@@ -288,11 +288,11 @@
 	};
 
 	// 24CSxx is treated as two separate devices
-	eeprom@54 {
+	fan_panel_eeprom: eeprom@54 {
 		compatible = "atmel,24c64";
 		reg = <0x54>;
 	};
-	eeprom@5c {
+	fan_panel_serial: eeprom@5c {
 		compatible = "atmel,24cs64";
 		reg = <0x5c>;
 	};
