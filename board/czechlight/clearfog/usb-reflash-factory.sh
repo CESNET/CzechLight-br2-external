@@ -15,11 +15,11 @@ i2cset -y 1 0x60 0x0c 0xff || true
 # yellow blinking
 i2cset -y 1 0x60 0x16 0x0f || true
 
-watchdog /dev/watchdog
+busctl set-property org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager RuntimeWatchdogUSec t 30000000
 
 mkdir /tmp/sdcard.image
 mount /mnt/sdcard.img.squashfs /tmp/sdcard.image/
-blkdiscard /dev/mmcblk0
+blkdiscard -f /dev/mmcblk0
 ddrescue --force /tmp/sdcard.image/sdcard.img /dev/mmcblk0
 
 echo 0 > /sys/block/mmcblk0boot0/force_ro
