@@ -31,6 +31,7 @@ elif (( ${OLD_VERSION} > ${NEW_VERSION} )); then
     exit 1
 fi
 
+mkdir -p ${CFG_SYSREPO_DIR}
 rm -rf ${CFG_SYSREPO_DIR}/old/${OLD_VERSION}
 if [[ -f "${CFG_STARTUP_FILE}" ]]; then
     mkdir -p ${CFG_SYSREPO_DIR}/old/${OLD_VERSION}
