@@ -1,8 +1,7 @@
 [Unit]
 Description=Reflash from USB
-DefaultDependencies=no
-Requires=mnt.mount
-After=mnt.mount
+Requires=mnt.mount dbus.service
+After=mnt.mount dbus.service
 
 [Service]
 Type=oneshot
