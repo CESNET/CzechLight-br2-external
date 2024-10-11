@@ -75,7 +75,7 @@ If recovering a totally bricked board (or one that is fresh from factory), use t
 Ensure that the jumpers are set to `0 1 0 0 1` (default for eMMC boot is `0 0 1 1 1`), and then use U-Boot's `kwboot` tool:
 
 ```sh
-./host/bin/kwboot -b ./u-boot-spl.kwb -t -p /dev/ttyUSB0
+./host/bin/kwboot -b ./u-boot-with-spl.kwb -t -p /dev/ttyUSB0
 ```
 Prepare a USB flash disk with a raw bootable image, `images/usb-flash.img`.
 Use a tool such as `dd` to overwrite the raw block device, do not copy the image file.

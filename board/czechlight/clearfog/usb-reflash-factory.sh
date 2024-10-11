@@ -25,8 +25,8 @@ ddrescue --force /tmp/sdcard.image/sdcard.img /dev/mmcblk0
 echo 0 > /sys/block/mmcblk0boot0/force_ro
 echo 0 > /sys/block/mmcblk0boot1/force_ro
 
-ddrescue --force /mnt/u-boot-spl.kwb /dev/mmcblk0boot0
-ddrescue --force /mnt/u-boot-spl.kwb /dev/mmcblk0boot1
+ddrescue --force /mnt/u-boot-with-spl.kwb /dev/mmcblk0boot0
+ddrescue --force /mnt/u-boot-with-spl.kwb /dev/mmcblk0boot1
 
 # solid yellow
 i2cset -y 1 0x60 0x16 0x05 || true

@@ -1,0 +1,5 @@
+config BR2_PACKAGE_KWBOOT
+	bool "kwboot"
+	depends on BR2_TARGET_UBOOT
+	help
+	  Build kwboot from uboot-tools
