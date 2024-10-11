@@ -9,9 +9,9 @@ fi
 
 echo 0 > /sys/block/mmcblk0boot0/force_ro
 echo 0 > /sys/block/mmcblk0boot1/force_ro
-ddrescue --force /usr/libexec/u-boot-spl.kwb /dev/mmcblk0boot0
-ddrescue --force /usr/libexec/u-boot-spl.kwb /dev/mmcblk0boot1
-dd if=/usr/libexec/u-boot-spl.kwb of=/dev/mmcblk0 bs=512 seek=1
+ddrescue --force /usr/libexec/u-boot-with-spl.kwb /dev/mmcblk0boot0
+ddrescue --force /usr/libexec/u-boot-with-spl.kwb /dev/mmcblk0boot1
+dd if=/usr/libexec/u-boot-with-spl.kwb of=/dev/mmcblk0 bs=512 seek=1
 sync
 echo 1 > /sys/block/mmcblk0boot1/force_ro
 echo 1 > /sys/block/mmcblk0boot0/force_ro
