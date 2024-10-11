@@ -1,0 +1,64 @@
+KWBOOT_VERSION = 2024.10
+KWBOOT_SOURCE = u-boot-${KWBOOT_VERSION}.tar.bz2
+KWBOOT_SITE = ftp://ftp.denx.de/pub/u-boot
+KWBOOT_LICENSE = GPL-2.0+
+KWBOOT_LICENSE_FILES = Licenses/gpl-2.0.txt
+KWBOOT_CPE_ID_VENDOR = denx
+KWBOOT_CPE_ID_PRODUCT = u-boot
+
+KWBOOT_COMMON_MAKE_OPTS = \
+	NO_PYTHON=1 \
+	O=$(@D)/bld \
+	CONFIG_TOOLS_MKEFICAPSULE=n \
+	CONFIG_TOOLS_MKFWUMDATA=n \
+	CONFIG_ARCH_MVEBU=y
+
+KWBOOT_MAKE_OPTS = $(KWBOOT_COMMON_MAKE_OPTS) \
+	CROSS_COMPILE="$(TARGET_CROSS)" \
+	CROSS_BUILD_TOOLS=y \
+	CFLAGS="$(TARGET_CFLAGS)" \
+	LDFLAGS="$(TARGET_LDFLAGS)" \
+	HOSTCFLAGS="$(HOST_CFLAGS)" \
+	STRIP=$(TARGET_STRIP)
+
+KWBOOT_DEPENDENCIES = $(BR2_MAKE_HOST_DEPENDENCY) \
+	host-pkgconf \
+	ncurses \
+	openssl \
+	util-linux
+
+HOST_KWBOOT_MAKE_OPTS = $(KWBOOT_COMMON_MAKE_OPTS) \
+	CROSS_COMPILE="" \
+	HOSTCC="$(HOSTCC)" \
+        HOSTCFLAGS="$(HOST_CFLAGS)" \
+        HOSTLDFLAGS="$(HOST_LDFLAGS)" \
+	AR=$(HOSTAR)
+
+HOST_KWBOOT_DEPENDENCIES = $(BR2_MAKE_HOST_DEPENDENCY)
+
+define KWBOOT_CONFIGURE_CMDS
+	$(TARGET_MAKE_ENV) $(MAKE) -C $(@D) $(KWBOOT_MAKE_OPTS) tools-only_defconfig
+endef
+
+define KWBOOT_BUILD_CMDS
+	$(TARGET_MAKE_ENV) $(MAKE) -C $(@D) $(KWBOOT_MAKE_OPTS) tools-all
+endef
+
+define KWBOOT_INSTALL_TARGET_CMDS
+	$(INSTALL) -D -m 0755 $(@D)/bld/tools/kwboot $(TARGET_DIR)/bin
+endef
+
+define HOST_KWBOOT_CONFIGURE_CMDS
+	$(BR2_MAKE) -C $(@D) $(HOST_KWBOOT_MAKE_OPTS) tools-only_defconfig
+endef
+
+define HOST_KWBOOT_BUILD_CMDS
+	$(BR2_MAKE) -C $(@D) $(HOST_KWBOOT_MAKE_OPTS) tools-all
+endef
+
+define HOST_KWBOOT_INSTALL_CMDS
+	$(INSTALL) -D -m 0755 $(@D)/bld/tools/kwboot $(HOST_DIR)/bin
+endef
+
+$(eval $(generic-package))
+$(eval $(host-generic-package))
