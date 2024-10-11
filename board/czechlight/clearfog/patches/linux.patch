@@ -1,5 +1,5 @@
 diff --git a/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt b/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt
-index 2fa5edac7a35a..4906544628ecd 100644
+index 2fa5edac7a35..4906544628ec 100644
 --- a/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt
 +++ b/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt
 @@ -146,3 +146,38 @@ gpio21: gpio@21 {
@@ -42,7 +42,7 @@ index 2fa5edac7a35a..4906544628ecd 100644
 +	};
 +};
 diff --git a/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi b/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
-index f8a06ae4a3c91..e14020e653a12 100644
+index f8a06ae4a3c9..e14020e653a1 100644
 --- a/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
 +++ b/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
 @@ -111,6 +111,12 @@ &eth2 {
@@ -92,26 +92,8 @@ index f8a06ae4a3c91..e14020e653a12 100644
  	clearfog_sdhci_cd_pins: clearfog-sdhci-cd-pins {
  		marvell,pins = "mpp20";
  		marvell,function = "gpio";
-diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
-index 72a7c261ef068..56451c98eba9c 100644
---- a/drivers/hwmon/pmbus/fsp-3y.c
-+++ b/drivers/hwmon/pmbus/fsp-3y.c
-@@ -269,8 +269,12 @@ static int fsp3y_probe(struct i2c_client *client)
- 		if (rv < 0)
- 			return rv;
- 
--		if (rv == 0xFF)
-+		if (rv == 0xFF) {
- 			data->vout_linear_11 = true;
-+			dev_dbg(&client->dev, "VOUT_MODE %02x: Activating quirk for vout_linear_11\n", rv);
-+		} else {
-+			dev_dbg(&client->dev, "VOUT_MODE %02x: defaulting to linear16\n", rv);
-+		}
- 	}
- 
- 	return pmbus_do_probe(client, &data->info);
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index 945e831ef4ac4..682ad60970d09 100644
+index 945e831ef4ac..682ad60970d0 100644
 --- a/drivers/leds/leds-tlc591xx.c
 +++ b/drivers/leds/leds-tlc591xx.c
 @@ -39,6 +39,9 @@
@@ -170,7 +152,7 @@ index 945e831ef4ac4..682ad60970d09 100644
  	if (err < 0)
  		return err;
 diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
-index 2a57328eca207..dc6816d36d069 100644
+index 2a57328eca20..dc6816d36d06 100644
 --- a/drivers/leds/trigger/Kconfig
 +++ b/drivers/leds/trigger/Kconfig
 @@ -83,7 +83,6 @@ config LEDS_TRIGGER_ACTIVITY
@@ -182,7 +164,7 @@ index 2a57328eca207..dc6816d36d069 100644
  	  This allows LEDs to be controlled by gpio events. It's good
  	  when using gpios as switches and triggering the needed LEDs
 diff --git a/drivers/pinctrl/pinctrl-mcp23s08_spi.c b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
-index ea059b9c5542e..d58c6e631942b 100644
+index ea059b9c5542..d58c6e631942 100644
 --- a/drivers/pinctrl/pinctrl-mcp23s08_spi.c
 +++ b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
 @@ -8,6 +8,7 @@
@@ -249,7 +231,7 @@ index ea059b9c5542e..d58c6e631942b 100644
  	data->ngpio = ngpio;
  
 diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index 1f10f5c8e34d7..25bde84af1cc5 100644
+index 1f10f5c8e34d..25bde84af1cc 100644
 --- a/drivers/spi/spi-orion.c
 +++ b/drivers/spi/spi-orion.c
 @@ -472,7 +472,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
@@ -262,7 +244,7 @@ index 1f10f5c8e34d7..25bde84af1cc5 100644
  
  	orion_spi = spi_controller_get_devdata(spi->controller);
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index e339abff926d3..2a74aab60d799 100644
+index e339abff926d..2a74aab60d79 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
 @@ -27,9 +27,11 @@
@@ -337,7 +319,7 @@ index e339abff926d3..2a74aab60d799 100644
  	}
  
 diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-index b97224a8a65b9..00f43dd9edafe 100644
+index b97224a8a65b..00f43dd9edaf 100644
 --- a/tools/perf/Makefile.perf
 +++ b/tools/perf/Makefile.perf
 @@ -188,7 +188,7 @@ HOSTLD  ?= ld
