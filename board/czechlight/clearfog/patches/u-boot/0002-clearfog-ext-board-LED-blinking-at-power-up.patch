@@ -1,0 +1,106 @@
+From a2db423a26a8990e7f223a55d196f576de6c720c Mon Sep 17 00:00:00 2001
+Message-ID: <a2db423a26a8990e7f223a55d196f576de6c720c.1728658307.git.jan.kundrat@cesnet.cz>
+In-Reply-To: <082f86a75b25a3c1bdafd3c5aca407d7622dec65.1728658307.git.jan.kundrat@cesnet.cz>
+References: <082f86a75b25a3c1bdafd3c5aca407d7622dec65.1728658307.git.jan.kundrat@cesnet.cz>
+From: =?UTF-8?q?Jan=20Kundr=C3=A1t?= <jan.kundrat@cesnet.cz>
+Date: Mon, 20 Aug 2018 19:40:56 +0200
+Subject: [PATCH 2/2] clearfog: ext board: LED blinking at power-up
+
+My goal is to activate this blinking ASAP so that a proper indication is
+shown even during, e.g., U-Boot's three-second waiting for a keystroke
+to interrupt autoboot.
+---
+ board/solidrun/clearfog/clearfog.c | 70 ++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+
+diff --git a/board/solidrun/clearfog/clearfog.c b/board/solidrun/clearfog/clearfog.c
+index 2dbd071abd9..74a1b46d12f 100644
+--- a/board/solidrun/clearfog/clearfog.c
++++ b/board/solidrun/clearfog/clearfog.c
+@@ -227,6 +227,74 @@ int board_early_init_f(void)
+ 	return 0;
+ }
+ 
++#define TLC59XXX_REG_MODE1 0x00
++#define TLC59XXX_REG_MODE2 0x01
++#define TLC59XXX_REG_PWM(LED) (LED + 0x02)
++#define TLC59XXX_REG_GRPPWM 0x12
++#define TLC59XXX_REG_GRPFREQ 0x13
++#define TLC59XXX_REG_LEDOUT0 0x14
++#define TLC59XXX_REG_LEDOUT1 0x15
++#define TLC59XXX_REG_LEDOUT2 0x16
++#define TLC59XXX_REG_LEDOUT3 0x17
++#define TLC59XXX_CHIP_RESET_ADDR 0x6b
++#define TLC59XXX_RESET_BYTE_0 0xa5
++#define TLC59XXX_RESET_BYTE_1 0x5a
++#define CLA_LED_CHIP_ADDR 0x60
++#define CLA_LED_STATUS_RED 8
++#define CLA_LED_STATUS_GREEN 9
++#define CLA_LED_STATUS_BLUE 10
++
++struct cla_led_config {
++	u8 reg;
++	u8 val;
++};
++
++static struct cla_led_config led_reset_config[] = {
++	{ TLC59XXX_RESET_BYTE_0, TLC59XXX_RESET_BYTE_1 },
++};
++
++static struct cla_led_config led_config[] = {
++	{ TLC59XXX_REG_MODE1, 0x01 }, /* enable oscillator */
++	{ TLC59XXX_REG_MODE2, 0x20 }, /* DMBLINK */
++	{ TLC59XXX_REG_GRPPWM, 0x40 }, /* 25% duty cycle */
++	{ TLC59XXX_REG_GRPFREQ, 0x03 }, /* very fast blinking */
++	{ TLC59XXX_REG_PWM(CLA_LED_STATUS_RED), 0x80 }, /* 50% brightness */
++	{ TLC59XXX_REG_PWM(CLA_LED_STATUS_GREEN), 0x80 }, /* 50% brightness */
++	{ TLC59XXX_REG_PWM(CLA_LED_STATUS_BLUE), 0x80 }, /* 50% brightness */
++	{ TLC59XXX_REG_LEDOUT2, 0x3f }, /* LEDs #8, 9, 10: mode 0b11 -> group blinking */
++};
++
++int cla_setup_leds(void)
++{
++	struct udevice *bus, *dev;
++
++	if (uclass_get_device_by_seq(UCLASS_I2C, 1, &bus)) {
++		puts("Cannot find I2C bus for LEDs\n");
++		return 1;
++	}
++
++	if (i2c_get_chip(bus, TLC59XXX_CHIP_RESET_ADDR, 1, &dev)) {
++		puts("Cannot request I2C chip for SWRST\n");
++		return 1;
++	}
++	if (dm_i2c_write(dev, led_reset_config[0].reg, &led_reset_config[0].val, 1)) {
++		puts("LED reset failed\n");
++		return 1;
++	}
++
++	if (i2c_get_chip(bus, CLA_LED_CHIP_ADDR, 1, &dev)) {
++		puts("Cannot request I2C chip for LEDs\n");
++		return 1;
++	}
++	for (int i = 0; i < ARRAY_SIZE(led_config); i++) {
++		if (dm_i2c_write(dev, led_config[i].reg, &led_config[i].val, 1)) {
++			printf("LED config operation #%d failed\n", i);
++			return 1;
++		}
++	}
++	return 0;
++}
++
+ int board_init(void)
+ {
+ 	/* Address of boot parameters */
+@@ -243,6 +311,8 @@ int board_init(void)
+ 	setbits_le32(MVEBU_GPIO0_BASE + 0x0, BIT(19));
+ 	mdelay(10);
+ 
++	cla_setup_leds();
++
+ 	return 0;
+ }
+ 
+-- 
+2.44.1
+
