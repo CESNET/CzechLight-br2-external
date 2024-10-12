@@ -16,6 +16,24 @@
       "message": "Nah, it seems that this version of U-Boot is FUBAR on mvebu with eMMC (and that it has been so for more than a year). Here\u0027s my bugreport:\n\nhttps://lists.denx.de/pipermail/u-boot/2024-October/567622.html",
       "revId": "9cb4d8f22f8c16b70d238454c9d2f68ff563e67e",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a5ab706_99bee01c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-10-12T00:04:05Z",
+      "side": 1,
+      "message": "more than two years, apparently 😞\n\nhttps://lists.denx.de/pipermail/u-boot/2022-September/494811.html",
+      "parentUuid": "c4bc53d9_c2d53b4f",
+      "revId": "9cb4d8f22f8c16b70d238454c9d2f68ff563e67e",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
