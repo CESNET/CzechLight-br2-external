@@ -92,6 +92,58 @@ index f8a06ae4a3c9..e14020e653a1 100644
  	clearfog_sdhci_cd_pins: clearfog-sdhci-cd-pins {
  		marvell,pins = "mpp20";
  		marvell,function = "gpio";
+diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
+index 72a7c261ef06..2ca5613f10bf 100644
+--- a/drivers/hwmon/pmbus/fsp-3y.c
++++ b/drivers/hwmon/pmbus/fsp-3y.c
+@@ -29,7 +29,7 @@
+ #define YH5151E_PAGE_3V3_REAL	0x11
+ 
+ enum chips {
+-	ym2151e,
++	ym2151,
+ 	yh5151e
+ };
+ 
+@@ -46,7 +46,7 @@ struct fsp3y_data {
+ static int page_log_to_page_real(int page_log, enum chips chip)
+ {
+ 	switch (chip) {
+-	case ym2151e:
++	case ym2151:
+ 		switch (page_log) {
+ 		case YM2151_PAGE_12V_LOG:
+ 			return YM2151_PAGE_12V_REAL;
+@@ -170,7 +170,7 @@ static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase,
+ }
+ 
+ static struct pmbus_driver_info fsp3y_info[] = {
+-	[ym2151e] = {
++	[ym2151] = {
+ 		.pages = 2,
+ 		.func[YM2151_PAGE_12V_LOG] =
+ 			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
+@@ -213,7 +213,9 @@ static int fsp3y_detect(struct i2c_client *client)
+ 
+ 	if (rv == 8) {
+ 		if (!strcmp(buf, "YM-2151E"))
+-			return ym2151e;
++			return ym2151;
++		else if (!strcmp(buf, "YM-2151F"))
++			return ym2151;
+ 		else if (!strcmp(buf, "YH-5151E"))
+ 			return yh5151e;
+ 	}
+@@ -223,7 +225,8 @@ static int fsp3y_detect(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id fsp3y_id[] = {
+-	{"ym2151e", ym2151e},
++	{"ym2151", ym2151},
++	{"ym2151e", ym2151},
+ 	{"yh5151e", yh5151e},
+ 	{ }
+ };
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
 index 945e831ef4ac..682ad60970d0 100644
 --- a/drivers/leds/leds-tlc591xx.c
