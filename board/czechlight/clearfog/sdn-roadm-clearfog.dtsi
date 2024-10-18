@@ -43,6 +43,9 @@
 	// Do not list any devices here. This bus is a bit prone to lockups due to buggy I2C slaves.
 	// When that happens, our code in velia tries to unbind a driver, but doing that on a HW that
 	// was not instantiated from the userspace fails.
+	// The "IPMI FRU" EEPROMs cannot be listed, either, because their probing would fail forever
+	// when the board reboots with a particular EEPROM that's not responding at the time the kernel
+	// driver enumerates the bus.
 };
 
 &pinctrl {
