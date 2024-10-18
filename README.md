@@ -107,8 +107,8 @@ Also set up the system type:
 | ROADM Hi-Res Add/Drop | `sdn-roadm-hires-add-drop-g2` |
 | ROADM Coherent Add/Drop | `sdn-roadm-coherent-a-d-g2` |
 | Inline Amplifier | `sdn-inline-g2` |
-| BiDi Amplifier C-Band + 1572nm | `sdn-bidi-cplus1572` |
-| BiDi Amplifier C-Band + 1572nm with OCM | `sdn-bidi-cplus1572-ocm` |
+| BiDi Amplifier C-Band + 1572nm | `sdn-bidi-cplus1572-g2` |
+| BiDi Amplifier C-Band + 1572nm with OCM | `sdn-bidi-cplus1572-ocm-g2` |
 
 ```
 => setenv czechlight sdn-roadm-line-g2
