@@ -72,18 +72,20 @@ Completely removing all data in the newly updated slot's `cfg` partition will re
 
 On a regular Clearfog Base with an eMMC, one has to bootstrap the device first.
 If recovering a totally bricked board (or one that is fresh from factory), use the `kwboot` command to upload the initial, new enough U-Boot via the console.
-Ensure that the jumpers are set to `0 1 0 0 1` (default for eMMC boot is `0 0 1 1 1`):
+Power the system down, and ensure that the jumpers are set to `0 1 0 0 1` (default for eMMC boot is `0 0 1 1 1`):
 
 ![DIP switch positins for ClearFog eMMC/UART booting](./doc/img/clearfog-booting.jpeg)
 
+Prepare a USB flash disk with a raw bootable image, `images/usb-flash.img`.
+Use a tool such as `dd` to overwrite the raw block device, do not copy the image file.
+Plug the USB flash disk in.
 Then, use U-Boot's `kwboot` tool:
 
 ```sh
 ./host/bin/kwboot -b ./u-boot-spl.kwb -t -p /dev/ttyUSB0
 ```
-Prepare a USB flash disk with a raw bootable image, `images/usb-flash.img`.
-Use a tool such as `dd` to overwrite the raw block device, do not copy the image file.
-Once in U-Boot, plug the USB flash disk and execute:
+...and turn the power on.
+Once in U-Boot, execute:
 
 ```sh
 usb start; fatload usb 0:1 00800000 boot.scr; source 00800000
