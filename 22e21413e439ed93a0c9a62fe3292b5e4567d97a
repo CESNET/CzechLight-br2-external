@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b64022f_d74efa01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-10-21T10:08:06Z",
+      "side": 1,
+      "message": "I can\u0027t say I understand the kernel patch in detail, but here is the +2 from me",
+      "revId": "22e21413e439ed93a0c9a62fe3292b5e4567d97a",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
