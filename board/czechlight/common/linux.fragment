@@ -72,6 +72,16 @@ CONFIG_LEDS_TRIGGER_GPIO=y
 # this is used for EDFA GPIO mapping for LED triggers (I know, I know), bot just general debugging
 CONFIG_DEBUG_FS=y
 
+# /proc/config.gz is very useful
+CONFIG_IKCONFIG=y
+CONFIG_IKCONFIG_PROC=y
+
+# perf features
+CONFIG_SCHEDSTATS=y
+CONFIG_AUDIT=y
+CONFIG_NETFILTER=y
+CONFIG_BPF_SYSCALL=y
+
 # network functionality for the OSC
 CONFIG_BRIDGE=y
 CONFIG_BRIDGE_VLAN_FILTERING=y
@@ -79,6 +89,11 @@ CONFIG_VLAN_8021Q=y
 
 # network: simplify configuration by not caring for sit0
 CONFIG_IPV6_SIT=n
+
+# firewall
+CONFIG_NF_CONNTRACK=y
+CONFIG_NF_TABLES=y
+CONFIG_NFT_CT=y
 
 # These are not needed, let's nuke them
 CONFIG_SOUND=n
@@ -98,11 +113,5 @@ CONFIG_UDF_FS=n
 CONFIG_UBIFS_FS=n
 CONFIG_NFS_FS=n
 CONFIG_KEYS=n
-CONFIG_IKCONFIG=y
-CONFIG_IKCONFIG_PROC=y
-CONFIG_SCHEDSTATS=y
-CONFIG_AUDIT=y
-CONFIG_NETFILTER=y
-CONFIG_NF_CONNTRACK=y
-CONFIG_NF_TABLES=y
-CONFIG_NFT_CT=y
+CONFIG_KEYBOARD_ATKBD=n
+CONFIG_INPUT_MOUSE=n
