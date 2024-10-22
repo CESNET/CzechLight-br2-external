@@ -49,4 +49,8 @@ CONFIG_MACH_DOVE=n
 CONFIG_NR_CPUS=2
 CONFIG_MV643XX_ETH=n
 
+# "Select this if you are building a kernel for a desktop or embedded system
+# with latency requirements in the milliseconds range." -- yes, we are.
+CONFIG_PREEMPT=y
+
 CONFIG_LOCALVERSION="-10-g683b4dee50cd"
