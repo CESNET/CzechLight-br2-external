@@ -31,7 +31,23 @@
 		compatible = "i2c-gpio";
 		sda-gpios = <&gpio0 25 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 		scl-gpios = <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-		i2c-gpio.delay-us = <1>;
+
+		// The delay applies "in addition" to whatever delays are produced by the system itself
+		// (e.g., the overhead of GPIO access). Here's what I measured with CONFIG_PREEMPT on
+		// kernel 6.6.56-10-g683b4dee50cd. The scope (Agilent U1604B) was connected to SCL signal
+		// at the connector at the PCB's edge, the frequency was measured by the scope's built-in
+		// analyzer at the resolution of 5µs/div. The machine was otherwise idle.
+		//
+		// - 1: ~150-175kHz
+		// - 2: ~112-128kHz
+		// - 3: ~96-102kHz
+		// - 4: ~78-85kHz
+		// - 5 (default, and also when using 0 which means "no value"): ~70-75kHz
+		//
+		// When eye-balling the signal traces, it's comfortably at least 10 µs per period,
+		// and both high and low hold times look OK-ish as per the SMBus spec.
+		i2c-gpio,delay-us = <3>;
+
 		i2c-gpio,timeout-ms = <25>;
 		#address-cells = <1>;
 		#size-cells = <0>;
