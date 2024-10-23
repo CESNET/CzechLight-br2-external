@@ -31,7 +31,19 @@
 		compatible = "i2c-gpio";
 		sda-gpios = <&gpio0 25 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 		scl-gpios = <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-		i2c-gpio.delay-us = <1>;
+
+		// The delay applies "in addition" to whatever latency is produced by the system itself
+		// (e.g., GPIO access). Here's what I measured with CONFIG_REALTIME on kernel
+		// 6.6.56-10-g683b4dee50cd. Measured at the PCB's edge connector using Agilent U1604B,
+		// 5us/div, SCL frequency from the built-in analyzer. The machine was otherwise idle.
+		//
+		// - 1: ~150-175kHz
+		// - 2: ~112-128kHz
+		// - 3: ~96-102kHz
+		// - 4: ~78-85kHz
+		// - 5 (default), and also 0 ("no value"): ~70-75kHz
+		i2c-gpio,delay-us = <3>;
+
 		i2c-gpio,timeout-ms = <25>;
 		#address-cells = <1>;
 		#size-cells = <0>;
