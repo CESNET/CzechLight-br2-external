@@ -31,7 +31,7 @@
 		compatible = "i2c-gpio";
 		sda-gpios = <&gpio0 25 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 		scl-gpios = <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-		i2c-gpio.delay-us = <1>;
+		i2c-gpio,delay-us = <4>;
 		i2c-gpio,timeout-ms = <25>;
 		#address-cells = <1>;
 		#size-cells = <0>;
