@@ -93,9 +93,18 @@ index f8a06ae4a3c9..e14020e653a1 100644
  		marvell,pins = "mpp20";
  		marvell,function = "gpio";
 diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
-index 72a7c261ef06..2ca5613f10bf 100644
+index 72a7c261ef06..dfce62425f08 100644
 --- a/drivers/hwmon/pmbus/fsp-3y.c
 +++ b/drivers/hwmon/pmbus/fsp-3y.c
+@@ -10,7 +10,7 @@
+  * exposes only the values, that have been tested to work correctly. Unsupported values either
+  * aren't supported by the devices or their encondings are unknown.
+  */
+-
++#define DEBUG
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
+ #include <linux/kernel.h>
 @@ -29,7 +29,7 @@
  #define YH5151E_PAGE_3V3_REAL	0x11
  
@@ -114,7 +123,40 @@ index 72a7c261ef06..2ca5613f10bf 100644
  		switch (page_log) {
  		case YM2151_PAGE_12V_LOG:
  			return YM2151_PAGE_12V_REAL;
-@@ -170,7 +170,7 @@ static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase,
+@@ -93,11 +93,10 @@ static int set_page(struct i2c_client *client, int page_log)
+ 		/*
+ 		 * Testing showed that the device has a timing issue. After
+ 		 * setting a page, it takes a while, before the device actually
+-		 * gives the correct values from the correct page. 20 ms was
+-		 * tested to be enough to not give wrong values (15 ms wasn't
+-		 * enough).
++		 * gives the correct values from the correct page. 30 ms was
++		 * not enough, let's hope that 50 ms is OK.
+ 		 */
+-		usleep_range(20000, 30000);
++		usleep_range(50000, 60000);
+ 	}
+ 
+ 	return 0;
+@@ -110,7 +109,7 @@ static int fsp3y_read_byte_data(struct i2c_client *client, int page, int reg)
+ 	int rv;
+ 
+ 	/*
+-	 * Inject an exponent for non-compliant YH5151-E.
++	 * Inject an exponent for non-compliant HW.
+ 	 */
+ 	if (data->vout_linear_11 && reg == PMBUS_VOUT_MODE)
+ 		return 0x1A;
+@@ -161,7 +160,7 @@ static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase,
+ 		return rv;
+ 
+ 	/*
+-	 * Handle YH-5151E non-compliant linear11 vout voltage.
++	 * Handle non-compliant linear11 vout voltage.
+ 	 */
+ 	if (data->vout_linear_11 && reg == PMBUS_READ_VOUT)
+ 		rv = sign_extend32(rv, 10) & 0xffff;
+@@ -170,7 +169,7 @@ static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase,
  }
  
  static struct pmbus_driver_info fsp3y_info[] = {
@@ -123,7 +165,7 @@ index 72a7c261ef06..2ca5613f10bf 100644
  		.pages = 2,
  		.func[YM2151_PAGE_12V_LOG] =
  			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-@@ -213,7 +213,9 @@ static int fsp3y_detect(struct i2c_client *client)
+@@ -213,7 +212,9 @@ static int fsp3y_detect(struct i2c_client *client)
  
  	if (rv == 8) {
  		if (!strcmp(buf, "YM-2151E"))
@@ -134,7 +176,7 @@ index 72a7c261ef06..2ca5613f10bf 100644
  		else if (!strcmp(buf, "YH-5151E"))
  			return yh5151e;
  	}
-@@ -223,7 +225,8 @@ static int fsp3y_detect(struct i2c_client *client)
+@@ -223,7 +224,8 @@ static int fsp3y_detect(struct i2c_client *client)
  }
  
  static const struct i2c_device_id fsp3y_id[] = {
@@ -144,6 +186,41 @@ index 72a7c261ef06..2ca5613f10bf 100644
  	{"yh5151e", yh5151e},
  	{ }
  };
+@@ -255,22 +257,22 @@ static int fsp3y_probe(struct i2c_client *client)
+ 	data->info = fsp3y_info[data->chip];
+ 
+ 	/*
+-	 * YH-5151E sometimes reports vout in linear11 and sometimes in
+-	 * linear16. This depends on the exact individual piece of hardware. One
+-	 * YH-5151E can use linear16 and another might use linear11 instead.
++	 * Some older models report vout in linear11. That's not allowed by the
++	 * standard, but that's just how the HW works. This is not limited to 
++	 * either PSU or PDU, and I've seen this in both AC and DC PSU modules.
+ 	 *
+-	 * The format can be recognized by reading VOUT_MODE - if it doesn't
+-	 * report a valid exponent, then vout uses linear11. Otherwise, the
+-	 * device is compliant and uses linear16.
++	 * When VOUT_MODE is not supported, assume the (invalid) linear11
++	 * encoding.
+ 	 */
+ 	data->vout_linear_11 = false;
+-	if (data->chip == yh5151e) {
+-		rv = i2c_smbus_read_byte_data(client, PMBUS_VOUT_MODE);
+-		if (rv < 0)
+-			return rv;
++	rv = i2c_smbus_read_byte_data(client, PMBUS_VOUT_MODE);
++	if (rv < 0)
++		return rv;
+ 
+-		if (rv == 0xFF)
+-			data->vout_linear_11 = true;
++	if (rv == 0xFF) {
++		data->vout_linear_11 = true;
++		dev_dbg(&client->dev,
++			"VOUT_MODE not supported, using non-standard \"linear_11\"\n");
+ 	}
+ 
+ 	return pmbus_do_probe(client, &data->info);
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
 index 945e831ef4ac..682ad60970d0 100644
 --- a/drivers/leds/leds-tlc591xx.c
