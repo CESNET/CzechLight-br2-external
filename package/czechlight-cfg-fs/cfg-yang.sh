@@ -24,6 +24,7 @@ ALARM_MODULES=(
     "--install ${ALARMS_YANG}/ietf-alarms@2019-09-11.yang"
         "--enable-feature alarm-shelving"
         "--enable-feature alarm-summary"
+        "--enable-feature alarm-history"
     "--install ${ALARMS_YANG}/sysrepo-ietf-alarms@2022-02-17.yang"
 )
 VELIA_MODULES=(
