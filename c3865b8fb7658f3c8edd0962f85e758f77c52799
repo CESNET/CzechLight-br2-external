@@ -16,6 +16,23 @@
       "message": "buildroot patch: https://gerrit.cesnet.cz/plugins/gitiles/github/buildroot/buildroot/+/refs/heads/cesnet/2024-11-15%5E%21/",
       "revId": "c3865b8fb7658f3c8edd0962f85e758f77c52799",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfc4d3f4_28876b00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-11-19T10:51:55Z",
+      "side": 1,
+      "message": "...and I can confirm that it fixes the original problem (I just lab-tested this).",
+      "revId": "c3865b8fb7658f3c8edd0962f85e758f77c52799",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
