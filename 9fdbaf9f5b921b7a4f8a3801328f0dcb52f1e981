@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d4c13a1_3bd018c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2024-11-20T08:42:42Z",
+      "side": 1,
+      "message": "Installed on roadm-c2 10.0.0.152",
+      "revId": "9fdbaf9f5b921b7a4f8a3801328f0dcb52f1e981",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
