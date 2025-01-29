@@ -1,1 +1,2 @@
 #include "sdn-roadm-clearfog.dtsi"
+#include "add-drop-clearfog.dtsi"

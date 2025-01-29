@@ -4,3 +4,27 @@
 &lumentum_ocm {
 	status = "disabled";
 };
+
+&led3_red {
+	label = "line-east:red";
+};
+
+&led3_green {
+	label = "line-east:green";
+};
+
+&led3_blue {
+	label = "line-east:blue";
+};
+
+&led1_red {
+	label = "line-west:red";
+};
+
+&led1_green {
+	label = "line-west:green";
+};
+
+&led1_blue {
+	label = "line-west:blue";
+};

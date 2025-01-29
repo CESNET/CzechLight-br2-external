@@ -1,0 +1,11 @@
+&led3_red {
+	label = "express:red";
+};
+
+&led3_green {
+	label = "express:green";
+};
+
+&led3_blue {
+	label = "express:blue";
+};
