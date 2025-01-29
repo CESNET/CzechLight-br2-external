@@ -1,2 +1,14 @@
 #include "sdn-roadm-clearfog.dtsi"
 #include "clearfog-output-voa.dtsi"
+
+&led3_red {
+	label = "line:red";
+};
+
+&led3_green {
+	label = "line:green";
+};
+
+&led3_blue {
+	label = "line:blue";
+};

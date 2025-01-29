@@ -3,3 +3,27 @@
 &lumentum_ocm {
 	status = "disabled";
 };
+
+&led5_red {
+	label = "line-c:red";
+};
+
+&led5_green {
+	label = "line-c:green";
+};
+
+&led5_blue {
+	label = "line-c:blue";
+};
+
+&led3_red {
+	label = "line-l:red";
+};
+
+&led3_green {
+	label = "line-l:green";
+};
+
+&led3_blue {
+	label = "line-l:blue";
+};

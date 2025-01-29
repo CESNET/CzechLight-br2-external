@@ -201,80 +201,82 @@
 		compatible = "ti,tlc59116";
 		reg = <0x60>;
 
-		sfp_red@0 {
+		led4_red: led@0 {
 			label = "sfp:red";
 			reg = <0>;
 		};
 
-		sfp_green@1 {
+		led4_green: led@1 {
 			label = "sfp:green";
 			reg = <1>;
 		};
 
-		sfp_blue@2 {
+		led4_blue: led@2 {
 			label = "sfp:blue";
 			reg = <2>;
 		};
 
 		// OUT3 remains unused
 
-		line_red@4 {
-			label = "line:red";
+		// Typically, LED3 is for indication of any signal at the EDFA's input.
+		led3_red: led@4 {
+			label = "led3:red";
 			reg = <4>;
 		};
 
-		line_green@5 {
-			label = "line:green";
+		led3_green: led@5 {
+			label = "led3:green";
 			reg = <5>;
 		};
 
-		line_blue@6 {
-			label = "line:blue";
+		led3_blue: led@6 {
+			label = "led3:blue";
 			reg = <6>;
 		};
 
-		led5_red@7 {
+		led5_red: led@7 {
 			label = "led5:red";
 			reg = <7>;
 		};
 
-		status_red@8 {
+		led2_red: led@8 {
 			label = "status:red";
 			reg = <8>;
 		};
 
-		status_green@9 {
+		led2_green: led@9 {
 			label = "status:green";
 			reg = <9>;
 			linux,default-trigger = "timer";
 		};
 
-		status_blue@10 {
+		led2_blue: led@10 {
 			label = "status:blue";
 			reg = <10>;
 		};
 
-		led5_green@11 {
+		led5_green: led@11 {
 			label = "led5:green";
 			reg = <11>;
 		};
 
-		uid_red@12 {
+		led1_red: led@12 {
 			label = "uid:red";
 			reg = <12>;
 		};
 
-		uid_green@13 {
+		// on some HW, this is remapped
+		led1_green: led@13 {
 			label = "uid:green";
 			reg = <13>;
 		};
 
-		uid_blue@14 {
+		led1_blue: led@14 {
 			label = "uid:blue";
 			reg = <14>;
 		};
 
-		led5_blue@15 {
+		led5_blue: led@15 {
 			label = "led5:blue";
 			reg = <15>;
 		};
