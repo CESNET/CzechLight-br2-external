@@ -53,4 +53,4 @@ CONFIG_MV643XX_ETH=n
 # with latency requirements in the milliseconds range." -- yes, we are.
 CONFIG_PREEMPT=y
 
-CONFIG_LOCALVERSION="-13-g827369114800"
+CONFIG_LOCALVERSION="-13-gc1f817678696"
