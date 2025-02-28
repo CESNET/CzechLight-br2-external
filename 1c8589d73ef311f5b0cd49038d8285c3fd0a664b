@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3c828a3_0a0d2942",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-02-28T11:14:31Z",
+      "side": 1,
+      "message": "recheck\n\nThe failure is from the retrieval of u-boot via git via HTTP. I\u0027ve repacked the repo, hopefully it\u0027s going to help.",
+      "revId": "1c8589d73ef311f5b0cd49038d8285c3fd0a664b",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
