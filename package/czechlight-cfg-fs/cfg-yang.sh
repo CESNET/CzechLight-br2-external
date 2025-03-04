@@ -22,6 +22,7 @@ ROUSETTE_MODULES=(
 )
 ALARM_MODULES=(
     "--install ${ALARMS_YANG}/ietf-alarms@2019-09-11.yang"
+        "--enable-feature alarm-history"
         "--enable-feature alarm-shelving"
         "--enable-feature alarm-summary"
     "--install ${ALARMS_YANG}/sysrepo-ietf-alarms@2022-02-17.yang"
