@@ -93,7 +93,7 @@ index f8a06ae4a3c9..e14020e653a1 100644
  		marvell,pins = "mpp20";
  		marvell,function = "gpio";
 diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
-index 72a7c261ef06..dfce62425f08 100644
+index 72a7c261ef06..a120fe05ffb2 100644
 --- a/drivers/hwmon/pmbus/fsp-3y.c
 +++ b/drivers/hwmon/pmbus/fsp-3y.c
 @@ -10,7 +10,7 @@
@@ -105,15 +105,17 @@ index 72a7c261ef06..dfce62425f08 100644
  #include <linux/delay.h>
  #include <linux/i2c.h>
  #include <linux/kernel.h>
-@@ -29,7 +29,7 @@
+@@ -29,8 +29,8 @@
  #define YH5151E_PAGE_3V3_REAL	0x11
  
  enum chips {
 -	ym2151e,
+-	yh5151e
 +	ym2151,
- 	yh5151e
++	yh5151
  };
  
+ struct fsp3y_data {
 @@ -46,7 +46,7 @@ struct fsp3y_data {
  static int page_log_to_page_real(int page_log, enum chips chip)
  {
@@ -123,6 +125,15 @@ index 72a7c261ef06..dfce62425f08 100644
  		switch (page_log) {
  		case YM2151_PAGE_12V_LOG:
  			return YM2151_PAGE_12V_REAL;
+@@ -54,7 +54,7 @@ static int page_log_to_page_real(int page_log, enum chips chip)
+ 			return YM2151_PAGE_5VSB_REAL;
+ 		}
+ 		return -EINVAL;
+-	case yh5151e:
++	case yh5151:
+ 		switch (page_log) {
+ 		case YH5151E_PAGE_12V_LOG:
+ 			return YH5151E_PAGE_12V_REAL;
 @@ -93,11 +93,10 @@ static int set_page(struct i2c_client *client, int page_log)
  		/*
  		 * Testing showed that the device has a timing issue. After
@@ -165,7 +176,16 @@ index 72a7c261ef06..dfce62425f08 100644
  		.pages = 2,
  		.func[YM2151_PAGE_12V_LOG] =
  			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-@@ -213,7 +212,9 @@ static int fsp3y_detect(struct i2c_client *client)
+@@ -183,7 +182,7 @@ static struct pmbus_driver_info fsp3y_info[] = {
+ 		.read_word_data = fsp3y_read_word_data,
+ 		.read_byte_data = fsp3y_read_byte_data,
+ 	},
+-	[yh5151e] = {
++	[yh5151] = {
+ 		.pages = 3,
+ 		.func[YH5151E_PAGE_12V_LOG] =
+ 			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
+@@ -213,9 +212,13 @@ static int fsp3y_detect(struct i2c_client *client)
  
  	if (rv == 8) {
  		if (!strcmp(buf, "YM-2151E"))
@@ -174,19 +194,27 @@ index 72a7c261ef06..dfce62425f08 100644
 +		else if (!strcmp(buf, "YM-2151F"))
 +			return ym2151;
  		else if (!strcmp(buf, "YH-5151E"))
- 			return yh5151e;
+-			return yh5151e;
++			return yh5151;
++		else if (!strcmp(buf, "YH-5151F"))
++			return yh5151;
  	}
-@@ -223,7 +224,8 @@ static int fsp3y_detect(struct i2c_client *client)
+ 
+ 	dev_err(&client->dev, "Unsupported model %.*s\n", rv, buf);
+@@ -223,8 +226,10 @@ static int fsp3y_detect(struct i2c_client *client)
  }
  
  static const struct i2c_device_id fsp3y_id[] = {
 -	{"ym2151e", ym2151e},
+-	{"yh5151e", yh5151e},
 +	{"ym2151", ym2151},
 +	{"ym2151e", ym2151},
- 	{"yh5151e", yh5151e},
++	{"yh5151", yh5151},
++	{"yh5151e", yh5151},
  	{ }
  };
-@@ -255,22 +257,22 @@ static int fsp3y_probe(struct i2c_client *client)
+ 
+@@ -255,22 +260,22 @@ static int fsp3y_probe(struct i2c_client *client)
  	data->info = fsp3y_info[data->chip];
  
  	/*
