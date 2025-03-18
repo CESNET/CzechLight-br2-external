@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "f974c91013184c037082ee2ae40dec2b9e7ee99c",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ced5615_a7afc570",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-18T20:57:02Z",
+      "side": 1,
+      "message": "...and just FYI, this appears to work fine on a random line degree, a coherent a/d, and on a WSS a/d.",
+      "revId": "f974c91013184c037082ee2ae40dec2b9e7ee99c",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
