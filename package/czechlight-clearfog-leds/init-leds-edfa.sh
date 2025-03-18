@@ -16,8 +16,18 @@ elif \
         ; then
     EDFA1_STAGE1_LED=express:green
 elif grep -q '\<czechlight=sdn-bidi-cplus1572\>' /proc/cmdline; then
+    # west-to-east input, C-band
     EDFA1_STAGE1_LED=line-c:green
+    # east-to-west input, C-band
+    EDFA1_STAGE2_LED=line-c:blue
+    # west-to-east input, L-band
     EDFA2_STAGE1_LED=line-l:green
+    # east-to-west input, L-band
+    EDFA2_STAGE2_LED=line-l:blue
+
+    # FIXME: this might need some more clever heuristics, but so far all the bidi modules are active-highe,
+    # while the older, dual-stage ones are active-low. Maybe it depends on FW version, though?
+    EDFA_GPIO_ALARM_ACTIVE_HIGH=1
 else
     echo "No EDFA LEDs recognized"
     exit 1
@@ -28,6 +38,9 @@ if [[ -n "${EDFA1_STAGE1_LED+set}" ]]; then
     echo gpio > trigger
     GPIO=$(sed -En 's/.*gpio-(.*) \(EDFA1_ST1_IN_LOS_A .*/\1/p' /sys/kernel/debug/gpio)
     echo $GPIO > gpio
+    if [[ -n "${EDFA_GPIO_ALARM_ACTIVE_HIGH+set}" ]]; then
+        echo 1 > inverted
+    fi
 fi
 
 if [[ -n "${EDFA1_STAGE2_LED+set}" ]]; then
@@ -35,6 +48,9 @@ if [[ -n "${EDFA1_STAGE2_LED+set}" ]]; then
     echo gpio > trigger
     GPIO=$(sed -En 's/.*gpio-(.*) \(EDFA1_ST2_IN_LOS_A .*/\1/p' /sys/kernel/debug/gpio)
     echo $GPIO > gpio
+    if [[ -n "${EDFA_GPIO_ALARM_ACTIVE_HIGH+set}" ]]; then
+        echo 1 > inverted
+    fi
 fi
 
 if [[ -n "${EDFA2_STAGE1_LED+set}" ]]; then
@@ -42,6 +58,17 @@ if [[ -n "${EDFA2_STAGE1_LED+set}" ]]; then
     echo gpio > trigger
     GPIO=$(sed -En 's/.*gpio-(.*) \(EDFA2_ST1_IN_LOS_A .*/\1/p' /sys/kernel/debug/gpio)
     echo $GPIO > gpio
+    if [[ -n "${EDFA_GPIO_ALARM_ACTIVE_HIGH+set}" ]]; then
+        echo 1 > inverted
+    fi
 fi
 
-# there's no EDFA2, stage2 in any of our HW, so no EDFA2_STAGE2_LED block here
+if [[ -n "${EDFA2_STAGE2_LED+set}" ]]; then
+    cd /sys/class/leds/${EDFA2_STAGE2_LED}
+    echo gpio > trigger
+    GPIO=$(sed -En 's/.*gpio-(.*) \(EDFA2_ST2_IN_LOS_A .*/\1/p' /sys/kernel/debug/gpio)
+    echo $GPIO > gpio
+    if [[ -n "${EDFA_GPIO_ALARM_ACTIVE_HIGH+set}" ]]; then
+        echo 1 > inverted
+    fi
+fi
