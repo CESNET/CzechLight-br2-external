@@ -17,14 +17,14 @@
 	label = "line-east:blue";
 };
 
-&led1_red {
+&led5_red {
 	label = "line-west:red";
 };
 
-&led1_green {
+&led5_green {
 	label = "line-west:green";
 };
 
-&led1_blue {
+&led5_blue {
 	label = "line-west:blue";
 };
