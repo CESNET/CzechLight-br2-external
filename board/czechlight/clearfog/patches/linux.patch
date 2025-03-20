@@ -401,7 +401,7 @@ index 1f10f5c8e34d..25bde84af1cc 100644
  
  	orion_spi = spi_controller_get_devdata(spi->controller);
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index e339abff926d..2a74aab60d79 100644
+index e339abff926d..65c98eeb3f05 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
 @@ -27,9 +27,11 @@
@@ -416,7 +416,50 @@ index e339abff926d..2a74aab60d79 100644
  
  /* MAX310X register definitions */
  #define MAX310X_RHR_REG			(0x00) /* RX FIFO */
-@@ -1518,6 +1520,15 @@ static struct regmap_config regcfg = {
+@@ -1081,9 +1083,9 @@ static int max310x_startup(struct uart_port *port)
+ 	max310x_port_update(port, MAX310X_MODE1_REG,
+ 			    MAX310X_MODE1_TRNSCVCTRL_BIT, 0);
+ 
+-	/* Configure MODE2 register & Reset FIFOs*/
+-	val = MAX310X_MODE2_RXEMPTINV_BIT | MAX310X_MODE2_FIFORST_BIT;
+-	max310x_port_write(port, MAX310X_MODE2_REG, val);
++	/* Reset FIFOs */
++	max310x_port_write(port, MAX310X_MODE2_REG,
++			   MAX310X_MODE2_FIFORST_BIT);
+ 	max310x_port_update(port, MAX310X_MODE2_REG,
+ 			    MAX310X_MODE2_FIFORST_BIT, 0);
+ 
+@@ -1111,8 +1113,27 @@ static int max310x_startup(struct uart_port *port)
+ 	/* Clear IRQ status register */
+ 	max310x_port_read(port, MAX310X_IRQSTS_REG);
+ 
+-	/* Enable RX, TX, CTS change interrupts */
+-	val = MAX310X_IRQ_RXEMPTY_BIT | MAX310X_IRQ_TXEMPTY_BIT;
++	/*
++	 * Let's ask for an interrupt after a timeout equivalent to
++	 * the receiving time of 4 characters after the last character
++	 * has been received.
++	 */
++	max310x_port_write(port, MAX310X_RXTO_REG, 4);
++
++	/*
++	 * Make sure we also get RX interrupts when the RX FIFO is
++	 * filling up quickly, so get an interrupt when half of the RX
++	 * FIFO has been filled in.
++	 */
++	max310x_port_write(port, MAX310X_FIFOTRIGLVL_REG,
++			   MAX310X_FIFOTRIGLVL_RX(MAX310X_FIFO_SIZE / 2));
++
++	/* Enable RX timeout interrupt in LSR */
++	max310x_port_write(port, MAX310X_LSR_IRQEN_REG,
++			   MAX310X_LSR_RXTO_BIT);
++
++	/* Enable LSR, RX FIFO trigger, CTS change interrupts */
++	val = MAX310X_IRQ_LSR_BIT  | MAX310X_IRQ_RXFIFO_BIT | MAX310X_IRQ_TXEMPTY_BIT;
+ 	max310x_port_write(port, MAX310X_IRQEN_REG, val | MAX310X_IRQ_CTS_BIT);
+ 
+ 	return 0;
+@@ -1518,6 +1539,15 @@ static struct regmap_config regcfg = {
  	.max_raw_write = MAX310X_FIFO_SIZE,
  };
  
@@ -432,7 +475,7 @@ index e339abff926d..2a74aab60d79 100644
  #ifdef CONFIG_SPI_MASTER
  static int max310x_spi_extended_reg_enable(struct device *dev, bool enable)
  {
-@@ -1535,7 +1546,7 @@ static const struct max310x_if_cfg __maybe_unused max310x_spi_if_cfg = {
+@@ -1535,7 +1565,7 @@ static const struct max310x_if_cfg __maybe_unused max310x_spi_if_cfg = {
  static int max310x_spi_probe(struct spi_device *spi)
  {
  	const struct max310x_devtype *devtype;
@@ -441,7 +484,7 @@ index e339abff926d..2a74aab60d79 100644
  	unsigned int i;
  	int ret;
  
-@@ -1553,6 +1564,8 @@ static int max310x_spi_probe(struct spi_device *spi)
+@@ -1553,6 +1583,8 @@ static int max310x_spi_probe(struct spi_device *spi)
  
  	for (i = 0; i < devtype->nr; i++) {
  		u8 port_mask = i * 0x20;
@@ -450,7 +493,7 @@ index e339abff926d..2a74aab60d79 100644
  		regcfg.read_flag_mask = port_mask;
  		regcfg.write_flag_mask = port_mask | MAX310X_WRITE_BIT;
  		regmaps[i] = devm_regmap_init_spi(spi, &regcfg);
-@@ -1637,7 +1650,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+@@ -1637,7 +1669,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
  {
  	const struct max310x_devtype *devtype;
  	struct i2c_client *port_client;
@@ -459,7 +502,7 @@ index e339abff926d..2a74aab60d79 100644
  	unsigned int i;
  	u8 port_addr;
  
-@@ -1652,6 +1665,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+@@ -1652,6 +1684,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
  				     client->addr, devtype->slave_addr.min,
  				     devtype->slave_addr.max);
  
@@ -467,7 +510,7 @@ index e339abff926d..2a74aab60d79 100644
  	regmaps[0] = devm_regmap_init_i2c(client, &regcfg_i2c);
  
  	for (i = 1; i < devtype->nr; i++) {
-@@ -1660,6 +1674,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+@@ -1660,6 +1693,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
  							client->adapter,
  							port_addr);
  
