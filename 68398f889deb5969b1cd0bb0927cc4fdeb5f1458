@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a7db9a5c_1f710744",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-25T09:32:41Z",
+      "side": 1,
+      "message": "you\u0027re right, but I\u0027m too lazy to rebase",
+      "parentUuid": "393d86e8_04a5acf5",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "68398f889deb5969b1cd0bb0927cc4fdeb5f1458",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "77206230_40f2cb0e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
