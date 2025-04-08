@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ba2166c_64d6f960",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-04-08T11:25:12Z",
+      "side": 1,
+      "message": "This defines the version. Shouldn\u0027t we use 0x26 (Device version)?",
+      "range": {
+        "startLine": 12,
+        "startChar": 82,
+        "endLine": 12,
+        "endChar": 85
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ca966a3_8afa82a5",
         "filename": "doc/eeprom.md",
         "patchSetId": 3
