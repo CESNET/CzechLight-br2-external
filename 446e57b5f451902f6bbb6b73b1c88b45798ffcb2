@@ -47,6 +47,54 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04bb056b_69954fe4",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-08T11:38:15Z",
+      "side": 1,
+      "message": "yes, and it\u0027s also something which is already used in the code (\"today\" it\u0027s set as a U-Boot env var, which is then propagated to the kernel\u0027s command line, and from there it\u0027s read by various systemd units to contorl what software to start, etc)",
+      "parentUuid": "3e3c78f0_60d3d8e2",
+      "range": {
+        "startLine": 12,
+        "startChar": 68,
+        "endLine": 12,
+        "endChar": 85
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f45253d6_f27c23ea",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-08T11:38:15Z",
+      "side": 1,
+      "message": "I was also thinking about that, but in the end I decided against doing so. I\u0027ve now added that into the commit message.",
+      "parentUuid": "8ba2166c_64d6f960",
+      "range": {
+        "startLine": 12,
+        "startChar": 82,
+        "endLine": 12,
+        "endChar": 85
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ca966a3_8afa82a5",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-04-08T11:22:03Z",
       "side": 1,
       "message": "ONIE says that this is the first Mac address allocated and in total the device has allocated NumMACs (0x26) addresses sequentially. Is this guaranteed?",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 72
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e95df4bd_5e4d0718",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-08T11:38:15Z",
+      "side": 1,
+      "message": "Yes (we control the allocation process since it\u0027s \"our block\", and so far, we\u0027ve always allocated them sequentially because that\u0027s the easiest approach).",
+      "parentUuid": "7ca966a3_8afa82a5",
       "range": {
         "startLine": 14,
         "startChar": 26,
@@ -93,6 +165,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a0b367c_bb3c5fae",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-08T11:38:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e807e713_6fe8f42b",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b4b2c7b_e3d6b611",
@@ -116,6 +212,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "758bad85_f17faa78",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-08T11:38:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b4b2c7b_e3d6b611",
+      "range": {
+        "startLine": 32,
+        "startChar": 51,
+        "endLine": 32,
+        "endChar": 66
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3dba07b2_5eebf580",
@@ -129,6 +249,30 @@
       "writtenOn": "2025-04-08T11:22:03Z",
       "side": 1,
       "message": "maybe \"from the byte representing version number\"?",
+      "range": {
+        "startLine": 35,
+        "startChar": 127,
+        "endLine": 35,
+        "endChar": 158
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e919b4fe_209bf0f9",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-08T11:38:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dba07b2_5eebf580",
       "range": {
         "startLine": 35,
         "startChar": 127,
