@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e3c78f0_60d3d8e2",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-04-08T11:22:03Z",
+      "side": 1,
+      "message": "Is it human readable and not a some kind of magic byte, right?",
+      "range": {
+        "startLine": 12,
+        "startChar": 68,
+        "endLine": 12,
+        "endChar": 85
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ca966a3_8afa82a5",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-04-08T11:22:03Z",
+      "side": 1,
+      "message": "ONIE says that this is the first Mac address allocated and in total the device has allocated NumMACs (0x26) addresses sequentially. Is this guaranteed?",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 72
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e807e713_6fe8f42b",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-04-08T11:22:03Z",
+      "side": 1,
+      "message": "I think this should say something like \"these at most 250 bytes\", it is not always 250 bytes, as seen in the examples below.",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b4b2c7b_e3d6b611",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-04-08T11:22:03Z",
+      "side": 1,
+      "message": "So we are not duplicating this ID in the vendor extension TLV. It depends on the TLV type 0x22. perhaps explicitly mention it here? It is clear, but you know...",
+      "range": {
+        "startLine": 32,
+        "startChar": 51,
+        "endLine": 32,
+        "endChar": 66
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dba07b2_5eebf580",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-04-08T11:22:03Z",
+      "side": 1,
+      "message": "maybe \"from the byte representing version number\"?",
+      "range": {
+        "startLine": 35,
+        "startChar": 127,
+        "endLine": 35,
+        "endChar": 158
+      },
+      "revId": "446e57b5f451902f6bbb6b73b1c88b45798ffcb2",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
