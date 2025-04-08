@@ -44,6 +44,7 @@ Once done, the resulting JSON is loaded into sysrepo as the initial data.
 
 MAC addresses and some identification data and in future also calibration data.
 As of 2020-04, MAC addresses and device type information (`czechlight=...`) are in U-Boot env.
+Manufacturer-defined data, such as serial numbers, are in an [EEPROM](eeprom.md).
 
 ## Boot Flow
 
