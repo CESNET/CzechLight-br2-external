@@ -19,6 +19,9 @@ ROUSETTE_MODULES=(
     "--install ${ROUSETTE_YANG}/ietf-restconf@2017-01-26.yang"
     "--install ${ROUSETTE_YANG}/ietf-restconf-monitoring@2017-01-26.yang"
     "--install ${ROUSETTE_YANG}/ietf-yang-patch@2017-02-22.yang"
+    "--install ${ROUSETTE_YANG}/ietf-network-instance@2019-01-21.yang"
+    "--install ${ROUSETTE_YANG}/ietf-restconf-subscribed-notifications@2019-11-17.yang"
+    "--install ${ROUSETTE_YANG}/ietf-subscribed-notifications@2019-09-09.yang"
 )
 ALARM_MODULES=(
     "--install ${ALARMS_YANG}/ietf-alarms@2019-09-11.yang"
