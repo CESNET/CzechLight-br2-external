@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93aff1f8_5d92fefc",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-04-14T09:56:06Z",
+      "side": 1,
+      "message": "Why not 0x01? I have not seen much yet in my life, but from what I have seen I think usually versioning of such things starts at 1.",
+      "range": {
+        "startLine": 26,
+        "startChar": 26,
+        "endLine": 26,
+        "endChar": 30
+      },
+      "revId": "9e3d66566a07e6f1681348165e4efced395087df",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9332549_be8150de",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-04-14T09:56:06Z",
+      "side": 1,
+      "message": "Will every device type contain optical calibration block? I.e., can the length be 0?",
+      "revId": "9e3d66566a07e6f1681348165e4efced395087df",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4c1c439_f5e3b613",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-04-14T09:56:06Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 45,
+        "startChar": 79,
+        "endLine": 45,
+        "endChar": 83
+      },
+      "revId": "9e3d66566a07e6f1681348165e4efced395087df",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
