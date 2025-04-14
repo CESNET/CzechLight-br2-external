@@ -24,6 +24,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8b69bf9_acf62d70",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-14T13:26:11Z",
+      "side": 1,
+      "message": "That\u0027s a good point, I simply started counting at 0 because \"why not\". Also, this should give us enough space for future changes :). Given that the actual value is insignificant, I\u0027ll leave it as-is.",
+      "parentUuid": "93aff1f8_5d92fefc",
+      "range": {
+        "startLine": 26,
+        "startChar": 26,
+        "endLine": 26,
+        "endChar": 30
+      },
+      "revId": "9e3d66566a07e6f1681348165e4efced395087df",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9332549_be8150de",
@@ -41,6 +65,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0364cb4b_91dff88f",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-14T13:26:11Z",
+      "side": 1,
+      "message": "Agreed that this should be spec-ed. I think that always mandating its presence is easier to implement, so I made this clear in the docs.",
+      "parentUuid": "d9332549_be8150de",
+      "revId": "9e3d66566a07e6f1681348165e4efced395087df",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4c1c439_f5e3b613",
@@ -54,6 +96,30 @@
       "writtenOn": "2025-04-14T09:56:06Z",
       "side": 1,
       "message": "Same as above.",
+      "range": {
+        "startLine": 45,
+        "startChar": 79,
+        "endLine": 45,
+        "endChar": 83
+      },
+      "revId": "9e3d66566a07e6f1681348165e4efced395087df",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53b5acc3_c76acd78",
+        "filename": "doc/eeprom.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-04-14T13:26:11Z",
+      "side": 1,
+      "message": "(thanks for highlighting this location as well, and see above for reasoning)",
+      "parentUuid": "d4c1c439_f5e3b613",
       "range": {
         "startLine": 45,
         "startChar": 79,
