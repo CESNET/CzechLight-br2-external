@@ -8,7 +8,8 @@ Before=network-pre.target
 Type=oneshot
 RemainAfterExit=yes
 ExecStartPre=/usr/bin/mkdir -p /run/systemd/network
-ExecStart=/bin/sh -c "[[ -f /cfg/network/eth1.network ]] && cp /cfg/network/eth1.network /run/systemd/network/ || cp /usr/lib/systemd/network/eth1.network /run/systemd/network/"
+ExecStart=/bin/sh -c "cp -a /usr/lib/systemd/network/*.network /run/systemd/network"
+ExecStart=/bin/sh -c "if ls -al /cfg/network/*.network ; then cp -a /cfg/network/*.network /run/systemd/network/; fi"
 
 [Install]
 WantedBy=network-pre.target
