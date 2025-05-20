@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54d303d9_4be3c7e3",
+        "filename": "package/czechlight-cfg-fs/cfg-restore-systemd-networkd.service",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-05-20T08:35:12Z",
+      "side": 1,
+      "message": "Why compgen and not ls? `ls /cfg/network/*.network` should work just fine because exit value is 2 (bash couldn\u0027t expand the glob and ls tries to access nonexistent file) shouldn\u0027t it?",
+      "range": {
+        "startLine": 12,
+        "startChar": 27,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "2e60aaefddd6e05ba5f4120d7385a36e1efac140",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
