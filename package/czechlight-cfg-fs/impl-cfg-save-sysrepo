@@ -2,12 +2,24 @@
 
 CONFIG_FILE=/cfg/sysrepo/startup.json
 NEW_COPY=/cfg/sysrepo/startup.json.2
+TMP_FILE=$(mktemp)
 
-sysrepocfg -d startup -f json -X > ${NEW_COPY}
-if [ ! -s ${NEW_COPY} ]; then
+sysrepocfg -d startup -f json -X | jq > ${TMP_FILE}
+if [ ! -s ${TMP_FILE} ]; then
     logger -p user.emerg "Corrupted sysrepo configuration dump"
     exit 1
 fi
-sync ${NEW_COPY}
-mv ${NEW_COPY} ${CONFIG_FILE}
-sync ${CONFIG_FILE}
+
+if diff -q ${TMP_FILE} ${CONFIG_FILE} > /dev/null; then
+    rm ${TMP_FILE}
+else
+    # diff -u ${TMP_FILE} ${CONFIG_FILE}
+
+    # rename(2) is never atomic across FS boundaries, and mv(1) overwrites the file in-place.
+    # Let's just prepare a copy within the target FS first...
+    mv ${TMP_FILE} ${NEW_COPY}
+    sync ${NEW_COPY}
+    # ...and then move it atomically.
+    mv ${NEW_COPY} ${CONFIG_FILE}
+    sync ${CONFIG_FILE}
+fi
