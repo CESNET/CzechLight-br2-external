@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a7814c62_89e925f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-21T13:33:55Z",
+      "side": 1,
+      "message": "I split that part into https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/8754, hopefully the new wording is more readable.",
+      "parentUuid": "68868c5d_e2689f83",
+      "range": {
+        "startLine": 20,
+        "startChar": 43,
+        "endLine": 20,
+        "endChar": 68
+      },
+      "revId": "0af0ff4fa5aa2d1b4ae282aff192352710a52560",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f8587c39_8cbf4281",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
