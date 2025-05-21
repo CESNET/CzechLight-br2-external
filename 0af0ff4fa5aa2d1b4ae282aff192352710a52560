@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8587c39_8cbf4281",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-21T11:36:25Z",
+      "side": 1,
+      "message": "This appears to work:\n```\nJan 01 00:00:09 roadm-c2 systemd[1]: Starting Persisting persistent sysrepo datastores to /cfg...\nJan 01 00:00:09 roadm-c2 systemd[1]: Started Persisting persistent sysrepo datastores to /cfg.\nJan 01 00:00:10 roadm-c2 sh[276]: Setting up watches.\nJan 01 00:00:10 roadm-c2 sh[276]: Watches established.\nMay 21 11:34:33 roadm-c2 sh[621]: --- /cfg/sysrepo/startup.json\nMay 21 11:34:33 roadm-c2 sh[621]: +++ /tmp/tmp.keZn9X\nMay 21 11:34:33 roadm-c2 sh[621]: @@ -729,6 +729,9 @@\nMay 21 11:34:33 roadm-c2 sh[621]:        \"description\": \"Whole-band overview\"\nMay 21 11:34:33 roadm-c2 sh[621]:      }\nMay 21 11:34:33 roadm-c2 sh[621]:    ],\nMay 21 11:34:33 roadm-c2 sh[621]: +  \"czechlight-roadm-device:line\": {\nMay 21 11:34:33 roadm-c2 sh[621]: +    \"output-voa\": \"0.1\"\nMay 21 11:34:33 roadm-c2 sh[621]: +  },\nMay 21 11:34:33 roadm-c2 sh[621]:    \"ietf-alarms:alarms\": {\nMay 21 11:34:33 roadm-c2 sh[621]:      \"control\": {\nMay 21 11:34:33 roadm-c2 sh[621]:        \"alarm-shelving\": {\nMay 21 11:34:33 roadm-c2 sh[623]: sync: ignoring all arguments\nMay 21 11:34:33 roadm-c2 sh[625]: sync: ignoring all arguments\nMay 21 11:34:47 roadm-c2 sh[661]: --- /cfg/sysrepo/startup.json\nMay 21 11:34:47 roadm-c2 sh[661]: +++ /tmp/tmp.RZMmKc\nMay 21 11:34:47 roadm-c2 sh[661]: @@ -729,9 +729,6 @@\nMay 21 11:34:47 roadm-c2 sh[661]:        \"description\": \"Whole-band overview\"\nMay 21 11:34:47 roadm-c2 sh[661]:      }\nMay 21 11:34:47 roadm-c2 sh[661]:    ],\nMay 21 11:34:47 roadm-c2 sh[661]: -  \"czechlight-roadm-device:line\": {\nMay 21 11:34:47 roadm-c2 sh[661]: -    \"output-voa\": \"0.1\"\nMay 21 11:34:47 roadm-c2 sh[661]: -  },\nMay 21 11:34:47 roadm-c2 sh[661]:    \"ietf-alarms:alarms\": {\nMay 21 11:34:47 roadm-c2 sh[661]:      \"control\": {\nMay 21 11:34:47 roadm-c2 sh[661]:        \"alarm-shelving\": {\nMay 21 11:34:47 roadm-c2 sh[663]: sync: ignoring all arguments\nMay 21 11:34:47 roadm-c2 sh[665]: sync: ignoring all arguments\n```",
+      "revId": "0af0ff4fa5aa2d1b4ae282aff192352710a52560",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
