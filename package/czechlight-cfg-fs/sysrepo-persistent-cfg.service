@@ -9,6 +9,7 @@ UMask=0077
 ExecStartPre=/bin/sh -c 'mkdir -p /cfg/sysrepo/ && cfg-save-sysrepo'
 ExecStart=/bin/sh -c 'while true; do inotifywait -e CLOSE_WRITE /etc/sysrepo/data/*.startup && cfg-save-sysrepo; done'
 Group=sysrepo
+PrivateTmp=yes
 
 [Install]
 WantedBy=multi-user.target
