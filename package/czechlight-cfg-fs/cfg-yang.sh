@@ -112,13 +112,13 @@ case "${CZECHLIGHT}" in
         ;;
     sdn-bidi-cplus1572-g2)
         CLA_MODULES+=(
-            "--install ${CLA_YANG}/czechlight-bidi-amp@2022-03-22.yang"
+            "--install ${CLA_YANG}/czechlight-bidi-amp@2025-05-22.yang"
                 "--enable-feature dualband-c-plus-1572"
         )
         ;;
     sdn-bidi-cplus1572-ocm-g2)
         CLA_MODULES+=(
-            "--install ${CLA_YANG}/czechlight-bidi-amp@2022-03-22.yang"
+            "--install ${CLA_YANG}/czechlight-bidi-amp@2025-05-22.yang"
                 "--enable-feature dualband-c-plus-1572"
                 "--enable-feature c-band-ocm"
         )

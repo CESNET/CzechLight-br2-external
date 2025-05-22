@@ -104,6 +104,26 @@ if (( ${OLD_VERSION} < 9 )); then
 
     # libyang v3 mass "migration" means dropping everything, so there's no ${DATA_FILE} as an input
     jq -f ${SCRIPT_ROOT}/meld.jq ${V9_MERGE[@]} > ${DATA_FILE}
+elif (( ${OLD_VERSION} < 10 )); then
+    # On bidi amplifiers, pump control now has a different syntax (https://gerrit.cesnet.cz/c/CzechLight/cla-sysrepo/+/8755)
+    FILTER="."
+    for AMP in czechlight-bidi-amp:c-band czechlight-bidi-amp:narrow-1572; do
+        # If this amplifier-band block is present, define a whole new content of the "pump" member.
+        # Make it a one-leaf dict, either setting the amplifier to "disabled" explicitly, or backporting
+        # the pump current.
+        FILTER="${FILTER} |
+if (has(\"${AMP}\")) then
+  .\"${AMP}\".pump =
+    if (.\"${AMP}\".pump == \"disabled\") then
+        {\"disabled\": [null]}
+    else
+        {\"manual-current\": .\"${AMP}\".pump}
+    end
+else
+    .
+end"
+    done
+    jq -r "${FILTER}" < ${CFG_STARTUP_FILE} > ${DATA_FILE}
 else
     cp ${CFG_STARTUP_FILE} ${DATA_FILE}
 fi

@@ -1,0 +1,12 @@
+{
+  "czechlight-bidi-amp:c-band": {
+    "pump": {
+      "disabled": [null]
+    }
+  },
+  "czechlight-bidi-amp:narrow-1572": {
+    "pump": {
+      "manual-current": "10.0"
+    }
+  }
+}
