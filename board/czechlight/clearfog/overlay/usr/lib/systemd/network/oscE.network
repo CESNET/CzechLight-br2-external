@@ -1,5 +1,5 @@
 [Match]
-Name=osc
+Name=oscE
 
 [Network]
 Bridge=br0
