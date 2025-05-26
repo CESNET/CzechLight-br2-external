@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "661d1cb7_8cdc2399",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-26T17:57:07Z",
+      "side": 1,
+      "message": "FYI, a tool for producing the EEPROM images. It needs Python and the example usage given in the commit message assumes that it\u0027s connected to the device via USB.",
+      "revId": "1141030a989edcbfb6a709a8085abfd25b8baea5",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
