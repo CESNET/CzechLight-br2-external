@@ -16,6 +16,23 @@
       "message": "this is just an import of what\u0027s been written last month, for generating the calibration data blob",
       "revId": "cd3b3947a5e1401af1ef3c81bb2b10dfd67d2d77",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2dedcc2_2a3de175",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-05-26T17:55:11Z",
+      "side": 1,
+      "message": "...or nope, let\u0027s squash that instead.",
+      "revId": "cd3b3947a5e1401af1ef3c81bb2b10dfd67d2d77",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
