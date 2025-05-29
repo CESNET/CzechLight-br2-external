@@ -1,0 +1,23 @@
+[Unit]
+Description=Network management via sysrepo
+After=syslog.target network.target cfg-yang.service
+Before=rauc-mark-good.service
+Requires=cfg-yang.service
+ConditionKernelCommandLine=czechlight
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/veliad-network
+Group=sysrepo
+PrivateTmp=yes
+PrivateDevices=no
+ProtectSystem=yes
+ProtectHome=yes
+Restart=always
+RestartSec=10s
+LogRateLimitIntervalSec=10
+LogRateLimitBurst=30000
+SyslogLevel=alert
+
+[Install]
+WantedBy=multi-user.target
