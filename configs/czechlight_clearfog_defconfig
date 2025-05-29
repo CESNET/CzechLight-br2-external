@@ -12,6 +12,7 @@ BR2_STRIP_EXCLUDE_FILES="cla-* netopeer* *sysrepo* *netconf* *yang* velia* rouse
 BR2_STRIP_EXCLUDE_DIRS="/usr/lib/libyang /usr/lib/sysrepo"
 BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_CZECHLIGHT_PATH)/board/czechlight/common/patches"
 BR2_PER_PACKAGE_DIRECTORIES=y
+BR2_TIME_BITS_64=y
 BR2_TARGET_GENERIC_HOSTNAME="czechlight"
 BR2_TARGET_GENERIC_ISSUE="Welcome to Czech Light"
 BR2_TARGET_GENERIC_PASSWD_SHA512=y
