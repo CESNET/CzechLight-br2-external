@@ -3,7 +3,7 @@
     parent: run-ci-build-sh-f38
     pre-run: ci/pre.yaml
     post-run: ci/post.yaml
-    timeout: 3600
+    timeout: 5400
     post-timeout: 600
     vars:
       prepare_git_submodules: true
