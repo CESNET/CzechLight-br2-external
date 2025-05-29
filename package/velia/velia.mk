@@ -24,6 +24,7 @@ define VELIA_INSTALL_INIT_SYSTEMD
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/velia-health.service \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/velia-hardware-g2.service \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/velia-system.service \
+		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/velia-network.service \
 		$(BR2_EXTERNAL_CZECHLIGHT_PATH)/package/velia/velia-firewall.service
 endef
 
