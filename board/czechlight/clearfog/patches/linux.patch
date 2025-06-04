@@ -320,6 +320,43 @@ index 2a57328eca20..dc6816d36d06 100644
  	help
  	  This allows LEDs to be controlled by gpio events. It's good
  	  when using gpios as switches and triggering the needed LEDs
+diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
+index c38be2880efc..d8afdea21310 100644
+--- a/drivers/net/ethernet/intel/igb/igb_main.c
++++ b/drivers/net/ethernet/intel/igb/igb_main.c
+@@ -2425,11 +2425,7 @@ void igb_reset(struct igb_adapter *adapter)
+ 	/* Re-initialize the thermal sensor on i350 devices. */
+ 	if (!test_bit(__IGB_DOWN, &adapter->state)) {
+ 		if (mac->type == e1000_i350 && hw->bus.func == 0) {
+-			/* If present, re-initialize the external thermal sensor
+-			 * interface.
+-			 */
+-			if (adapter->ets)
+-				igb_set_i2c_bb(hw);
++			igb_set_i2c_bb(hw);
+ 			mac->ops.init_thermal_sensor_thresh(hw);
+ 		}
+ 	}
+@@ -3184,6 +3180,7 @@ static s32 igb_init_i2c(struct igb_adapter *adapter)
+ 	 * This bus will use the i2c_algo_bit structure that implements
+ 	 * the protocol through toggling of the 4 bits in the register.
+ 	 */
++	igb_set_i2c_bb(&adapter->hw);
+ 	adapter->i2c_adap.owner = THIS_MODULE;
+ 	adapter->i2c_algo = igb_i2c_algo;
+ 	adapter->i2c_algo.data = adapter;
+@@ -3568,11 +3565,6 @@ static int igb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 			adapter->ets = true;
+ 		else
+ 			adapter->ets = false;
+-		/* Only enable I2C bit banging if an external thermal
+-		 * sensor is supported.
+-		 */
+-		if (adapter->ets)
+-			igb_set_i2c_bb(hw);
+ 		hw->mac.ops.init_thermal_sensor_thresh(hw);
+ 		if (igb_sysfs_init(adapter))
+ 			dev_err(&pdev->dev,
 diff --git a/drivers/pinctrl/pinctrl-mcp23s08_spi.c b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
 index ea059b9c5542..d58c6e631942 100644
 --- a/drivers/pinctrl/pinctrl-mcp23s08_spi.c
