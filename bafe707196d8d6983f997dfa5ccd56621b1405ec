@@ -16,6 +16,23 @@
       "message": "recheck (after the tags have been pushed)",
       "revId": "bafe707196d8d6983f997dfa5ccd56621b1405ec",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa1528ae_2a952a00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-06-05T15:30:20Z",
+      "side": 1,
+      "message": "tested on roadm-c1 (10.0.0.151), it boots and works, yay",
+      "revId": "bafe707196d8d6983f997dfa5ccd56621b1405ec",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
