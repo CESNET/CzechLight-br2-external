@@ -79,13 +79,13 @@ if (( ${OLD_VERSION} < 9 )); then
         sdn-roadm-hires-add-drop*)
             V9_MERGE+=(
                 "${CLA_STATIC_DATA}/sdn-roadm-add-drop.json"
-                "${CFG_STATIC_DATA}/ietf-interfaces-roadm-add-drop.json"
+                "${CFG_STATIC_DATA}/ietf-interfaces-generic.json"
             )
             ;;
         sdn-roadm-coherent-a-d*)
             V9_MERGE+=(
                 "${CLA_STATIC_DATA}/sdn-roadm-coherent-a-d.json"
-                "${CFG_STATIC_DATA}/ietf-interfaces-roadm-add-drop.json"
+                "${CFG_STATIC_DATA}/ietf-interfaces-generic.json"
             )
             ;;
         sdn-inline*)
@@ -126,6 +126,20 @@ end"
     jq -r "${FILTER}" < ${CFG_STARTUP_FILE} > ${DATA_FILE}
 else
     cp ${CFG_STARTUP_FILE} ${DATA_FILE}
+fi
+
+if (( ${OLD_VERSION} < 11 )); then
+    case "${CZECHLIGHT}" in
+        sdn-bidi-cplus1572*)
+            # no network configuration, load the default one
+            if [[ $(jq '(. | has("ietf-interfaces:interfaces")) and (.["ietf-interfaces:interfaces"].interface | length > 0)' ${DATA_FILE}) == "false" ]]; then
+                DATA_FILE_NEW=$(mktemp -t sr-new-bidi-XXXXXX)
+                jq -f ${SCRIPT_ROOT}/meld.jq ${DATA_FILE} ${CFG_STATIC_DATA}/ietf-interfaces-generic.json > ${DATA_FILE_NEW}
+                mv ${DATA_FILE_NEW} ${DATA_FILE}
+                cat $DATA_FILE
+            fi
+            ;;
+    esac
 fi
 
 cp ${DATA_FILE} ${CFG_STARTUP_FILE}
