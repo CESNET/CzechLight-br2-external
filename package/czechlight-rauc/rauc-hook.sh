@@ -1,5 +1,7 @@
 #!/bin/sh
 
+CURRENT_CONFIG_FILE=/usr/libexec/czechlight-cfg-fs/CURRENT_CONFIG_VERSION
+
 case "$1" in
   slot-post-install)
     case "$RAUC_SLOT_CLASS" in
@@ -18,6 +20,15 @@ case "$1" in
             cp -a /cfg/${ITEM} ${RAUC_SLOT_MOUNT_POINT}/
           fi
         done
+
+        # migrate network files from <interface>.network pattern to 10-<interface>.network
+        if [[ ! -f "$CURRENT_CONFIG_FILE" || $(cat $CURRENT_CONFIG_FILE) -le 10 ]]; then
+            for file in ${RAUC_SLOT_MOUNT_POINT}/network/*.network; do
+                if [[ ! $(basename "$file") =~ ^[0-9][0-9]-.+\.network$ ]]; then
+                    mv "$file" "${RAUC_SLOT_MOUNT_POINT}/network/10-$(basename "$file")"
+                fi
+            done
+        fi
         ;;
       *)
         echo "Internal error: hook mismatched"
