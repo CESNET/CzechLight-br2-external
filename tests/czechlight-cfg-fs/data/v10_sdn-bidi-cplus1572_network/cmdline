@@ -1,0 +1,1 @@
+root=/dev/mmcblk0p1 init=/sbin/init-czechlight.sh rauc.slot=A czechlight=sdn-bidi-cplus1572-g2 systemd.machine_id=9ca3b763bdd84fbd881624e72b81bb22 panic=10 oops=panic spidev.bufsiz=131072 schedstats=enable i2c_algo_bit.bit_test=1
