@@ -1,0 +1,18 @@
+{
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "ietf-ip:ipv4": {
+          "czechlight-network:dhcp-client": true
+        },
+        "name": "br0",
+        "type": "iana-if-type:bridge"
+      },
+      {
+        "czechlight-network:bridge": "br0",
+        "name": "eth0",
+        "type": "iana-if-type:ethernetCsmacd"
+      }
+    ]
+  }
+}
