@@ -40,7 +40,7 @@ VELIA_MODULES=(
     "--install ${VELIA_YANG}/ietf-routing@2018-03-13.yang"
     "--install ${VELIA_YANG}/ietf-ipv4-unicast-routing@2018-03-13.yang"
     "--install ${VELIA_YANG}/ietf-ipv6-unicast-routing@2018-03-13.yang"
-    "--install ${VELIA_YANG}/czechlight-network@2021-02-22.yang"
+    "--install ${VELIA_YANG}/czechlight-network@2025-06-06.yang"
     "--install ${VELIA_YANG}/ietf-access-control-list@2019-03-04.yang"
         "--enable-feature match-on-eth"
         "--enable-feature eth"
@@ -81,11 +81,17 @@ case "${CZECHLIGHT}" in
             "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
                 "--enable-feature hw-line-9"
         )
+        VELIA_MODULES+=(
+            "--install ${VELIA_YANG}/czechligght-network-sdn-roadm-line@2025-06-06.yang"
+        )
         ;;
     sdn-roadm-add-drop-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
                 "--enable-feature hw-add-drop-20"
+        )
+        VELIA_MODULES+=(
+            "--install ${VELIA_YANG}/czechligght-network-sdn-generic@2025-06-06.yang"
         )
         ;;
     sdn-roadm-hires-add-drop-g2)
@@ -94,15 +100,24 @@ case "${CZECHLIGHT}" in
                 "--enable-feature hw-add-drop-20"
                 "--enable-feature pre-wss-ocm"
         )
+        VELIA_MODULES+=(
+            "--install ${VELIA_YANG}/czechligght-network-sdn-generic@2025-06-06.yang"
+        )
         ;;
     sdn-roadm-coherent-a-d-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-coherent-add-drop@2021-03-05.yang"
         )
+        VELIA_MODULES+=(
+            "--install ${VELIA_YANG}/czechligght-network-sdn-generic@2025-06-06.yang"
+        )
         ;;
     sdn-inline-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-inline-amp@2021-03-05.yang"
+        )
+        VELIA_MODULES+=(
+            "--install ${VELIA_YANG}/czechligght-network-sdn-inline@2025-06-06.yang"
         )
         ;;
     calibration-box)
@@ -115,12 +130,18 @@ case "${CZECHLIGHT}" in
             "--install ${CLA_YANG}/czechlight-bidi-amp@2025-05-22.yang"
                 "--enable-feature dualband-c-plus-1572"
         )
+        VELIA_MODULES+=(
+            "--install ${VELIA_YANG}/czechligght-network-sdn-generic@2025-06-06.yang"
+        )
         ;;
     sdn-bidi-cplus1572-ocm-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-bidi-amp@2025-05-22.yang"
                 "--enable-feature dualband-c-plus-1572"
                 "--enable-feature c-band-ocm"
+        )
+        VELIA_MODULES+=(
+            "--install ${VELIA_YANG}/czechligght-network-sdn-generic@2025-06-06.yang"
         )
         ;;
     *)
