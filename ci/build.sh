@@ -34,7 +34,7 @@ else
     exit 1
 fi
 
-echo BR2_PRIMARY_SITE=\"https://object-store.cloud.muni.cz/swift/v1/ci-artifacts-public/mirror/buildroot\" >> .config
+echo BR2_PRIMARY_SITE=\"https://object-store.brno.openstack.cloud.e-infra.cz/swift/v1/KEY_b637b9c937414b29b3e277b4a85cc658/ci-artifacts-public/mirror/buildroot\" >> .config
 
 if [[ ${TRIGGERED_VIA_DEP} == 1 ]]; then
     for PROJECT in cla-sysrepo netconf-cli gammarus velia rousette sysrepo-ietf-alarms; do
