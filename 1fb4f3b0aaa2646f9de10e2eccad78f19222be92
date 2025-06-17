@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6991135e_b6a588d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-06-17T10:44:32Z",
+      "side": 1,
+      "message": "The buildroot download mirror is fresh and the download took less than 30s (compared to 2m+ from the old infra). Yay.",
+      "revId": "1fb4f3b0aaa2646f9de10e2eccad78f19222be92",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "949f7eff_3b91126b",
+        "filename": "ci/build.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-06-17T10:44:32Z",
+      "side": 1,
+      "message": "Just for the record -- this is the same string as our `project_id` that I see over the OpenStack API, so it should be a stable identifier.",
+      "range": {
+        "startLine": 37,
+        "startChar": 90,
+        "endLine": 37,
+        "endChar": 122
+      },
+      "revId": "1fb4f3b0aaa2646f9de10e2eccad78f19222be92",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
