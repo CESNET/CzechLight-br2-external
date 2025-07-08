@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37b3cf1b_b2a9bdd0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-07-08T14:25:20Z",
+      "side": 1,
+      "message": "running on sdn-bidi-cplus1572-PGCL250305 10.0.0.186",
+      "revId": "b6c1e62d29073d2f034cb4dd00eb968755a52e03",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
