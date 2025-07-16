@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7b8d6c9_8e2d2b8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-07-16T11:53:30Z",
+      "side": 1,
+      "message": "Some data for testing on 10.0.0.186\n\n```\n{\n  \"ietf-interfaces:interfaces\": {\n    \"interface\": [\n      {\n        \"name\": \"eth1\",\n        \"type\": \"iana-if-type:ethernetCsmacd\",\n        \"ietf-ip:ipv4\": {\n          \"address\": [\n            {\n              \"ip\": \"10.0.0.99\",\n              \"prefix-length\": 24\n            }\n          ]\n        }\n      }\n    ]\n  },\n  \"ietf-routing:routing\": {\n    \"control-plane-protocols\": {\n      \"control-plane-protocol\": [\n        {\n          \"type\": \"static\",\n          \"name\": \"static\",\n          \"static-routes\": {\n            \"ietf-ipv4-unicast-routing:ipv4\": {\n              \"route\": [\n                {\n                  \"destination-prefix\": \"0.0.0.0/0\",\n                  \"next-hop\": {\n                    \"outgoing-interface\": \"eth1\",\n                    \"next-hop-address\": \"10.0.0.254\",\n                    \"ietf-rib-extension:preference\": 111\n                  }\n                }\n              ]\n            }\n          }\n        }\n      ]\n    }\n  }\n}\n```",
+      "revId": "ab7eff4cc45b3e171b81ed1c2f2a44eacf4e8897",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
