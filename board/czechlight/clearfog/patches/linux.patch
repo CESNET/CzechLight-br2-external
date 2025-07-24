@@ -555,16 +555,3 @@ index e339abff926d..65c98eeb3f05 100644
  		regmaps[i] = devm_regmap_init_i2c(port_client, &regcfg_i2c);
  	}
  
-diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-index b97224a8a65b..00f43dd9edaf 100644
---- a/tools/perf/Makefile.perf
-+++ b/tools/perf/Makefile.perf
-@@ -188,7 +188,7 @@ HOSTLD  ?= ld
- HOSTAR  ?= ar
- CLANG   ?= clang
- 
--PKG_CONFIG = $(CROSS_COMPILE)pkg-config
-+PKG_CONFIG ?= $(CROSS_COMPILE)pkg-config
- 
- RM      = rm -f
- LN      = ln -f
