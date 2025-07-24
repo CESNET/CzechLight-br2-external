@@ -93,10 +93,10 @@ index f8a06ae4a3c9..e14020e653a1 100644
  		marvell,pins = "mpp20";
  		marvell,function = "gpio";
 diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
-index 72a7c261ef06..a120fe05ffb2 100644
+index 72a7c261ef06..89425f4ae9fb 100644
 --- a/drivers/hwmon/pmbus/fsp-3y.c
 +++ b/drivers/hwmon/pmbus/fsp-3y.c
-@@ -10,7 +10,7 @@
+@@ -10,11 +10,12 @@
   * exposes only the values, that have been tested to work correctly. Unsupported values either
   * aren't supported by the devices or their encondings are unknown.
   */
@@ -105,7 +105,12 @@ index 72a7c261ef06..a120fe05ffb2 100644
  #include <linux/delay.h>
  #include <linux/i2c.h>
  #include <linux/kernel.h>
-@@ -29,8 +29,8 @@
+ #include <linux/module.h>
++#include <linux/pmbus.h>
+ #include "pmbus.h"
+ 
+ #define YM2151_PAGE_12V_LOG	0x00
+@@ -29,8 +30,8 @@
  #define YH5151E_PAGE_3V3_REAL	0x11
  
  enum chips {
@@ -116,7 +121,7 @@ index 72a7c261ef06..a120fe05ffb2 100644
  };
  
  struct fsp3y_data {
-@@ -46,7 +46,7 @@ struct fsp3y_data {
+@@ -46,7 +47,7 @@ struct fsp3y_data {
  static int page_log_to_page_real(int page_log, enum chips chip)
  {
  	switch (chip) {
@@ -125,7 +130,7 @@ index 72a7c261ef06..a120fe05ffb2 100644
  		switch (page_log) {
  		case YM2151_PAGE_12V_LOG:
  			return YM2151_PAGE_12V_REAL;
-@@ -54,7 +54,7 @@ static int page_log_to_page_real(int page_log, enum chips chip)
+@@ -54,7 +55,7 @@ static int page_log_to_page_real(int page_log, enum chips chip)
  			return YM2151_PAGE_5VSB_REAL;
  		}
  		return -EINVAL;
@@ -134,7 +139,7 @@ index 72a7c261ef06..a120fe05ffb2 100644
  		switch (page_log) {
  		case YH5151E_PAGE_12V_LOG:
  			return YH5151E_PAGE_12V_REAL;
-@@ -93,11 +93,10 @@ static int set_page(struct i2c_client *client, int page_log)
+@@ -93,11 +94,10 @@ static int set_page(struct i2c_client *client, int page_log)
  		/*
  		 * Testing showed that the device has a timing issue. After
  		 * setting a page, it takes a while, before the device actually
@@ -149,7 +154,7 @@ index 72a7c261ef06..a120fe05ffb2 100644
  	}
  
  	return 0;
-@@ -110,7 +109,7 @@ static int fsp3y_read_byte_data(struct i2c_client *client, int page, int reg)
+@@ -110,7 +110,7 @@ static int fsp3y_read_byte_data(struct i2c_client *client, int page, int reg)
  	int rv;
  
  	/*
@@ -158,7 +163,7 @@ index 72a7c261ef06..a120fe05ffb2 100644
  	 */
  	if (data->vout_linear_11 && reg == PMBUS_VOUT_MODE)
  		return 0x1A;
-@@ -161,7 +160,7 @@ static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase,
+@@ -161,7 +161,7 @@ static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase,
  		return rv;
  
  	/*
@@ -167,7 +172,7 @@ index 72a7c261ef06..a120fe05ffb2 100644
  	 */
  	if (data->vout_linear_11 && reg == PMBUS_READ_VOUT)
  		rv = sign_extend32(rv, 10) & 0xffff;
-@@ -170,7 +169,7 @@ static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase,
+@@ -170,7 +170,7 @@ static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase,
  }
  
  static struct pmbus_driver_info fsp3y_info[] = {
@@ -176,7 +181,7 @@ index 72a7c261ef06..a120fe05ffb2 100644
  		.pages = 2,
  		.func[YM2151_PAGE_12V_LOG] =
  			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-@@ -183,7 +182,7 @@ static struct pmbus_driver_info fsp3y_info[] = {
+@@ -183,7 +183,7 @@ static struct pmbus_driver_info fsp3y_info[] = {
  		.read_word_data = fsp3y_read_word_data,
  		.read_byte_data = fsp3y_read_byte_data,
  	},
@@ -185,7 +190,18 @@ index 72a7c261ef06..a120fe05ffb2 100644
  		.pages = 3,
  		.func[YH5151E_PAGE_12V_LOG] =
  			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-@@ -213,9 +212,13 @@ static int fsp3y_detect(struct i2c_client *client)
+@@ -200,6 +200,10 @@ static struct pmbus_driver_info fsp3y_info[] = {
+ 	}
+ };
+ 
++static struct pmbus_platform_data fsp_3y_pdata = {
++	.flags = PMBUS_SKIP_STATUS_CHECK,
++};
++
+ static int fsp3y_detect(struct i2c_client *client)
+ {
+ 	int rv;
+@@ -213,9 +217,13 @@ static int fsp3y_detect(struct i2c_client *client)
  
  	if (rv == 8) {
  		if (!strcmp(buf, "YM-2151E"))
@@ -201,7 +217,7 @@ index 72a7c261ef06..a120fe05ffb2 100644
  	}
  
  	dev_err(&client->dev, "Unsupported model %.*s\n", rv, buf);
-@@ -223,8 +226,10 @@ static int fsp3y_detect(struct i2c_client *client)
+@@ -223,8 +231,10 @@ static int fsp3y_detect(struct i2c_client *client)
  }
  
  static const struct i2c_device_id fsp3y_id[] = {
@@ -214,7 +230,7 @@ index 72a7c261ef06..a120fe05ffb2 100644
  	{ }
  };
  
-@@ -255,22 +260,22 @@ static int fsp3y_probe(struct i2c_client *client)
+@@ -255,24 +265,25 @@ static int fsp3y_probe(struct i2c_client *client)
  	data->info = fsp3y_info[data->chip];
  
  	/*
@@ -248,7 +264,10 @@ index 72a7c261ef06..a120fe05ffb2 100644
 +			"VOUT_MODE not supported, using non-standard \"linear_11\"\n");
  	}
  
++	client->dev.platform_data = &fsp_3y_pdata;
  	return pmbus_do_probe(client, &data->info);
+ }
+ 
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
 index 945e831ef4ac..682ad60970d0 100644
 --- a/drivers/leds/leds-tlc591xx.c
