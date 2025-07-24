@@ -16,6 +16,24 @@
       "message": "Upstream has changed the date in libyang\u0027s LICENSE file. I\u0027ll have to check other projects as well. This is only checked by `make legal-info`, which I typically don\u0027t do during regular development.",
       "revId": "dc01bdc65b441261e874aa93f9a9e18929bf7769",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6651ea55_e9314d13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-07-24T09:47:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0494e366_bac3a7f3",
+      "revId": "dc01bdc65b441261e874aa93f9a9e18929bf7769",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
