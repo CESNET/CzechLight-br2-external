@@ -79,6 +79,7 @@ case "${CZECHLIGHT}" in
         ;;
     sdn-roadm-line-g2)
         CLA_MODULES+=(
+            "--install ${CLA_YANG}/czechlight-roadm-common@2021-03-05.yang"
             "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
                 "--enable-feature hw-line-9"
         )
@@ -88,6 +89,7 @@ case "${CZECHLIGHT}" in
         ;;
     sdn-roadm-add-drop-g2)
         CLA_MODULES+=(
+            "--install ${CLA_YANG}/czechlight-roadm-common@2021-03-05.yang"
             "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
                 "--enable-feature hw-add-drop-20"
         )
@@ -97,6 +99,7 @@ case "${CZECHLIGHT}" in
         ;;
     sdn-roadm-hires-add-drop-g2)
         CLA_MODULES+=(
+            "--install ${CLA_YANG}/czechlight-roadm-common@2021-03-05.yang"
             "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
                 "--enable-feature hw-add-drop-20"
                 "--enable-feature pre-wss-ocm"
