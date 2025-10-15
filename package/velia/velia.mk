@@ -6,7 +6,7 @@ VELIA_DEPENDENCIES = docopt-cpp spdlog boost sdbus-cpp systemd sysrepo-cpp libnl
 VELIA_LICENSE = Apache-2.0
 VELIA_LICENSE_FILES = LICENSE.md
 
-VELIA_CONF_OPTS = \
+VELIA_CONF_OPTS += \
 	-DTHREADS_PTHREAD_ARG:STRING=-pthread \
 	-DNFT_EXECUTABLE=/usr/sbin/nft \
 	-DSSH_KEYGEN_EXECUTABLE=/usr/bin/ssh-keygen \
