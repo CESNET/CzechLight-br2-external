@@ -1,0 +1,74 @@
+{
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "br0",
+        "type": "iana-if-type:bridge",
+        "ietf-ip:ipv4": {
+          "czechlight-network:dhcp-client": true
+        },
+        "ietf-ip:ipv6": {
+          "enabled": true,
+          "autoconf": {
+            "create-global-addresses": true
+          }
+        }
+      },
+      {
+        "name": "eth0",
+        "type": "iana-if-type:ethernetCsmacd",
+        "czechlight-network:bridge": "br0"
+      },
+      {
+        "name": "eth1",
+        "type": "iana-if-type:ethernetCsmacd",
+        "czechlight-network:bridge": "br0"
+      },
+      {
+        "name": "osc",
+        "type": "iana-if-type:ethernetCsmacd",
+        "czechlight-network:bridge": "br0"
+      }
+    ]
+  },
+  "ietf-keystore:keystore": {
+    "asymmetric-keys": {
+      "asymmetric-key": [
+        {
+          "name": "genkey",
+          "public-key-format": "ietf-crypto-types:ssh-public-key-format",
+          "private-key-format": "ietf-crypto-types:rsa-private-key-format",
+          "cleartext-private-key": "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDFGV7H9prAhLMUvO9yH6dRyUD7jfy6dQK/ocHjNpAil8TRen/OjvRFmEItnNqt0C6Ry/VbRvhZgogmUXd8xRCyUi8K3+BnJbkY923hsE9DuUMxq7XiFPjsp90v6rPVcDWvRB3KWQuqdKFYWVKgrwxan4tJh+R71uucamXqXEogMqs0Pw9BEo+daoGgePZN9AYYwW1UEhp8U7X3PWzcKtH988Ri5mpkcABQN6tCRGDp6PqoDKbEtSHLk3ap4HiiQs8nWCjbRA7x/I5kK0DMZdDOXRY+ZipH43/HEFdaOjm4bbgMRb4eu+d/tvZzwDlAv3g51oSZYcw+CAYAw6kvZMRlAgMBAAECggEAL5wBu46TcfZ75YH/2tLPkV9qPXleN1HlYJG7ql03MsvzRGBxN91rHtZ5AdiWMA8N+LTKJwq9Ga4AojTihnZ5ooFckKVkaLYBgIjf93ilpOe+1eQy0pIbUNr5gEYSu3dX2Ga9RW/98+YpRRSKc3rlIozQUeor5EgVcJp41MQHOcBmqnOjdyhx7Vv7/nugaPxqnYggOCvoWjQHMdpYKcmt8Sjet3XYwwMo3dqavTMFuV0xW0i3zkkijvsW5ONmzfB0eaUSe+hw9zrmi5DFyLau5Zd3psblU5jAxqVd53zKoW/NC5CDzKcuLk4V81IwaeR6d6kenaaktJHqYVc9pHCIbwKBgQDyWGo9WP7QCRQ2PNFxCSBFBjdUnHSJTP5yKXZ6Xc9bG3l9YqazUQT0vOBuHBRGHzzXHmEycIWNh80rpiV+tEjTQWelggatuJJA1h39UOWuIlHgMgyIpEWM+Jvab3Ky1mboZnoel7zCN+lAfVIEEFGaEO8pWXNuhO/QYRI+9EZrvwKBgQDQNFLs2eusqYPNjX7mZFb7ltMx5jYJuV2Be67Nnu/bU8sH4xdKlbQgFrFYC5T1UxhQMfrF9BjL2g1eM8MyP6+a+12gf2nSErH4QoS/b478rFAUsOJoHi2XnCbfd6s3kzmSu4MzvihHsXqR5u+lsyTGlny8B9pXGwKKbAo2QN9o2wKBgEMfig2D4M/uM9Lx9XDBflaf6iNdUknVMYSdR1uNMCmj6np4IIP6JM1Eo0TcMiFZ9Zf/qhw2XkddHc7BLhFyDdm1e+ezo/Xp8VhT9ep7xaH9j3/xXNdb6IerND/ELpiqGca0244tqPKCWfCqxVSq0G9D0Xo6dGZgG6wztsIJFpgxAoGAa8xrkw5Ro5gxEeBM7+TL1H+G4bMcD3TWIRB0tSmxbpG38WF20bspA+Q79iYo/cwELqFyAcQcgo9nlHqgegfXWBsFou/VTls3oh5utN+B3PkqjUv4LYhSesjyp4lCMQgdKwfDKqsuF9CgcaJsOhLC279W3dQDDE6Dxj+iGe0EvzkCgYEAsJtmjj6MiItFabNfAdMLti4FGugNDBrG7YP0LHaAAgm43OgJp34SDkLiLYQJyajE8CCWHo9+ExhQ0HXdFd0Toh3y67jT21GJ0xgvOzVRRsFSccw3Br9TPwR6ENIB4W7h5yya7apU3tqNBnBRpbDANxBn6XK4eXrzMDOxUsMQJKg="
+        }
+      ]
+    }
+  },
+  "ietf-netconf-server:netconf-server": {
+    "listen": {
+      "endpoints": {
+        "endpoint": [
+          {
+            "name": "default-ssh",
+            "ssh": {
+              "tcp-server-parameters": {
+                "local-address": "::"
+              },
+              "ssh-server-parameters": {
+                "server-identity": {
+                  "host-key": [
+                    {
+                      "name": "default-key",
+                      "public-key": {
+                        "central-keystore-reference": "genkey"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -8,12 +8,21 @@ module czechlight-netconf-server {
     revision-date '2023-12-28';
   }
 
+  import libnetconf2-netconf-server {
+    prefix np2;
+    revision-date '2025-08-01';
+  }
+
   organization "CESNET";
   contact "photonics@cesnet.cz";
   description "Failsafes for NETCONF server configuration";
 
   revision 2024-09-04 {
     description "Initial release";
+  }
+
+  revision 2025-11-05 {
+    description "UNIX socket";
   }
 
   deviation /ncs:netconf-server {
@@ -28,6 +37,26 @@ module czechlight-netconf-server {
     deviate add {
       must "count(endpoint/ssh) >= 1" {
         error-message "The NETCONF server must enable at least one SSH endpoint";
+      }
+    }
+
+    deviate add {
+      must "count(endpoint/np2:unix) >= 1" {
+        error-message "The UNIX socket path of the NETCONF server must be present";
+      }
+    }
+  }
+
+  deviation /ncs:netconf-server/ncs:listen/ncs:endpoints/ncs:endpoint/ncs:transport/np2:unix/np2:unix {
+    deviate add {
+      must "path = '/var/run/netopeer2-server.sock'" {
+        error-message "The UNIX socket path cannot be changed";
+      }
+    }
+
+    deviate add {
+      must "socket-permissions/mode = '0666' and count(socket-permissions/owner) = 0 and count(socket-permissions/group) = 0" {
+        error-message "The UNIX socket permissions and ownership cannot be changed";
       }
     }
   }

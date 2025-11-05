@@ -142,5 +142,11 @@ if (( ${OLD_VERSION} < 11 )); then
     esac
 fi
 
+if (( ${OLD_VERSION} < 12 )); then
+    DATA_FILE_NEW=$(mktemp -t sr-new-XXXXXX)
+    jq -f ${SCRIPT_ROOT}/meld.jq ${DATA_FILE} ${CFG_STATIC_DATA}/netopeer2-unix-socket.json > ${DATA_FILE_NEW}
+    mv ${DATA_FILE_NEW} ${DATA_FILE}
+fi
+
 cp ${DATA_FILE} ${CFG_STARTUP_FILE}
 echo "${NEW_VERSION}" > ${CFG_VERSION_FILE}

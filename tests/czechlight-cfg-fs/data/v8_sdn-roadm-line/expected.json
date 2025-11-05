@@ -991,6 +991,15 @@
                 }
               }
             }
+          },
+          {
+            "name": "unix",
+            "libnetconf2-netconf-server:unix": {
+              "path": "/var/run/netopeer2-server.sock",
+              "socket-permissions": {
+                "mode": "0666"
+              }
+            }
           }
         ]
       }
