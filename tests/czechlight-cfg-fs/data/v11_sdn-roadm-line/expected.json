@@ -1,0 +1,39 @@
+{
+  "ietf-netconf-server:netconf-server": {
+    "listen": {
+      "endpoints": {
+        "endpoint": [
+          {
+            "name": "default-ssh",
+            "ssh": {
+              "tcp-server-parameters": {
+                "local-address": "::"
+              },
+              "ssh-server-parameters": {
+                "server-identity": {
+                  "host-key": [
+                    {
+                      "name": "default-key",
+                      "public-key": {
+                        "central-keystore-reference": "genkey"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "name": "unix",
+            "libnetconf2-netconf-server:unix": {
+              "path": "/var/run/netopeer2-server.sock",
+              "socket-permissions": {
+                "mode": "0666"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
