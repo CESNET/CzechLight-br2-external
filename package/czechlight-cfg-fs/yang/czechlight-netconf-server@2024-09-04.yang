@@ -31,4 +31,6 @@ module czechlight-netconf-server {
       }
     }
   }
+
+  // FIXME: constrain the unix socket
 }
