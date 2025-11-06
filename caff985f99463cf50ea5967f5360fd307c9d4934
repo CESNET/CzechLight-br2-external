@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c651048f_018e7f57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-11-06T14:38:03Z",
+      "side": 1,
+      "message": "tested on a bidi amp and on ROADM Line Degree, it works, apparently",
+      "revId": "caff985f99463cf50ea5967f5360fd307c9d4934",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
