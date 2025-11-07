@@ -16,6 +16,52 @@
       "message": "tested on a bidi amp and on ROADM Line Degree, it works, apparently",
       "revId": "caff985f99463cf50ea5967f5360fd307c9d4934",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20d76738_c5e3dccf",
+        "filename": "package/czechlight-cfg-fs/yang/czechlight-netconf-server@2025-11-05.yang",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-11-07T07:28:54Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be photonics@cesnet.cz (https://czechlight.cesnet.cz/en/contact-us/) or support@cesnet.cz ?",
+      "range": {
+        "startLine": 17,
+        "startChar": 11,
+        "endLine": 17,
+        "endChar": 29
+      },
+      "revId": "caff985f99463cf50ea5967f5360fd307c9d4934",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad96a16d_61b37b2d",
+        "filename": "package/czechlight-cfg-fs/yang/czechlight-netconf-server@2025-11-05.yang",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-11-07T07:28:54Z",
+      "side": 1,
+      "message": "Isn\u0027t this exactly the same as the deviation on line 36?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 5
+      },
+      "revId": "caff985f99463cf50ea5967f5360fd307c9d4934",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
