@@ -41,6 +41,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0066bacf_c2b85751",
+        "filename": "package/czechlight-cfg-fs/yang/czechlight-netconf-server@2025-11-05.yang",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-11-07T09:28:49Z",
+      "side": 1,
+      "message": "https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/9004 (this is just a removed file)",
+      "parentUuid": "20d76738_c5e3dccf",
+      "range": {
+        "startLine": 17,
+        "startChar": 11,
+        "endLine": 17,
+        "endChar": 29
+      },
+      "revId": "caff985f99463cf50ea5967f5360fd307c9d4934",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad96a16d_61b37b2d",
@@ -54,6 +78,30 @@
       "writtenOn": "2025-11-07T07:28:54Z",
       "side": 1,
       "message": "Isn\u0027t this exactly the same as the deviation on line 36?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 5
+      },
+      "revId": "caff985f99463cf50ea5967f5360fd307c9d4934",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c69b4d4e_ba656fa7",
+        "filename": "package/czechlight-cfg-fs/yang/czechlight-netconf-server@2025-11-05.yang",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-11-07T09:28:49Z",
+      "side": 1,
+      "message": "Oops, I apparently had some fat fingers, thanks! (And there I was, wondering why git showed such a crazy diff. Now I know.)",
+      "parentUuid": "ad96a16d_61b37b2d",
       "range": {
         "startLine": 44,
         "startChar": 0,
