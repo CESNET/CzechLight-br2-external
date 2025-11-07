@@ -9,7 +9,7 @@ module czechlight-netconf-server {
   }
 
   organization "CESNET";
-  contact "photonic@cesnet.cz";
+  contact "photonics@cesnet.cz";
   description "Failsafes for NETCONF server configuration";
 
   revision 2024-09-04 {
