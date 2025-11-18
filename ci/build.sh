@@ -8,7 +8,7 @@ ZUUL_TENANT=$(jq < ~/zuul-env.json -r '.tenant')
 ZUUL_GERRIT_HOSTNAME=$(jq < ~/zuul-env.json -r '.project.canonical_hostname')
 ZUUL_PROJECT_SRC_DIR=$HOME/$(jq < ~/zuul-env.json -r ".projects[\"${ZUUL_GERRIT_HOSTNAME}/CzechLight/br2-external\"].src_dir")
 ZUUL_PROJECT_SHORT_NAME=$(jq < ~/zuul-env.json -r ".projects[\"${ZUUL_GERRIT_HOSTNAME}/CzechLight/br2-external\"].short_name")
-CI_PARALLEL_JOBS=$(awk -vcpu=$(getconf _NPROCESSORS_ONLN) 'BEGIN{printf "%.0f", cpu*1.3+1}')
+CI_PARALLEL_JOBS=1 #$(awk -vcpu=$(getconf _NPROCESSORS_ONLN) 'BEGIN{printf "%.0f", cpu*1.3+1}')
 ZUUL_PIPELINE=$(jq < ~/zuul-env.json -r '.pipeline')
 
 BUILD_DIR=~/build
