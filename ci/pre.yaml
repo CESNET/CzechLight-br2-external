@@ -9,3 +9,4 @@
         - perl-English
         - perl-IPC-Cmd
         - perl-open
+        - perl-Time-Piece

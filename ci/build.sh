@@ -99,7 +99,7 @@ fi
 
 make source -j${CI_PARALLEL_JOBS} --output-sync=target
 
-make -j${CI_PARALLEL_JOBS} --output-sync=target rootfs-czechlight-rauc
+make --output-sync=target rootfs-czechlight-rauc
 mv images/update.raucb ~/zuul-output/artifacts/
 
 make czechlight-cfg-fs-test-migrations
