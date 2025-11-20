@@ -20,6 +20,11 @@ ROUSETTE_MODULES=(
     "--install ${ROUSETTE_YANG}/ietf-restconf-monitoring@2017-01-26.yang"
     "--install ${ROUSETTE_YANG}/ietf-yang-patch@2017-02-22.yang"
     "--install ${ROUSETTE_YANG}/ietf-restconf-subscribed-notifications@2019-11-17.yang"
+        "--enable-feature replay"
+        "--enable-feature encode-xml"
+        "--enable-feature encode-json"
+        "--enable-feature xpath"
+        "--enable-feature subtree"
 )
 ALARM_MODULES=(
     "--install ${ALARMS_YANG}/ietf-alarms@2019-09-11.yang"
