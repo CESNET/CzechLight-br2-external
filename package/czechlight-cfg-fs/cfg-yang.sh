@@ -21,6 +21,27 @@ ROUSETTE_MODULES=(
     "--install ${ROUSETTE_YANG}/ietf-yang-patch@2017-02-22.yang"
     "--install ${ROUSETTE_YANG}/ietf-restconf-subscribed-notifications@2019-11-17.yang"
 )
+
+# The "ietf-subscribed-notifications" YANG module is already installed by netopeer2, but without
+# the "encode-json" feature enabled, so we have to monkey-patch that in.
+NETOPEER2_YANG_SETUP_COUNT=${#NETOPEER2_YANG_SETUP[@]}
+IETF_SUBSCIBED_NOTIFICATIONS_JSON=0
+for (( i=1; i<$NETOPEER2_YANG_SETUP_COUNT; i++ )); do
+    if [[ ${NETOPEER2_YANG_SETUP[i]} =~ "/ietf-subscribed-notifications@" ]]; then
+        NETOPEER2_YANG_SETUP=(
+            "${NETOPEER2_YANG_SETUP[@]:0:i+1}"
+            "--enable-feature encode-json"
+            "${NETOPEER2_YANG_SETUP[@]:i+1}"
+        )
+        IETF_SUBSCIBED_NOTIFICATIONS_JSON=1
+        break
+    fi
+done
+if [[ ${IETF_SUBSCIBED_NOTIFICATIONS_JSON} == 0 ]]; then
+    echo "YANG script error: cannot enable 'encode-json' for ietf-subscribed-notifications"
+    exit 1
+fi
+
 ALARM_MODULES=(
     "--install ${ALARMS_YANG}/ietf-alarms@2019-09-11.yang"
         "--enable-feature alarm-history"
