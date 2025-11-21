@@ -39,6 +39,30 @@
       },
       "revId": "fa6b41e5b280d96744124c344330d522f48e45d9",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b393b04f_b59f2ba9",
+        "filename": "package/czechlight-cfg-fs/cfg-yang.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-11-21T16:38:40Z",
+      "side": 1,
+      "message": "Because it\u0027s a single command. In this case I *could* have done that, but it still feels a bit silly to run a command and then run it again with slightly different options.",
+      "parentUuid": "4e1cc3b8_aed8ce68",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 2
+      },
+      "revId": "fa6b41e5b280d96744124c344330d522f48e45d9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
