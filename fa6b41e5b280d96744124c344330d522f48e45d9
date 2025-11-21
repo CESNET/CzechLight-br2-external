@@ -16,6 +16,29 @@
       "message": "it boots",
       "revId": "fa6b41e5b280d96744124c344330d522f48e45d9",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e1cc3b8_aed8ce68",
+        "filename": "package/czechlight-cfg-fs/cfg-yang.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-11-21T15:46:52Z",
+      "side": 1,
+      "message": "Why can\u0027t we just run `sysrepoctl -c ietf-subscribed-notifications -e encode-json`?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 2
+      },
+      "revId": "fa6b41e5b280d96744124c344330d522f48e45d9",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
