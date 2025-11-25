@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0a8cff1_ed9f544b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2025-11-25T10:49:19Z",
+      "side": 1,
+      "message": "booted on `coherent-a-d-DQ000V9U` `10.0.0.193`",
+      "revId": "35fb77b613c25c5cb896742c351c919dbcc307d1",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
