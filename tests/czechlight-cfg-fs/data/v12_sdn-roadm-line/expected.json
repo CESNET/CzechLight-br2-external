@@ -729,22 +729,25 @@
       "description": "Whole-band overview"
     }
   ],
+  "czechlight-roadm-device:spectrum-scan": {
+    "period": "as-often-as-hw-allows"
+  },
   "ietf-alarms:alarms": {
     "control": {
       "alarm-shelving": {
         "shelf": [
           {
+            "name": "systemd journal upload",
+            "resource": [
+              "systemd-journal-upload.service"
+            ],
             "alarm-type": [
               {
                 "alarm-type-id": "velia-alarms:systemd-unit-failure",
                 "alarm-type-qualifier-match": ""
               }
             ],
-            "description": "Ignore systemd-journal-upload.service failures",
-            "name": "systemd journal upload",
-            "resource": [
-              "systemd-journal-upload.service"
-            ]
+            "description": "Ignore systemd-journal-upload.service failures"
           }
         ]
       }

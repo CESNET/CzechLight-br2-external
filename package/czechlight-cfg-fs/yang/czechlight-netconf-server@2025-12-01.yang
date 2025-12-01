@@ -5,12 +5,12 @@ module czechlight-netconf-server {
 
   import ietf-netconf-server {
     prefix ncs;
-    revision-date '2023-12-28';
+    revision-date '2025-04-24';
   }
 
   import libnetconf2-netconf-server {
     prefix np2;
-    revision-date '2025-08-01';
+    revision-date '2025-11-11';
   }
 
   organization "CESNET";
@@ -23,6 +23,10 @@ module czechlight-netconf-server {
 
   revision 2025-11-05 {
     description "UNIX socket";
+  }
+
+  revision 2025-12-01 {
+    description "YANG updates";
   }
 
   deviation /ncs:netconf-server {
@@ -49,7 +53,7 @@ module czechlight-netconf-server {
 
   deviation /ncs:netconf-server/ncs:listen/ncs:endpoints/ncs:endpoint/ncs:transport/np2:unix/np2:unix {
     deviate add {
-      must "path = '/var/run/netopeer2-server.sock'" {
+      must "count(hidden-path) = 1" {
         error-message "The UNIX socket path cannot be changed";
       }
     }
@@ -57,6 +61,12 @@ module czechlight-netconf-server {
     deviate add {
       must "socket-permissions/mode = '0666' and count(socket-permissions/owner) = 0 and count(socket-permissions/group) = 0" {
         error-message "The UNIX socket permissions and ownership cannot be changed";
+      }
+    }
+
+    deviate add {
+      must "count(client-authentication/user-mapping) = 0" {
+        error-message "User mapping at UNIX socket is not allowed";
       }
     }
   }
