@@ -30,8 +30,13 @@ def czechlight_blob(model, sn, calibration):
     thus it may be split into multiple TLV_VENDOR_EXT entries.
 
     >>> czechlight_blob(model='sdn-bidi-cplus1572-g2', sn='ph-tech-0001', calibration=[23, 5, 0, 1, -122, -128, 127, 32])
-    [(253, b'\\x00\\x00\\x1fy\\x00\\x0cph-tech-0001\\x00\\t\\x00\\x17\\x05\\x00\\x01\\x86\\x80\\x7f 8\\x81\\x84\\x93')]
+    [(253, b'!\\x00\\x00\\x1fy\\x00\\x0cph-tech-0001\\x00\\t\\x00\\x17\\x05\\x00\\x01\\x86\\x80\\x7f 8\\x81\\x84\\x93')]
     """
+
+    CESNET_PREFIX = b'\x00\x00\x1f\x79'
+    CZECHLIGHT_PREFIX = CESNET_PREFIX + b'\x00' # prefix + version
+    ONE_CZECHLIGHT_PAYLOAD_LEN = 255 - len(CZECHLIGHT_PREFIX)
+
     sn = sn.encode('utf-8')
     calibration = [struct.pack('>b', int(x)) for x in calibration]
     if model == 'sdn-bidi-cplus1572-g2':
@@ -46,21 +51,16 @@ def czechlight_blob(model, sn, calibration):
     else:
         raise RuntimeError('Unknown CzechLight model')
 
-    cesnet_prefix = b'\x00\x00\x1f\x79'
-    czechlight_prefix = cesnet_prefix + b'\x00'
-    one_czechlight_payload_len = 250
-    # one_czechlight_payload_len = 10
-
+    # construct payload data
     czechlight_payload = struct.pack('>b', len(sn)) + sn + struct.pack('>H', len(calibration)) + calibration
     czechlight_payload += struct.pack('>I', binascii.crc32(czechlight_payload))
 
+    # then split into multiple TLV_VENDOR_EXT entries if needed
     headers = []
-
-    while len(czechlight_payload) > one_czechlight_payload_len:
-        tmp = czechlight_payload[0:one_czechlight_payload_len]
-        czechlight_payload = czechlight_payload[one_czechlight_payload_len:]
-        headers.append((TLV_VENDOR_EXT, czechlight_prefix + tmp))
-    headers.append((TLV_VENDOR_EXT, czechlight_prefix + czechlight_payload))
+    while len(czechlight_payload) > 0:
+        data = CZECHLIGHT_PREFIX + czechlight_payload[0:ONE_CZECHLIGHT_PAYLOAD_LEN]
+        czechlight_payload = czechlight_payload[ONE_CZECHLIGHT_PAYLOAD_LEN:]
+        headers.append((TLV_VENDOR_EXT, struct.pack(">B", len(data)) + data))
 
     return headers
 
@@ -134,6 +134,8 @@ if __name__ == '__main__':
     parser.add_argument('--version', default=1, help='Vendor-defined revision of the device', type=int)
     parser.add_argument('calibration', nargs='*')
     args = parser.parse_args()
-    headers = generic(args.model, args.part_no, args.serial, args.mac, args.date, args.version, args.manufacturer, args.vendor, args.country) + \
-        [(t, struct.pack('>B', len(without_len)) + without_len) for (t, without_len) in czechlight_blob(args.model, args.ftdi, args.calibration)]
+
+    headers = generic(args.model, args.part_no, args.serial, args.mac, args.date, args.version, args.manufacturer, args.vendor, args.country)
+    headers.extend(czechlight_blob(args.model, args.ftdi, args.calibration))
+
     sys.stdout.buffer.write(as_onie_blob(headers))
