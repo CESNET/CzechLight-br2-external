@@ -1,0 +1,1 @@
+root=/dev/mmcblk0p3 init=/sbin/init-czechlight.sh rauc.slot=B czechlight=sdn-roadm-line-g2 systemd.machine_id=ffffffffffffffffffffffffffffffff panic=10 oops=panic spidev.bufsiz=131072 schedstats=enable i2c_algo_bit.bit_test=1

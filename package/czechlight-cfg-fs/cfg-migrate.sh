@@ -148,5 +148,39 @@ if (( ${OLD_VERSION} < 12 )); then
     mv ${DATA_FILE_NEW} ${DATA_FILE}
 fi
 
+
+if (( ${OLD_VERSION} < 13 )); then
+    DATA_FILE_NEW=$(mktemp -t sr-new-XXXXXX)
+    jq -r "
+.\"ietf-netconf-server:netconf-server\".listen.endpoints.endpoint = [
+    .\"ietf-netconf-server:netconf-server\".listen.endpoints.endpoint[]
+        | if (has(\"ssh\")) then
+            # Move the listening address to a proper schema path (so we have to remember it first)
+            . as \$thisEndpoint |
+            .ssh.\"tcp-server-parameters\" |= {
+                \"local-bind\": [
+                    {
+                        # Beware -- if the old version is < 9, we've nuked all the data during an earlier migration step
+                        # executed during this run. That means that there's no previous value, so we provide a new default here.
+                        \"local-address\": (\$thisEndpoint.ssh?.\"tcp-server-parameters\"?.\"local-address\" // \"::\")
+                    }
+                ]
+            }
+        elif (has(\"libnetconf2-netconf-server:unix\")) then
+            # just replace with a proper content
+            .\"libnetconf2-netconf-server:unix\" |= {
+                \"hidden-path\": [null],
+                \"socket-permissions\": {
+                    \"mode\": \"0666\"
+                }
+            }
+        else
+            .
+        end
+]
+    " < ${DATA_FILE} > ${DATA_FILE_NEW}
+    mv ${DATA_FILE_NEW} ${DATA_FILE}
+fi
+
 cp ${DATA_FILE} ${CFG_STARTUP_FILE}
 echo "${NEW_VERSION}" > ${CFG_VERSION_FILE}
