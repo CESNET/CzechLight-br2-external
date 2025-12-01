@@ -104,6 +104,8 @@ mv images/update.raucb ~/zuul-output/artifacts/
 
 make czechlight-cfg-fs-test-migrations
 
+pytest -v --doctest-modules ${ZUUL_PROJECT_SRC_DIR}/tools/czechlight-blob-onie-eeprom.py
+
 # FIXME: artifact handling is FUBAR
 # if [[ "${ZUUL_PIPELINE}" == "tag" ]]; then
 if [[ ${TRIGGERED_VIA_DEP} == 0 ]]; then
