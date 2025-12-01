@@ -977,7 +977,11 @@
             "name": "default-ssh",
             "ssh": {
               "tcp-server-parameters": {
-                "local-address": "::"
+                "local-bind": [
+                  {
+                    "local-address": "::"
+                  }
+                ]
               },
               "ssh-server-parameters": {
                 "server-identity": {
@@ -996,7 +1000,7 @@
           {
             "name": "unix",
             "libnetconf2-netconf-server:unix": {
-              "path": "/var/run/netopeer2-server.sock",
+              "hidden-path": [null],
               "socket-permissions": {
                 "mode": "0666"
               }

@@ -18,9 +18,6 @@
           {
             "name": "default-ssh",
             "ssh": {
-              "tcp-server-parameters": {
-                "local-address": "::"
-              },
               "ssh-server-parameters": {
                 "server-identity": {
                   "host-key": [
