@@ -729,22 +729,25 @@
       "description": "Whole-band overview"
     }
   ],
+  "czechlight-roadm-device:spectrum-scan": {
+    "period": "as-often-as-hw-allows"
+  },
   "ietf-alarms:alarms": {
     "control": {
       "alarm-shelving": {
         "shelf": [
           {
+            "name": "systemd journal upload",
+            "resource": [
+              "systemd-journal-upload.service"
+            ],
             "alarm-type": [
               {
                 "alarm-type-id": "velia-alarms:systemd-unit-failure",
                 "alarm-type-qualifier-match": ""
               }
             ],
-            "description": "Ignore systemd-journal-upload.service failures",
-            "name": "systemd journal upload",
-            "resource": [
-              "systemd-journal-upload.service"
-            ]
+            "description": "Ignore systemd-journal-upload.service failures"
           }
         ]
       }
@@ -788,7 +791,8 @@
         {
           "name": "genkey",
           "public-key-format": "ietf-crypto-types:ssh-public-key-format",
-          "private-key-format": "ietf-crypto-types:rsa-private-key-format"
+          "private-key-format": "ietf-crypto-types:rsa-private-key-format",
+          "cleartext-private-key": "MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCVFebrhR66MkX2N+FTA1CEnLZJsv/lPanahLbAjlpW0mS8cD7xsVw70DjTRytf0LbaqM7Hmkuv3NM3vM+nriZR0r5x73hNDyLHJaIn6GjYsVwHi68Y+vylDQH4hzJfoDml3zLqyc5JmNxGW59q1MloK21ZBNiQ5Vdv0AYaNpG5kAp1Y94XlBKIK+Ks27o/YNXJqW5E+M+H9WTvgMy8HUJsJGBHe1FnaIAzfyEj2Kg4IVDrz3tCrbNczcFzal+uq3R0knK1o72guaacio7FiCK+RpsVPuBzoiuPDqTymjMr15G3hivpjIxK1DUI7Zim5KNkS90Un4A+WRyGOtvtvIddAgMBAAECggEAHbZzQu5RjO93FRbXAAnxkrR++hpEOOZ8wzHfEGpuo84jyJCgYuAjz0H1CVquUNbSkqrBJ3PfcMnUiM/HHRauyXD0htWgxs7k8gbUlhqSRtm2S0SyHYrsLmL0yRj816UhyCa/SZ71z6I5CIa7M3n8OBgrn2nBVcN3lS/C/5dvnKlEI08bbSrjWEYTTxuSulLjUaCDkEeg+pAMebZn0iLObMtiYhKJzG4ygz0ei4lH8DziOEHmOK2q6NbJIwavv/lhqhYIHoas8y3z7WSHKIklkbYpDlcD+uGr1GFJYRKbJfuK4/SuAaMJp8ESQ3oDD9VjpgYzsdLmG9u7ksIEpzCcGwKBgQDGBZKmE6Se7AE3OIgZ4sTZSrISx6bB237LnCmG1WkAXAwc5aQa+mgSqwRE40XmjUK5vZ5bhylXNih+Zzrj0xmPOqu8ACuwXYmLwcvCYaJV9D7Ua0HFTpimmXcFG5o9QQbIfMa/Tyoc0gGhAA/ZHWcPDuURxKJAJq0wi2v3wNU5SwKBgQDAvGNWwwFslxeJ9wTeYvyZhIusa5bDtfz2kMIwKhhGB6GpolMptM4J11ERh9m/KIkloKGszIqcSlyqXtmm3aeZZ+NHngWmRPuxigP23v8mZDdAM3f1s6GKF+suoCaTx8cOrj8qT6F9yyVs5LCUh1/vdqy9pqqmM4aTfN6GEt7A9wKBgDw3S533ETNGfyQkq7Z7b/LHtRji34HJ1mfiJ/qZgOGcHA7Zgiq2BNnQaW7tUb9HK4hB8hrRIjAkBvJRP+Yxtm8In1p/DsoF16LJHsYQXIYYzNZZe1mdiev3dOr3ttJzqLVkxCc+0oaLEfW8iBU0zLcWh2/8xH4PhNDjRMTFPdG7AoGAOg8F5bbskOea4aaVwuASs7Qn1xK54c7KmwPUW2ny0fWuj0kkwCWFA5XnB97iiyEM31baHRGol5gW/gOAkTGoMSAIaSSDEykooLywoQdf2RLLSf23Hz6zZMP7xpnbxRyjLBr1UCuYvCob5gel4bg+AAbB1oeEVHilC3zME5tPmtUCgYAyDn0Bk8pISbZgrgmEjdFuYR5og8PalA1mQCRUpnBKt9EMJjAz5pk99S8hYMzM0VeQm3TDLMv+JWBh+IwqocnBpMEGQhccptm3cHbeIJhcaM1TO74LRJWREI575sb0HQO57mlPI9o6LFeqZ9bcZBL4VX2a9k86OzsWa6NbWLPHEA=="
         }
       ]
     }
@@ -976,11 +980,7 @@
             "name": "default-ssh",
             "ssh": {
               "tcp-server-parameters": {
-                "local-bind": [
-                  {
-                    "local-address": "::"
-                  }
-                ]
+                "local-address": "::"
               },
               "ssh-server-parameters": {
                 "server-identity": {
@@ -999,7 +999,7 @@
           {
             "name": "unix",
             "libnetconf2-netconf-server:unix": {
-              "hidden-path": [null],
+              "path": "/var/run/netopeer2-server.sock",
               "socket-permissions": {
                 "mode": "0666"
               }
