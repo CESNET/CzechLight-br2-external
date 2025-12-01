@@ -68,7 +68,7 @@ def generic(model, part_number, serial_number, mac_base, mfg_date, device_versio
     headers.append(text_field(TLV_PRODUCT_NAME, model))
     headers.append(text_field(TLV_SN, serial_number))
     mac_address = re.fullmatch('([0-9a-f]{2}):([0-9a-f]{2}):([0-9a-f]{2}):([0-9a-f]{2}):([0-9a-f]{2}):([0-9a-f]{2})', mac_base)
-    headers.append((TLV_MAC1, struct.pack('>7b', 6, *[int(x, 16) for x in mac_address.groups()])))
+    headers.append((TLV_MAC1, struct.pack('>7B', 6, *[int(x, 16) for x in mac_address.groups()])))
     headers.append((TLV_NUM_MACS, struct.pack('>BH', 2, 3)))
     date_str = mfg_date.strftime('%m/%d/%Y %H:%M:%S')
     if len(date_str) != 19:
