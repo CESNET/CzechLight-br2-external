@@ -75,7 +75,7 @@ VELIA_MODULES=(
     "--install ${VELIA_YANG}/velia-alarms@2022-07-12.yang"
 )
 CFG_FS_MODULES=(
-    "--install ${CFG_FS_YANG}/czechlight-netconf-server@2025-11-05.yang"
+    "--install ${CFG_FS_YANG}/czechlight-netconf-server@2025-12-01.yang"
 )
 CLA_MODULES=(
     "--install ${CLA_YANG}/iana-hardware@2018-03-13.yang"
