@@ -24,6 +24,14 @@ TLV_SERVICE_TAG=0x2f
 TLV_VENDOR_EXT=0xfd
 
 def czechlight_blob(model, sn, calibration):
+    """
+    Returns CzechLight-specific ONIE TLV headers fields with serialized data.
+    This field can use at most 255 bytes, including the vendor prefix,
+    thus it may be split into multiple TLV_VENDOR_EXT entries.
+
+    >>> czechlight_blob(model='sdn-bidi-cplus1572-g2', sn='ph-tech-0001', calibration=[23, 5, 0, 1, -122, -128, 127, 32])
+    [(253, b'\\x00\\x00\\x1fy\\x00\\x0cph-tech-0001\\x00\\t\\x00\\x17\\x05\\x00\\x01\\x86\\x80\\x7f 8\\x81\\x84\\x93')]
+    """
     sn = sn.encode('utf-8')
     calibration = [struct.pack('>b', int(x)) for x in calibration]
     if model == 'sdn-bidi-cplus1572-g2':
@@ -57,6 +65,13 @@ def czechlight_blob(model, sn, calibration):
     return headers
 
 def generic(model, part_number, serial_number, mac_base, mfg_date, device_version, manufacturer, vendor, country):
+    """
+    Returns generic ONIE TLV headers fields with serialized data
+
+    >>> generic(model='sdn-bidi-cplus1572-g2', part_number='PHTECH-CL-SDN-BIDI-C-L', serial_number='ph-tech-0001', mac_base='00:11:17:01:00:28', mfg_date=datetime.datetime(2025,5,26,12,34,56), device_version=99, manufacturer='Photonic tech.', vendor='Photonic tech.', country='CZ')
+    [(45, b'\\x0ePhotonic tech.'), (34, b'\\x16PHTECH-CL-SDN-BIDI-C-L'), (33, b'\\x15sdn-bidi-cplus1572-g2'), (35, b'\\x0cph-tech-0001'), (36, b'\\x06\\x00\\x11\\x17\\x01\\x00('), (42, b'\\x02\\x00\\x03'), (37, b'\\x1305/26/2025 12:34:56'), (43, b'\\x0ePhotonic tech.'), (44, b'\\x02CZ'), (38, b'\\x01c')]
+    """
+
     if mfg_date is None:
         mfg_date = datetime.datetime.now()
     def text_field(t, v):
@@ -80,6 +95,13 @@ def generic(model, part_number, serial_number, mac_base, mfg_date, device_versio
     return headers
 
 def as_onie_blob(tlvs):
+    """
+    Serializes TLV headers into ONIE EEPROM blob
+
+    >>> as_onie_blob([(33, b'\\x15sdn-bidi-cplus1572-g2')])
+    b'TlvInfo\\x00\\x01\\x00\\x1d!\\x15sdn-bidi-cplus1572-g2\\xfe\\x04\\xed\\xf2\\xc5B'
+    """
+
     buf = b''
     for (t, blob) in tlvs:
         buf += struct.pack('>B', t) + blob
