@@ -6,6 +6,13 @@ import re
 import struct
 import sys
 
+"""
+Creates ONIE-like EEPROM blob for CzechLight devices
+see:
+ * docs/eeprom.md
+ * https://opencomputeproject.github.io/onie/design-spec/hw_requirements.html
+"""
+
 TLV_PRODUCT_NAME=0x21
 TLV_PART_NO=0x22
 TLV_SN=0x23
@@ -64,6 +71,10 @@ def czechlight_blob(model, sn, calibration):
 
     return headers
 
+def text_field(t, v):
+    blob = v.encode('utf-8')
+    return (t, struct.pack(f'>B{len(blob)}s', len(blob), blob))
+
 def generic(model, part_number, serial_number, mac_base, mfg_date, device_version, manufacturer, vendor, country):
     """
     Returns generic ONIE TLV headers fields with serialized data
@@ -77,24 +88,27 @@ def generic(model, part_number, serial_number, mac_base, mfg_date, device_versio
 
     if mfg_date is None:
         mfg_date = datetime.datetime.now()
-    def text_field(t, v):
-        blob = v.encode('utf-8')
-        return (t, struct.pack(f'>B{len(blob)}s', len(blob), blob))
+
     headers = []
+
     headers.append(text_field(TLV_VENDOR, vendor))
     headers.append(text_field(TLV_PART_NO, part_number))
     headers.append(text_field(TLV_PRODUCT_NAME, model))
     headers.append(text_field(TLV_SN, serial_number))
+
     mac_address = re.fullmatch('([0-9a-f]{2}):([0-9a-f]{2}):([0-9a-f]{2}):([0-9a-f]{2}):([0-9a-f]{2}):([0-9a-f]{2})', mac_base)
     headers.append((TLV_MAC1, struct.pack('>7B', 6, *[int(x, 16) for x in mac_address.groups()])))
-    headers.append((TLV_NUM_MACS, struct.pack('>BH', 2, 3)))
+    headers.append((TLV_NUM_MACS, struct.pack('>BH', 2, 3)))  # we use 3 MAC addresses starting with TLV_MAC1
+
     date_str = mfg_date.strftime('%m/%d/%Y %H:%M:%S')
     if len(date_str) != 19:
         raise RuntimeError(f'unexpected date length for {mfg_date}: {len(mfg_date)}')
     headers.append(text_field(TLV_MFG_DATE, date_str))
+
     headers.append(text_field(TLV_MFG, manufacturer))
     headers.append(text_field(TLV_CC, country))
     headers.append((TLV_DEVICE_VERSION, struct.pack('>BB', 1, device_version)))
+
     return headers
 
 def as_onie_blob(tlvs):
@@ -105,10 +119,13 @@ def as_onie_blob(tlvs):
     '546c76496e666f00010040211573646e2d626964692d63706c7573313537322d6732fd2100001f79000c70682d746563682d303030310009001705000186807f2038818493fe042391ba31'
     """
 
-    buf = b''
+    # serialize TLV data
+    tlv = b''
     for (t, blob) in tlvs:
-        buf += struct.pack('>B', t) + blob
-    buf = b'TlvInfo\x00\x01' +  struct.pack('>H', len(buf) + 6) + buf + b'\xfe\x04'
+        tlv += struct.pack('>B', t) + blob
+
+    # whole eeprom content is header + length of the rest data + TLVs + CRC TLV
+    buf = b'TlvInfo\x00\x01' + struct.pack('>H', len(tlv) + 6) + tlv + b'\xfe\x04'
     buf += struct.pack('>I', binascii.crc32(buf))
     return buf
 
