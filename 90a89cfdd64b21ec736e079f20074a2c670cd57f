@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "573dd8f1_5fa85e42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-02T09:59:09Z",
+      "side": 1,
+      "message": "could you please also test for MAC addresses with bytes `\u003e\u003d 0x80` ?",
+      "revId": "90a89cfdd64b21ec736e079f20074a2c670cd57f",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
