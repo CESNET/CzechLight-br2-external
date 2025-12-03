@@ -101,7 +101,7 @@ case "${CZECHLIGHT}" in
     sdn-roadm-line-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-roadm-common@2021-03-05.yang"
-            "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
+            "--install ${CLA_YANG}/czechlight-roadm-device@2025-11-24.yang"
                 "--enable-feature hw-line-9"
         )
         VELIA_MODULES+=(
@@ -111,7 +111,7 @@ case "${CZECHLIGHT}" in
     sdn-roadm-add-drop-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-roadm-common@2021-03-05.yang"
-            "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
+            "--install ${CLA_YANG}/czechlight-roadm-device@2025-11-24.yang"
                 "--enable-feature hw-add-drop-20"
         )
         VELIA_MODULES+=(
@@ -121,7 +121,7 @@ case "${CZECHLIGHT}" in
     sdn-roadm-hires-add-drop-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-roadm-common@2021-03-05.yang"
-            "--install ${CLA_YANG}/czechlight-roadm-device@2021-03-05.yang"
+            "--install ${CLA_YANG}/czechlight-roadm-device@2025-11-24.yang"
                 "--enable-feature hw-add-drop-20"
                 "--enable-feature pre-wss-ocm"
         )
@@ -131,7 +131,7 @@ case "${CZECHLIGHT}" in
         ;;
     sdn-roadm-coherent-a-d-g2)
         CLA_MODULES+=(
-            "--install ${CLA_YANG}/czechlight-coherent-add-drop@2021-03-05.yang"
+            "--install ${CLA_YANG}/czechlight-coherent-add-drop@2025-11-24.yang"
         )
         VELIA_MODULES+=(
             "--install ${VELIA_YANG}/czechlight-network-sdn-generic@2025-06-06.yang"
