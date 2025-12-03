@@ -182,5 +182,23 @@ if (( ${OLD_VERSION} < 13 )); then
     mv ${DATA_FILE_NEW} ${DATA_FILE}
 fi
 
+if (( ${OLD_VERSION} < 14 )); then
+    DATA_FILE_NEW=$(mktemp -t sr-new-XXXXXX)
+    jq -r "
+if (has(\"czechlight-coherent-add-drop:client-ports\")) then
+    . as \$root |
+    .\"czechlight-coherent-add-drop:client-ports\" |= {
+        port: [
+            \$root.\"czechlight-coherent-add-drop:client-ports\"[]
+        ]
+    }
+else
+    # FIXME: WSS ROADMs
+    .
+end
+    " < ${DATA_FILE} > ${DATA_FILE_NEW}
+    mv ${DATA_FILE_NEW} ${DATA_FILE}
+fi
+
 cp ${DATA_FILE} ${CFG_STARTUP_FILE}
 echo "${NEW_VERSION}" > ${CFG_VERSION_FILE}

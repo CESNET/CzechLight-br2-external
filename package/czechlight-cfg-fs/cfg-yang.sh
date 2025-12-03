@@ -131,7 +131,7 @@ case "${CZECHLIGHT}" in
         ;;
     sdn-roadm-coherent-a-d-g2)
         CLA_MODULES+=(
-            "--install ${CLA_YANG}/czechlight-coherent-add-drop@2021-03-05.yang"
+            "--install ${CLA_YANG}/czechlight-coherent-add-drop@2025-11-24.yang"
         )
         VELIA_MODULES+=(
             "--install ${VELIA_YANG}/czechlight-network-sdn-generic@2025-06-06.yang"
