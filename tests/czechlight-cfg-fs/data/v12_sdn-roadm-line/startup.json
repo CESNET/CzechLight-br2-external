@@ -727,6 +727,44 @@
     {
       "channel": "C-band",
       "description": "Whole-band overview"
+    },
+    {
+      "channel": "59.0"
+    },
+    {
+      "channel": "59.5",
+      "add": {
+        "port": "E2",
+        "attenuation": "10.0"
+      }
+    },
+    {
+      "channel": "60.0",
+      "drop": {
+        "port": "E3",
+        "attenuation": "5.0"
+      }
+    },
+    {
+      "channel": "60.5",
+      "add": {
+        "port": "E4",
+        "attenuation": "0.0"
+      },
+      "drop": {
+        "port": "E4",
+        "attenuation": "0.0"
+      }
+    }
+  ],
+  "czechlight-roadm-device:leaf-ports": [
+    {
+      "port": "E1",
+      "description": "blah"
+    },
+    {
+      "port": "E2",
+      "description": "another"
     }
   ],
   "czechlight-roadm-device:spectrum-scan": {

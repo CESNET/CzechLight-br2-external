@@ -182,5 +182,38 @@ if (( ${OLD_VERSION} < 13 )); then
     mv ${DATA_FILE_NEW} ${DATA_FILE}
 fi
 
+if (( ${OLD_VERSION} < 14 )); then
+    DATA_FILE_NEW=$(mktemp -t sr-new-XXXXXX)
+    jq -r "
+if (has(\"czechlight-coherent-add-drop:client-ports\")) then
+    . as \$root
+    | .\"czechlight-coherent-add-drop:client-ports\" |= {
+        port: [
+            \$root.\"czechlight-coherent-add-drop:client-ports\"[]
+        ]
+    }
+end
+| if (has(\"czechlight-roadm-device:media-channels\")) then
+    . as \$root
+    | .\"czechlight-roadm-device:mc\" |= {
+        \"media-channel\": [
+            \$root.\"czechlight-roadm-device:media-channels\"[]
+        ]
+    }
+    | del(.\"czechlight-roadm-device:media-channels\")
+end
+| if (has(\"czechlight-roadm-device:leaf-ports\")) then
+    . as \$root
+    | .\"czechlight-roadm-device:port-description\" |= {
+        \"port\": [
+            \$root.\"czechlight-roadm-device:leaf-ports\"[]
+        ]
+    }
+    | del(.\"czechlight-roadm-device:leaf-ports\")
+end
+    " < ${DATA_FILE} > ${DATA_FILE_NEW}
+    mv ${DATA_FILE_NEW} ${DATA_FILE}
+fi
+
 cp ${DATA_FILE} ${CFG_STARTUP_FILE}
 echo "${NEW_VERSION}" > ${CFG_VERSION_FILE}

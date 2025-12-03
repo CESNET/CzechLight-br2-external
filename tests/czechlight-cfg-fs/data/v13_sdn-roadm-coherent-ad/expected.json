@@ -1,0 +1,183 @@
+{
+  "czechlight-coherent-add-drop:client-ports": {
+    "port": [
+      {
+        "port": 1,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 2,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 3,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 4,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 5,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 6,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 7,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 8,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      }
+    ]
+  },
+  "ietf-netconf-server:netconf-server": {
+    "listen": {
+      "endpoints": {
+        "endpoint": [
+          {
+            "name": "default-ssh",
+            "ssh": {
+              "tcp-server-parameters": {
+                "local-bind": [
+                  {
+                    "local-address": "::"
+                  }
+                ]
+              },
+              "ssh-server-parameters": {
+                "server-identity": {
+                  "host-key": [
+                    {
+                      "name": "default-key",
+                      "public-key": {
+                        "central-keystore-reference": "genkey"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "name": "unix",
+            "libnetconf2-netconf-server:unix": {
+              "hidden-path": [null],
+              "socket-permissions": {
+                "mode": "0666"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
