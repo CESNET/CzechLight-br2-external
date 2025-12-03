@@ -723,12 +723,14 @@
       }
     ]
   },
-  "czechlight-roadm-device:media-channels": [
-    {
-      "channel": "C-band",
-      "description": "Whole-band overview"
-    }
-  ],
+  "czechlight-roadm-device:mc": {
+    "media-channel": [
+      {
+        "channel": "C-band",
+        "description": "Whole-band overview"
+      }
+    ]
+  },
   "ietf-alarms:alarms": {
     "control": {
       "alarm-shelving": {
