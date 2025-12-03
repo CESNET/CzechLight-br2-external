@@ -1,0 +1,424 @@
+{
+  "czechlight-coherent-add-drop:client-ports": [
+    {
+      "port": 1,
+      "add": {
+        "critical-low": {
+          "level": "-30.0"
+        },
+        "warning-low": {
+          "level": "-15.0"
+        },
+        "warning-high": {
+          "level": "3.0"
+        },
+        "critical-high": {
+          "level": "5.0"
+        }
+      }
+    },
+    {
+      "port": 2,
+      "add": {
+        "critical-low": {
+          "level": "-30.0"
+        },
+        "warning-low": {
+          "level": "-15.0"
+        },
+        "warning-high": {
+          "level": "3.0"
+        },
+        "critical-high": {
+          "level": "5.0"
+        }
+      }
+    },
+    {
+      "port": 3,
+      "add": {
+        "critical-low": {
+          "level": "-30.0"
+        },
+        "warning-low": {
+          "level": "-15.0"
+        },
+        "warning-high": {
+          "level": "3.0"
+        },
+        "critical-high": {
+          "level": "5.0"
+        }
+      }
+    },
+    {
+      "port": 4,
+      "add": {
+        "critical-low": {
+          "level": "-30.0"
+        },
+        "warning-low": {
+          "level": "-15.0"
+        },
+        "warning-high": {
+          "level": "3.0"
+        },
+        "critical-high": {
+          "level": "5.0"
+        }
+      }
+    },
+    {
+      "port": 5,
+      "add": {
+        "critical-low": {
+          "level": "-30.0"
+        },
+        "warning-low": {
+          "level": "-15.0"
+        },
+        "warning-high": {
+          "level": "3.0"
+        },
+        "critical-high": {
+          "level": "5.0"
+        }
+      }
+    },
+    {
+      "port": 6,
+      "add": {
+        "critical-low": {
+          "level": "-30.0"
+        },
+        "warning-low": {
+          "level": "-15.0"
+        },
+        "warning-high": {
+          "level": "3.0"
+        },
+        "critical-high": {
+          "level": "5.0"
+        }
+      }
+    },
+    {
+      "port": 7,
+      "add": {
+        "critical-low": {
+          "level": "-30.0"
+        },
+        "warning-low": {
+          "level": "-15.0"
+        },
+        "warning-high": {
+          "level": "3.0"
+        },
+        "critical-high": {
+          "level": "5.0"
+        }
+      }
+    },
+    {
+      "port": 8,
+      "add": {
+        "critical-low": {
+          "level": "-30.0"
+        },
+        "warning-low": {
+          "level": "-15.0"
+        },
+        "warning-high": {
+          "level": "3.0"
+        },
+        "critical-high": {
+          "level": "5.0"
+        }
+      }
+    }
+  ],
+  "ietf-alarms:alarms": {
+    "control": {
+      "alarm-shelving": {
+        "shelf": [
+          {
+            "name": "systemd journal upload",
+            "resource": [
+              "systemd-journal-upload.service"
+            ],
+            "alarm-type": [
+              {
+                "alarm-type-id": "velia-alarms:systemd-unit-failure",
+                "alarm-type-qualifier-match": ""
+              }
+            ],
+            "description": "Ignore systemd-journal-upload.service failures"
+          }
+        ]
+      }
+    }
+  },
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "br0",
+        "type": "iana-if-type:bridge",
+        "ietf-ip:ipv4": {
+          "czechlight-network:dhcp-client": true
+        },
+        "ietf-ip:ipv6": {
+          "enabled": true,
+          "autoconf": {
+            "create-global-addresses": true
+          }
+        }
+      },
+      {
+        "name": "eth0",
+        "type": "iana-if-type:ethernetCsmacd",
+        "czechlight-network:bridge": "br0"
+      },
+      {
+        "name": "eth1",
+        "type": "iana-if-type:ethernetCsmacd",
+        "czechlight-network:bridge": "br0"
+      },
+      {
+        "name": "eth2",
+        "type": "iana-if-type:ethernetCsmacd",
+        "czechlight-network:bridge": "br0"
+      }
+    ]
+  },
+  "ietf-keystore:keystore": {
+    "asymmetric-keys": {
+      "asymmetric-key": [
+        {
+          "name": "genkey",
+          "public-key-format": "ietf-crypto-types:ssh-public-key-format",
+          "private-key-format": "ietf-crypto-types:rsa-private-key-format",
+          "cleartext-private-key": "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCq7HmVpE5+2eGrvz5fTDZrG4wsVgMZ/okaiCVbP5T4y95PN3shJpRDKnBl7MxsWX4gNVvJm/Dh1OtVWrMCjWKDGqs+SXUgisuo5D2KTZNcK5+ZXxAXJPb1nVlLKSFNr6yM5GHvKl6NhZXhTmShzMqS4Igv4BAUVaXUuokWGCYhHdr9P2OctQwVE2pvQlco7TWoX2A7bV2IoOTb/gdTPNYHonHMC73sGCmtzkvfA3jJmNcWAIdyJho0DSyc9sDOECvL0GcQ2iDGBE9x3nE4dE/xpFZ06OQHFAxgesEX4oLTNPDaclRS8jDCeVWa1piIue1xVdbuX4u3P2d8I+vB7AI3AgMBAAECggEAL1sMRqr6uoeIUErQr5uQejVsLT55ZoLQnqK44uKnVhU51y3SdflX25IPCRZF/wD+glL2RtHnN9KDjybtcNgWQqepaTz18Bm0Wms+J6rdmIxXkCk37omlyKAbRMk0+m6hOnnuLlLJVqF7yKwtEm0IdRAzezwziEbAhsNVxuLS8Zp9gfFl0HWRSYxdmQ/nVuJRjipQ3L6oS1PxgYXUs6Hs2QM3AVke8PmHDDNkINu4yaiMvASREmP49yvZady8QkKHzhWuB1H1rNRgGRbnDHWToDX3KH3kbxmKZNqsrmq+iFuq5DCsFFFToPE2gEOmbh26PJ6qXVtQBSDGxeKDnb/VkQKBgQDXuZyJqRd+1zNoWnqm8iSxY1oEz3ibtUnEC9BIC1hm1VmgM5SjcE6DvKDvuKrUf9+oDZWn6/BO68byRK+ZxNWNWvXxBWRMXySimoLXph83pdIO8tLh3ZkgciTASOZ3MMAzM8CHkET4gNmRmqAGWr0RkPHoYU5arKL3U5p5406ukQKBgQDK1Z/EY7Iq9seF/bipDDdyhPYIAUUOfs6q7ROcnorHroXPZS+Y1g5aBDuPVtdlPVUwaBS98P6HURa2rDE2hEQAM2AhetWYo8ezeanx/ppRsEZD8uPlJY3SOvK7i+5yo6/VKbp5UQbueSXKSD36K0dNjPufJV4YdDF4szHygPwYRwKBgEZfS1xw57Q9+YwqL+a0CRpA4cW99Ic+7XBhtjE6Wj05jgI/sVZbtZEuAIYTBM9LY6eLvu1Hf14PdhfkJjCQUGXLbX2Rl7V+OBI/Oz2j+H0Lv+mWdwqtYl1+PtTnMx9grOJHGKBghM9YISFpgphwE0tesDtxOsFDnen2wObQKwOxAoGAATUAPGTzfHn3ef6miKr/8XiFFksbpBhxFmdOxJHU9Zc+SJuritdLQpHf4Nx9b6bLyPv1k6PJf/ilj/S6Xj6vQOkNW2Wlu8DNwW2p6zy+olnQMTtSy9xLWcLsCt2sT5ZVx4j2CR7IUcb6yJdhdwmm5Pk/zhSk2LRoTvWSCIVn+qUCgYEAk+G0jxx15hranJeEK/k0fDZ+Fn1QNQglu8z10GSu5TsLZLDcVD0JMCi3UFDWHzA7C3zX2xPKP/zcRviEwZQT3sMJWvVaabSyFHed+mGL0IntMsd4g4qvUVFDOrmdapA3HIz3QFpzndENS6xHBmt4SArC9FlsIYX2az6c3JNXsiM="
+        }
+      ]
+    }
+  },
+  "ietf-netconf-acm:nacm": {
+    "rule-list": [
+      {
+        "name": "Permit yangnobody user/group to read only some modules",
+        "group": [
+          "yangnobody"
+        ],
+        "rule": [
+          {
+            "name": "ietf-yang-library",
+            "module-name": "ietf-yang-library",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "ietf-restconf-monitoring",
+            "module-name": "ietf-restconf-monitoring",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "ietf-system: contact",
+            "module-name": "ietf-system",
+            "path": "/ietf-system:system/contact",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "ietf-system: hostname",
+            "module-name": "ietf-system",
+            "path": "/ietf-system:system/hostname",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "ietf-system: location",
+            "module-name": "ietf-system",
+            "path": "/ietf-system:system/location",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "ietf-system: clock",
+            "module-name": "ietf-system",
+            "path": "/ietf-system:system/clock",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "ietf-system: system-state",
+            "module-name": "ietf-system",
+            "path": "/ietf-system:system-state",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "ietf-hardware",
+            "module-name": "ietf-hardware",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "ietf-interfaces",
+            "module-name": "ietf-interfaces",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-lldp",
+            "module-name": "czechlight-lldp",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-system:firmware",
+            "module-name": "czechlight-system",
+            "path": "/czechlight-system:firmware",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-system:leds",
+            "module-name": "czechlight-system",
+            "path": "/czechlight-system:leds",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-roadm-device",
+            "module-name": "czechlight-roadm-device",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-inline-amp",
+            "module-name": "czechlight-inline-amp",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-bidi-amp",
+            "module-name": "czechlight-bidi-amp",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-coherent-add-drop",
+            "module-name": "czechlight-coherent-add-drop",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-calibration-device",
+            "module-name": "czechlight-calibration-device",
+            "access-operations": "read",
+            "action": "permit"
+          },
+          {
+            "name": "wildcard-deny",
+            "module-name": "*",
+            "access-operations": "*",
+            "action": "deny"
+          }
+        ]
+      },
+      {
+        "name": "Allow DWDM control to the optics group",
+        "group": [
+          "optics"
+        ],
+        "rule": [
+          {
+            "name": "czechlight-roadm-device",
+            "module-name": "czechlight-roadm-device",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-inline-amp",
+            "module-name": "czechlight-inline-amp",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-bidi-amp",
+            "module-name": "czechlight-bidi-amp",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-coherent-add-drop",
+            "module-name": "czechlight-coherent-add-drop",
+            "action": "permit"
+          },
+          {
+            "name": "czechlight-calibration-device",
+            "module-name": "czechlight-calibration-device",
+            "action": "permit"
+          }
+        ]
+      },
+      {
+        "name": "Authentication details of current user",
+        "group": [
+          "*"
+        ],
+        "rule": [
+          {
+            "name": "Allow reading and executing actions in the context of the current user",
+            "module-name": "czechlight-system",
+            "path": "/czechlight-system:authentication/users[name=$USER]",
+            "access-operations": "read exec",
+            "action": "permit"
+          }
+        ]
+      }
+    ]
+  },
+  "ietf-netconf-server:netconf-server": {
+    "listen": {
+      "endpoints": {
+        "endpoint": [
+          {
+            "name": "default-ssh",
+            "ssh": {
+              "tcp-server-parameters": {
+                "local-bind": [
+                  {
+                    "local-address": "::"
+                  }
+                ]
+              },
+              "ssh-server-parameters": {
+                "server-identity": {
+                  "host-key": [
+                    {
+                      "name": "default-key",
+                      "public-key": {
+                        "central-keystore-reference": "genkey"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "name": "unix",
+            "libnetconf2-netconf-server:unix": {
+              "hidden-path": [null],
+              "socket-permissions": {
+                "mode": "0666"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "ietf-system:system": {
+    "hostname": "coherent-a-d-DQ000V9U"
+  }
+}
