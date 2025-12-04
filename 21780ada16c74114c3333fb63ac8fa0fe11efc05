@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f9afc23_64b6d334",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-04T12:36:43Z",
+      "side": 1,
+      "message": "I made a mistake when I ported the required changes to the installation scripts, and `algorithm-discovery` feature was not enabled. Fixed in Buildroot packaging now, I hope.",
+      "revId": "21780ada16c74114c3333fb63ac8fa0fe11efc05",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
