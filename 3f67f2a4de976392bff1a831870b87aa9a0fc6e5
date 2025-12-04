@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f00ebf27_3f27a693",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-04T11:39:48Z",
+      "side": 1,
+      "message": "In jq, `if` without `else` is a feature that\u0027s been supported since version 1.7, but this thing is on 1.6.",
+      "revId": "3f67f2a4de976392bff1a831870b87aa9a0fc6e5",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
