@@ -33,6 +33,24 @@
       "message": "Still no joy:\n\n```\nSchema node \"users\" for parent \"/ietf-netconf-server:netconf-server/listen/endpoints/endpoint/transport/ssh/ssh/ssh-server-parameters/client-authentication\" not found; i…\nSubscribing for providing \"ietf-netconf-server\" state data failed (libyang error).\nServer data subscribe failed.\n```\n\nWe\u0027re not enabling the `local-users-supported` feature because we do not want to support that. This used to work in the previous release, so I\u0027m talking with upstream about that.",
       "revId": "21780ada16c74114c3333fb63ac8fa0fe11efc05",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0067d56_2f21c68f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-04T18:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d23ed70a_aa0a3a5a",
+      "revId": "21780ada16c74114c3333fb63ac8fa0fe11efc05",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
