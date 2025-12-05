@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b2f9232_4a798a18",
+        "filename": "tools/__pycache__/czechlight-blob-onie-eeprom.cpython-313-pytest-8.4.2.pyc",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-12-05T14:13:00Z",
+      "side": 1,
+      "message": "FYI, I\u0027ve removed this .pyc file as a part of the rebase.",
+      "revId": "b920b539d3acd7e67ceabe368564ff2b21f06bfb",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
