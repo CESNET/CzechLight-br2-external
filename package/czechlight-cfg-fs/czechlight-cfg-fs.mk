@@ -139,4 +139,15 @@ czechlight-cfg-fs-test-migrations: $(BUILD_DIR)/czechlight-cfg-fs/.stamp_configu
 			-o tmp_path_retention_count=1 \
 			$(BR2_EXTERNAL_CZECHLIGHT_PATH)/tests/czechlight-cfg-fs/migrations.py
 
+czechlight-cfg-fs-test-tools: PKG=czechlight-cfg-fs
+czechlight-cfg-fs-test-tools: $(PKG)_NAME=czechlight-cfg-fs
+czechlight-cfg-fs-test-tools: $(BUILD_DIR)/czechlight-cfg-fs/.stamp_configured
+	PATH=$(BR_PATH) \
+		PYTHONDONTWRITEBYTECODE=1 \
+		pytest \
+			-vv \
+			--basetemp $(BUILD_DIR)/czechlight-cfg-fs/pytest \
+			-o tmp_path_retention_count=1 \
+			--doctest-modules $(BR2_EXTERNAL_CZECHLIGHT_PATH)/tools/czechlight-blob-onie-eeprom.py
+
 $(eval $(generic-package))

@@ -102,9 +102,7 @@ make source -j${CI_PARALLEL_JOBS} --output-sync=target
 make -j${CI_PARALLEL_JOBS} --output-sync=target rootfs-czechlight-rauc
 mv images/update.raucb ~/zuul-output/artifacts/
 
-make czechlight-cfg-fs-test-migrations
-
-pytest -v --doctest-modules ${ZUUL_PROJECT_SRC_DIR}/tools/czechlight-blob-onie-eeprom.py
+make czechlight-cfg-fs-test-migrations czechlight-cfg-fs-test-tools
 
 # FIXME: artifact handling is FUBAR
 # if [[ "${ZUUL_PIPELINE}" == "tag" ]]; then
