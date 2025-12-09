@@ -30,13 +30,24 @@ TLV_DIAG_VERSION=0x2e
 TLV_SERVICE_TAG=0x2f
 TLV_VENDOR_EXT=0xfd
 
+def _nice(what):
+    '''
+    >>> _nice([
+    ...     (0x00, b'ahoy'),
+    ...     (0xff, bytes.fromhex('00 01 02 03 04')),
+    ... ])
+    [(0, '61686f79'), (255, '0001020304')]
+    '''
+    import pprint
+    pprint.pprint(list(map(lambda x: (x[0], x[1].hex()), what)))
+
 def czechlight_blob(model, sn, calibration):
     """
     Returns CzechLight-specific ONIE TLV headers fields with serialized data.
     This field can use at most 255 bytes, including the vendor prefix,
     thus it may be split into multiple TLV_VENDOR_EXT entries.
 
-    >>> list(map(lambda x: (x[0], x[1].hex()), czechlight_blob(model='sdn-bidi-cplus1572-g2', sn='ph-tech-0001', calibration=[23, 5, 0, 1, -122, -128, 127, 32])))
+    >>> _nice(czechlight_blob(model='sdn-bidi-cplus1572-g2', sn='ph-tech-0001', calibration=[23, 5, 0, 1, -122, -128, 127, 32]))
     [(253, '2100001f79000c70682d746563682d303030310009001705000186807f2038818493')]
     """
 
@@ -79,11 +90,49 @@ def generic(model, part_number, serial_number, mac_base, mfg_date, device_versio
     """
     Returns generic ONIE TLV headers fields with serialized data
 
-    >>> list(map(lambda x: (x[0], x[1].hex()), generic(model='sdn-bidi-cplus1572-g2', part_number='PHTECH-CL-SDN-BIDI-C-L', serial_number='ph-tech-0001', mac_base='00:11:17:01:00:28', mfg_date=datetime.datetime(2025,5,26,12,34,56), device_version=99, manufacturer='Photonic tech.', vendor='Photonic tech.', country='CZ')))
-    [(45, '0e50686f746f6e696320746563682e'), (34, '165048544543482d434c2d53444e2d424944492d432d4c'), (33, '1573646e2d626964692d63706c7573313537322d6732'), (35, '0c70682d746563682d30303031'), (36, '06001117010028'), (42, '020003'), (37, '1330352f32362f323032352031323a33343a3536'), (43, '0e50686f746f6e696320746563682e'), (44, '02435a'), (38, '0163')]
+    >>> _nice(generic(
+    ...     model='sdn-bidi-cplus1572-g2',
+    ...     part_number='PHTECH-CL-SDN-BIDI-C-L',
+    ...     serial_number='ph-tech-0001',
+    ...     mac_base='00:11:17:01:00:28',
+    ...     mfg_date=datetime.datetime(2025, 5, 26, 12, 34, 56),
+    ...     device_version=99,
+    ...     manufacturer='Photonic tech.',
+    ...     vendor='Photonic tech.',
+    ...     country='CZ'
+    ... ))
+    [(45, '0e50686f746f6e696320746563682e'),
+     (34, '165048544543482d434c2d53444e2d424944492d432d4c'),
+     (33, '1573646e2d626964692d63706c7573313537322d6732'),
+     (35, '0c70682d746563682d30303031'),
+     (36, '06001117010028'),
+     (42, '020003'),
+     (37, '1330352f32362f323032352031323a33343a3536'),
+     (43, '0e50686f746f6e696320746563682e'),
+     (44, '02435a'),
+     (38, '0163')]
 
-    >>> list(map(lambda x: (x[0], x[1].hex()), generic(model='sdn-bidi-cplus1572-g2', part_number='SRM6828S32D01GE008V21C0', serial_number='1234', mac_base='00:11:f7:85:a3:24', mfg_date=datetime.datetime(2025,5,26,12,34,56), device_version=1, manufacturer='ACME Ltd.', vendor='ACME Ltd.', country='CO')))
-    [(45, '0941434d45204c74642e'), (34, '1753524d3638323853333244303147453030385632314330'), (33, '1573646e2d626964692d63706c7573313537322d6732'), (35, '0431323334'), (36, '060011f785a324'), (42, '020003'), (37, '1330352f32362f323032352031323a33343a3536'), (43, '0941434d45204c74642e'), (44, '02434f'), (38, '0101')]
+    >>> _nice(generic(
+    ...     model='sdn-bidi-cplus1572-g2',
+    ...     part_number='SRM6828S32D01GE008V21C0',
+    ...     serial_number='1234',
+    ...     mac_base='00:11:f7:85:a3:24',
+    ...     mfg_date=datetime.datetime(2025, 5, 26, 12, 34, 56),
+    ...     device_version=1,
+    ...     manufacturer='ACME Ltd.',
+    ...     vendor='ACME Ltd.',
+    ...     country='CO'
+    ... ))
+    [(45, '0941434d45204c74642e'),
+     (34, '1753524d3638323853333244303147453030385632314330'),
+     (33, '1573646e2d626964692d63706c7573313537322d6732'),
+     (35, '0431323334'),
+     (36, '060011f785a324'),
+     (42, '020003'),
+     (37, '1330352f32362f323032352031323a33343a3536'),
+     (43, '0941434d45204c74642e'),
+     (44, '02434f'),
+     (38, '0101')]
     """
 
     if mfg_date is None:
@@ -115,7 +164,10 @@ def as_onie_blob(tlvs):
     """
     Serializes TLV headers into ONIE EEPROM blob
 
-    >>> as_onie_blob([(33, b'\\x15sdn-bidi-cplus1572-g2'), (253, b'!\\x00\\x00\\x1fy\\x00\\x0cph-tech-0001\\x00\\t\\x00\\x17\\x05\\x00\\x01\\x86\\x80\\x7f 8\\x81\\x84\\x93')]).hex()
+    >>> as_onie_blob([
+    ... (33, b'\\x15sdn-bidi-cplus1572-g2'),
+    ... (253, b'!\\x00\\x00\\x1fy\\x00\\x0cph-tech-0001\\x00\\t\\x00\\x17\\x05\\x00\\x01\\x86\\x80\\x7f 8\\x81\\x84\\x93')
+    ... ]).hex()
     '546c76496e666f00010040211573646e2d626964692d63706c7573313537322d6732fd2100001f79000c70682d746563682d303030310009001705000186807f2038818493fe042391ba31'
     """
 
