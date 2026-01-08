@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5f19e77_d621866e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-01-08T17:49:05Z",
+      "side": 1,
+      "message": "Up \u0026 running on `coherent-a-d-DQ000V9U`.",
+      "revId": "afaff50245cc48e384dd33341ff40a8637f832cc",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
