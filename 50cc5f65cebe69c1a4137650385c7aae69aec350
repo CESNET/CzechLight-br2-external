@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "994cee5b_77eceb8c",
+        "filename": "configs/czechlight_clearfog_defconfig",
+        "patchSetId": 15
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-01-08T16:13:34Z",
+      "side": 1,
+      "message": "FYI, this is redundant, it\u0027s enabled by default. I\u0027ll be removing this in a follow-up commit since `make savedefconfig` deletes this line.",
+      "revId": "50cc5f65cebe69c1a4137650385c7aae69aec350",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
