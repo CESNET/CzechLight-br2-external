@@ -457,7 +457,7 @@ index 1f10f5c8e34d..25bde84af1cc 100644
  
  	orion_spi = spi_controller_get_devdata(spi->controller);
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index e339abff926d..65c98eeb3f05 100644
+index e10dcdeeda2d..4cf57ac7b204 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
 @@ -27,9 +27,11 @@
@@ -566,9 +566,9 @@ index e339abff926d..65c98eeb3f05 100644
  	regmaps[0] = devm_regmap_init_i2c(client, &regcfg_i2c);
  
  	for (i = 1; i < devtype->nr; i++) {
-@@ -1660,6 +1693,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
- 							client->adapter,
- 							port_addr);
+@@ -1662,6 +1695,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+ 		if (IS_ERR(port_client))
+ 			return PTR_ERR(port_client);
  
 +		regcfg_i2c.name = max310x_regmap_name(i);
  		regmaps[i] = devm_regmap_init_i2c(port_client, &regcfg_i2c);
