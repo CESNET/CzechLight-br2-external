@@ -33,6 +33,23 @@
       "message": "recheck (I forgot to push the buildroot repo)",
       "revId": "afaff50245cc48e384dd33341ff40a8637f832cc",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "258fe2e3_19f36f9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2026-01-09T19:55:51Z",
+      "side": 1,
+      "message": "So I finally learned how to use git range-diff.",
+      "revId": "afaff50245cc48e384dd33341ff40a8637f832cc",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
