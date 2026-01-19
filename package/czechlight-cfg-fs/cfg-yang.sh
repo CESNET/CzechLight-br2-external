@@ -51,7 +51,7 @@ ALARM_MODULES=(
 )
 VELIA_MODULES=(
     "--install ${VELIA_YANG}/ietf-system@2014-08-06.yang"
-    "--install ${VELIA_YANG}/czechlight-lldp@2020-11-04.yang"
+    "--install ${VELIA_YANG}/czechlight-lldp@2026-01-09.yang"
     "--install ${VELIA_YANG}/czechlight-system@2022-07-08.yang"
     "--install ${VELIA_YANG}/iana-if-type@2017-01-19.yang"
     # sysrepoctl doesn't like duplicates, and the ietf-interfaces and
