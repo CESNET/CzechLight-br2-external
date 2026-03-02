@@ -104,6 +104,8 @@ NETOPEER2_CONF_OPTS += -DSSH_AUTHORIZED_KEYS_FORMAT="/cfg/ssh-user-auth/%u"
 VELIA_CONF_OPTS += \
 	-DVELIA_BACKUP_ETC_SHADOW=/cfg/etc/shadow \
 	-DVELIA_BACKUP_ETC_HOSTNAME=/cfg/etc/hostname \
+	-DVELIA_BACKUP_ETC_SYSTEMD_RESOLVED_CONF=/cfg/etc/systemd/resolved.conf \
+	-DVELIA_BACKUP_ETC_SYSTEMD_TIMESYNCD_CONF=/cfg/etc/systemd/timesyncd.conf \
 	-DVELIA_AUTHORIZED_KEYS_FORMAT="/cfg/ssh-user-auth/{USER}"
 
 # Do not use buildroot's stock installation scripts
