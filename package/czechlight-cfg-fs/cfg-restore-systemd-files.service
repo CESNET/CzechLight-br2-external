@@ -8,8 +8,13 @@ Before=network-pre.target
 Type=oneshot
 RemainAfterExit=yes
 ExecStartPre=/usr/bin/mkdir -p /run/systemd/network
+ExecStartPre=/usr/bin/mkdir -p /cfg/etc/systemd/
+ExecStartPre=/usr/bin/mkdir -p /run/systemd/resolved.conf.d/
+ExecStartPre=/usr/bin/mkdir -p /run/systemd/timesyncd.conf.d/
 ExecStart=/bin/sh -c "cp -a /usr/lib/systemd/network/*.network /run/systemd/network"
 ExecStart=/bin/sh -c "if ls -al /cfg/network/*.network ; then cp -a /cfg/network/*.network /run/systemd/network/; fi"
+ExecStart=/bin/sh -c "if ls -al /cfg/etc/systemd/resolved.conf ; then cp -a /cfg/etc/systemd/resolved.conf /run/systemd/resolved.conf.d/; fi"
+ExecStart=/bin/sh -c "if ls -al /cfg/etc/systemd/timesyncd.conf ; then cp -a /cfg/etc/systemd/resolved.conf /run/systemd/timesyncd.conf.d/; fi"
 
 [Install]
 WantedBy=network-pre.target
