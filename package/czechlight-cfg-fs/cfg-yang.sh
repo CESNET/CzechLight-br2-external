@@ -64,7 +64,7 @@ VELIA_MODULES=(
     "--install ${VELIA_YANG}/ietf-ipv4-unicast-routing@2018-03-13.yang"
     "--install ${VELIA_YANG}/ietf-ipv6-unicast-routing@2018-03-13.yang"
     "--install ${VELIA_YANG}/ietf-rib-extension@2023-11-20.yang"
-    "--install ${VELIA_YANG}/czechlight-network@2025-06-06.yang"
+    "--install ${VELIA_YANG}/czechlight-network@2026-03-09.yang"
     "--install ${VELIA_YANG}/ietf-access-control-list@2019-03-04.yang"
         "--enable-feature match-on-eth"
         "--enable-feature eth"
