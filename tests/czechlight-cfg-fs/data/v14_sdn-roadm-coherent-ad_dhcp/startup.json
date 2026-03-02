@@ -1,0 +1,219 @@
+{
+  "ietf-interfaces:interfaces": {
+    "interface": [
+      {
+        "name": "eth0",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ietf-ip:ipv4": {
+          "czechlight-network:dhcp-client": false,
+          "address": [
+            {
+              "ip": "192.0.2.1",
+              "prefix-length": 24
+            }
+          ]
+        }
+      },
+      {
+        "name": "eth1",
+        "type": "iana-if-type:ethernetCsmacd",
+        "ietf-ip:ipv4": {
+          "czechlight-network:dhcp-client": true
+        }
+      }
+    ]
+  },
+  "ietf-netconf-server:netconf-server": {
+    "listen": {
+      "endpoints": {
+        "endpoint": [
+          {
+            "name": "default-ssh",
+            "ssh": {
+              "tcp-server-parameters": {
+                "local-bind": [
+                  {
+                    "local-address": "::"
+                  }
+                ]
+              },
+              "ssh-server-parameters": {
+                "server-identity": {
+                  "host-key": [
+                    {
+                      "name": "default-key",
+                      "public-key": {
+                        "central-keystore-reference": "genkey"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "name": "unix",
+            "libnetconf2-netconf-server:unix": {
+              "hidden-path": [null],
+              "socket-permissions": {
+                "mode": "0666"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "ietf-keystore:keystore": {
+    "asymmetric-keys": {
+      "asymmetric-key": [
+        {
+          "name": "genkey",
+          "public-key-format": "ietf-crypto-types:ssh-public-key-format",
+          "private-key-format": "ietf-crypto-types:rsa-private-key-format",
+          "cleartext-private-key": "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCq7HmVpE5+2eGrvz5fTDZrG4wsVgMZ/okaiCVbP5T4y95PN3shJpRDKnBl7MxsWX4gNVvJm/Dh1OtVWrMCjWKDGqs+SXUgisuo5D2KTZNcK5+ZXxAXJPb1nVlLKSFNr6yM5GHvKl6NhZXhTmShzMqS4Igv4BAUVaXUuokWGCYhHdr9P2OctQwVE2pvQlco7TWoX2A7bV2IoOTb/gdTPNYHonHMC73sGCmtzkvfA3jJmNcWAIdyJho0DSyc9sDOECvL0GcQ2iDGBE9x3nE4dE/xpFZ06OQHFAxgesEX4oLTNPDaclRS8jDCeVWa1piIue1xVdbuX4u3P2d8I+vB7AI3AgMBAAECggEAL1sMRqr6uoeIUErQr5uQejVsLT55ZoLQnqK44uKnVhU51y3SdflX25IPCRZF/wD+glL2RtHnN9KDjybtcNgWQqepaTz18Bm0Wms+J6rdmIxXkCk37omlyKAbRMk0+m6hOnnuLlLJVqF7yKwtEm0IdRAzezwziEbAhsNVxuLS8Zp9gfFl0HWRSYxdmQ/nVuJRjipQ3L6oS1PxgYXUs6Hs2QM3AVke8PmHDDNkINu4yaiMvASREmP49yvZady8QkKHzhWuB1H1rNRgGRbnDHWToDX3KH3kbxmKZNqsrmq+iFuq5DCsFFFToPE2gEOmbh26PJ6qXVtQBSDGxeKDnb/VkQKBgQDXuZyJqRd+1zNoWnqm8iSxY1oEz3ibtUnEC9BIC1hm1VmgM5SjcE6DvKDvuKrUf9+oDZWn6/BO68byRK+ZxNWNWvXxBWRMXySimoLXph83pdIO8tLh3ZkgciTASOZ3MMAzM8CHkET4gNmRmqAGWr0RkPHoYU5arKL3U5p5406ukQKBgQDK1Z/EY7Iq9seF/bipDDdyhPYIAUUOfs6q7ROcnorHroXPZS+Y1g5aBDuPVtdlPVUwaBS98P6HURa2rDE2hEQAM2AhetWYo8ezeanx/ppRsEZD8uPlJY3SOvK7i+5yo6/VKbp5UQbueSXKSD36K0dNjPufJV4YdDF4szHygPwYRwKBgEZfS1xw57Q9+YwqL+a0CRpA4cW99Ic+7XBhtjE6Wj05jgI/sVZbtZEuAIYTBM9LY6eLvu1Hf14PdhfkJjCQUGXLbX2Rl7V+OBI/Oz2j+H0Lv+mWdwqtYl1+PtTnMx9grOJHGKBghM9YISFpgphwE0tesDtxOsFDnen2wObQKwOxAoGAATUAPGTzfHn3ef6miKr/8XiFFksbpBhxFmdOxJHU9Zc+SJuritdLQpHf4Nx9b6bLyPv1k6PJf/ilj/S6Xj6vQOkNW2Wlu8DNwW2p6zy+olnQMTtSy9xLWcLsCt2sT5ZVx4j2CR7IUcb6yJdhdwmm5Pk/zhSk2LRoTvWSCIVn+qUCgYEAk+G0jxx15hranJeEK/k0fDZ+Fn1QNQglu8z10GSu5TsLZLDcVD0JMCi3UFDWHzA7C3zX2xPKP/zcRviEwZQT3sMJWvVaabSyFHed+mGL0IntMsd4g4qvUVFDOrmdapA3HIz3QFpzndENS6xHBmt4SArC9FlsIYX2az6c3JNXsiM="
+        }
+      ]
+    }
+  },
+  "czechlight-coherent-add-drop:client-ports": {
+    "port": [
+      {
+        "port": 1,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 2,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 3,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 4,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 5,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 6,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 7,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      },
+      {
+        "port": 8,
+        "add": {
+          "critical-low": {
+            "level": "-30.0"
+          },
+          "warning-low": {
+            "level": "-15.0"
+          },
+          "warning-high": {
+            "level": "3.0"
+          },
+          "critical-high": {
+            "level": "5.0"
+          }
+        }
+      }
+    ]
+  }
+}

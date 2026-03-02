@@ -221,5 +221,31 @@ end
     mv ${DATA_FILE_NEW} ${DATA_FILE}
 fi
 
+if (( ${OLD_VERSION} < 15 )); then
+    DATA_FILE_NEW=$(mktemp -t sr-new-XXXXXX)
+    jq -r '
+if (has("ietf-interfaces:interfaces")) then
+    .["ietf-interfaces:interfaces"].interface = [
+        .["ietf-interfaces:interfaces"].interface[]
+        | if (.["ietf-ip:ipv4"]? // null | has("czechlight-network:dhcp-client")) then
+            .["ietf-ip:ipv4"]["czechlight-network:dhcp-client"] |=
+                if (. == true) then
+                    {}
+                elif (. == false) then
+                    {"enabled": false}
+                else
+                    .
+                end
+        else
+            .
+        end
+    ]
+else
+    .
+end
+    ' < ${DATA_FILE} > ${DATA_FILE_NEW}
+    mv ${DATA_FILE_NEW} ${DATA_FILE}
+fi
+
 cp ${DATA_FILE} ${CFG_STARTUP_FILE}
 echo "${NEW_VERSION}" > ${CFG_VERSION_FILE}

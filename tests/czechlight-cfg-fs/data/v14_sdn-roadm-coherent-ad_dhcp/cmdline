@@ -1,0 +1,1 @@
+root=/dev/mmcblk0p1 init=/sbin/init-czechlight.sh rauc.slot=A czechlight=sdn-roadm-coherent-a-d-g2 systemd.machine_id=7de0be5f72694ac3b6fb43d47334c964 panic=10 oops=panic spidev.bufsiz=131072 schedstats=enable i2c_algo_bit.bit_test=1
