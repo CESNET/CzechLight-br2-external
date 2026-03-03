@@ -1,5 +1,5 @@
 [Unit]
-Description=Restore systemd-networkd network settings from /cfg
+Description=Restore various systemd configuration files from /cfg
 After=cfg.mount
 Requires=cfg.mount
 Before=network-pre.target

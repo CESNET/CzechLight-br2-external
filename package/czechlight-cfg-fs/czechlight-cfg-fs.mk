@@ -29,7 +29,7 @@ CZECHLIGHT_CFG_FS_SYSTEMD_FOR_MULTIUSER = \
 	cfg-migrate.service \
 	sysrepo-persistent-cfg.service \
 	openssh-persistent-keys.service \
-	cfg-restore-systemd-networkd.service
+	cfg-restore-systemd-files.service
 
 define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/cfg
