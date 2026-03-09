@@ -16,6 +16,24 @@
       "message": "Running on 10.0.0.193\n\nUseful commands:\n\n```\nset /ietf-system:system/ntp/server[name\u003d\u0027a\u0027]/udp/address \"tik.cesnet.cz\"\nset /ietf-system:system/ntp/server[name\u003d\u0027b\u0027]/udp/address \"tak.cesnet.cz\"\nset /ietf-system:system/dns-resolver/server[name\u003d\u0027a\u0027]/udp-and-tcp/address \"8.8.8.8\"\ncommit\n```\n\n```\ntimedatectl show-timesync\nresolvectl\n```",
       "revId": "0c612702a28a12e89e458ab4359477fd2363bf53",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6b77839_7933e5ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2026-03-09T12:05:31Z",
+      "side": 1,
+      "message": "Updated and running on 10.0.0.193",
+      "parentUuid": "2079df87_046e2433",
+      "revId": "0c612702a28a12e89e458ab4359477fd2363bf53",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
