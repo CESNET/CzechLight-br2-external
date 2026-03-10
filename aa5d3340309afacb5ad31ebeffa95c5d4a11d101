@@ -16,6 +16,23 @@
       "message": "Running on 10.0.0.193",
       "revId": "aa5d3340309afacb5ad31ebeffa95c5d4a11d101",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9a5e473_b3be4252",
+        "filename": "package/czechlight-cfg-fs/cfg-migrate.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-10T10:17:32Z",
+      "side": 1,
+      "message": "please either add a test for this",
+      "revId": "aa5d3340309afacb5ad31ebeffa95c5d4a11d101",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
