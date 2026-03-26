@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9d8ef6e_719e2f35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-03-26T13:29:03Z",
+      "side": 1,
+      "message": "Changes in Buildroot (`git range-diff a2621fd280..cesnet/2026-01-19 8b3d346bd4..origin/cesnet/2026-03-23`) look reasonable to me. Thanks!",
+      "revId": "bb04b591105d992b6fef77bf6bdaf9586ed6a3ab",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
