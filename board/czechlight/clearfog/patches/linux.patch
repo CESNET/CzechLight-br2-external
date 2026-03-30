@@ -1,5 +1,5 @@
 diff --git a/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt b/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt
-index 2fa5edac7a35..4906544628ec 100644
+index 2fa5edac7a35a..4906544628ecd 100644
 --- a/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt
 +++ b/Documentation/devicetree/bindings/pinctrl/pinctrl-mcp23s08.txt
 @@ -146,3 +146,38 @@ gpio21: gpio@21 {
@@ -42,7 +42,7 @@ index 2fa5edac7a35..4906544628ec 100644
 +	};
 +};
 diff --git a/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi b/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
-index f8a06ae4a3c9..e14020e653a1 100644
+index f8a06ae4a3c91..e14020e653a12 100644
 --- a/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
 +++ b/arch/arm/boot/dts/marvell/armada-388-clearfog.dtsi
 @@ -111,6 +111,12 @@ &eth2 {
@@ -93,7 +93,7 @@ index f8a06ae4a3c9..e14020e653a1 100644
  		marvell,pins = "mpp20";
  		marvell,function = "gpio";
 diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
-index 72a7c261ef06..89425f4ae9fb 100644
+index 72a7c261ef068..89425f4ae9fba 100644
 --- a/drivers/hwmon/pmbus/fsp-3y.c
 +++ b/drivers/hwmon/pmbus/fsp-3y.c
 @@ -10,11 +10,12 @@
@@ -269,7 +269,7 @@ index 72a7c261ef06..89425f4ae9fb 100644
  }
  
 diff --git a/drivers/leds/leds-tlc591xx.c b/drivers/leds/leds-tlc591xx.c
-index 945e831ef4ac..682ad60970d0 100644
+index 945e831ef4ac4..682ad60970d09 100644
 --- a/drivers/leds/leds-tlc591xx.c
 +++ b/drivers/leds/leds-tlc591xx.c
 @@ -39,6 +39,9 @@
@@ -328,7 +328,7 @@ index 945e831ef4ac..682ad60970d0 100644
  	if (err < 0)
  		return err;
 diff --git a/drivers/leds/trigger/Kconfig b/drivers/leds/trigger/Kconfig
-index 2a57328eca20..dc6816d36d06 100644
+index 2a57328eca207..dc6816d36d069 100644
 --- a/drivers/leds/trigger/Kconfig
 +++ b/drivers/leds/trigger/Kconfig
 @@ -83,7 +83,6 @@ config LEDS_TRIGGER_ACTIVITY
@@ -340,7 +340,7 @@ index 2a57328eca20..dc6816d36d06 100644
  	  This allows LEDs to be controlled by gpio events. It's good
  	  when using gpios as switches and triggering the needed LEDs
 diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
-index c38be2880efc..d8afdea21310 100644
+index c38be2880efcf..d8afdea213105 100644
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
 @@ -2425,11 +2425,7 @@ void igb_reset(struct igb_adapter *adapter)
@@ -377,7 +377,7 @@ index c38be2880efc..d8afdea21310 100644
  		if (igb_sysfs_init(adapter))
  			dev_err(&pdev->dev,
 diff --git a/drivers/pinctrl/pinctrl-mcp23s08_spi.c b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
-index ea059b9c5542..d58c6e631942 100644
+index ea059b9c5542e..d58c6e631942b 100644
 --- a/drivers/pinctrl/pinctrl-mcp23s08_spi.c
 +++ b/drivers/pinctrl/pinctrl-mcp23s08_spi.c
 @@ -8,6 +8,7 @@
@@ -444,7 +444,7 @@ index ea059b9c5542..d58c6e631942 100644
  	data->ngpio = ngpio;
  
 diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index 1f10f5c8e34d..25bde84af1cc 100644
+index 1f10f5c8e34d7..25bde84af1cc5 100644
 --- a/drivers/spi/spi-orion.c
 +++ b/drivers/spi/spi-orion.c
 @@ -472,7 +472,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
@@ -457,7 +457,7 @@ index 1f10f5c8e34d..25bde84af1cc 100644
  
  	orion_spi = spi_controller_get_devdata(spi->controller);
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index e10dcdeeda2d..4cf57ac7b204 100644
+index e10dcdeeda2d3..4cf57ac7b204b 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
 @@ -27,9 +27,11 @@
