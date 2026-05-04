@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -ex
 
 LN2_MODULE_DIR="${LN2_MODULE_DIR:-/usr/share/yang/modules/libnetconf2}"
@@ -20,6 +19,7 @@ ROUSETTE_MODULES=(
     "--install ${ROUSETTE_YANG}/ietf-restconf-monitoring@2017-01-26.yang"
     "--install ${ROUSETTE_YANG}/ietf-yang-patch@2017-02-22.yang"
     "--install ${ROUSETTE_YANG}/ietf-restconf-subscribed-notifications@2019-11-17.yang"
+    "--install ${ROUSETTE_YANG}/rousette@2026-04-20.yang"
 )
 
 # The "ietf-subscribed-notifications" YANG module is already installed by netopeer2, but without
