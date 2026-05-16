@@ -17,16 +17,16 @@ module czechlight-netconf-server {
   contact "photonics@cesnet.cz";
   description "Failsafes for NETCONF server configuration";
 
-  revision 2024-09-04 {
-    description "Initial release";
+  revision 2025-12-01 {
+    description "YANG updates";
   }
 
   revision 2025-11-05 {
     description "UNIX socket";
   }
 
-  revision 2025-12-01 {
-    description "YANG updates";
+  revision 2024-09-04 {
+    description "Initial release";
   }
 
   deviation /ncs:netconf-server {
