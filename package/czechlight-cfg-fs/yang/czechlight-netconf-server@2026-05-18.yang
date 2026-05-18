@@ -5,17 +5,19 @@ module czechlight-netconf-server {
 
   import ietf-netconf-server {
     prefix ncs;
-    revision-date '2025-04-24';
   }
 
   import libnetconf2-netconf-server {
     prefix np2;
-    revision-date '2025-11-11';
   }
 
   organization "CESNET";
   contact "photonics@cesnet.cz";
   description "Failsafes for NETCONF server configuration";
+
+  revision 2026-05-18 {
+    description "YANG updates";
+  }
 
   revision 2025-12-01 {
     description "YANG updates";
