@@ -444,7 +444,7 @@ index ea059b9c5542e..d58c6e631942b 100644
  	data->ngpio = ngpio;
  
 diff --git a/drivers/spi/spi-orion.c b/drivers/spi/spi-orion.c
-index 1f10f5c8e34d7..25bde84af1cc5 100644
+index 77dc56ac6dfa8..5eddd2e95aefb 100644
 --- a/drivers/spi/spi-orion.c
 +++ b/drivers/spi/spi-orion.c
 @@ -472,7 +472,7 @@ orion_spi_write_read(struct spi_device *spi, struct spi_transfer *xfer)
