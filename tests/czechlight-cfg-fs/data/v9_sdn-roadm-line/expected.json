@@ -914,6 +914,13 @@
             "action": "permit"
           },
           {
+            "name": "ietf-subscribed-notifications:filters",
+            "module-name": "ietf-subscribed-notifications",
+            "path": "/ietf-subscribed-notifications:filters",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
             "name": "wildcard-deny",
             "module-name": "*",
             "access-operations": "*",
