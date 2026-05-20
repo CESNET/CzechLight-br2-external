@@ -247,5 +247,31 @@ end
     mv ${DATA_FILE_NEW} ${DATA_FILE}
 fi
 
+if (( ${OLD_VERSION} < 16 )); then
+    DATA_FILE_NEW=$(mktemp -t sr-new-XXXXXX)
+    jq -r '
+if has("ietf-netconf-acm:nacm") then
+    .["ietf-netconf-acm:nacm"]["rule-list"] |= map(
+        if any(.group[]; . == "yangnobody") and (any(.rule[]; .name == "ietf-subscribed-notifications:filters") | not) then
+            .rule |= (.[:-1]
+                + [{
+                    "name": "ietf-subscribed-notifications:filters",
+                    "module-name": "ietf-subscribed-notifications",
+                    "path": "/ietf-subscribed-notifications:filters",
+                    "action": "permit",
+                    "access-operations": "read"
+                }]
+                + .[-1:])
+        else
+            .
+        end
+    )
+else
+    .
+end
+    ' < ${DATA_FILE} > ${DATA_FILE_NEW}
+    mv ${DATA_FILE_NEW} ${DATA_FILE}
+fi
+
 cp ${DATA_FILE} ${CFG_STARTUP_FILE}
 echo "${NEW_VERSION}" > ${CFG_VERSION_FILE}
