@@ -67,6 +67,13 @@
             "access-operations": "read"
           },
           {
+            "name": "ietf-subscribed-notifications: filters",
+            "module-name": "ietf-subscribed-notifications",
+            "path": "/ietf-subscribed-notifications:filters",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
             "name": "czechlight-lldp",
             "module-name": "czechlight-lldp",
             "action": "permit",
