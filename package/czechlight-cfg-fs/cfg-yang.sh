@@ -2,8 +2,10 @@
 
 set -ex
 
+SYSREPO_MODULE_DIR="${SYSREPO_MODULE_DIR:-/usr/share/yang/modules/sysrepo}"
 LN2_MODULE_DIR="${LN2_MODULE_DIR:-/usr/share/yang/modules/libnetconf2}"
 NP2_MODULE_DIR="${NP2_MODULE_DIR:-/usr/share/yang/modules/netopeer2}"
+SYSREPO_SETUP_DIR="${SYSREPO_SETUP_DIR:-/usr/libexec/sysrepo}"
 NETOPEER2_SETUP_DIR="${NETOPEER2_SETUP_DIR:-/usr/libexec/netopeer2}"
 CLA_YANG="${CLA_YANG:-/usr/share/yang/modules/cla-sysrepo}"
 VELIA_YANG="${VELIA_YANG:-/usr/share/yang/modules/velia}"
@@ -13,6 +15,7 @@ CFG_FS_YANG="${CFG_FS_YANG:-/usr/share/yang/modules/czechlight-cfg-fs}"
 PROC_CMDLINE="${PROC_CMDLINE:-/proc/cmdline}"
 CFG_SYSREPO_DIR="${CFG_SYSREPO_DIR:-/cfg/sysrepo}"
 
+source ${SYSREPO_SETUP_DIR}/yang.sh
 source ${NETOPEER2_SETUP_DIR}/yang.sh
 
 ROUSETTE_MODULES=(
@@ -23,23 +26,52 @@ ROUSETTE_MODULES=(
     "--install ${ROUSETTE_YANG}/rousette@2026-04-20.yang"
 )
 
-# The "ietf-subscribed-notifications" YANG module is already installed by netopeer2, but without
-# the "encode-json" feature enabled, so we have to monkey-patch that in.
-NETOPEER2_YANG_SETUP_COUNT=${#NETOPEER2_YANG_SETUP[@]}
+# The "ietf-subscribed-notifications" YANG module is already installed by both
+# sysrepo and netopeer2, each time with a different set of features.
+# We have to monkey-patch that.
+SYSREPO_YANG_SETUP_COUNT=${#SYSREPO_YANG_SETUP[@]}
 IETF_SUBSCIBED_NOTIFICATIONS_JSON=0
-for (( i=1; i<$NETOPEER2_YANG_SETUP_COUNT; i++ )); do
-    if [[ ${NETOPEER2_YANG_SETUP[i]} =~ "/ietf-subscribed-notifications@" ]]; then
-        NETOPEER2_YANG_SETUP=(
-            "${NETOPEER2_YANG_SETUP[@]:0:i+1}"
+for (( i=0; i<$SYSREPO_YANG_SETUP_COUNT; i++ )); do
+    if [[ ${SYSREPO_YANG_SETUP[i]} =~ "/ietf-subscribed-notifications@" ]]; then
+        SYSREPO_YANG_SETUP=(
+            "${SYSREPO_YANG_SETUP[@]:0:i+1}"
+            # this is needed for netopeer2, and we're building a single installation command,
+            # so let's prevent an error later on due to duplicate modules
+            "--enable-feature encode-xml"
+            # this one is for rousette
             "--enable-feature encode-json"
-            "${NETOPEER2_YANG_SETUP[@]:i+1}"
+            "${SYSREPO_YANG_SETUP[@]:i+1}"
         )
         IETF_SUBSCIBED_NOTIFICATIONS_JSON=1
         break
     fi
 done
-if [[ ${IETF_SUBSCIBED_NOTIFICATIONS_JSON} == 0 ]]; then
-    echo "YANG script error: cannot enable 'encode-json' for ietf-subscribed-notifications"
+if (( !IETF_SUBSCIBED_NOTIFICATIONS_JSON )); then
+    echo "YANG script error: cannot enable 'encode-json' and 'encode-xml' for 'ietf-subscribed-notifications'"
+    exit 1
+fi
+
+NETOPEER2_YANG_SETUP_MODIFIED=()
+NP2_FILTER_SKIP=0
+NP2_REMOVED_SUBSCRIBED_NOTIFICATIONS=0
+for LINE in "${NETOPEER2_YANG_SETUP[@]}"; do
+    echo "LINE: |${LINE}|"
+    if (( NP2_FILTER_SKIP )) && [[ ${LINE} =~ ^[[:space:]]?-i[[:space:]] || ${LINE} =~ ^[[:space:]]?--install[[:space:]] ]]; then
+        NP2_FILTER_SKIP=0
+        NP2_REMOVED_SUBSCRIBED_NOTIFICATIONS=1
+    fi
+
+    if [[ "$LINE" =~ "/ietf-subscribed-notifications@" ]]; then
+        NP2_FILTER_SKIP=1
+        continue
+    fi
+
+    if (( !NP2_FILTER_SKIP )); then
+        NETOPEER2_YANG_SETUP_MODIFIED+=("${LINE}")
+    fi
+done
+if (( ! NP2_REMOVED_SUBSCRIBED_NOTIFICATIONS )); then
+    echo "YANG script error: cannot filter out duplicate 'ietf-subscribed-notifications' from netopeer2 setup"
     exit 1
 fi
 
@@ -181,7 +213,8 @@ esac
 sysrepoctl \
     -v2 \
     --search-dirs ${NP2_MODULE_DIR}:${CLA_YANG}:${VELIA_YANG}:${ALARMS_YANG}:${ROUSETTE_YANG} \
-    ${NETOPEER2_YANG_SETUP[@]} \
+    ${SYSREPO_YANG_SETUP[@]} \
+    ${NETOPEER2_YANG_SETUP_MODIFIED[@]} \
     ${ROUSETTE_MODULES[@]} \
     ${ALARM_MODULES[@]} \
     ${VELIA_MODULES[@]} \
