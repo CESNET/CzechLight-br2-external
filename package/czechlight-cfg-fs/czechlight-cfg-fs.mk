@@ -80,6 +80,7 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		sysrepo-ietf-alarms.service \
 		sysrepo-persistent-cfg.service \
 		sysrepo-plugind.service \
+		sysrepo-notifd.service \
 		velia-firewall.service \
 		velia-health.service \
 		velia-system.service \
@@ -132,8 +133,7 @@ czechlight-cfg-fs-test-migrations: $(BUILD_DIR)/czechlight-cfg-fs/.stamp_configu
 		VELIA_SRCDIR=$(VELIA_SRCDIR) \
 		SYSREPO_IETF_ALARMS_SRCDIR=$(SYSREPO_IETF_ALARMS_SRCDIR) \
 		ROUSETTE_SRCDIR=$(ROUSETTE_SRCDIR) \
-		LIBNETCONF2_SRCDIR=$(LIBNETCONF2_SRCDIR) \
-		NETOPEER2_SRCDIR=$(NETOPEER2_SRCDIR) \
+		BASE_TARGET_DIR=$(BASE_TARGET_DIR) \
 		PYTHONDONTWRITEBYTECODE=1 \
 		pytest \
 			-vv \
