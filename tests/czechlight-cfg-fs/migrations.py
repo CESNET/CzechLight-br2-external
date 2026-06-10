@@ -48,8 +48,10 @@ class SysrepoFixture:
         res = os.environ.copy()
         res['SYSREPO_SHM_PREFIX'] = self._shm_prefix
         res['SYSREPO_REPOSITORY_PATH'] = self._repo_path
-        res['LN2_MODULE_DIR'] = pathlib.Path(os.environ['LIBNETCONF2_SRCDIR']) / 'modules'
-        res['NP2_MODULE_DIR'] = pathlib.Path(os.environ['NETOPEER2_SRCDIR']) / 'modules'
+        res['SYSREPO_MODULE_DIR'] = pathlib.Path(os.environ['NETOPEER2_TARGET_DIR']) / 'usr' / 'share' / 'yang' / 'modules' / 'sysrepo'
+        res['LN2_MODULE_DIR'] = pathlib.Path(os.environ['NETOPEER2_TARGET_DIR']) / 'usr' / 'share' / 'yang' / 'modules' / 'libnetconf2'
+        res['NP2_MODULE_DIR'] = pathlib.Path(os.environ['NETOPEER2_TARGET_DIR']) / 'usr' / 'share' / 'yang' / 'modules' / 'netopeer2'
+        res['SYSREPO_SETUP_DIR'] = BR2_EXT_ROOT / 'submodules' / 'buildroot' / 'package' / 'sysrepo'
         res['NETOPEER2_SETUP_DIR'] = BR2_EXT_ROOT / 'submodules' / 'buildroot' / 'package' / 'netopeer2'
         res['CLA_YANG'] = pathlib.Path(os.environ['CLA_SYSREPO_SRCDIR']) / 'yang'
         res['VELIA_YANG'] = pathlib.Path(os.environ['VELIA_SRCDIR']) / 'yang'
