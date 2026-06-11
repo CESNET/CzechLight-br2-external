@@ -89,7 +89,7 @@ define CZECHLIGHT_CFG_FS_INSTALL_TARGET_CMDS
 		rousette.service \
 	; do \
 		$(INSTALL) -d -m 0755 $(TARGET_DIR)/usr/lib/systemd/system/$${UNIT}.d/ ; \
-		echo -e "[Unit]\nBindsTo=run-sysrepo.mount\nAfter=run-sysrepo.mount cfg-yang.service\nRequires=cfg-yang.service" \
+		echo -e "[Unit]\nBindsTo=run-sysrepo.mount\nAfter=run-sysrepo.mount cfg-yang.service\nBefore=rauc-mark-good.service\nRequires=cfg-yang.service" \
 			> $(TARGET_DIR)/usr/lib/systemd/system/$${UNIT}.d/reset-sysrepo.conf ; \
 	done
 endef
