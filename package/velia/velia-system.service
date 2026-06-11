@@ -1,7 +1,6 @@
 [Unit]
 Description=System management via sysrepo
 After=syslog.target network.target
-Before=rauc-mark-good.service
 ConditionKernelCommandLine=czechlight
 
 [Service]
