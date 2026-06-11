@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4c0eb1e_bc9cc603",
+        "filename": "tests/czechlight-cfg-fs/migrations.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2026-06-11T09:57:15Z",
+      "side": 1,
+      "message": "After this change, standalone  `make czechlight-cfg-fs-test-migrations` is not enough, because it does not create the target dir.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 2
+      },
+      "revId": "ed16423e75e911c86ba52d4b6c1604b67d8e199b",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
