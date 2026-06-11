@@ -1,8 +1,7 @@
 [Unit]
 Description=System management via sysrepo
-After=syslog.target network.target cfg-yang.service
+After=syslog.target network.target
 Before=rauc-mark-good.service
-Requires=cfg-yang.service
 ConditionKernelCommandLine=czechlight
 
 [Service]

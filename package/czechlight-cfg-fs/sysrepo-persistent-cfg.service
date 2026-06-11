@@ -1,7 +1,5 @@
 [Unit]
 Description=Persisting persistent sysrepo datastores to /cfg
-After=cfg-yang.service
-Requires=cfg-yang.service
 
 [Service]
 Type=simple
