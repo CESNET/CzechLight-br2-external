@@ -16,6 +16,24 @@
       "message": "`Depends-on` footer was missing, fixed.",
       "revId": "60fb4ee1ae99c1f893d5444a1efefacd19a835d7",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "909c2936_b34441bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2026-06-11T19:39:35Z",
+      "side": 1,
+      "message": "Thanks",
+      "parentUuid": "aa09caa6_52a277ae",
+      "revId": "60fb4ee1ae99c1f893d5444a1efefacd19a835d7",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
