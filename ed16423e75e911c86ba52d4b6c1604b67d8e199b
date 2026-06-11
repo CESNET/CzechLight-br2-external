@@ -22,6 +22,30 @@
       },
       "revId": "ed16423e75e911c86ba52d4b6c1604b67d8e199b",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68ac8656_c86ebdd5",
+        "filename": "tests/czechlight-cfg-fs/migrations.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-06-11T11:07:16Z",
+      "side": 1,
+      "message": "I forgot that I cannot use the \"global\" target directory like this because its finalization only happens after all packages have been built. Done.",
+      "parentUuid": "e4c0eb1e_bc9cc603",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 2
+      },
+      "revId": "ed16423e75e911c86ba52d4b6c1604b67d8e199b",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
