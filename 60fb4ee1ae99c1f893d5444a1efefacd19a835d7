@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa09caa6_52a277ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-06-11T18:05:22Z",
+      "side": 1,
+      "message": "`Depends-on` footer was missing, fixed.",
+      "revId": "60fb4ee1ae99c1f893d5444a1efefacd19a835d7",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
