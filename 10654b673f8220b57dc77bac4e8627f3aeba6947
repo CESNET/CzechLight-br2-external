@@ -22,6 +22,30 @@
       },
       "revId": "10654b673f8220b57dc77bac4e8627f3aeba6947",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c81ced60_bdb486d5",
+        "filename": "submodules/rousette",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-07-16T23:02:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03d9865e_18532fab",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "10654b673f8220b57dc77bac4e8627f3aeba6947",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
