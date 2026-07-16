@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03d9865e_18532fab",
+        "filename": "submodules/rousette",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2026-07-16T12:33:29Z",
+      "side": 1,
+      "message": "The commit message does not mention this.",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "10654b673f8220b57dc77bac4e8627f3aeba6947",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
