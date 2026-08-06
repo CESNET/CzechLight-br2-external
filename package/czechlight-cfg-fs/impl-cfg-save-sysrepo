@@ -22,4 +22,17 @@ else
     # ...and then move it atomically.
     mv ${NEW_COPY} ${CONFIG_FILE}
     sync ${CONFIG_FILE}
+
+    if grep -q rauc.slot=A /proc/cmdline; then
+        RAUC_CURRENT_SLOT=A
+    elif grep -q rauc.slot=B /proc/cmdline; then
+        RAUC_CURRENT_SLOT=B
+    else
+        echo "Cannot determine active RAUC slot"
+        exit 1
+    fi
+    CFG_LAST_SLOT=$(fw_printenv CFG_LAST_SLOT)
+    if [[ "${RAUC_CURRENT_SLOT}" != "${CFG_LAST_SLOT}" ]]; then
+        fw_setenv CFG_LAST_SLOT ${RAUC_CURRENT_SLOT}
+    fi
 fi
