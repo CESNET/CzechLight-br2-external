@@ -457,7 +457,7 @@ index 77dc56ac6dfa8..5eddd2e95aefb 100644
  
  	orion_spi = spi_controller_get_devdata(spi->controller);
 diff --git a/drivers/tty/serial/max310x.c b/drivers/tty/serial/max310x.c
-index e10dcdeeda2d3..4cf57ac7b204b 100644
+index 1cee4e1f31224..f6c24da3b6f49 100644
 --- a/drivers/tty/serial/max310x.c
 +++ b/drivers/tty/serial/max310x.c
 @@ -27,9 +27,11 @@
@@ -515,7 +515,7 @@ index e10dcdeeda2d3..4cf57ac7b204b 100644
  	max310x_port_write(port, MAX310X_IRQEN_REG, val | MAX310X_IRQ_CTS_BIT);
  
  	return 0;
-@@ -1518,6 +1539,15 @@ static struct regmap_config regcfg = {
+@@ -1530,6 +1551,15 @@ static struct regmap_config regcfg = {
  	.max_raw_write = MAX310X_FIFO_SIZE,
  };
  
@@ -531,7 +531,7 @@ index e10dcdeeda2d3..4cf57ac7b204b 100644
  #ifdef CONFIG_SPI_MASTER
  static int max310x_spi_extended_reg_enable(struct device *dev, bool enable)
  {
-@@ -1535,7 +1565,7 @@ static const struct max310x_if_cfg __maybe_unused max310x_spi_if_cfg = {
+@@ -1547,7 +1577,7 @@ static const struct max310x_if_cfg __maybe_unused max310x_spi_if_cfg = {
  static int max310x_spi_probe(struct spi_device *spi)
  {
  	const struct max310x_devtype *devtype;
@@ -540,7 +540,7 @@ index e10dcdeeda2d3..4cf57ac7b204b 100644
  	unsigned int i;
  	int ret;
  
-@@ -1553,6 +1583,8 @@ static int max310x_spi_probe(struct spi_device *spi)
+@@ -1565,6 +1595,8 @@ static int max310x_spi_probe(struct spi_device *spi)
  
  	for (i = 0; i < devtype->nr; i++) {
  		u8 port_mask = i * 0x20;
@@ -549,7 +549,7 @@ index e10dcdeeda2d3..4cf57ac7b204b 100644
  		regcfg.read_flag_mask = port_mask;
  		regcfg.write_flag_mask = port_mask | MAX310X_WRITE_BIT;
  		regmaps[i] = devm_regmap_init_spi(spi, &regcfg);
-@@ -1637,7 +1669,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+@@ -1649,7 +1681,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
  {
  	const struct max310x_devtype *devtype;
  	struct i2c_client *port_client;
@@ -558,7 +558,7 @@ index e10dcdeeda2d3..4cf57ac7b204b 100644
  	unsigned int i;
  	u8 port_addr;
  
-@@ -1652,6 +1684,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+@@ -1664,6 +1696,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
  				     client->addr, devtype->slave_addr.min,
  				     devtype->slave_addr.max);
  
@@ -566,7 +566,7 @@ index e10dcdeeda2d3..4cf57ac7b204b 100644
  	regmaps[0] = devm_regmap_init_i2c(client, &regcfg_i2c);
  
  	for (i = 1; i < devtype->nr; i++) {
-@@ -1662,6 +1695,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
+@@ -1674,6 +1707,7 @@ static int max310x_i2c_probe(struct i2c_client *client)
  		if (IS_ERR(port_client))
  			return PTR_ERR(port_client);
  
