@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e28102f_2cca1fef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-07T09:42:10Z",
+      "side": 1,
+      "message": "Just FYI, this improves the situation a bit, but it\u0027s not a full fix. Previously, the connection would die immediately:\n```\n[ERR] open() on \"/etc/sysrepo/sr_main_lock\" failed (Permission denied).\nterminate called after throwing an instance of \u0027sysrepo::ErrorWithCode\u0027\n  what():  Couldn\u0027t connect to sysrepo: SR_ERR_SYS\n```\nNow it connects, and I can read data from the optical modules. But a simple \"get of everything\" still fails:\n```\n/\u003e get\n[ERR] Opening \"/etc/sysrepo/sr_evpipe1\" for writing failed (Permission denied).\nThe following errors occured:\n Message: Opening \"/etc/sysrepo/sr_evpipe1\" for writing failed (Permission denied).\n```\n\nThis is (IMHO) caused by the fact that some other modules are owned by `root:root`, not `root:sysrepo`. I do not immediately see a problem in our setup...",
+      "revId": "eeb770ed1e3e74725a9dda5725723fb77dadf070",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
