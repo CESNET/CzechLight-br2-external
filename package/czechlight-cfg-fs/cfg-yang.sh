@@ -30,7 +30,7 @@ ROUSETTE_MODULES=(
 # sysrepo and netopeer2, each time with a different set of features.
 # We have to monkey-patch that.
 SYSREPO_YANG_SETUP_COUNT=${#SYSREPO_YANG_SETUP[@]}
-IETF_SUBSCIBED_NOTIFICATIONS_JSON=0
+IETF_SUBSCRIBED_NOTIFICATIONS_JSON=0
 for (( i=0; i<$SYSREPO_YANG_SETUP_COUNT; i++ )); do
     if [[ ${SYSREPO_YANG_SETUP[i]} =~ "/ietf-subscribed-notifications@" ]]; then
         SYSREPO_YANG_SETUP=(
@@ -42,11 +42,11 @@ for (( i=0; i<$SYSREPO_YANG_SETUP_COUNT; i++ )); do
             "--enable-feature encode-json"
             "${SYSREPO_YANG_SETUP[@]:i+1}"
         )
-        IETF_SUBSCIBED_NOTIFICATIONS_JSON=1
+        IETF_SUBSCRIBED_NOTIFICATIONS_JSON=1
         break
     fi
 done
-if (( !IETF_SUBSCIBED_NOTIFICATIONS_JSON )); then
+if (( !IETF_SUBSCRIBED_NOTIFICATIONS_JSON )); then
     echo "YANG script error: cannot enable 'encode-json' and 'encode-xml' for 'ietf-subscribed-notifications'"
     exit 1
 fi
