@@ -14,6 +14,7 @@ ROUSETTE_YANG="${ROUSETTE_YANG:-/usr/share/yang/modules/rousette}"
 CFG_FS_YANG="${CFG_FS_YANG:-/usr/share/yang/modules/czechlight-cfg-fs}"
 PROC_CMDLINE="${PROC_CMDLINE:-/proc/cmdline}"
 CFG_SYSREPO_DIR="${CFG_SYSREPO_DIR:-/cfg/sysrepo}"
+TEST_RUN_SKIP_CHOWN="${TEST_RUN_SKIP_CHOWN:-0}"
 
 source ${SYSREPO_SETUP_DIR}/yang.sh
 source ${NETOPEER2_SETUP_DIR}/yang.sh
@@ -77,6 +78,7 @@ fi
 
 ALARM_MODULES=(
     "--install ${ALARMS_YANG}/ietf-alarms@2019-09-11.yang"
+        "--permissions 0644"
         "--enable-feature alarm-history"
         "--enable-feature alarm-shelving"
         "--enable-feature alarm-summary"
@@ -115,6 +117,7 @@ CFG_FS_MODULES=(
 CLA_MODULES=(
     "--install ${CLA_YANG}/iana-hardware@2018-03-13.yang"
     "--install ${CLA_YANG}/ietf-hardware@2018-03-13.yang"
+        "--permissions 0644"
         "--enable-feature hardware-sensor"
         "--enable-feature hardware-state"
 )
@@ -129,6 +132,14 @@ for ARG in $(cat "$PROC_CMDLINE"); do
     esac
 done
 
+if [[ "${TEST_RUN_SKIP_CHOWN}" == "1" ]]; then
+    echo "Not adding '--group optics' because this is a test run"
+    CLA_OPTICS_OPTS=""
+else
+    CLA_OPTICS_OPTS="--group optics"
+fi
+CLA_OPTICS_OPTS="${CLA_OPTICS_OPTS} --permissions 0664"
+
 case "${CZECHLIGHT}" in
     "")
         # no device model set -> do nothing
@@ -136,7 +147,9 @@ case "${CZECHLIGHT}" in
     sdn-roadm-line-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-roadm-common@2021-03-05.yang"
+                "${CLA_OPTICS_OPTS}"
             "--install ${CLA_YANG}/czechlight-roadm-device@2025-11-24.yang"
+                "${CLA_OPTICS_OPTS}"
                 "--enable-feature hw-line-9"
         )
         VELIA_MODULES+=(
@@ -146,7 +159,9 @@ case "${CZECHLIGHT}" in
     sdn-roadm-add-drop-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-roadm-common@2021-03-05.yang"
+                "${CLA_OPTICS_OPTS}"
             "--install ${CLA_YANG}/czechlight-roadm-device@2025-11-24.yang"
+                "${CLA_OPTICS_OPTS}"
                 "--enable-feature hw-add-drop-20"
         )
         VELIA_MODULES+=(
@@ -156,7 +171,9 @@ case "${CZECHLIGHT}" in
     sdn-roadm-hires-add-drop-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-roadm-common@2021-03-05.yang"
+                "${CLA_OPTICS_OPTS}"
             "--install ${CLA_YANG}/czechlight-roadm-device@2025-11-24.yang"
+                "${CLA_OPTICS_OPTS}"
                 "--enable-feature hw-add-drop-20"
                 "--enable-feature pre-wss-ocm"
         )
@@ -167,6 +184,7 @@ case "${CZECHLIGHT}" in
     sdn-roadm-coherent-a-d-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-coherent-add-drop@2025-11-24.yang"
+                "${CLA_OPTICS_OPTS}"
         )
         VELIA_MODULES+=(
             "--install ${VELIA_YANG}/czechlight-network-sdn-generic@2025-06-06.yang"
@@ -175,6 +193,7 @@ case "${CZECHLIGHT}" in
     sdn-inline-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-inline-amp@2021-03-05.yang"
+                "${CLA_OPTICS_OPTS}"
         )
         VELIA_MODULES+=(
             "--install ${VELIA_YANG}/czechlight-network-sdn-inline@2025-06-06.yang"
@@ -183,11 +202,13 @@ case "${CZECHLIGHT}" in
     calibration-box)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-calibration-device@2019-06-25.yang"
+                "${CLA_OPTICS_OPTS}"
         )
         ;;
     sdn-bidi-cplus1572-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-bidi-amp@2025-05-22.yang"
+                "${CLA_OPTICS_OPTS}"
                 "--enable-feature dualband-c-plus-1572"
         )
         VELIA_MODULES+=(
@@ -197,6 +218,7 @@ case "${CZECHLIGHT}" in
     sdn-bidi-cplus1572-ocm-g2)
         CLA_MODULES+=(
             "--install ${CLA_YANG}/czechlight-bidi-amp@2025-05-22.yang"
+                "${CLA_OPTICS_OPTS}"
                 "--enable-feature dualband-c-plus-1572"
                 "--enable-feature c-band-ocm"
         )

@@ -135,6 +135,7 @@ czechlight-cfg-fs-test-migrations: $(BUILD_DIR)/czechlight-cfg-fs/.stamp_configu
 		ROUSETTE_SRCDIR=$(ROUSETTE_SRCDIR) \
 		NETOPEER2_TARGET_DIR=$(if $(filter y,$(BR2_PER_PACKAGE_DIRECTORIES)),$(PER_PACKAGE_DIR)/$(NETOPEER2_NAME)/target,$(BASE_TARGET_DIR)) \
 		PYTHONDONTWRITEBYTECODE=1 \
+		TEST_RUN_SKIP_CHOWN=1 \
 		pytest \
 			-vv \
 			--basetemp $(BUILD_DIR)/czechlight-cfg-fs/pytest \
