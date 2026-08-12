@@ -124,6 +124,21 @@ endef
 SYSREPO_PRE_PATCH_HOOKS += RESET_SYSREPO_PATCH_DEV_SHM
 SYSREPO_POST_RSYNC_HOOKS += RESET_SYSREPO_PATCH_DEV_SHM
 
+# Do not ship a build-time sysrepo repository. There are two ways it gets into
+# the target tree: sysrepo's `make install` creates REPO_PATH (world-writable,
+# at that), and the host sysrepo is configured with REPO_PATH pointing into
+# $(TARGET_DIR), so anything it does at build time (including installing YANG
+# modules) is rsynced into the target dir of every package which depends on it.
+# Everything in the image ends up owned by root:root, and sysrepoctl silently
+# skips modules which are already installed, so such leftovers would stay
+# root:root instead of root:sysrepo forever. Let the device populate the
+# repository on its own; sysrepo creates the directories when they are missing,
+# with the correct group and mode.
+define CZECHLIGHT_CFG_FS_NO_BUILD_TIME_SYSREPO_REPO
+	rm -rf $(TARGET_DIR)/etc/sysrepo
+endef
+TARGET_FINALIZE_HOOKS += CZECHLIGHT_CFG_FS_NO_BUILD_TIME_SYSREPO_REPO
+
 .PHONY: czechlight-cfg-fs-test-migrations
 czechlight-cfg-fs-test-migrations: PKG=czechlight-cfg-fs
 czechlight-cfg-fs-test-migrations: $(PKG)_NAME=czechlight-cfg-fs
