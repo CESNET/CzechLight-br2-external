@@ -232,6 +232,8 @@ case "${CZECHLIGHT}" in
         ;;
 esac
 
+echo "Running sysrepoctl as user $(id -un) ($(id -u)), group $(id -gn) ($(id -g))"
+
 sysrepoctl \
     -v2 \
     --search-dirs ${NP2_MODULE_DIR}:${CLA_YANG}:${VELIA_YANG}:${ALARMS_YANG}:${ROUSETTE_YANG} \
@@ -243,3 +245,5 @@ sysrepoctl \
     ${CFG_FS_MODULES[@]} \
     ${CLA_MODULES[@]} \
     --init-data ${CFG_SYSREPO_DIR}/startup.json
+
+sysrepoctl -l
