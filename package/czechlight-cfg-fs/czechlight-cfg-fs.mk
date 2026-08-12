@@ -124,6 +124,12 @@ endef
 SYSREPO_PRE_PATCH_HOOKS += RESET_SYSREPO_PATCH_DEV_SHM
 SYSREPO_POST_RSYNC_HOOKS += RESET_SYSREPO_PATCH_DEV_SHM
 
+# Do not ship a build-time sysrepo repository at all.
+define CZECHLIGHT_CFG_FS_NO_BUILD_TIME_SYSREPO_REPO
+	rm -rf $(TARGET_DIR)/etc/sysrepo
+endef
+TARGET_FINALIZE_HOOKS += CZECHLIGHT_CFG_FS_NO_BUILD_TIME_SYSREPO_REPO
+
 .PHONY: czechlight-cfg-fs-test-migrations
 czechlight-cfg-fs-test-migrations: PKG=czechlight-cfg-fs
 czechlight-cfg-fs-test-migrations: $(PKG)_NAME=czechlight-cfg-fs

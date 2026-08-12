@@ -243,3 +243,5 @@ sysrepoctl \
     ${CFG_FS_MODULES[@]} \
     ${CLA_MODULES[@]} \
     --init-data ${CFG_SYSREPO_DIR}/startup.json
+
+sysrepoctl -l
