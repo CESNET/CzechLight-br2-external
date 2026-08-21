@@ -115,14 +115,9 @@ define CZECHLIGHT_CFG_FS_OVERRIDE_NETOPEER_UNITS
 endef
 NETOPEER2_POST_INSTALL_TARGET_HOOKS += CZECHLIGHT_CFG_FS_OVERRIDE_NETOPEER_UNITS
 
-# Do not clutter /dev/shm, use a proper prefix for sysrepo
-define RESET_SYSREPO_PATCH_DEV_SHM
-        sed -i \
-                's|^#define SR_SHM_DIR .*|#define SR_SHM_DIR "/run/sysrepo"|' \
-                $(@D)/src/config.h.in
-endef
-SYSREPO_PRE_PATCH_HOOKS += RESET_SYSREPO_PATCH_DEV_SHM
-SYSREPO_POST_RSYNC_HOOKS += RESET_SYSREPO_PATCH_DEV_SHM
+# Use a proper prefix for sysrepo so that we can enforce reasonable permissions
+SYSREPO_CONF_OPTS += \
+	-DSHM_DIR=/run/sysrepo
 
 .PHONY: czechlight-cfg-fs-test-migrations
 czechlight-cfg-fs-test-migrations: PKG=czechlight-cfg-fs
