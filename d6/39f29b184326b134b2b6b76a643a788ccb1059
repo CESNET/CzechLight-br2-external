@@ -1,0 +1,7 @@
+Code-Review+2: Tomáš Pecka <Tomas.Pecka@cesnet.cz>
+Verified+1: Zuul CI <cesnet-zuul+public@gerrit.cesnet.cz>
+Submitted-by: Jan Kundrát <jan.kundrat@cesnet.cz>
+Submitted-at: Fri, 21 Aug 2026 14:59:37 +0200
+Reviewed-on: https://gerrit.cesnet.cz/c/CzechLight/br2-external/+/9296
+Project: CzechLight/br2-external
+Branch: refs/heads/master
