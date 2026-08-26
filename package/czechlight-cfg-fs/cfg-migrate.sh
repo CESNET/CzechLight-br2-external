@@ -273,5 +273,44 @@ end
     mv ${DATA_FILE_NEW} ${DATA_FILE}
 fi
 
+if (( ${OLD_VERSION} < 17 )); then
+    # SSE proxy endpoints for hardware and optics telemetry, replacing the hardcoded /telemetry/optics
+    DATA_FILE_NEW=$(mktemp -t sr-new-XXXXXX)
+    jq -f ${SCRIPT_ROOT}/meld.jq ${DATA_FILE} ${CFG_STATIC_DATA}/sse-proxy.json > ${DATA_FILE_NEW}
+    mv ${DATA_FILE_NEW} ${DATA_FILE}
+
+    # ...and let the anonymous user consume them. These have to go before the final wildcard-deny,
+    # otherwise rousette refuses to enable anonymous access at all.
+    DATA_FILE_NEW=$(mktemp -t sr-new-XXXXXX)
+    jq -r '
+if has("ietf-netconf-acm:nacm") then
+    .["ietf-netconf-acm:nacm"]["rule-list"] |= map(
+        if any(.group[]; . == "yangnobody") and (any(.rule[]; .name == "sse-proxy: hardware") | not) then
+            .rule |= (.[:-1]
+                + [{
+                    "name": "sse-proxy: hardware",
+                    "module-name": "rousette",
+                    "path": "/ietf-subscribed-notifications:subscriptions/ietf-subscribed-notif-receivers:receiver-instances/receiver-instance[name=\"hardware\"]/rousette:sse-proxy/nacm-access-check",
+                    "action": "permit",
+                    "access-operations": "read"
+                }, {
+                    "name": "sse-proxy: optics",
+                    "module-name": "rousette",
+                    "path": "/ietf-subscribed-notifications:subscriptions/ietf-subscribed-notif-receivers:receiver-instances/receiver-instance[name=\"optics\"]/rousette:sse-proxy/nacm-access-check",
+                    "action": "permit",
+                    "access-operations": "read"
+                }]
+                + .[-1:])
+        else
+            .
+        end
+    )
+else
+    .
+end
+    ' < ${DATA_FILE} > ${DATA_FILE_NEW}
+    mv ${DATA_FILE_NEW} ${DATA_FILE}
+fi
+
 cp ${DATA_FILE} ${CFG_STARTUP_FILE}
 echo "${NEW_VERSION}" > ${CFG_VERSION_FILE}
