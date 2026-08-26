@@ -24,7 +24,8 @@ ROUSETTE_MODULES=(
     "--install ${ROUSETTE_YANG}/ietf-restconf-monitoring@2017-01-26.yang"
     "--install ${ROUSETTE_YANG}/ietf-yang-patch@2017-02-22.yang"
     "--install ${ROUSETTE_YANG}/ietf-restconf-subscribed-notifications@2019-11-17.yang"
-    "--install ${ROUSETTE_YANG}/rousette@2026-07-21.yang"
+    "--install ${ROUSETTE_YANG}/rousette@2026-08-07.yang"
+        "--enable-feature configured-subscriptions-sse-proxy"
 )
 
 # The "ietf-subscribed-notifications" YANG module is already installed by both
