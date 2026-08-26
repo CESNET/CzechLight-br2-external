@@ -273,5 +273,67 @@ end
     mv ${DATA_FILE_NEW} ${DATA_FILE}
 fi
 
+if (( ${OLD_VERSION} < 17 )); then
+    # A single SSE proxy endpoint with hardware, alarm and optics telemetry, replacing the hardcoded /telemetry/optics
+    #
+    # Careful, these strings are fed to sed as a replacement pattern, so they need escaping.
+    case "${CZECHLIGHT}" in
+        sdn-roadm-line*|sdn-roadm-add-drop*|sdn-roadm-hires-add-drop*)
+            OPTICAL_TELEMETRY_XPATH="| \\/czechlight-roadm-device:*"
+            ;;
+        sdn-roadm-coherent-a-d*)
+            OPTICAL_TELEMETRY_XPATH="| \\/czechlight-coherent-add-drop:*"
+            ;;
+        sdn-inline*)
+            OPTICAL_TELEMETRY_XPATH="| \\/czechlight-inline-amp:*"
+            ;;
+        sdn-bidi-cplus1572*)
+            OPTICAL_TELEMETRY_XPATH="| \\/czechlight-bidi-amp:*"
+            ;;
+        *)
+            OPTICAL_TELEMETRY_XPATH=""
+            ;;
+    esac
+    V17_MERGE=$(mktemp -t sse-telemetry-17-XXXXXX.json)
+
+    sed "s/__OPTICAL_XPATH__/${OPTICAL_TELEMETRY_XPATH}/g" < "${CFG_STATIC_DATA}/sse-telemetry.json.in" > ${V17_MERGE}
+
+    DATA_FILE_NEW=$(mktemp -t sr-new-XXXXXX)
+    jq -f ${SCRIPT_ROOT}/meld.jq ${DATA_FILE} ${V17_MERGE[@]} > ${DATA_FILE_NEW}
+    mv ${DATA_FILE_NEW} ${DATA_FILE}
+
+    # ...and let the anonymous user consume it. The proxy subscribes as "yangnobody", so that user also
+    # needs to be able to read the alarms; everything else that we push is readable by it already.
+    # These have to go before the final wildcard-deny, otherwise rousette refuses to enable anonymous access at all.
+    DATA_FILE_NEW=$(mktemp -t sr-new-XXXXXX)
+    jq -r '
+if has("ietf-netconf-acm:nacm") then
+    .["ietf-netconf-acm:nacm"]["rule-list"] |= map(
+        if any(.group[]; . == "yangnobody") and (any(.rule[]; .name == "sse-proxy: default-telemetry") | not) then
+            .rule |= (.[:-1]
+                + [{
+                    "name": "ietf-alarms",
+                    "module-name": "ietf-alarms",
+                    "action": "permit",
+                    "access-operations": "read"
+                }, {
+                    "name": "sse-proxy: default-telemetry",
+                    "module-name": "rousette",
+                    "path": "/ietf-subscribed-notifications:subscriptions/ietf-subscribed-notif-receivers:receiver-instances/receiver-instance[name=\"default-telemetry\"]/rousette:sse-proxy/nacm-access-check",
+                    "action": "permit",
+                    "access-operations": "read"
+                }]
+                + .[-1:])
+        else
+            .
+        end
+    )
+else
+    .
+end
+    ' < ${DATA_FILE} > ${DATA_FILE_NEW}
+    mv ${DATA_FILE_NEW} ${DATA_FILE}
+fi
+
 cp ${DATA_FILE} ${CFG_STARTUP_FILE}
 echo "${NEW_VERSION}" > ${CFG_VERSION_FILE}

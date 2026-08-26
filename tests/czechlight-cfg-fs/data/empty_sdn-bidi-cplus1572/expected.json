@@ -124,6 +124,19 @@
             "access-operations": "read"
           },
           {
+            "name": "ietf-alarms",
+            "module-name": "ietf-alarms",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
+            "name": "sse-proxy: default-telemetry",
+            "module-name": "rousette",
+            "path": "/ietf-subscribed-notifications:subscriptions/ietf-subscribed-notif-receivers:receiver-instances/receiver-instance[name='default-telemetry']/rousette:sse-proxy/nacm-access-check",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
             "name": "wildcard-deny",
             "module-name": "*",
             "action": "deny",
@@ -285,5 +298,35 @@
         ]
       }
     }
+  },
+  "ietf-subscribed-notifications:subscriptions": {
+    "ietf-subscribed-notif-receivers:receiver-instances": {
+      "receiver-instance": [
+        {
+          "name": "default-telemetry",
+          "rousette:sse-proxy": {
+            "nacm-username": "yangnobody",
+            "nacm-access-check": [null]
+          }
+        }
+      ]
+    },
+    "subscription": [
+      {
+        "id": 1,
+        "encoding": "encode-json",
+        "ietf-yang-push:datastore": "ietf-datastores:operational",
+        "ietf-yang-push:datastore-xpath-filter": "/ietf-hardware:hardware | /ietf-alarms:alarms | /czechlight-bidi-amp:*",
+        "ietf-yang-push:on-change": {},
+        "receivers": {
+          "receiver": [
+            {
+              "name": "default-telemetry",
+              "ietf-subscribed-notif-receivers:receiver-instance-ref": "default-telemetry"
+            }
+          ]
+        }
+      }
+    ]
   }
 }
