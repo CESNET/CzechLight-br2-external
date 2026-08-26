@@ -963,6 +963,20 @@
             "access-operations": "read"
           },
           {
+            "name": "sse-proxy: hardware",
+            "module-name": "rousette",
+            "path": "/ietf-subscribed-notifications:subscriptions/ietf-subscribed-notif-receivers:receiver-instances/receiver-instance[name='hardware']/rousette:sse-proxy/nacm-access-check",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
+            "name": "sse-proxy: optics",
+            "module-name": "rousette",
+            "path": "/ietf-subscribed-notifications:subscriptions/ietf-subscribed-notif-receivers:receiver-instances/receiver-instance[name='optics']/rousette:sse-proxy/nacm-access-check",
+            "action": "permit",
+            "access-operations": "read"
+          },
+          {
             "name": "wildcard-deny",
             "module-name": "*",
             "access-operations": "*",
@@ -1060,5 +1074,116 @@
         ]
       }
     }
+  },
+  "ietf-subscribed-notifications:subscriptions": {
+    "ietf-subscribed-notif-receivers:receiver-instances": {
+      "receiver-instance": [
+        {
+          "name": "hardware",
+          "rousette:sse-proxy": {
+            "nacm-username": "yangnobody",
+            "nacm-access-check": [
+              null
+            ]
+          }
+        },
+        {
+          "name": "optics",
+          "rousette:sse-proxy": {
+            "nacm-username": "yangnobody",
+            "nacm-access-check": [
+              null
+            ]
+          }
+        }
+      ]
+    },
+    "subscription": [
+      {
+        "id": 1,
+        "encoding": "encode-json",
+        "ietf-yang-push:datastore": "ietf-datastores:operational",
+        "ietf-yang-push:datastore-xpath-filter": "/ietf-hardware:hardware",
+        "ietf-yang-push:periodic": {
+          "period": 50
+        },
+        "receivers": {
+          "receiver": [
+            {
+              "name": "sse",
+              "ietf-subscribed-notif-receivers:receiver-instance-ref": "hardware"
+            }
+          ]
+        }
+      },
+      {
+        "id": 10,
+        "encoding": "encode-json",
+        "ietf-yang-push:datastore": "ietf-datastores:operational",
+        "ietf-yang-push:datastore-xpath-filter": "/czechlight-roadm-device:*",
+        "ietf-yang-push:periodic": {
+          "period": 50
+        },
+        "receivers": {
+          "receiver": [
+            {
+              "name": "sse",
+              "ietf-subscribed-notif-receivers:receiver-instance-ref": "optics"
+            }
+          ]
+        }
+      },
+      {
+        "id": 11,
+        "encoding": "encode-json",
+        "ietf-yang-push:datastore": "ietf-datastores:operational",
+        "ietf-yang-push:datastore-xpath-filter": "/czechlight-coherent-add-drop:*",
+        "ietf-yang-push:periodic": {
+          "period": 50
+        },
+        "receivers": {
+          "receiver": [
+            {
+              "name": "sse",
+              "ietf-subscribed-notif-receivers:receiver-instance-ref": "optics"
+            }
+          ]
+        }
+      },
+      {
+        "id": 12,
+        "encoding": "encode-json",
+        "ietf-yang-push:datastore": "ietf-datastores:operational",
+        "ietf-yang-push:datastore-xpath-filter": "/czechlight-inline-amp:*",
+        "ietf-yang-push:periodic": {
+          "period": 50
+        },
+        "receivers": {
+          "receiver": [
+            {
+              "name": "sse",
+              "ietf-subscribed-notif-receivers:receiver-instance-ref": "optics"
+            }
+          ]
+        }
+      },
+      {
+        "id": 13,
+        "encoding": "encode-json",
+        "ietf-yang-push:datastore": "ietf-datastores:operational",
+        "ietf-yang-push:datastore-xpath-filter": "/czechlight-bidi-amp:*",
+        "ietf-yang-push:periodic": {
+          "period": 50
+        },
+        "receivers": {
+          "receiver": [
+            {
+              "name": "sse",
+              "ietf-subscribed-notif-receivers:receiver-instance-ref": "optics"
+            }
+          ]
+        }
+      }
+    ]
   }
 }

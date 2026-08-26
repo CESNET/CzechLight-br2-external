@@ -123,6 +123,20 @@
           "access-operations": "read"
         },
         {
+          "name": "sse-proxy: hardware",
+          "module-name": "rousette",
+          "path": "/ietf-subscribed-notifications:subscriptions/ietf-subscribed-notif-receivers:receiver-instances/receiver-instance[name='hardware']/rousette:sse-proxy/nacm-access-check",
+          "action": "permit",
+          "access-operations": "read"
+        },
+        {
+          "name": "sse-proxy: optics",
+          "module-name": "rousette",
+          "path": "/ietf-subscribed-notifications:subscriptions/ietf-subscribed-notif-receivers:receiver-instances/receiver-instance[name='optics']/rousette:sse-proxy/nacm-access-check",
+          "action": "permit",
+          "access-operations": "read"
+        },
+        {
           "name": "wildcard-deny",
           "module-name": "*",
           "action": "deny",
