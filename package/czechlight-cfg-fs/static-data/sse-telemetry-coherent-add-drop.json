@@ -1,0 +1,21 @@
+{
+  "ietf-subscribed-notifications:subscriptions": {
+    "subscription": [
+      {
+        "id": 3,
+        "encoding": "ietf-subscribed-notifications:encode-json",
+        "ietf-yang-push:datastore": "ietf-datastores:operational",
+        "ietf-yang-push:datastore-xpath-filter": "/czechlight-coherent-add-drop:*",
+        "ietf-yang-push:on-change": {},
+        "receivers": {
+          "receiver": [
+            {
+              "name": "default-telemetry",
+              "ietf-subscribed-notif-receivers:receiver-instance-ref": "default-telemetry"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
