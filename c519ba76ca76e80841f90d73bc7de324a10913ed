@@ -22,6 +22,30 @@
       },
       "revId": "c519ba76ca76e80841f90d73bc7de324a10913ed",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a423b9d0_f81ae8df",
+        "filename": "submodules/rousette",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-27T00:05:12Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "defd4364_d08af30d",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "c519ba76ca76e80841f90d73bc7de324a10913ed",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
