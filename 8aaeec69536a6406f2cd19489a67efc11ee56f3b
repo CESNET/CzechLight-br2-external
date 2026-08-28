@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a21a1d0c_a4b18183",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2026-08-28T11:27:57Z",
+      "side": 1,
+      "message": "running on .112\nBased on what i see i think maybe we should add dampening period. The sensors are polled (and reported by sysrepo) quite often",
+      "revId": "8aaeec69536a6406f2cd19489a67efc11ee56f3b",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
