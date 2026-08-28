@@ -16,6 +16,24 @@
       "message": "Thanks. Let\u0027s create a single unified endpoint for both `ietf-hardware` and the CzechLight optical modules, with a subscription name of, e.g., `cesnet`.",
       "revId": "40e587e491887597519be073208ac83fb5b80eed",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "207ca42e_e3a4781d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-28T08:18:20Z",
+      "side": 1,
+      "message": "...and `ietf-alarms` as well. Let\u0027s call it `default-telemetry`, please.",
+      "parentUuid": "90f5fc44_7f4b973e",
+      "revId": "40e587e491887597519be073208ac83fb5b80eed",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
