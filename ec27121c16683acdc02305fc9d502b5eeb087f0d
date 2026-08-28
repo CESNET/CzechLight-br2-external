@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6be1714d_22c05f4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-28T15:01:32Z",
+      "side": 1,
+      "message": "I will check how exactly the `velia-hardware` is sending its updates, whether it\u0027s a single commit per each sensor, or whether they are somehow grouped. What I\u0027m getting at the YANG-push level is a flood of small updates, which came as a surprise to me.",
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c7e402_4f6496a6",
+        "filename": "package/czechlight-cfg-fs/static-data/sse-proxy.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-28T15:01:32Z",
+      "side": 1,
+      "message": "Please unify all these names with the name of the `receiver-instance`.",
+      "range": {
+        "startLine": 24,
+        "startChar": 23,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee1e6da6_4817b79f",
+        "filename": "package/czechlight-cfg-fs/static-data/sse-proxy.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-28T15:01:32Z",
+      "side": 1,
+      "message": "I\u0027ll check what happens when this subscription is combined with the one above; maybe their updates will be merged into a single `ietf-yang-push:push-update`? If that\u0027s the case, we should probably put everything into a single subscription (with an XPath like `/example-a:foo | /example:b:*`).",
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7dc0221_c212664d",
+        "filename": "package/czechlight-cfg-fs/static-data/sse-proxy.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-28T15:01:32Z",
+      "side": 1,
+      "message": "These individual elements are going to be HW-specific, otherwise there\u0027s an error at boot:\n```\nSSE proxy \u0027default-telemetry\u0027: could not establish a subscription: Couldn\u0027t create yang-push on-change subscription: SR_ERR_LY\n Unknown/non-implemented module \"czechlight-roadm-device\". (SR_ERR_LY)\n```\nIt still starts sending the data, but errors are bad.",
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    }
+  ]
+}
