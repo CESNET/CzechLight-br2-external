@@ -91,6 +91,24 @@
       "parentUuid": "f7dc0221_c212664d",
       "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc0056ef_045214f0",
+        "filename": "package/czechlight-cfg-fs/static-data/sse-proxy.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-08-28T17:11:43Z",
+      "side": 1,
+      "message": "I was thinking to put a placeholder into the blahblah.json.in and sed-replace it by the correct XPath based on the env var.",
+      "parentUuid": "8af65c90_09e63084",
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
