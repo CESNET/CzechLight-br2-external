@@ -41,6 +41,30 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1965b3b2_e24a0b68",
+        "filename": "package/czechlight-cfg-fs/static-data/sse-proxy.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2026-08-28T17:20:43Z",
+      "side": 1,
+      "message": "Done. This was how I understood of your morning comments.",
+      "parentUuid": "95c7e402_4f6496a6",
+      "range": {
+        "startLine": 24,
+        "startChar": 23,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee1e6da6_4817b79f",
@@ -54,6 +78,24 @@
       "writtenOn": "2026-08-28T15:01:32Z",
       "side": 1,
       "message": "I\u0027ll check what happens when this subscription is combined with the one above; maybe their updates will be merged into a single `ietf-yang-push:push-update`? If that\u0027s the case, we should probably put everything into a single subscription (with an XPath like `/example-a:foo | /example:b:*`).",
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c621de68_74066ada",
+        "filename": "package/czechlight-cfg-fs/static-data/sse-proxy.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2026-08-28T17:20:43Z",
+      "side": 1,
+      "message": "Aren\u0027t alarms published via different daemon? Ten this would not help.",
+      "parentUuid": "ee1e6da6_4817b79f",
       "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
@@ -106,6 +148,24 @@
       "writtenOn": "2026-08-28T17:11:43Z",
       "side": 1,
       "message": "I was thinking to put a placeholder into the blahblah.json.in and sed-replace it by the correct XPath based on the env var.",
+      "parentUuid": "8af65c90_09e63084",
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ea52771_cdd7956f",
+        "filename": "package/czechlight-cfg-fs/static-data/sse-proxy.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2026-08-28T17:20:43Z",
+      "side": 1,
+      "message": "No, that was wrong guess; filter referencing uninstalled module will fail to load.\n\nDone per-device.",
       "parentUuid": "8af65c90_09e63084",
       "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
