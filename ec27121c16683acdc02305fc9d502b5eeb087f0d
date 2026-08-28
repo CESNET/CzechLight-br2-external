@@ -73,6 +73,24 @@
       "message": "These individual elements are going to be HW-specific, otherwise there\u0027s an error at boot:\n```\nSSE proxy \u0027default-telemetry\u0027: could not establish a subscription: Couldn\u0027t create yang-push on-change subscription: SR_ERR_LY\n Unknown/non-implemented module \"czechlight-roadm-device\". (SR_ERR_LY)\n```\nIt still starts sending the data, but errors are bad.",
       "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8af65c90_09e63084",
+        "filename": "package/czechlight-cfg-fs/static-data/sse-proxy.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000070
+      },
+      "writtenOn": "2026-08-28T15:42:27Z",
+      "side": 1,
+      "message": "Then we need either per-device config or do not print those.\nMaybe this will be fixed by your proposal above (combining into one subscription with xpath filter)",
+      "parentUuid": "f7dc0221_c212664d",
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     }
   ]
 }
