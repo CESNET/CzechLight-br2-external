@@ -18,6 +18,24 @@
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98719ab5_58accfdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-04T09:11:09Z",
+      "side": 1,
+      "message": "all sensors are pushed in one go",
+      "parentUuid": "6be1714d_22c05f4a",
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95c7e402_4f6496a6",
@@ -96,6 +114,24 @@
       "side": 1,
       "message": "Aren\u0027t alarms published via different daemon? Ten this would not help.",
       "parentUuid": "ee1e6da6_4817b79f",
+      "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
+      "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77657b89_01e06b27",
+        "filename": "package/czechlight-cfg-fs/static-data/sse-proxy.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2026-09-04T09:11:09Z",
+      "side": 1,
+      "message": "I\u0027ve merged these modules into a single subscription:\n```\n 15 files changed, 22 insertions(+), 370 deletions(-)\n```\n\nI see that some updates (like a different power measured in an EDFA) are not *sometimes* updated. I suspect that this is because the reading sometimes stays the same on one of the EDFA\u0027s inputs...",
+      "parentUuid": "c621de68_74066ada",
       "revId": "ec27121c16683acdc02305fc9d502b5eeb087f0d",
       "serverId": "e32f8df8-3db0-4f76-a6c6-fe9d6e69dd68"
     },
