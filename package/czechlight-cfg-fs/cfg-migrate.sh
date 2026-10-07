@@ -294,7 +294,7 @@ if (( ${OLD_VERSION} < 17 )); then
             OPTICAL_TELEMETRY_XPATH=""
             ;;
     esac
-    V17_MERGE=$(mktemp -t sse-telemetry-17-XXXXXX.json)
+    V17_MERGE=$(mktemp -t sse-telemetry-17-XXXXXX)
 
     sed "s/__OPTICAL_XPATH__/${OPTICAL_TELEMETRY_XPATH}/g" < "${CFG_STATIC_DATA}/sse-telemetry.json.in" > ${V17_MERGE}
 
